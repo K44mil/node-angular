@@ -1,0 +1,19 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
+
+import { AuthService, AlertService } from '@app/services';
+
+@Component({ templateUrl: 'register.component.html' })
+export class RegisterComponent implements OnInit {
+
+    constructor(
+        private router: Router,
+        private authService: AuthService
+    ) {
+        if (this.authService.userValue) this.router.navigate(['/']);
+    }
+
+    ngOnInit() { }
+}
