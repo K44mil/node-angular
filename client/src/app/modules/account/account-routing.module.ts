@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LayoutComponent } from './layout.component';
-import { LoginComponent } from './login.component';
-import { RegisterComponent } from './register.component';
-import { ForgotPasswordComponent } from './forgot-password.component';
-import { ResetPasswordComponent } from './reset-password.component';
-import { MyProfileComponent } from './my-profile.component';
+import {
+    ForgotPasswordComponent,
+    LayoutComponent,
+    LoginComponent,
+    MyProfileComponent,
+    RegisterStudentComponent,
+    RegisterUserComponent,
+    RegisterComponent,
+    ResetPasswordComponent
+} from './';
+
 import { AuthGuard } from '@app/utils';
 
 const routes: Routes = [
@@ -15,6 +20,8 @@ const routes: Routes = [
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
+            { path: 'register_user', component: RegisterUserComponent },
+            { path: 'register_student', component: RegisterStudentComponent },
             { path: 'forgot_password', component: ForgotPasswordComponent },
             { path: 'reset_password', component: ResetPasswordComponent },
             { path: 'my_profile', component: MyProfileComponent, canActivate: [AuthGuard] }

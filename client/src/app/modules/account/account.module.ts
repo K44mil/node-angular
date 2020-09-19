@@ -4,12 +4,16 @@ import { CommonModule } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
 
-import { LayoutComponent } from './layout.component';
-import { LoginComponent } from './login.component';
-import { RegisterComponent } from './register.component';
-import { ForgotPasswordComponent } from './forgot-password.component';
-import { ResetPasswordComponent } from './reset-password.component';
-import { MyProfileComponent } from './my-profile.component';
+import {
+    ForgotPasswordComponent,
+    LayoutComponent,
+    LoginComponent,
+    MyProfileComponent,
+    RegisterStudentComponent,
+    RegisterUserComponent,
+    RegisterComponent,
+    ResetPasswordComponent
+} from './';
 
 @NgModule({
     imports: [
@@ -23,7 +27,9 @@ import { MyProfileComponent } from './my-profile.component';
         RegisterComponent,
         ResetPasswordComponent,
         ForgotPasswordComponent,
-        MyProfileComponent
+        MyProfileComponent,
+        RegisterUserComponent,
+        RegisterStudentComponent
     ]
 })
 export class AccountModule { }

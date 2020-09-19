@@ -1,0 +1,13 @@
+.content {
+    min-height: calc(100vh - 60px);
+}
+.footer {
+    height: 40px;
+    margin-top: 20px;
+    background-color: #303030;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}

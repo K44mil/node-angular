@@ -32,7 +32,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- USER INFO -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a href="#" class="nav-link text-white">{{ loggedUser.firstName }} {{ loggedUser.lastName }}</a>
+                    <a routerLink="/account/my_profile" class="nav-link text-white">{{ loggedUser.firstName }} {{ loggedUser.lastName }}</a>
                 </li>
                 <!-- REGISTER -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
@@ -44,7 +44,7 @@
                 </li>
                 <!-- USER PROFILE -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a href="#" class="btn btn-outline-info btn-auth">My Profile</a>
+                    <a routerLink="/account/my_profile" class="btn btn-outline-info btn-auth">My Profile</a>
                 </li>
                 <!-- LOGOUT -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">

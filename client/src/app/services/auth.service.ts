@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import { AuthUser } from '@app/models';
+import { AuthUser, RegisterUserRequest } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,6 +22,10 @@ export class AuthService {
 
     public get userValue(): AuthUser {
         return this.userSubject.value;
+    }
+
+    register(registerUserRequest: RegisterUserRequest) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/register`, registerUserRequest);
     }
 
     login(email, password) {
