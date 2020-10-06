@@ -1,0 +1,52 @@
+[
+    {
+        "id": "1d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "admin@admin.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "admin",
+        "isVerified": "true",
+        "isBlocked": "false",
+        "firstName": "Jan",
+        "lastName": "Kowalski"
+    },
+    {
+        "id": "2d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "user1@user.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "user",
+        "isVerified": "true",
+        "isBlocked": "false",
+        "firstName": "Mariusz",
+        "lastName": "Nowak"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "user2@user.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "user",
+        "isVerified": "true",
+        "isBlocked": "false",
+        "firstName": "Bartosz",
+        "lastName": "Anonim"
+    },
+    {
+        "id": "4d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "user3@admin.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "user",
+        "isVerified": "true",
+        "isBlocked": "false",
+        "firstName": "Justyna",
+        "lastName": "Makaron"
+    },
+    {
+        "id": "5d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "user5@user.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "user",
+        "isVerified": "true",
+        "isBlocked": "false",
+        "firstName": "Franciszek",
+        "lastName": "Drozd"
+    }
+]

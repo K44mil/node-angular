@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
-
 const errorHandler = require('./middleware/errorHandler');
 
 // Load env variables
@@ -10,6 +9,8 @@ dotenv.config({ path: './config/config.env' });
 
 // Routes
 const authRoutes = require('./routes/auth.routes');
+const usersRoutes = require('./routes/users.routes');
+const universitiesRoutes = require('./routes/universities.routes');
 
 // App init
 const app = express();
@@ -23,6 +24,10 @@ if (process.env.NODE_ENV === 'development')
 
 // Test MySQL connection
 const { sequelize } = require('./config/db');
+const initSequelizeAssociations = require('./config/initSequelizeAssociations');
+
+initSequelizeAssociations();
+
 sequelize
     .authenticate()
     .then(() => {
@@ -33,7 +38,9 @@ sequelize
     });
 
 sequelize
-    .sync() // force: true
+    .sync({
+        // force: true
+    })
     .then(() => console.log('Data synchronized.'))
     .catch(err => console.log(err));
 
@@ -44,6 +51,8 @@ app.use(cors({
 
 // Mount routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', usersRoutes);
+app.use('/api/v1/universities', universitiesRoutes);
 
 // Set error handler
 app.use(errorHandler);

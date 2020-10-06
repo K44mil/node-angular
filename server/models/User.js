@@ -30,7 +30,9 @@ class User extends Model {
 
     toJSON() {
         const object = Object.assign({}, this.get());
+        
         delete object.password;
+
         return object;
     }
 }
@@ -42,39 +44,60 @@ User.init({
         primaryKey: true
     },
     email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(256),
         allowNull: false,
         unique: true
     },
     password: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(256),
         allowNull: false
     },
     role: {
-        type: DataTypes.ENUM('user', 'student'),
+        type: DataTypes.ENUM('user', 'student', 'admin'),
         allowNull: false
     },
     isVerified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        field: 'is_verified'
+    },
+    isBlocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'is_blocked'
     },
     firstName: {
-        type: DataTypes.STRING(255),
-        allowNull: false
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        field: 'first_name'
     },
     lastName: {
-        type: DataTypes.STRING(255),
-        allowNull: false
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        field: 'last_name'
     },
     albumNumber: {
         type: DataTypes.STRING(6),
         allowNull: true,
-        unique: true
+        unique: true,
+        field: 'album_number'
+    },
+    resetPasswordToken: {
+        type: DataTypes.STRING(256),
+        allowNull: true,
+        field: 'reset_password_token'
+    },
+    resetPasswordExpire: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'reset_password_expire'
     }
 }, {
     sequelize,
     modelName: 'User',
-    tableName: 'users'
+    tableName: 'users',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
 });
 
 module.exports = User;

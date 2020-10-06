@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
 
 const sequelize = new Sequelize(
     process.env.MYSQL_DB_NAME,
@@ -15,4 +16,15 @@ const sequelize = new Sequelize(
     }
 );
 
-module.exports = { sequelize };
+const connectMongoDb = async () => {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true
+    });
+
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+};
+
+module.exports = { sequelize, connectMongoDb };
