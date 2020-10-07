@@ -1,16 +1,26 @@
-const express = require('express');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
-const cors = require('cors');
-const errorHandler = require('./middleware/errorHandler');
 
 // Load env variables
 dotenv.config({ path: './config/config.env' });
+
+// Imports
+const express = require('express');
+const morgan = require('morgan');
+const { connectMongoDB } = require('./config/db');
+const cors = require('cors');
+const errorHandler = require('./middleware/errorHandler');
+
+// Connect to MongoDB
+connectMongoDB();
 
 // Routes
 const authRoutes = require('./routes/auth.routes');
 const usersRoutes = require('./routes/users.routes');
 const universitiesRoutes = require('./routes/universities.routes');
+const facultiesRoutes = require('./routes/faculties.routes');
+const coursesRoutes = require('./routes/courses.routes');
+const specializationsRoutes = require('./routes/specializations.routes');
+const subjectsRoutes = require('./routes/subjects.routes');
 
 // App init
 const app = express();
@@ -53,6 +63,10 @@ app.use(cors({
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/universities', universitiesRoutes);
+app.use('/api/v1/faculties', facultiesRoutes);
+app.use('/api/v1/courses', coursesRoutes);
+app.use('/api/v1/specializations', specializationsRoutes);
+app.use('/api/v1/subjects', subjectsRoutes);
 
 // Set error handler
 app.use(errorHandler);

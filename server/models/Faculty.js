@@ -1,11 +1,11 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
 
-class Department extends Model {
+class Faculty extends Model {
 
 }
 
-Department.init({
+Faculty.init({
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -28,10 +28,10 @@ Department.init({
     }
 }, {
     sequelize,
-    modelName: 'Department',
-    tableName: 'departments',
+    modelName: 'Faculty',
+    tableName: 'faculties',
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-module.exports = Department;
+module.exports = Faculty;

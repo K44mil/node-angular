@@ -21,7 +21,7 @@ exports.updateUniversity = asyncHandler(async (req, res, next) => {
         name,
         short,
         isVisible
-    })
+    });
 
     res.status(200).json({
         success: true,

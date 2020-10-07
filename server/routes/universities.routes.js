@@ -6,7 +6,11 @@ const { createUniversity } = require('../controllers/universities/createUniversi
 const { updateUniversity } = require('../controllers/universities/updateUniversity');
 const { getUniversities } = require('../controllers/universities/getUniversities');
 const { getUniversity } = require('../controllers/universities/getUniversity');
+const { getVisibleUniversities } = require('../controllers/universities/getVisibleUniversities');
 const { deleteUniversity } = require('../controllers/universities/deleteUniversity');
+
+// GET
+router.get('/visible', getVisibleUniversities);
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));

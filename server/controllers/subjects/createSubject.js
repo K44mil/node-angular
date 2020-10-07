@@ -1,13 +1,13 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const University = require('../../models/University');
+const Subject = require('../../models/Subject');
 
 /**
- * @desc    Create University
- * @route   POST /api/v1/universities
+ * @desc    Create Subject
+ * @route   POST /api/v1/subjects
  * @access  Private/Admin
  */
-exports.createUniversity = asyncHandler(async (req, res, next) => {
+exports.createSubject = asyncHandler(async (req, res, next) => {
     const { name, short, isVisible } = req.body;
 
     if (!name || !short) {
@@ -16,17 +16,17 @@ exports.createUniversity = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const university = await University.build({
+    const subject = await Subject.build({
         name,
         short,
         isVisible
     });
-    await university.save();
+    await subject.save();
 
     res.status(201).json({
         success: true,
         data: {
-            university
+            subject
         }
-    })
+    });
 });

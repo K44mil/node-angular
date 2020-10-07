@@ -14,5 +14,5 @@ exports.getUniversities = asyncHandler(async (req, res, next) => {
         data: {
             universities
         }
-    })
+    });
 });

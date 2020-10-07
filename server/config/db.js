@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
     }
 );
 
-const connectMongoDb = async () => {
+const connectMongoDB = async () => {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -27,4 +27,4 @@ const connectMongoDb = async () => {
     console.log(`MongoDB Connected: ${conn.connection.host}`);
 };
 
-module.exports = { sequelize, connectMongoDb };
+module.exports = { sequelize, connectMongoDB };
