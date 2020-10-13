@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService, AlertService } from '@shared/services';
-import { AuthUser } from '@home/modules/account/models';
+import { AuthUser, Role } from '@home/modules/account/models';
 
 @Component({
     selector: 'main-nav',
@@ -27,5 +27,16 @@ export class MainNavComponent implements OnInit {
         this.alertService.info('Logout successful.', {
             autoClose: true
         });
+    }
+
+    isAdmin() {
+        return this.loggedUser.role === Role.Admin ? true : false;
+    }
+
+    getUserName() {
+        if (this.loggedUser)
+            return this.loggedUser.firstName + ' ' + this.loggedUser.lastName;
+        else
+            return '';
     }
 }

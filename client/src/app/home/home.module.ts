@@ -3,8 +3,11 @@ import { NgModule } from '@angular/core';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { MainNavComponent } from './components';
-import { LayoutComponent } from './components';
+import {
+    LayoutComponent,
+    MainNavComponent,
+    AvatarPhotoComponent
+} from './components';
 
 @NgModule({
     imports: [
@@ -14,7 +17,8 @@ import { LayoutComponent } from './components';
     ],
     declarations: [
         LayoutComponent,
-        MainNavComponent
+        MainNavComponent,
+        AvatarPhotoComponent
     ]
 })
 export class HomeModule { }

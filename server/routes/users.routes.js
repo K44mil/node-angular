@@ -6,7 +6,12 @@ const { getUsers } = require('../controllers/users/getUsers');
 const { getUser } = require('../controllers/users/getUser');
 const { createUser } = require('../controllers/users/createUser'); 
 
+// Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
+
+// GET
+router.get('/', getUsers);
+
 
 router.post('/', createUser);
 

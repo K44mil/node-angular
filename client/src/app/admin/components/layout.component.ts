@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({ template: 
-                        `<div>
-                            <h1>Admin Panel Layout</h1>
-                            <admin-nav></admin-nav>
-                        </div>`
+                        `
+                            <admin-nav></admin-nav>       
+                            <admin-side-nav></admin-side-nav>
+                            <alert></alert>     
+                        `,
 })
 export class LayoutComponent { }

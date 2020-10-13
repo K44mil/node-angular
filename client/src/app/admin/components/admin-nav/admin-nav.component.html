@@ -1,0 +1,32 @@
+<div class="header">
+    <!-- MAIN NAVBAR -->
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <!-- NAVBAR BRAND -->
+        <a class="navbar-brand p-2 border rounded" routerLink="/admin">
+            Admin Panel
+        </a>
+        <!-- TOGGLE BUTTON -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- LEFT SIDE  -->
+            <!-- <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/">Home</a>
+                </li>
+            </ul> -->
+            <!-- RIGHT SIDE  -->
+            <ul class="navbar-nav ml-auto">
+                <!-- HOME -->
+                <li *ngIf="loggedUser" class="nav-item mx-1">
+                    <a routerLink="/" class="btn btn-outline-primary btn-auth">Home</a>
+                </li>                      
+                <!-- LOGOUT -->
+                <li *ngIf="loggedUser" class="nav-item mx-1">
+                    <button (click)="logout()" class="btn btn-outline-light btn-auth">Logout</button>
+                </li>
+            </ul>
+        </div>  
+    </nav>
+</div>

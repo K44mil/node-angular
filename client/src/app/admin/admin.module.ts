@@ -2,17 +2,24 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AdminRoutingModule } from './admin-routing.module';
 
-import { AdminNavComponent } from './components/admin-nav/admin-nav.component';
-import { LayoutComponent } from './components/layout.component';
+import { SharedModule } from '@shared/shared.module';
+
+import {
+    LayoutComponent,
+    AdminNavComponent,
+    AdminSideNavComponent
+} from './components';
 
 @NgModule({
     imports: [
         CommonModule,
-        AdminRoutingModule
+        AdminRoutingModule,
+        SharedModule
     ],
     declarations: [
         AdminNavComponent,
-        LayoutComponent
+        LayoutComponent,
+        AdminSideNavComponent
     ]
 })
 export class AdminModule { }

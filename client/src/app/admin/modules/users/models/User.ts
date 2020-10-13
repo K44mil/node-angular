@@ -1,4 +1,4 @@
-import { Role } from '@home/account/models';
+import { Role } from '@home/modules/account/models';
 
 export class User {
     id: string;
@@ -7,7 +7,8 @@ export class User {
     lastName: string;
     role: Role;
     isVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    isBlocked: boolean;
+    created_at: Date;
+    updated_at: Date;
     albumNumber?: string;
 }
