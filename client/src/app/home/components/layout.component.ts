@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({    template: 
                         `
@@ -29,4 +30,6 @@ import { Component } from '@angular/core';
                             }
                         `]
 })
-export class LayoutComponent { }
+export class LayoutComponent {
+    constructor(private titleService: Title) { this.titleService.setTitle('PhD Tomasz Rak - Home Page'); }
+}

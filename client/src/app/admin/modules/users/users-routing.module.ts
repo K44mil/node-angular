@@ -3,14 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {
     LayoutComponent,
-    UsersListComponent
+    UsersListComponent,
+    InactiveUsersListComponent
 } from './components';
 
 const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: '', component: UsersListComponent }
+            { path: '', component: UsersListComponent },
+            { path: 'inactive', component: InactiveUsersListComponent }
         ]
     }
 ];

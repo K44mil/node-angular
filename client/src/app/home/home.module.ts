@@ -6,7 +6,8 @@ import { SharedModule } from '@shared/shared.module';
 import {
     LayoutComponent,
     MainNavComponent,
-    AvatarPhotoComponent
+    AvatarPhotoComponent,
+    AboutPageComponent
 } from './components';
 
 @NgModule({
@@ -18,7 +19,8 @@ import {
     declarations: [
         LayoutComponent,
         MainNavComponent,
-        AvatarPhotoComponent
+        AvatarPhotoComponent,
+        AboutPageComponent
     ]
 })
 export class HomeModule { }

@@ -22,7 +22,7 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/about/biography">About</a>
+                    <a class="nav-link" routerLink="/about">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Research</a>
@@ -50,11 +50,11 @@
                 </li> -->
                 <!-- ADMIN PANEL -->
                 <li *ngIf="loggedUser && isAdmin()" class="nav-item mx-1">
-                    <a routerLink="/admin" class="btn btn-outline-primary btn-auth">Admin Panel</a>
+                    <a routerLink="/admin/users" class="btn btn-outline-primary btn-auth">Admin Panel</a>
                 </li>
                 <!-- USER PROFILE -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/my_profile" class="btn btn-outline-info btn-auth">My Profile</a>
+                    <a routerLink="/account/my_profile" class="btn btn-outline-info btn-auth btn-profile">My Profile</a>
                 </li>
                 <!-- LOGOUT -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">

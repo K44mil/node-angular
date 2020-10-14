@@ -1,0 +1,23 @@
+<div *ngIf="pages" class="col-md-10 offset-md-1 mt-4">
+    <div class="row" >
+        <div class="col-md-2" >
+            <div class="nav flex-column nav-pills">
+                <a *ngFor="let page of pages; let i = index" class="nav-link"
+                     [ngClass]="{ 'active': i === 0 }" data-toggle="pill" (click)="setCurrentPage(page)">{{ page.title }}</a>
+              </div>
+        </div> 
+        <div *ngIf="currentPage" class="col-md-10">
+            <div>
+                <h1>{{ currentPage.title }}</h1>
+                <hr>
+                <div [innerHtml]="currentPage.content"></div>
+            </div>    
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="col-md-10 offset-md-1 mt-5 d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

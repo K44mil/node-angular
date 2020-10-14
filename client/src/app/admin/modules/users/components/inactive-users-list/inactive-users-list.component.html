@@ -1,0 +1,30 @@
+<div *ngIf="users">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Album number</th>
+                <th scope="col">Verified</th>
+                <th scope="col">Blocked</th>
+                <th scope="col">Creation Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.albumNumber }}</td>
+                <td>{{ user.isVerified }}</td>
+                <td>{{ user.isBlocked }}</td>
+                <td>{{ printDate(user.created_at) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

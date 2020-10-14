@@ -1,0 +1,22 @@
+<div *ngIf="pages">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Page Title</th>
+                <th scope="col">Visible</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let page of pages; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ page.title }}</td>
+                <td>true</td>
+                <td><button class="btn btn-info">Edit</button></td>
+                <td><button class="btn btn-danger">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
