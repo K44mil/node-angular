@@ -35,20 +35,22 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
     await user.save();
 
-    const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/reset_password/${resetToken}`;
+    const resetPasswordUrl = `${req.protocol}://${process.env.CLIENT_NAME}/account/reset_password/${resetToken}`;
     const message = `You are receiving this email because you (or someone else) has
-        requested the reset of password. Please make a PUT request to: \n\n ${resetPasswordUrl}`;
+        requested the reset of password. <br><br> <a href="${resetPasswordUrl}">Reset password</a>`;
 
     try {
         await sendEmail({
             email: user.email,
             subject: 'Reset Password Token',
-            message
+            html: message
         });
 
         res.status(200).json({
             success: true,
-            data: { }
+            data: {
+                message: `Email was sent. Please check your mailbox.`
+            }
         });
     } catch (err) {
         console.log(err);

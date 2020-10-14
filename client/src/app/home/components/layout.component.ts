@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
                             </div>
                             <div class="footer">
                                 <div class="text-center">
-                                    &copy; 2020 Drozd Kamil
+                                    Footer
                                 </div>
                             </div>
                         `,

@@ -32,11 +32,11 @@
             <ul class="navbar-nav ml-auto">         
                 <!-- LOGIN -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/login" class="btn btn-outline-light btn-auth">Log in</a>
+                    <a routerLink="/account/login" class="btn btn-outline-light btn-auth">Sign in</a>
                 </li>
                 <!-- REGISTER -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/register_user" class="btn btn-outline-warning btn-auth">Sign up</a>
+                    <a routerLink="/account/register_user" class="btn btn-warning btn-auth">Sign up</a>
                 </li>
                 <!-- USER AVATAR -->
                 <li *ngIf="loggedUser" class="nav-item mx-1 avatar">
@@ -58,7 +58,7 @@
                 </li>
                 <!-- LOGOUT -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <button (click)="logout()" class="btn btn-outline-light btn-auth">Logout</button>
+                    <button (click)="logout()" class="btn btn-outline-light btn-auth">Sign out</button>
                 </li>
             </ul>
         </div>  

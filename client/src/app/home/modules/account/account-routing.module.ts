@@ -21,7 +21,7 @@ const routes: Routes = [
             { path: 'register_user', component: RegisterUserComponent },
             { path: 'register_student', component: RegisterStudentComponent },
             { path: 'forgot_password', component: ForgotPasswordComponent },
-            { path: 'reset_password', component: ResetPasswordComponent },
+            { path: 'reset_password/:resetToken', component: ResetPasswordComponent },
             { path: 'my_profile', component: MyProfileComponent, canActivate: [AuthGuard] }
         ]
     }

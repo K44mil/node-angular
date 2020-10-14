@@ -1,4 +1,4 @@
-<div class="col-10 offset-1">
+<div class="col-md-8 offset-md-2">
     <h1>My profile</h1>
     <div class="row">
         <a router class="btn btn-outline-primary mx-1">Info</a>
@@ -7,6 +7,10 @@
         <a href="" class="btn btn-outline-primary mx-1">Cokolwiek</a>
         <a href="" class="btn btn-outline-primary mx-1">Test</a>
     </div>
+</div>
+<div *ngIf="user" class="col-md-6 offset-md-3">
+    <p>Imię: {{ user.firstName }}</p>
+    <p>Nazwisko: {{ user.lastName }}</p>
 </div>
 
 
