@@ -1,0 +1,6 @@
+<div class="col-md-10 offset-md-1">
+    <div *ngIf="news">
+        <h1>{{ news.title }}</h1>
+        <img src="{{ getNewsPhotoUrl(news) }}"/>
+    </div>
+</div>

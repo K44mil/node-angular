@@ -12,4 +12,12 @@ export class PageService {
         return this.http.get<any>(`${environment.apiUrl}/about`);
     }
 
+    getNewsBySlug(slug) {
+        return this.http.get<any>(`${environment.apiUrl}/news/${slug}`);
+    }
+
+    getNews() {
+        return this.http.get<any>(`${environment.apiUrl}/news`);
+    }
+
 } 

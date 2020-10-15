@@ -59,3 +59,23 @@ exports.authorize = (...roles) => {
         next();
     }
 };
+
+// Check if user is logged in
+exports.getLoggedUser = asyncHandler(async (req) => {
+    let token;
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader.startsWith('Bearer')) {
+        token = authHeader.split(' ')[1];
+    }
+
+    if (!token) return null;
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded) return null;
+
+    const user = await User.findByPk(decoded.id);
+    if (!user) return null;
+
+    return user;
+});

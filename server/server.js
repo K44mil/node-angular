@@ -4,11 +4,13 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/config.env' });
 
 // Imports
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const { connectMongoDB } = require('./config/db');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
+const fileupload = require('express-fileupload');
 
 // Connect to MongoDB
 connectMongoDB();
@@ -22,12 +24,19 @@ const coursesRoutes = require('./routes/courses.routes');
 const specializationsRoutes = require('./routes/specializations.routes');
 const subjectsRoutes = require('./routes/subjects.routes');
 const aboutRoutes = require('./routes/about.routes');
+const newsRoutes = require('./routes/news.routes');
 
 // App init
 const app = express();
 
 // Body parser
 app.use(express.json());
+
+// File uploading
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Use morgan(logger) in development mode
 if (process.env.NODE_ENV === 'development')
@@ -69,6 +78,7 @@ app.use('/api/v1/courses', coursesRoutes);
 app.use('/api/v1/specializations', specializationsRoutes);
 app.use('/api/v1/subjects', subjectsRoutes);
 app.use('/api/v1/about', aboutRoutes);
+app.use('/api/v1/news', newsRoutes);
 
 // Set error handler
 app.use(errorHandler);

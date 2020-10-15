@@ -7,7 +7,9 @@ import {
     LayoutComponent,
     MainNavComponent,
     AvatarPhotoComponent,
-    AboutPageComponent
+    AboutPageComponent,
+    NewsComponent,
+    NewsDetailsComponent
 } from './components';
 
 @NgModule({
@@ -20,7 +22,9 @@ import {
         LayoutComponent,
         MainNavComponent,
         AvatarPhotoComponent,
-        AboutPageComponent
+        AboutPageComponent,
+        NewsComponent,
+        NewsDetailsComponent
     ]
 })
 export class HomeModule { }
