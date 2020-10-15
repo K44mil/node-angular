@@ -8,13 +8,37 @@
     border: 1px solid #FFF;
 }
 
-.circle .img {
+.circle-big {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #FFF;
+}
+
+.img {
     border-radius: 50%;
     width: 40px;
     height: 40px;
 }
 
+.img-big {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
 .circle .initials {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0.2625px;
+}
+
+.circle-big .initials {
     color: #FFF;
     font-size: 20px;
     font-weight: 700;

@@ -3,12 +3,19 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { News } from '@admin/modules/news/models/News';
 import { PageService } from '@home/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AlertService } from '@app/shared/services';
 
 @Component({
-    templateUrl: 'news-details.component.html'
+    templateUrl: 'news-details.component.html',
+    styles: [
+        `
+            .user-name {
+                font-size: 1.3rem;
+            }
+        `
+    ]
 })
 export class NewsDetailsComponent implements OnInit {
     public news: News;
@@ -16,6 +23,7 @@ export class NewsDetailsComponent implements OnInit {
     constructor(
         private pageService: PageService,
         private route: ActivatedRoute,
+        private router: Router,
         private alertService: AlertService
     ) { }
 
@@ -29,10 +37,20 @@ export class NewsDetailsComponent implements OnInit {
                 },
                 err => {
                     this.alertService.error(err);
+                    this.router.navigate(['/']);
             });
     }
 
     getNewsPhotoUrl(news) {
         return `${environment.hostUrl}/uploads/news/${news.image}`;
+    }
+
+    printDate(dateUTC) {
+        const date = new Date(dateUTC);
+        return date.toLocaleString('pl');
+    }
+
+    getUserName() {
+        return 'Jan Kowalski';
     }
 }

@@ -4,3 +4,4 @@ export * from './avatar-photo/avatar-photo.component';
 export * from './about-page/about-page.component';
 export * from './news/news.component';
 export * from './news-details/news-details.component';
+export * from './announcements/announcements.component';

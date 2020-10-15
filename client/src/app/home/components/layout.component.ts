@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 @Component({    template: 
                         `
                             <div class="content">
+                                <announcements></announcements>
                                 <main-nav></main-nav>
                                 <alert></alert>
                                 <router-outlet></router-outlet>

@@ -41,7 +41,7 @@
                 <!-- USER AVATAR -->
                 <li *ngIf="loggedUser" class="nav-item mx-1 avatar">
                     <a routerLink="/account/my_profile" style="text-decoration: none;">
-                        <avatar-photo [name]="getUserName()"></avatar-photo>
+                        <avatar-photo class="main-panel-avatar" [name]="getUserName()"></avatar-photo>
                     </a>
                 </li>
                 <!-- USER INFO -->

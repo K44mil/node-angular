@@ -9,6 +9,7 @@ export class AvatarPhotoComponent implements OnInit {
 
     @Input() public photoUrl: string;
     @Input() public name: string;
+    @Input() public avatarSize: string;
 
     public showInitials = false;
     public initials: string;
@@ -28,6 +29,10 @@ export class AvatarPhotoComponent implements OnInit {
             const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
             this.circleColor = this.colors[randomIndex];
         }
+
+        console.log(this.avatarSize);
+        
+       
     }
 
     private createInitials() {

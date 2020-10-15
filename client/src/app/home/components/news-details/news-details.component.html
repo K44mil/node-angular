@@ -1,6 +1,71 @@
-<div class="col-md-10 offset-md-1">
-    <div *ngIf="news">
-        <h1>{{ news.title }}</h1>
-        <img src="{{ getNewsPhotoUrl(news) }}"/>
+<div class="col-md-6 offset-md-3 mt-5">
+    <div *ngIf="news" class="card">
+        <img src="{{ getNewsPhotoUrl(news) }}" alt="" class="card-img">
+        <div class="card-body">
+            <div class="card-title">
+                <div class="float-right">
+                    <i class="fa fa-clock-o mr-1"></i><span class="text-muted">{{ printDate(news.updated_at)}} </span>
+                </div>
+                <h3>{{ news.title }}</h3>
+                <div class="categories">
+                    <span class="badge badge-primary mr-1">SIECI</span>
+                    <span class="badge badge-primary mr-1">AI</span>
+                    <span class="badge badge-primary mr-1">PROGRAMMING</span>
+                </div>
+                <small class="">
+                    <i class="fa fa-user-o"></i> Gall Anonim
+                </small>
+                <div class="content" [innerHtml]="news.content">
+                </div>
+                <!-- FILES HERE -->
+                <div>
+                    <h5 class="text-muted">Files</h5>    
+                    <hr>
+                    <p><a href="#">file.pdf</a></p>
+                    <p><a href="#">file.doc</a></p>
+                </div>
+                <!-- COMMENT HERE -->
+                <div >
+                    
+                    <!-- COMMENT FORM -->
+                    <div class="row">
+                        <div class="col-md-10 ml-2" >
+                            <form>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="float-left">New Comment</h4>
+                                        <button class="btn btn-secondary float-right">Send</button>
+                                    </div>        
+                                </div>
+                                <div class="mt-2">
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <h5 class="text-muted mt-3">Comments</h5>    
+                    <hr>
+                    <!-- COMMENTS -->
+                    <div class="comments">
+                        <div class="border-bottom">
+                            <div class="row">
+                                <div class="col-md-2" style="display: flex; justify-content: center;">
+                                    <avatar-photo [name]="getUserName()" [avatarSize]="1"></avatar-photo>
+                                </div>
+                                <div class="col-md-8">
+                                    <div>
+                                        <div class="user-name">Jan Kowalski</div>
+                                        <p class="comment-date text-muted">2020-01-01 14:13</p>
+                                    </div>
+                                    <div>
+                                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste molestiae tenetur ut obcaecati iure vel porro nulla magni, perspiciatis, consequuntur quae sapiente qui nostrum optio, ipsa animi numquam perferendis laboriosam saepe necessitatibus eos. Quos obcaecati voluptatibus excepturi blanditiis repellendus nemo dolores ab incidunt ullam, laborum, culpa aspernatur fugit nostrum accusamus iusto nihil ratione quisquam officia quas corrupti quod magni doloribus aliquid quaerat? Repellendus tempora neque praesentium a quae placeat exercitationem adipisci ea quam ullam minus facere voluptatem, maxime, delectus, ad officiis ipsa repudiandae tenetur impedit nihil iste eos? Earum repellendus rem ex. Ipsum totam optio expedita. Quod rerum laboriosam inventore?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
