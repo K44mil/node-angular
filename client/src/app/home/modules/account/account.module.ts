@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
+import { SharedModule } from '@shared/shared.module';
 
 import {
     ForgotPasswordComponent,
@@ -18,7 +19,8 @@ import {
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AccountRoutingModule
+        AccountRoutingModule,
+        SharedModule
     ],
     declarations: [
         LayoutComponent,

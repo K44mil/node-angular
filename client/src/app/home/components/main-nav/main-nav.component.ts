@@ -39,4 +39,9 @@ export class MainNavComponent implements OnInit {
         else
             return '';
     }
+
+    getPhotoUrl() {
+        // return 'http://localhost:5000/uploads/news/no-news-photo.jpg';
+        return '';
+    }
 }

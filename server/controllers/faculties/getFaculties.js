@@ -1,4 +1,5 @@
 const asyncHandler = require('../../middleware/asyncHandler');
+const Course = require('../../models/Course');
 const Faculty = require('../../models/Faculty');
 
 /**

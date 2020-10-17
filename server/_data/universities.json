@@ -1,0 +1,20 @@
+[
+    {
+        "id": "2d439af2-ef88-4c4b-be8b-e879bdea1041",
+        "name": "Uniwersytet Rzeszowski",
+        "short": "UR",
+        "isVisible": true
+    },
+    {
+        "id": "2d439af2-ef88-4c4b-be8b-e879bdea1042",
+        "name": "Politechnika Rzeszowska",
+        "short": "PRz",
+        "isVisible": true
+    },
+    {
+        "id": "2d439af2-ef88-4c4b-be8b-e879bdea1043",
+        "name": "Wyższa Szkoła Zarządzania",
+        "short": "WSZ",
+        "isVisible": true
+    }
+]

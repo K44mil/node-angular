@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { AlertComponent } from './components';
+import { AlertComponent, GroupFinderComponent } from './components';
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        AlertComponent
+        AlertComponent,
+        GroupFinderComponent
     ],
     exports: [
-        AlertComponent
+        AlertComponent,
+        GroupFinderComponent
     ]
 })
 export class SharedModule { }

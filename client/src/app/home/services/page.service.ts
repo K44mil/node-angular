@@ -16,6 +16,10 @@ export class PageService {
         return this.http.get<any>(`${environment.apiUrl}/news/${slug}`);
     }
 
+    getAnnouncements() {
+        return this.http.get<any>(`${environment.apiUrl}/announcements/visible`);
+    }
+
     getNews() {
         return this.http.get<any>(`${environment.apiUrl}/news`);
     }

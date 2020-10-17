@@ -14,6 +14,9 @@ import { AlertService } from '@app/shared/services';
             .user-name {
                 font-size: 1.3rem;
             }
+            .comment-break {
+                width: 75%;
+            }
         `
     ]
 })

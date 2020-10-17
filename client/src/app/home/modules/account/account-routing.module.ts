@@ -13,6 +13,8 @@ import {
 
 import { AuthGuard } from '@app/utils';
 
+const myProfileModule = () => import('../my-profile/my-profile.module').then(x => x.MyProfileModule);
+
 const routes: Routes = [
     {
         path: '', component: LayoutComponent,
@@ -22,7 +24,7 @@ const routes: Routes = [
             { path: 'register_student', component: RegisterStudentComponent },
             { path: 'forgot_password', component: ForgotPasswordComponent },
             { path: 'reset_password/:resetToken', component: ResetPasswordComponent },
-            { path: 'my_profile', component: MyProfileComponent, canActivate: [AuthGuard] }
+            { path: 'my_profile', loadChildren: myProfileModule, canActivate: [AuthGuard] }
         ]
     }
 ];

@@ -10,6 +10,10 @@ import { Title } from '@angular/platform-browser';
     templateUrl: 'about-page.component.html',
     styles: [`a.nav-link {
                 cursor: pointer;
+                color: #303030;
+            }
+            .active {
+                background: #303030 !important;
             }
     `]
 })

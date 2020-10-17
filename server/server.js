@@ -25,6 +25,8 @@ const specializationsRoutes = require('./routes/specializations.routes');
 const subjectsRoutes = require('./routes/subjects.routes');
 const aboutRoutes = require('./routes/about.routes');
 const newsRoutes = require('./routes/news.routes');
+const announcementsRoutes = require('./routes/announcements.routes');
+const departmentsRoutes = require('./routes/departments.routes');
 
 // App init
 const app = express();
@@ -79,6 +81,8 @@ app.use('/api/v1/specializations', specializationsRoutes);
 app.use('/api/v1/subjects', subjectsRoutes);
 app.use('/api/v1/about', aboutRoutes);
 app.use('/api/v1/news', newsRoutes);
+app.use('/api/v1/announcements', announcementsRoutes);
+app.use('/api/v1/departments', departmentsRoutes);
 
 // Set error handler
 app.use(errorHandler);

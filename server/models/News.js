@@ -18,7 +18,7 @@ News.init({
     },
     slug: {
         type: DataTypes.STRING(256),
-        allowNull: true,
+        allowNull: false,
         unique: true,
         field: 'slug'
     },

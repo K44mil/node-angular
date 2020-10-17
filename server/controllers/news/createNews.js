@@ -45,7 +45,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         );
     }
 
-    if (req.files.photo) {
+    if (req.files && req.files.photo) {
         const file = req.files.photo;
 
         if (!file.mimetype.startsWith('image')) {

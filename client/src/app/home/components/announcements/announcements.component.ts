@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PageService } from '@app/home/services';
+
+import { Announcement } from '@admin/modules/announcements/models/Announcement';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'announcements',
@@ -6,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnouncementsComponent implements OnInit {
 
-    constructor() {}
+    public announcements: Announcement[];
+
+    constructor(private pageService: PageService) {}
 
     ngOnInit() {
-
+        this.pageService.getAnnouncements()
+            .pipe(first())
+            .subscribe(res => {
+                if (res.data.announcements)
+                    this.announcements = res.data.announcements;
+            });
     }
 }

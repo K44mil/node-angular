@@ -1,0 +1,44 @@
+[
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1041",
+        "name": "Wydział Elektrotechniki i Informatyki",
+        "short": "WEiI",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1042",
+        "name": "Wydział Budowy Maszyn i Lotnictwa",
+        "short": "WBMiL",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1043",
+        "name": "Wydział Zarządzania",
+        "short": "WZ",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1044",
+        "name": "Wydział Biologiczno-Rolniczy",
+        "short": "UR",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1041"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1045",
+        "name": "Wydział Ekonomii",
+        "short": "PRz",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1041"
+    },
+    {
+        "id": "3d439af2-ef88-4c4b-be8b-e879bdea1046",
+        "name": "Wydział Matematyczno-Przyrodniczy",
+        "short": "WSZ",
+        "isVisible": true,
+        "universityId": "2d439af2-ef88-4c4b-be8b-e879bdea1041"
+    }
+]

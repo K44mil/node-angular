@@ -5,7 +5,18 @@ import { first } from 'rxjs/operators';
 
 import { Title } from '@angular/platform-browser';
 
-@Component({ templateUrl: 'my-profile.component.html' })
+@Component({
+    templateUrl: 'my-profile.component.html',
+    styles: [`
+        a.nav-link {
+            cursor: pointer;
+            color: #303030;
+        }
+        .active {
+            background: #303030 !important;
+        }
+    `]
+})
 export class MyProfileComponent implements OnInit {
     user: User;
 

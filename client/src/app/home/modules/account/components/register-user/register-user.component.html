@@ -3,10 +3,10 @@
 
      <div class="row mb-3">
         <div class="col-md-6 mb-1">
-            <a routerLink="/account/register_user" class="btn btn-primary form-control">Register User</a>
+            <a routerLink="/account/register_user" class="btn btn-secondary form-control">Register User</a>
         </div>
         <div class="col-md-6">
-            <a routerLink="/account/register_student" class="btn btn-outline-primary form-control">Register Student</a>
+            <a routerLink="/account/register_student" class="btn btn-outline-secondary form-control">Register Student</a>
         </div>  
     </div>
 </div>
@@ -15,6 +15,8 @@
     <div class="card">
         <div class="card-header">Register User</div>
         <div class="card-body">
+            <h4>User Data</h4>
+            <hr>
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -59,7 +61,7 @@
                 </div>
                 <div class="form-group ml-4">
                     <input type="checkbox" formControlName="acceptTerms" class="form-check-input" />
-                    <label for="acceptTermsCheckbox">Accept terms</label>
+                    <label for="acceptTermsCheckbox">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad cupiditate quia praesentium ipsam possimus vel et amet temporibus quo totam aperiam, reiciendis eveniet? Corporis minus ipsum quis sunt nostrum. Ratione, a vel! Eos non porro repudiandae quasi totam nihil incidunt adipisci, accusantium ipsum odio doloribus atque vel iure, aut numquam quia? Non aspernatur aliquid earum dolores veritatis alias nemo, incidunt est maiores laborum tenetur totam ut delectus beatae deserunt esse eum! Quo, enim. Fugiat culpa ipsum ad porro debitis inventore tempore placeat rerum sint beatae eligendi aliquam ratione, illum esse, minima vero asperiores quam voluptate in provident rem qui reiciendis.</label>
                 </div>
                 <div class="form-group">
                     <input class="is-invalid" hidden>
@@ -68,7 +70,7 @@
                     </div>
                 </div>       
                 <div class="form-group">
-                    <button [disabled]="loading" class="btn btn-primary">
+                    <button [disabled]="loading" class="btn btn-secondary">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                         Register
                     </button>
