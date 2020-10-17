@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: 'layout.component.html',
@@ -14,4 +15,9 @@ import { Component } from '@angular/core';
         `
     ]
 })
-export class LayoutComponent { }
+export class LayoutComponent {
+    
+    constructor(private router: Router) {
+        this.router.navigate(['/account/my_profile/general']);
+    }
+}

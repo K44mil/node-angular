@@ -40,7 +40,7 @@
                 </li>
                 <!-- USER AVATAR -->
                 <li *ngIf="loggedUser" class="nav-item mx-1 avatar">
-                    <a routerLink="/account/my_profile" style="text-decoration: none;">
+                    <a routerLink="/account/my_profile/general" style="text-decoration: none;">
                         <avatar-photo class="main-panel-avatar" [name]="getUserName()" [photoUrl]="getPhotoUrl()"></avatar-photo>
                     </a>
                 </li>
@@ -54,7 +54,7 @@
                 </li>
                 <!-- USER PROFILE -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/my_profile" class="btn btn-outline-info btn-auth btn-profile">My Profile</a>
+                    <a routerLink="/account/my_profile/general" class="btn btn-outline-info btn-auth btn-profile">My Profile</a>
                 </li>
                 <!-- LOGOUT -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">

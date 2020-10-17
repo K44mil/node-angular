@@ -4,8 +4,8 @@ import { Title } from '@angular/platform-browser';
 @Component({    template: 
                         `
                             <div class="content">
-                                <main-nav></main-nav>
                                 <announcements></announcements>
+                                <main-nav></main-nav>
                                 <alert></alert>
                                 <router-outlet></router-outlet>
                             </div>

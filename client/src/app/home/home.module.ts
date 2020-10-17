@@ -27,6 +27,7 @@ import {
         NewsComponent,
         NewsDetailsComponent,
         AnnouncementsComponent
-    ]
+    ],
+    exports: [AvatarPhotoComponent]
 })
 export class HomeModule { }
