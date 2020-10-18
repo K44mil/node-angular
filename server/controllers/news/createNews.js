@@ -68,10 +68,9 @@ exports.createNews = asyncHandler(async (req, res, next) => {
                 console.error(err);
                 return next(new ErrorResponse(`File upload error`, 500));
             }
-        })
+        });
         news.image = file.name;
     }
-
     await news.save();
 
     res.status(200).json({

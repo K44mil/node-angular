@@ -10,7 +10,9 @@ import {
     AboutPageComponent,
     NewsComponent,
     NewsDetailsComponent,
-    AnnouncementsComponent
+    AnnouncementsComponent,
+    ContactPageComponent,
+    ResearchPageComponent
 } from './components';
 
 @NgModule({
@@ -26,7 +28,9 @@ import {
         AboutPageComponent,
         NewsComponent,
         NewsDetailsComponent,
-        AnnouncementsComponent
+        AnnouncementsComponent,
+        ContactPageComponent,
+        ResearchPageComponent
     ],
     exports: [AvatarPhotoComponent]
 })
