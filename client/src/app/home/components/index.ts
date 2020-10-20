@@ -7,3 +7,4 @@ export * from './news-details/news-details.component';
 export * from './announcements/announcements.component';
 export * from './contact-page/contact-page.component';
 export * from './research-page/research-page.component';
+export * from './home-page/home-page.component';

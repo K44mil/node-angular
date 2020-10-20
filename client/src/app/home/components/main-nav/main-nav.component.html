@@ -2,8 +2,11 @@
     <!-- MAIN NAVBAR -->
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <!-- NAVBAR BRAND -->
-        <a class="navbar-brand p-2 border rounded" routerLink="/">
+        <a class="navbar-brand p-2 border rounded d-none d-md-block" routerLink="/">
             PhD Tomasz Rak
+        </a>
+        <a class="navbar-brand p-2 border rounded d-md-none" routerLink="/">
+            PhD T. Rak
         </a>
         <!-- TOGGLE BUTTON -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" >
@@ -39,7 +42,7 @@
                     <a routerLink="/account/register_user" class="btn btn-warning btn-auth">Sign up</a>
                 </li>
                 <!-- USER AVATAR -->
-                <li *ngIf="loggedUser" class="nav-item mx-1 avatar">
+                <li *ngIf="loggedUser" class="nav-item mx-1 avatar d-none d-lg-block">
                     <a routerLink="/account/my_profile/general" style="text-decoration: none;">
                         <avatar-photo class="main-panel-avatar" [name]="getUserName()" [photoUrl]="getPhotoUrl()"></avatar-photo>
                     </a>

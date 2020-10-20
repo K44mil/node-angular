@@ -7,7 +7,8 @@ import {
     NewsComponent,
     NewsDetailsComponent,
     ContactPageComponent,
-    ResearchPageComponent
+    ResearchPageComponent,
+    HomePageComponent
 } from './components';
 
 const accountModule = () => import('@home/modules/account/account.module').then(x => x.AccountModule);
@@ -16,6 +17,7 @@ const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
+            { path: '', component: HomePageComponent },
             { path: 'account', loadChildren: accountModule },
             { path: 'about', component: AboutPageComponent },
             { path: 'news', component: NewsComponent },
