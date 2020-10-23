@@ -1,0 +1,22 @@
+[
+    {
+        "id": "4d439af9-ef88-4c4b-be0b-e879bdea1041",
+        "name": "Artifical Intelligence"
+    },
+    {
+        "id": "4d439af9-ef88-4c4b-be1b-e879bdea1041",
+        "name": "Programming"
+    },
+    {
+        "id": "4d439af9-ef88-4c4b-be2b-e879bdea1041",
+        "name": "Computer Networks"
+    },
+    {
+        "id": "4d439af9-ef88-4c4b-be3b-e879bdea1041",
+        "name": "Machine Learning"
+    },
+    {
+        "id": "4d439af9-ef88-4c4b-be4b-e879bdea1041",
+        "name": "C++"
+    }
+]

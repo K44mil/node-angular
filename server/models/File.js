@@ -1,5 +1,6 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
+const News = require('./News');
 
 class File extends Model {
 
@@ -25,6 +26,14 @@ File.init({
         type: DataTypes.STRING,
         allowNull: false,
         field: 'path'
+    },
+    newsId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: News,
+            key: 'id'
+        }
     },
     isLoginProtected: {
         type: DataTypes.BOOLEAN,

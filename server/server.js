@@ -27,6 +27,8 @@ const aboutRoutes = require('./routes/about.routes');
 const newsRoutes = require('./routes/news.routes');
 const announcementsRoutes = require('./routes/announcements.routes');
 const departmentsRoutes = require('./routes/departments.routes');
+const categoriesRoutes = require('./routes/categories.routes');
+const commentsRoutes = require('./routes/comments.routes');
 
 // App init
 const app = express();
@@ -83,6 +85,8 @@ app.use('/api/v1/about', aboutRoutes);
 app.use('/api/v1/news', newsRoutes);
 app.use('/api/v1/announcements', announcementsRoutes);
 app.use('/api/v1/departments', departmentsRoutes);
+app.use('/api/v1/categories', categoriesRoutes);
+app.use('/api/v1/comments', commentsRoutes);
 
 // Set error handler
 app.use(errorHandler);

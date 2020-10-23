@@ -25,7 +25,6 @@ UserGroup.init({
             model: User,
             key: 'id'
         },
-        field: 'user_id'
     },
     groupId: {
         type: DataTypes.UUID,
@@ -34,7 +33,6 @@ UserGroup.init({
             model: Group,
             key: 'id'
         },
-        field: 'group_id'
     }
 }, {
     sequelize,

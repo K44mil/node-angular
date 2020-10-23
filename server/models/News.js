@@ -1,5 +1,6 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
+const User = require('./User');
 
 class News extends Model {
 
@@ -51,6 +52,14 @@ News.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         field: 'is_login_protected'
+    },
+    authorId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        }
     }
 }, {
     sequelize,

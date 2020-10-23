@@ -24,4 +24,12 @@ export class PageService {
         return this.http.get<any>(`${environment.apiUrl}/news`);
     }
 
+    addComment(newsId, content) {
+        return this.http.post<any>(`${environment.apiUrl}/comments/news/${newsId}`, { content });
+    }
+
+    getComments(newsId) {
+        return this.http.get<any>(`${environment.apiUrl}/comments/news/${newsId}`);
+    }
+
 } 

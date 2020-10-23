@@ -1,5 +1,7 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
+const User = require('./User');
+const News = require('./News');
 
 class Comment extends Model {
 
@@ -15,7 +17,23 @@ Comment.init({
         type: DataTypes.STRING(512),
         allowNull: false,
         field: 'content'
-    }
+    },
+    userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        },
+    },
+    newsId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: News,
+            key: 'id'
+        },
+    },
 }, {
     sequelize,
     modelName: 'Comment',

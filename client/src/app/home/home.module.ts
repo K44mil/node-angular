@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '@shared/shared.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import {
     LayoutComponent,
     MainNavComponent,
@@ -20,7 +20,8 @@ import {
     imports: [
         CommonModule,
         HomeRoutingModule,
-        SharedModule
+        SharedModule,
+        ReactiveFormsModule
     ],
     declarations: [
         LayoutComponent,

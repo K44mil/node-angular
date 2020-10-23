@@ -11,6 +11,7 @@ const User = require('./models/User');
 const University = require('./models/University');
 const Faculty = require('./models/Faculty');
 const Course = require('./models/Course');
+const Category = require('./models/Category');
 
 // Connect DB
 sequelize
@@ -51,6 +52,11 @@ const courses = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8')
 );
 
+// CATEGORIES
+const categories = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/categories.json`, 'utf-8')
+);
+
 
 
 // Import to DB
@@ -60,6 +66,7 @@ const importData = async () => {
         await University.bulkCreate(universities);
         await Faculty.bulkCreate(faculties);
         await Course.bulkCreate(courses);
+        await Category.bulkCreate(categories);
         console.log('Data imported...');
         process.exit();
     } catch (err) {
@@ -81,6 +88,9 @@ const deleteData = async () => {
             where: {},
         });
         await University.destroy({
+            where: {},
+        });
+        await Category.destroy({
             where: {},
         }); 
         console.log('Data Destroyed...');

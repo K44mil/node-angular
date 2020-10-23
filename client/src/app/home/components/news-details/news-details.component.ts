@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
 import { News } from '@admin/modules/news/models/News';
+import { Comment } from '@admin/modules/news/models/Comment';
 import { PageService } from '@home/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { AlertService } from '@app/shared/services';
+import { AlertService, AuthService } from '@app/shared/services';
+import { AuthUser } from '@app/home/modules/account/models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     templateUrl: 'news-details.component.html',
@@ -22,21 +25,39 @@ import { AlertService } from '@app/shared/services';
 })
 export class NewsDetailsComponent implements OnInit {
     public news: News;
+    public comments: Comment;
+    public loggedUser: AuthUser;
+    commentForm: FormGroup;
 
     constructor(
         private pageService: PageService,
         private route: ActivatedRoute,
         private router: Router,
-        private alertService: AlertService
-    ) { }
+        private alertService: AlertService,
+        private authService: AuthService,
+        private formBuilder: FormBuilder
+    ) {
+        this.loggedUser = this.authService.userValue;
+    }
 
     ngOnInit() {
+        this.commentForm = this.formBuilder.group({
+            content: ['', Validators.required]
+        });
+
         const slug = this.route.snapshot.paramMap.get('slug');
         this.pageService.getNewsBySlug(slug)
             .pipe(first())
             .subscribe(
                 res => {
                     this.news = res.data.news
+                    if (this.news) {
+                        this.pageService.getComments(this.news.id)
+                            .pipe(first())
+                            .subscribe(res => {
+                                if (res.data.comments) this.comments = res.data.comments;
+                            });
+                    }
                 },
                 err => {
                     this.alertService.error(err);
@@ -53,7 +74,27 @@ export class NewsDetailsComponent implements OnInit {
         return date.toLocaleString('pl');
     }
 
-    getUserName() {
-        return 'Jan Kowalski';
+    getUserName(firstName, lastName) {
+        return `${firstName} ${lastName}`;
     }
+
+    get f() { return this.commentForm.controls; }
+
+    onSubmit() {
+        if (this.commentForm.invalid) return;
+
+        this.pageService.addComment(this.news.id, this.f.content.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.success == true) {
+                        this.alertService.success('Comment added.', { autoClose: true });
+                    }
+                },
+                err => console.log(err)
+            );
+
+        this.commentForm.reset();
+    }
+
 }

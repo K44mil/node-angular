@@ -14,6 +14,7 @@ Category.init({
     name: {
         type: DataTypes.STRING(128),
         allowNull: false,
+        unique: true,
         field: 'name'
     },
 }, {

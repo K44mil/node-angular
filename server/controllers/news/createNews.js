@@ -1,9 +1,12 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const News = require('../../models/News');
+const NewsCategory = require('../../models/relationsModels/NewsCategory');
 const path = require('path');
 const slugify = require('slugify');
 const { Op } = require('sequelize');
+const Category = require('../../models/Category');
+const File = require('../../models/File');
 
 /**
  * @desc    Create News
@@ -12,7 +15,8 @@ const { Op } = require('sequelize');
  */
 exports.createNews = asyncHandler(async (req, res, next) => {
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected } = req.body;
+         isCommentable, isLoginProtected, categoriesIds } = req.body;
+    const authorId = req.user.id;
 
     if (!title) {
         return next(
@@ -20,13 +24,14 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const news = await News.build({
+    let news = await News.build({
         title,
         description,
         content,
         isVisible,
         isCommentable,
-        isLoginProtected
+        isLoginProtected,
+        authorId
     });
     // Slugify title
     news.slug = slugify(news.title, { lower: true });
@@ -51,7 +56,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         if (!file.mimetype.startsWith('image')) {
             return next(new ErrorResponse(`Please upload an image file`, 400));
         }
-        console.log(file.size);
+
         if (file.size > process.env.MAX_NEWS_PHOTO_UPLOAD) {
             return next(
               new ErrorResponse(
@@ -71,7 +76,50 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         });
         news.image = file.name;
     }
-    await news.save();
+    news = await news.save();
+
+    for (const categoryId of categoriesIds) {
+        const category = await Category.findByPk(categoryId);
+
+        if (category) {
+            await NewsCategory.create({
+                newsId: news.id,
+                categoryId: category.id
+            });
+        }    
+    }
+
+    // Files
+    if (req.files && req.files.files) {
+        const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
+        const files = new Array(req.files.files);
+
+        for (const file of files) {
+            fileExt = path.parse(file.name).ext;
+            if (allowedExtensions.includes(fileExt)) {
+                if (file.size < process.env.MAX_FILE_UPLOAD) {
+
+                    const type = path.extname(file.name).toString().replace('.', '');
+                    const createdFile = await File.build({
+                        name: file.name,
+                        type: type,
+                        newsId: news.id
+                    });
+                    createdFile.path = `.${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
+
+                    file.mv(createdFile.path, err => {
+                        console.log(err);
+                    });
+
+                    await createdFile.save();
+                }
+            }
+        }
+    }
+
+    news = await News.findByPk(news.id, {
+        include: [Category, File]
+    });
 
     res.status(200).json({
         success: true,

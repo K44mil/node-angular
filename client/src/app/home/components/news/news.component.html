@@ -30,12 +30,10 @@
                                     {{ singleNews.title }}
                             </h4>
                             <div class="categories">
-                                <span class="badge badge-primary mr-1">SIECI</span>
-                                <span class="badge badge-primary mr-1">AI</span>
-                                <span class="badge badge-primary mr-1">PROGRAMMING</span>
+                                <span *ngFor="let category of singleNews.Categories" class="badge badge-primary mr-1">{{ category.name }}</span>
                             </div>
                             <small class="text-muted cat">
-                                <i class="fas fa-user"></i> Gall Anonim
+                                <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
                             </small>
                             <p class="card-text">{{ singleNews.description }}</p>
                             <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>

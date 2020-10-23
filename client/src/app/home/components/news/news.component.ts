@@ -31,7 +31,7 @@ export class NewsComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 if (res.data.news) this.news = res.data.news;
-            })
+            });
     }
 
     getNewsPhotoUrl(news) {

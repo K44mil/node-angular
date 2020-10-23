@@ -4,6 +4,8 @@ const { getLoggedUser } = require('../../middleware/auth');
 
 const News = require('../../models/News');
 const { Op } = require('sequelize');
+const Category = require('../../models/Category');
+const User = require('../../models/User');
 
 /**
  * @desc    Get News by slug
@@ -18,7 +20,17 @@ exports.getNewsBySlug = asyncHandler(async (req, res, next) => {
             slug: {
                 [Op.like]: slug
             }
-        }
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['firstName', 'lastName']
+            },
+            {
+                model: Category,
+                attributes: ['name']
+            }
+        ]
     });
 
     if (!news) {

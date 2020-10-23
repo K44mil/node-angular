@@ -17,7 +17,7 @@ exports.updateSpecialization = asyncHandler(async (req, res, next) => {
         );
     }
 
-    await specialization.update({
+    specialization = await specialization.update({
         name,
         short,
         isVisible
