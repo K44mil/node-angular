@@ -1,41 +1,42 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/admin/modules/users/models/User';
 import { AuthUser } from '@app/home/modules/account/models';
-import { AuthService } from '@app/shared/services';
+import { AlertService, AuthService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
 @Component({
-    templateUrl: 'general.component.html',
-    styles: [
-        `
-            .user-name: {
-                background: red !important;
-            }
-        `
-    ]
+    templateUrl: 'general.component.html'
 })
 export class GeneralComponent implements OnInit {
-
     loggedUser: AuthUser;
-    user: User;
+    user: User; 
 
-    isAvatarFormVisible: boolean = false;
-    isEditDataFromVisible: boolean = false;
+    changeAvatarForm: FormGroup;
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private formBuilder: FormBuilder,
+        private alertService: AlertService
     ) {
 
     }
 
     ngOnInit() {
+
         this.loggedUser = this.authService.userValue;
+
         this.authService.getMe()
             .pipe(first())
             .subscribe(res => {
                 if (res.data.user)
                     this.user = res.data.user;
             });
+        
+        // CHANGE AVATAR FORM
+        this.changeAvatarForm = this.formBuilder.group({
+            avatar: ['', Validators.required]
+        });
     }
 
     getUserName() {
@@ -45,21 +46,31 @@ export class GeneralComponent implements OnInit {
             return '';
     }
 
-    showAvatarForm() {
-        if (this.isAvatarFormVisible)
-            this.isAvatarFormVisible = false;
-        else
-            this.isAvatarFormVisible = true;
-
-        this.isEditDataFromVisible = false;
+    getPhotoUrl() {
+        if (this.user && this.user.avatar)
+            return `http://localhost:5000/uploads/avatars/${this.user.avatar}`;
+        return null;
     }
-
-    showEditDataForm() {
-        if (this.isEditDataFromVisible)
-            this.isEditDataFromVisible = false;
-        else
-            this.isEditDataFromVisible = true;
+    
+    onChangeAvatarFormSubmit() {
+        console.log('hello');
         
-        this.isAvatarFormVisible = false;
+        if (this.changeAvatarForm.invalid) return;
+        
+        const formData = new FormData();
+        formData.append('avatar', this.changeAvatarForm.get('avatar').value);
+
+        this.authService.changeAvatar(formData)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.user = res.data.user;
+                },
+                err => {
+                    this.alertService.error(err);
+                }
+            );
+
+        this.changeAvatarForm.reset();
     }
-}
+}                                                    

@@ -30,7 +30,7 @@ export class NewsComponent implements OnInit {
         this.pageService.getNews()
             .pipe(first())
             .subscribe(res => {
-                if (res.data.news) this.news = res.data.news;
+                if (res.data.news) this.news = res.data.news;       
             });
     }
 

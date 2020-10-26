@@ -28,7 +28,10 @@ exports.getComments = asyncHandler(async (req, res, next) => {
         include: {
             model: User,
             attributes: ['firstName', 'lastName']
-        }
+        },
+        order: [
+            ['created_at', 'DESC']
+        ]
     });
 
     res.status(200).json({

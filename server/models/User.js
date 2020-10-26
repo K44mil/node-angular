@@ -81,6 +81,11 @@ User.init({
         allowNull: true,
         unique: true,
         field: 'album_number'
+    },                   
+    avatar: {              
+        type: DataTypes.STRING(256),
+        allowNull: true,
+        unique: true                                                                                                                                                                                                                  
     },
     resetPasswordToken: {
         type: DataTypes.STRING(256),

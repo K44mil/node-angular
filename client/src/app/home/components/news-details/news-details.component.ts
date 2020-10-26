@@ -25,7 +25,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewsDetailsComponent implements OnInit {
     public news: News;
-    public comments: Comment;
+    public comments: Comment[];
     public loggedUser: AuthUser;
     commentForm: FormGroup;
 
@@ -87,9 +87,10 @@ export class NewsDetailsComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    if (res.success == true) {
-                        this.alertService.success('Comment added.', { autoClose: true });
-                    }
+                    this.alertService.success('Comment added.', { autoClose: true });
+                    this.comments.reverse();
+                    this.comments.push(res.data.comment);
+                    this.comments.reverse();
                 },
                 err => console.log(err)
             );

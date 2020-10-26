@@ -2,6 +2,7 @@ const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Comment = require('../../models/Comment');
 const News = require('../../models/News');
+const User = require('../../models/User');
 
 /**
  * @desc    Add Comment to the News
@@ -29,10 +30,17 @@ exports.createComment = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const comment = await Comment.create({
+    let comment = await Comment.create({
         content: req.body.content,
         userId: req.user.id,
         newsId: news.id
+    });
+
+    comment = await Comment.findByPk(comment.id, {
+        include: {
+            model: User,
+            attributes: ['firstName', 'lastName']
+        }
     });
 
     res.status(200).json({

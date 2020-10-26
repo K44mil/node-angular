@@ -1,7 +1,4 @@
-const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const sendEmail = require('../../utils/sendEmail');
-const { Op } = require('sequelize');
 const User = require('../../models/User');
 
 /**

@@ -8,6 +8,7 @@ export class User {
     role: Role;
     isVerified: boolean;
     isBlocked: boolean;
+    avatar: string;
     created_at: Date;
     updated_at: Date;
     albumNumber?: string;

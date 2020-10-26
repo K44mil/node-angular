@@ -2,9 +2,10 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const { getLoggedUser } = require('../../middleware/auth');
 
 const News = require('../../models/News');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const User = require('../../models/User');
 const Category = require('../../models/Category');
+const Comment = require('../../models/Comment');
 
 /**
  * @desc    Get all news
@@ -13,6 +14,9 @@ const Category = require('../../models/Category');
  */
 exports.getNews = asyncHandler(async (req, res, next) => {
     const news = await News.findAll({
+        attributes: {
+            include: [[Sequelize.fn("COUNT", Sequelize.col("comments.id")), "commentsCount"]]
+        },
         include: [
             {
                 model: User,
@@ -21,8 +25,13 @@ exports.getNews = asyncHandler(async (req, res, next) => {
             {
                 model: Category,
                 attributes: ['name']
+            },
+            {
+                model: Comment,
+                attributes: []
             }
         ],
+        group: ['News.id']
     });
 
     res.status(200).json({

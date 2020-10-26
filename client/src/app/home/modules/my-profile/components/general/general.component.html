@@ -8,7 +8,7 @@
             <div class="col-12 col-md-4">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <avatar-photo [name]="getUserName()" [avatarSize]="1"></avatar-photo>
+                        <avatar-photo [name]="getUserName()" [photoUrl]="getPhotoUrl()" [avatarSize]="1"></avatar-photo>
                     </div>
                 </div>
                 <div class="row">
@@ -37,11 +37,11 @@
         <div class="mt-5" id="collapseForms">
             <div class="row mt-3 collapse" id="collapseAvatarForm" data-parent="#collapseForms">
                 <!-- CHANGE AVATAR FORM -->
-                <form>
+                <form [formGroup]="changeAvatarForm" (ngSubmit)="onChangeAvatarFormSubmit()">
                     <div class="col-md-12 mt-3">
                         <div class="form-group">
                             <label for="firstName">Choose file</label>
-                            <input type="file" class="form-control-file" value="">
+                            <input formControlName="avatar" type="file" class="form-control-file" value="">
                         </div>
                         <button class="btn btn-outline-dark">
                             <span class="spinner-border spinner-border-sm mr-1"></span>

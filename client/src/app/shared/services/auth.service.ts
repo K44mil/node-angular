@@ -84,5 +84,9 @@ export class AuthService {
         this.userSubject.next(null);
         this.router.navigate(['/auth/login']);
     }
+
+    changeAvatar(formData: FormData) {
+        return this.http.put<any>(`${environment.apiUrl}/auth/change_avatar`, formData);
+    }
   
 }
