@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     template: `
-                  <div class="row mt-2">
+                  <div class="row mt-3">
                   <div class="col-md-8">
                       <h3>Users</h3>
                       <hr>
@@ -29,14 +29,10 @@ import { Component } from '@angular/core';
                       <router-outlet></router-outlet>
                     </div>
                     <div class="col-4">
-                      Menu
+                      <button class="btn btn-success">Add User</button>
                     </div>
                   </div>
-                  
-
-                </div> 
-
-                
+                </div>            
               `,
 })
 export class LayoutComponent { }

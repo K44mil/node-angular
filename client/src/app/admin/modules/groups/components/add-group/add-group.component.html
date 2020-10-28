@@ -1,0 +1,87 @@
+<div class="mt-2">         
+    <div class="row">
+        <div class="col-8">
+        <div class="col-6">
+            <h5>Add New Group</h5>
+            <hr>
+            <form *ngIf="countLoaded == 6" [formGroup]="newGroupForm">
+                <div class="form-group">
+                    <label for="">University</label>
+                    <select formControlName="universityId" class="form-control">
+                        <option *ngFor="let uni of universities" value="{{ uni.id }}">{{ uni.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Faculty</label>
+                    <select class="form-control">
+                        <option *ngFor="let fac of faculties" value="{{ fac.id }}">{{ fac.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Department</label>
+                    <select class="form-control">
+                        <option *ngFor="let dept of departments" value="{{ dept.id }}">{{ dept.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Course</label>
+                    <select class="form-control">
+                        <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Specialization</label>
+                    <select class="form-control">
+                        <option *ngFor="let spec of specializations" value="{{ spec.id }}">{{ spec.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Subject</label>
+                    <select class="form-control">
+                        <option *ngFor="let sub of subjects" value="{{ sub.id }}">{{ sub.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Level</label>
+                    <select class="form-control">
+                        <option value="i">inż</option>
+                        <option value="m">mgr</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Type</label>
+                    <select class="form-control">
+                        <option value="d">dzienne</option>
+                        <option value="z">zaoczne</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Semester</label>
+                    <input type="text" class="form-control" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <label for="">Academic Year</label>
+                    <input type="text" class="form-control" maxlength="9">
+                </div>
+                <div class="form-group">
+                    <label for="">Group Type</label>
+                    <select class="form-control">
+                        <option value="lab">laboratory</option>
+                        <option value="lec">lecture</option>
+                        <option value="exc">exercise</option>
+                        <option value="proj">project</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control">
+                </div>
+                <button class="btn btn-outline-dark">Save</button>
+            </form>
+        </div>
+        </div>
+        <div class="col-4">
+        <a routerLink="/admin/groups" class="btn btn-secondary">Groups List</a>
+        </div>
+    </div>
+</div>   

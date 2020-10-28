@@ -26,15 +26,6 @@ Faculty.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         field: 'is_visible'
-    },
-    universityId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: University,
-            key: 'id'
-        },
-        field: 'university_id'
     }
 }, {
     sequelize,

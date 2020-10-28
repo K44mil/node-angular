@@ -7,16 +7,16 @@
                 <a routerLink="/admin/users">Users</a>
             </li>
             <li>
-                <a href="#">Groups</a>
+                <a routerLink="/admin/groups">Groups</a>
             </li>
             <li>
-                <a routerLink="/admin/about">News</a>
+                <a routerLink="/admin/news">News</a>
             </li>
             <li>
-                <a routerLink="">Announcements</a>
+                <a routerLink="/admin/announcements">Announcements</a>
             </li>
             <li>
-                <a routerLink="">About</a>
+                <a routerLink="/admin/about">About</a>
             </li>
             <li>
                 <a routerLink="">Contact</a>
@@ -26,6 +26,7 @@
 
     <div id="content" style="width: 100%;">
             <div class="container-fluid">
+                <alert></alert>
                 <router-outlet></router-outlet>
             </div>
     </div>

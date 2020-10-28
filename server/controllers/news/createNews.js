@@ -92,21 +92,26 @@ exports.createNews = asyncHandler(async (req, res, next) => {
     // Files
     if (req.files && req.files.files) {
         const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
-        const files = new Array(req.files.files);
+        const files = req.files.files.length === undefined ? new Array(req.files.files) : req.files.files;
 
         for (const file of files) {
+            console.log(file.name);
             fileExt = path.parse(file.name).ext;
             if (allowedExtensions.includes(fileExt)) {
                 if (file.size < process.env.MAX_FILE_UPLOAD) {
-
+                    console.log(fileExt);
                     const type = path.extname(file.name).toString().replace('.', '');
                     const createdFile = await File.build({
                         name: file.name,
                         type: type,
                         newsId: news.id
                     });
-                    createdFile.path = `.${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
 
+                    // Is Login Protected
+                    if (news.isLoginProtected)
+                        createdFile.isLoginProtected = true;
+
+                    createdFile.path = `${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
                     file.mv(createdFile.path, err => {
                         console.log(err);
                     });

@@ -1,0 +1,20 @@
+[
+    {
+        "id": "2d439af7-ef80-4c4b-be8b-e879bdea1041",
+        "name": "Katedra Informatyki i Automatyki",
+        "short": "KiA",
+        "isVisible": true
+    },
+    {
+        "id": "2d439af7-ef81-4c4b-be8b-e879bdea1042",
+        "name": "Katedra Fizyki i Matematyki Stosowanej",
+        "short": "FiMS",
+        "isVisible": true
+    },
+    {
+        "id": "2d439af7-ef82-4c4b-be8b-e879bdea1043",
+        "name": "Katedra Elektrotechniki",
+        "short": "E",
+        "isVisible": true
+    }
+]

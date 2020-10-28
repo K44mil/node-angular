@@ -41,7 +41,8 @@ export class MainNavComponent implements OnInit {
     }
 
     getPhotoUrl() {
-        // return 'http://localhost:5000/uploads/news/no-news-photo.jpg';
-        return '';
+        if (this.loggedUser && this.loggedUser.avatar)
+            return `http://localhost:5000/uploads/avatars/${this.loggedUser.avatar}`;
+        return null;
     }
 }

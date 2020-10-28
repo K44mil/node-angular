@@ -8,9 +8,9 @@
                 <th scope="col">Last Name</th>
                 <th scope="col">Role</th>
                 <th scope="col">Album number</th>
-                <th scope="col">Verified</th>
-                <th scope="col">Blocked</th>
                 <th scope="col">Creation Date</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -21,9 +21,9 @@
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.role }}</td>
                 <td>{{ user.albumNumber }}</td>
-                <td>{{ user.isVerified }}</td>
-                <td>{{ user.isBlocked }}</td>
                 <td>{{ printDate(user.created_at) }}</td>
+                <td><button class="btn btn-info">Edit</button></td>
+                <td><button class="btn btn-danger">Delete</button></td>
             </tr>
         </tbody>
     </table>

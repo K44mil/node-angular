@@ -1,0 +1,36 @@
+<div class="mt-2">         
+    <div class="row">
+      <div class="col-8">
+        <div class="col-6">
+            <h5>Add New Announcement</h5>
+            <hr>
+            <form [formGroup]="addAnnouncementForm" (ngSubmit)="onSubmit()">
+                <div class="form-gorup">
+                    <label for="">Title</label>
+                    <input formControlName="title" type="text" class="form-control">
+                </div>
+                <div class="form-gorup">
+                    <label for="">Text</label>
+                    <textarea formControlName="content" class="form-control" cols="30" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="">Visible From</label>
+                    <input formControlName="visibleFrom" class="form-control" type="date" name="" id="">
+                </div>
+                <div class="form-group">
+                    <label for="">Visible To</label>
+                    <input formControlName="visibleTo" class="form-control" type="date" name="" id="">
+                </div>
+                <div class="form-check">
+                    <input formControlName="isVisible" type="checkbox" class="form-check-input">
+                    <label class="form-check-label">Is Visible</label>
+                </div>
+                    <button class="btn btn-outline-dark mt-2">Save</button>
+            </form>
+        </div>
+      </div>
+      <div class="col-4">
+        <a routerLink="/admin/announcements/add_announcement" class="btn btn-secondary">Announcements List</a>
+      </div>
+    </div>
+  </div>   

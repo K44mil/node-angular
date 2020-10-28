@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
                 <router-outlet></router-outlet>
             </div>
             <div class="col-md-4">
-                Menu
+                <button class="btn btn-success">Add About Page</button>
             </div>
         </div>
         

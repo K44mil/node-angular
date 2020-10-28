@@ -7,6 +7,10 @@ const { deleteDepartment } = require('../controllers/departments/deleteDepartmen
 const { getDepartments } = require('../controllers/departments/getDepartments');
 const { getDepartment } = require('../controllers/departments/getDepartment');
 const { updateDepartment } = require('../controllers/departments/updateDepartment');
+const { getVisibleDepartments } = require('../controllers/departments/getVisibleDepartments');
+
+// GET
+router.get('/visible', getVisibleDepartments);
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));

@@ -16,12 +16,13 @@ exports.deleteAnnouncement = asyncHandler(async (req, res, next) => {
         );
     }
 
+    const id = announcement._id;
     await announcement.remove();
 
     res.status(200).json({
         success: true,
         data: {
-
+            id
         }
     });
 });

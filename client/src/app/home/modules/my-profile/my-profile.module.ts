@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MyProfileRoutingModule } from './my-profile-routing.module';
 
 import { HomeModule } from '@home/home.module';
@@ -16,7 +16,9 @@ import {
     imports: [
         CommonModule,
         HomeModule,
-        MyProfileRoutingModule
+        MyProfileRoutingModule,
+        ReactiveFormsModule,
+        FormsModule
     ],
     declarations: [
         LayoutComponent,

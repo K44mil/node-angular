@@ -3,42 +3,36 @@
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1041",
         "name": "Informatyka",
         "short": "INF",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1041"
+        "isVisible": true
     },
     {
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1042",
         "name": "Elektronika",
         "short": "EL",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1041"
+        "isVisible": true
     },
     {
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1043",
         "name": "Automatyka i Robotyka",
         "short": "AiR",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1041"
+        "isVisible": true
     },
     {
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1044",
         "name": "Marketing",
         "short": "Mr",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1043"
+        "isVisible": true
     },
     {
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1045",
         "name": "Zarządzanie",
         "short": "Z",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1043"
+        "isVisible": true
     },
     {
         "id": "4d439af2-ef88-4c4b-be8b-e879bdea1046",
         "name": "Ekonomia",
         "short": "Ekon",
-        "isVisible": true,
-        "facultyId": "3d439af2-ef88-4c4b-be8b-e879bdea1043"
+        "isVisible": true
     }
 ]

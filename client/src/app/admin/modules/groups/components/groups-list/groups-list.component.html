@@ -1,0 +1,38 @@
+<div class="mt-2">         
+    <div class="row">
+        <div class="col-8">
+        <!-- <div *ngIf="announcements">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Visible</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let announcement of announcements; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ announcement.title }}</td>
+                        <td>{{ printDate(announcement.visibleFrom) }}</td>
+                        <td>{{ printDate(announcement.visibleTo) }}</td>
+                        <td>
+                            <span *ngIf="announcement.isVisible" class="badge badge-success"><i class="fas fa-check"></i></span>
+                            <span *ngIf="!announcement.isVisible" class="badge badge-danger"><i class="fas fa-times"></i></span>
+                        </td>
+                        <td><button class="btn btn-info">Edit</button></td>
+                        <td><button class="btn btn-danger" (click)="delete(announcement._id)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+        </div>
+        <div class="col-4">
+        <a routerLink="/admin/groups/add_group" class="btn btn-success">Add New Group</a>
+        </div>
+    </div>
+</div>   

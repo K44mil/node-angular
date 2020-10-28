@@ -5,6 +5,7 @@ const Faculty = require('./Faculty');
 const Specialization = require('./Specialization');
 const Subject = require('./Subject');
 const Course = require('./Course');
+const Department = require('./Department');
 
 class Group extends Model {
 
@@ -31,13 +32,18 @@ Group.init({
         defaultValue: false,
         field: 'is_open'
     },
+    isArchive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'is_archive'
+    },
     level: {
-        type: DataTypes.ENUM('inz', 'mgr'),
+        type: DataTypes.ENUM('i', 'm'),
         allowNull: false,
         field: 'level'
     },
     type: {
-        type: DataTypes.ENUM('dzienne', 'zaoczne'),
+        type: DataTypes.ENUM('d', 'z'),
         allowNull: false,
         field: 'type'
     },
@@ -45,6 +51,14 @@ Group.init({
         type: DataTypes.STRING(2),
         allowNull: false,
         field: 'semester'
+    },
+    academicYear: {
+        type: DataTypes.STRING(9),
+        allowNull: false,
+        field: 'academic_year',
+        validate: {
+            is: /^\d{4}[/]\d{4}$/i
+        }
     },
     groupType: {
         type: DataTypes.ENUM('lab', 'lec', 'exc', 'proj'),
@@ -57,8 +71,7 @@ Group.init({
         references: {
             model: University,
             key: 'id'
-        },
-        field: 'university_id'
+        }
     },
     facultyId: {
         type: DataTypes.UUID,
@@ -66,18 +79,23 @@ Group.init({
         references: {
             model: Faculty,
             key: 'id'
-        },
-        field: 'faculty_id'
+        }
     },
-    // DEPARTMENT HERE ?
+    departmentId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: Department,
+            key: 'id'
+        }
+    },
     courseId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
             model: Course,
             key: 'id'
-        },
-        field: 'course_id'
+        }
     },
     specializationId: {
         type: DataTypes.UUID,
@@ -85,8 +103,7 @@ Group.init({
         references: {
             model: Specialization,
             key: 'id'
-        },
-        field: 'specialization_id'
+        }
     },
     subjectId: {
         type: DataTypes.UUID,
@@ -94,8 +111,7 @@ Group.init({
         references: {
             model: Subject,
             key: 'id'
-        },
-        field: 'subject_id'
+        }
     }
 }, {
     sequelize,

@@ -1,6 +1,7 @@
 const asyncHandler = require('../../middleware/asyncHandler');
 const path = require('path');
 const User = require('../../models/User');
+const ErrorResponse = require('../../utils/ErrorResponse');
 
 /**
  * @desc    Change user avatar
@@ -9,6 +10,12 @@ const User = require('../../models/User');
  */
 exports.changeAvatar = asyncHandler(async (req, res, next) => {
     let user = await User.findByPk(req.user.id);
+
+    if (!req.files) {
+        return next(
+            new ErrorResponse('Please upload an image file', 400)
+        );
+    }
 
     if (req.files && req.files.avatar) {
         const file = req.files.avatar;

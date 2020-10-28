@@ -29,6 +29,7 @@ const announcementsRoutes = require('./routes/announcements.routes');
 const departmentsRoutes = require('./routes/departments.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const commentsRoutes = require('./routes/comments.routes');
+const groupsRoutes = require('./routes/groups.routes');
 
 // App init
 const app = express();
@@ -87,6 +88,7 @@ app.use('/api/v1/announcements', announcementsRoutes);
 app.use('/api/v1/departments', departmentsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/comments', commentsRoutes);
+app.use('/api/v1/groups', groupsRoutes);
 
 // Set error handler
 app.use(errorHandler);

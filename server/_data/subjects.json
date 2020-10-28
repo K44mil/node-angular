@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1d439af7-ef80-4c4b-be8b-e879bdea1041",
+        "name": "Sieci Komputerowe",
+        "short": "SK",
+        "isVisible": true
+    },
+    {
+        "id": "1d439af7-ef81-4c4b-be8b-e879bdea1042",
+        "name": "Aplikacje Internetowe",
+        "short": "AI",
+        "isVisible": true
+    },
+    {
+        "id": "1d439af7-ef82-4c4b-be8b-e879bdea1043",
+        "name": "Programowanie Linux",
+        "short": "L",
+        "isVisible": true
+    }
+]

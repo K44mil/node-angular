@@ -26,6 +26,10 @@ export class AuthService {
         return this.userSubject.value;
     }
 
+    saveUserValue() {
+        localStorage.setItem('user', JSON.stringify(this.userValue));
+    }
+
     register(registerUserRequest: RegisterUserRequest) {
         return this.http.post<any>(`${environment.apiUrl}/auth/register_user`, registerUserRequest);
     }
@@ -38,6 +42,7 @@ export class AuthService {
                         id: res.data.user.id,
                         firstName: res.data.user.firstName,
                         lastName: res.data.user.lastName,
+                        avatar: res.data.user.avatar,
                         role: res.data.user.role,
                         token: res.data.token
                     };
@@ -56,6 +61,7 @@ export class AuthService {
                         id: res.data.user.id,
                         firstName: res.data.user.firstName,
                         lastName: res.data.user.lastName,
+                        avatar: res.data.user.avatar,
                         role: res.data.user.role,
                         token: res.data.token
                     };
