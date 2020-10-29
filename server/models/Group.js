@@ -38,12 +38,12 @@ Group.init({
         field: 'is_archive'
     },
     level: {
-        type: DataTypes.ENUM('i', 'm'),
+        type: DataTypes.ENUM('I', 'M'),
         allowNull: false,
         field: 'level'
     },
     type: {
-        type: DataTypes.ENUM('d', 'z'),
+        type: DataTypes.ENUM('D', 'Z'),
         allowNull: false,
         field: 'type'
     },

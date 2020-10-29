@@ -31,38 +31,38 @@
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Country:</span></td>
-                            <td>Poland</td>
+                            <td><span *ngIf="contact && contact.country">{{ contact.country }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">City:</span></td>
-                            <td>Rzeszów</td>
+                            <td><span *ngIf="contact && contact.city">{{ contact.city }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Street:</span></td>
-                            <td>Powstancow Warszawy 12</td>
+                            <td><span *ngIf="contact && contact.street">{{ contact.street }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">ZIP Code:</span></td>
-                            <td>35-959</td>
+                            <td><span *ngIf="contact && contact.postalCode">{{ contact.postalCode }}</span></td>
                         </tr>
                         <tr>
                             <td colspan="2">Contact</td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Room:</span></td>
-                            <td>D208</td>
+                            <td><span *ngIf="contact && contact.room">{{ contact.room }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Email:</span></td>
-                            <td>trak@prz.edu.pl</td>
+                            <td><span *ngIf="contact && contact.email">{{ contact.email }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Phone:</span></td>
-                            <td>48-178651767</td>
+                            <td><span *ngIf="contact && contact.phone">{{ contact.phone }}</span></td>
                         </tr>
                         <tr>
                             <td><span class="font-weight-bold">Web Page:</span></td>
-                            <td><a href="https://w.prz.edu.pl/">https://w.prz.edu.pl/</a></td>
+                            <td><a *ngIf="contact && contact.webPage" href="{{ contact.webPage }}">{{ contact.webPage }}</a></td>
                         </tr>
                     </tbody>
                 </table>

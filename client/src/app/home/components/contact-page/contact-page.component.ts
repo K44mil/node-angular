@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PageService } from '@app/home/services';
+import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'contact-page.component.html',
@@ -27,8 +29,26 @@ import { Component, OnInit } from '@angular/core';
     ]
 })
 export class ContactPageComponent implements OnInit {
+    contact;
+
+    constructor(
+        private pageService: PageService
+    ) { }
 
     ngOnInit() {
-        
+        this.loadContact();
+    }
+
+    loadContact() {
+        this.pageService.getContact()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.data.contact) this.contact = res.data.contact;
+                },
+                err => {
+                    
+                }
+            )
     }
 }

@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {
     LayoutComponent,
     AddGroupComponent,
-    GroupsListComponent
+    GroupsListComponent,
+    GroupDetailsComponent
 } from './components';
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: '', component: GroupsListComponent },
-            { path: 'add_group', component: AddGroupComponent }
+            { path: 'add_group', component: AddGroupComponent },
+            { path: 'group_details/:id', component: GroupDetailsComponent }
         ]
     }
 ];

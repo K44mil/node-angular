@@ -86,7 +86,7 @@ export class NewsDetailsComponent implements OnInit {
         this.pageService.addComment(this.news.id, this.f.content.value)
             .pipe(first())
             .subscribe(
-                res => {
+                res => {         
                     this.alertService.success('Comment added.', { autoClose: true });
                     this.comments.reverse();
                     this.comments.push(res.data.comment);

@@ -48,5 +48,5 @@ exports.createComment = asyncHandler(async (req, res, next) => {
         data: {
             comment
         }
-    })
+    });
 });

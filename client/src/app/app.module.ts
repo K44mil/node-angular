@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from '@shared/components';
 
 import { JwtInterceptor, ErrorInterceptor } from '@app/utils';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NoopAnimationsModule
   ],
   declarations: [
     AppComponent,

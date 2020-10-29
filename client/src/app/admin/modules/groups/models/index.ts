@@ -4,3 +4,4 @@ export * from './Department';
 export * from './Faculty';
 export * from './Specialization';
 export * from './Subject';
+export * from './Group';

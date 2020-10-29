@@ -21,7 +21,7 @@ export class PageService {
     }
 
     getNews() {
-        return this.http.get<any>(`${environment.apiUrl}/news`);
+        return this.http.get<any>(`${environment.apiUrl}/news/visible`);
     }
 
     addComment(newsId, content) {
@@ -30,6 +30,10 @@ export class PageService {
 
     getComments(newsId) {
         return this.http.get<any>(`${environment.apiUrl}/comments/news/${newsId}`);
+    }
+
+    getContact() {
+        return this.http.get<any>(`${environment.apiUrl}/contact`);
     }
 
 } 

@@ -8,6 +8,7 @@ import { AnnouncementsService } from '../../services/announcements.service';
 @Component({ templateUrl: 'announcements-list.component.html'})
 export class AnnouncementsListComponent implements OnInit {
     announcements: Announcement[];
+    pageOfItems: Array<any>;
 
     constructor(
         private announcementsService: AnnouncementsService,
@@ -30,6 +31,10 @@ export class AnnouncementsListComponent implements OnInit {
                     this.alertService.error(err);
                 }
             );
+    }
+
+    onChangePage(pageOfItems: Array<any>) {
+        this.pageOfItems = pageOfItems;
     }
 
     printDate(dateUTC) {

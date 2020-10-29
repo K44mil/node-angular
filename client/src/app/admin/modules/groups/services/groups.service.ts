@@ -2,12 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 
+import { Group } from '../models';
+
 @Injectable({ providedIn: 'root' })
 export class GroupsService {
 
     constructor(
         private http: HttpClient
     ) { }
+
+    getActiveGroups() {
+        return this.http.get<any>(`${environment.apiUrl}/groups/active`);
+    }
+
+    createGroup(group: Group) {
+        return this.http.post<any>(`${environment.apiUrl}/groups`, group);
+    }
+
+    getGroup(id) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
+    }
 
     getVisibleUniversities() {
         return this.http.get<any>(`${environment.apiUrl}/universities/visible`);

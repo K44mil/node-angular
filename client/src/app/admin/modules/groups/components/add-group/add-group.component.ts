@@ -12,6 +12,7 @@ import {
 } from '../../models';
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: 'add-group.component.html'
@@ -30,7 +31,8 @@ export class AddGroupComponent implements OnInit {
     constructor(
         private groupsService: GroupsService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -42,7 +44,19 @@ export class AddGroupComponent implements OnInit {
         this.loadSubjects();
 
         this.newGroupForm = this.formBuilder.group({
-            universityId: ['', Validators.required]
+            universityId: ['', Validators.required],
+            facultyId: ['', Validators.required],
+            departmentId: ['', Validators.required],
+            courseId: ['', Validators.required],
+            specializationId: ['', Validators.required],
+            subjectId: ['', Validators.required],
+            level: ['', Validators.required],
+            type: ['', Validators.required],
+            semester: ['', Validators.required],
+            academicYear: ['', Validators.required],
+            groupType: ['', Validators.required],
+            name: ['', Validators.required],
+            isOpen: ['']
         });
     }
 
@@ -57,8 +71,28 @@ export class AddGroupComponent implements OnInit {
 
     get f() { return this.newGroupForm.controls; } 
 
-    logValue() {
-        console.log(this.f.universityId.value);
+    onSubmit() {
+        if (this.newGroupForm.invalid) return;
+
+        if (this.f.isOpen.value == '') {
+            this.newGroupForm.patchValue({
+                isOpen: false
+            });
+        }
+
+        this.groupsService.createGroup(this.newGroupForm.value)
+            .pipe(first())
+            .subscribe(res => {
+                this.alertService.success('Group has been added.', {
+                    keepAfterRouteChange: true,
+                    autoClose: true
+                });
+                this.router.navigate(['/admin/groups']);
+                this.newGroupForm.reset();
+            },
+            err => {
+                console.log(err);
+            });
     }
 
     loadUniversities() {

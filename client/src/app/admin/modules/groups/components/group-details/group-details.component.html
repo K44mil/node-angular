@@ -1,0 +1,13 @@
+<div class="mt-2">         
+    <div class="row">
+        <div class="col-8">
+            Group Details
+            <div *ngIf="group">
+                Name: {{ group.name }}
+            </div>
+        </div>
+        <div class="col-4">
+            <a routerLink="/admin/groups/add_group" class="btn btn-success">Button</a>
+        </div>
+    </div>
+</div>   

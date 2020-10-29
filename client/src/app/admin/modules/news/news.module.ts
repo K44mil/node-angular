@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { NewsRoutingModule } from './news-routing.module';
 
-import { LayoutComponent } from './components';
+import {
+    LayoutComponent,
+    NewsListComponent,
+    AddNewsComponent
+} from './components';
 
 @NgModule({
     imports: [
@@ -11,7 +15,9 @@ import { LayoutComponent } from './components';
         NewsRoutingModule
     ],
     declarations: [
-        LayoutComponent
+        LayoutComponent,
+        NewsListComponent,
+        AddNewsComponent
     ]
 })
 export class NewsModule { }

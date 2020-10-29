@@ -2,30 +2,13 @@ import { Component } from '@angular/core';
 
 @Component({
     template: `
-                  <div class="row mt-3">
-                  <div class="col-md-8">
-                      <h3>News</h3>
-                      <hr>
-                  </div>
+              <div class="row mt-3">
+              <div class="col-md-8">
+                  <h3>News</h3>
+                  <hr>
               </div>
-               <div class="mt-2">
-                  <div class="row mb-2 ml-2">
-                    <ul class="nav nav-tabs">
-                      <li class="nav-item">
-                        <a class="nav-link" routerLink="/admin/users">All News</a>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-8">
-                      <router-outlet></router-outlet>
-                    </div>
-                    <div class="col-4">
-                      <button class="btn btn-success">Add New News</button>
-                    </div>
-                  </div>
-                </div>            
+              </div>
+              <router-outlet></router-outlet>                
               `,
 })
 export class LayoutComponent { }

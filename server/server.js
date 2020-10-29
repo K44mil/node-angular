@@ -30,6 +30,7 @@ const departmentsRoutes = require('./routes/departments.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const commentsRoutes = require('./routes/comments.routes');
 const groupsRoutes = require('./routes/groups.routes');
+const contactRoutes = require('./routes/contact.routes');
 
 // App init
 const app = express();
@@ -89,6 +90,7 @@ app.use('/api/v1/departments', departmentsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/comments', commentsRoutes);
 app.use('/api/v1/groups', groupsRoutes);
+app.use('/api/v1/contact', contactRoutes);
 
 // Set error handler
 app.use(errorHandler);

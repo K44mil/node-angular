@@ -7,7 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
     LayoutComponent,
     AddGroupComponent, 
-    GroupsListComponent
+    GroupsListComponent,
+    GroupDetailsComponent
 } from './components';
 
 @NgModule({
@@ -19,7 +20,8 @@ import {
     declarations: [
         LayoutComponent,
         AddGroupComponent,
-        GroupsListComponent
+        GroupsListComponent,
+        GroupDetailsComponent
     ]
 })
 export class GroupsModule { }

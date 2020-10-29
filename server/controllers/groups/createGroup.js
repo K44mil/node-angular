@@ -85,7 +85,7 @@ exports.createGroup = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const displayName = `\\${type}\\${level}\\${university.short}_${course.short}_${academicYear}_${subject.short}_${name}`;
+    const displayName = `\\${type}\\${level}\\${university.short}_${specialization.short}_${course.short}_${academicYear}_${subject.short}_${name}`;
 
     const group = await Group.build({
         name,
@@ -103,6 +103,8 @@ exports.createGroup = asyncHandler(async (req, res, next) => {
         specializationId: specialization.id,
         subjectId: subject.id
     });
+
+    await group.save();
 
     res.status(200).json({
         success: true,

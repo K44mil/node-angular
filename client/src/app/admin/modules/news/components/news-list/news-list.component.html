@@ -1,0 +1,37 @@
+<div class="mt-2">         
+    <div class="row">
+        <div class="col-8">
+            <div *ngIf="news">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Only for logged</th>
+                            <th scope="col">Commentable</th>
+                            <th scope="col">Visible</th>
+                            <th scope="col">Creation Date</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let n of news; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ n.title }}</td>
+                            <td><input type="checkbox" [checked]="n.isLoginProtected" (click)="changeProtected(n.id)"></td>
+                            <td><input type="checkbox" [checked]="n.isCommentable" (click)="changeCommentable(n.id)"></td>
+                            <td><input type="checkbox" [checked]="n.isVisible" (click)="changeVisibility(n.id)"></td>
+                            <td>{{ printDate(n.created_at) }}</td>
+                            <td><button class="btn btn-info">Edit</button></td>
+                            <td><button class="btn btn-danger">Delete</button></td>                      
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-4">
+        <a routerLink="/admin/news/add_news" class="btn btn-success">Add New News</a>
+        </div>
+    </div>
+</div>   
