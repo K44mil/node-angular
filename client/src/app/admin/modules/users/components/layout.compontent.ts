@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
                         <a class="nav-link" routerLink="/admin/users">All users</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" routerLink="/admin/users/inactive" >Inactive users <span class="badge badge-primary">10</span></a>
+                        <a class="nav-link" routerLink="/admin/users/inactive" >Inactive users</a>
                         
                       </li>
                       <li class="nav-item">
@@ -29,7 +29,7 @@ import { Component } from '@angular/core';
                       <router-outlet></router-outlet>
                     </div>
                     <div class="col-4">
-                      <button class="btn btn-success">Add User</button>
+                      <!-- <button class="btn btn-success">Add User</button> -->
                     </div>
                   </div>
                 </div>            

@@ -6,6 +6,7 @@ const News = require('../../models/News');
 const { Op } = require('sequelize');
 const Category = require('../../models/Category');
 const User = require('../../models/User');
+const File = require('../../models/File');
 
 /**
  * @desc    Get News by slug
@@ -29,6 +30,10 @@ exports.getNewsBySlug = asyncHandler(async (req, res, next) => {
             {
                 model: Category,
                 attributes: ['name']
+            },
+            {
+                model: File,
+                attributes: ['name', 'id', 'type']
             }
         ]
     });

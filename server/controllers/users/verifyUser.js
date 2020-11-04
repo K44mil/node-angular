@@ -5,7 +5,7 @@ const User = require('../../models/User');
 
 /**
  * @desc    Verify user account
- * @route   PUT /api/v1/users/verify/:id
+ * @route   GET /api/v1/users/verify/:id
  * @access  Private/Admin
  */
 exports.verifyUser = asyncHandler(async (req, res, next) => {
@@ -25,6 +25,13 @@ exports.verifyUser = asyncHandler(async (req, res, next) => {
     user.isVerified = true;
     await user.save();
 
+    res.status(200).json({
+        success: true,
+        data: {
+            id: user.id
+        }
+    });
+
     const message = `Admin has just verified your account.`;
 
     try {
@@ -32,11 +39,6 @@ exports.verifyUser = asyncHandler(async (req, res, next) => {
             email: user.email,
             subject: 'Account verified.',
             message
-        });
-
-        res.status(200).json({
-            success: true,
-            data: {}
         });
     } catch (err) {
         console.log(err);

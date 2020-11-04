@@ -2,26 +2,29 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { GroupsRoutingModule } from './groups-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
     LayoutComponent,
     AddGroupComponent, 
     GroupsListComponent,
-    GroupDetailsComponent
+    GroupDetailsComponent,
+    GroupAttendanceComponent
 } from './components';
 
 @NgModule({
     imports: [
         CommonModule,
         GroupsRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ],
     declarations: [
         LayoutComponent,
         AddGroupComponent,
         GroupsListComponent,
-        GroupDetailsComponent
+        GroupDetailsComponent,
+        GroupAttendanceComponent
     ]
 })
 export class GroupsModule { }

@@ -40,15 +40,18 @@ export class RegisterUserComponent implements OnInit {
         if (this.registrationForm.invalid) return;
 
         this.loading = true;
-        this.authService.register(this.registrationForm.value)
+        this.authService.registerUser(this.registrationForm.value)
             .pipe(first())
             .subscribe(
-                data => {
-                    this.alertService.success('Registration successful. [ ADMIN MUSI POTWIERDZIĆ ].', { keepAfterRouteChange: true });
-                    this.router.navigate(['/account/login']);
+                res => {
+                    if (res.success) {
+                        this.alertService.success('Registration successful. [ ADMIN MUSI POTWIERDZIĆ ].', { keepAfterRouteChange: true });
+                        this.router.navigate(['/account/login']);
+                    } 
                 },
                 err => {
                     this.alertService.error(err);
+                    window.scrollTo(0,0);
                     this.loading = false;
                 }
             );

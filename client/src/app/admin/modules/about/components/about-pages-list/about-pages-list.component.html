@@ -6,7 +6,6 @@
                 <th scope="col">Page Title</th>
                 <th scope="col">Visible</th>
                 <th scope="col"></th>
-                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -14,8 +13,10 @@
                 <td>{{ i+1 }}</td>
                 <td>{{ page.title }}</td>
                 <td>true</td>
-                <td><button class="btn btn-info">Edit</button></td>
-                <td><button class="btn btn-danger">Delete</button></td>
+                <td>
+                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                </td>
             </tr>
         </tbody>
     </table>

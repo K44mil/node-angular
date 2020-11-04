@@ -1,16 +1,16 @@
 export class Group {
     id: string;
-    name: string;
+    number: string;
     displayName: string;
     isOpen: boolean;
     level: string;
     type: string;
-    semester: string;
+    // semester: string;
     academicYear: string;
     groupType: string;
-    universityId: string;
-    facultyId: string;
-    departmentId: string;
+    // universityId: string;
+    // facultyId: string;
+    // departmentId: string;
     courseId: string;
     specializationId: string;
     subjectId: string;

@@ -46,7 +46,10 @@ User.init({
     email: {
         type: DataTypes.STRING(256),
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            is: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        }
     },
     password: {
         type: DataTypes.STRING(256),

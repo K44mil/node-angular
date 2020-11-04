@@ -14,4 +14,12 @@ export class UsersService {
         return this.http.get<any>(this.usersUrl);
     }
 
+    getInactiveUsers() {
+        return this.http.get<any>(`${this.usersUrl}?isVerified=0`);
+    }
+
+    activateUser(id) {
+        return this.http.get<any>(`${this.usersUrl}/verify/${id}`);
+    }
+
 }

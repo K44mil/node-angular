@@ -10,7 +10,7 @@ const Comment = require('../../models/Comment');
 /**
  * @desc    Get all visible news
  * @route   POST /api/v1/news/visible
- * @access  [Public/Private]
+ * @access  Public
  */
 exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     const news = await News.findAll({
@@ -37,6 +37,9 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
                 [Op.eq]: 1
             }
         },
+        order: [
+            ['created_at', 'DESC']
+        ]
     });
 
     const returnNews = [];

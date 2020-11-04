@@ -15,12 +15,24 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/active`);
     }
 
+    getOpenGroups() {
+        return this.http.get<any>(`${environment.apiUrl}/groups/open`);
+    }
+
     createGroup(group: Group) {
         return this.http.post<any>(`${environment.apiUrl}/groups`, group);
     }
 
     getGroup(id) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
+    }
+
+    getGroupAdditionRequests(id) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/requests`);
+    }
+
+    deleteGroup(id) {
+        return this.http.delete<any>(`${environment.apiUrl}/groups/${id}`);
     }
 
     getVisibleUniversities() {

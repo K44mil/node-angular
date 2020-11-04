@@ -20,6 +20,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
             .comment-break {
                 width: 75%;
             }
+
+            .file {
+                color: #0000EE;
+            }
+
+            .file:hover {
+                cursor: pointer;
+            }
         `
     ]
 })
@@ -96,6 +104,23 @@ export class NewsDetailsComponent implements OnInit {
             );
 
         this.commentForm.reset();
+    }
+
+    downloadFile(id, fileName, fileType) {
+        this.pageService.downloadFile(id)
+            .pipe(first())
+            .subscribe(res => {
+                let blob: any = new Blob([res], { type: `${fileType}` });
+                let url = window.URL.createObjectURL(blob);
+                let anchor = document.createElement('a');
+                anchor.download = fileName;
+                anchor.href = url;
+                anchor.click();
+                // window.open(url);
+            }, 
+            err => {
+                this.alertService.error(err);
+            })
     }
 
 }

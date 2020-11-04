@@ -15,8 +15,10 @@ const File = require('../../models/File');
  */
 exports.createNews = asyncHandler(async (req, res, next) => {
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected, categoriesIds } = req.body;
+         isCommentable, isLoginProtected, categories } = req.body;
     const authorId = req.user.id;
+    let categoriesIds;
+    if (categories) categoriesIds = categories.split(',');
 
     if (!title) {
         return next(
@@ -80,7 +82,6 @@ exports.createNews = asyncHandler(async (req, res, next) => {
 
     for (const categoryId of categoriesIds) {
         const category = await Category.findByPk(categoryId);
-
         if (category) {
             await NewsCategory.create({
                 newsId: news.id,
@@ -94,16 +95,16 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
         const files = req.files.files.length === undefined ? new Array(req.files.files) : req.files.files;
 
+
         for (const file of files) {
-            console.log(file.name);
             fileExt = path.parse(file.name).ext;
             if (allowedExtensions.includes(fileExt)) {
                 if (file.size < process.env.MAX_FILE_UPLOAD) {
-                    console.log(fileExt);
-                    const type = path.extname(file.name).toString().replace('.', '');
+                    console.log(file);
+                    // const type = path.extname(file.name).toString().replace('.', '');
                     const createdFile = await File.build({
                         name: file.name,
-                        type: type,
+                        type: file.mimetype,
                         newsId: news.id
                     });
 
@@ -112,7 +113,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
                         createdFile.isLoginProtected = true;
 
                     createdFile.path = `${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
-                    file.mv(createdFile.path, err => {
+                    file.mv(`./${createdFile.path}`, err => {
                         console.log(err);
                     });
 

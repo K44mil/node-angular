@@ -10,7 +10,7 @@ const Comment = require('../../models/Comment');
 /**
  * @desc    Get all news
  * @route   POST /api/v1/news
- * @access  [Public/Private]
+ * @access  Private/Admin
  */
 exports.getNews = asyncHandler(async (req, res, next) => {
     const news = await News.findAll({});

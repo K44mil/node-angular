@@ -8,9 +8,8 @@
                 <th scope="col">Last Name</th>
                 <th scope="col">Role</th>
                 <th scope="col">Album number</th>
-                <th scope="col">Verified</th>
-                <th scope="col">Blocked</th>
-                <th scope="col">Creation Date</th>
+                <th scope="col">Registration Date</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -21,9 +20,11 @@
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.role }}</td>
                 <td>{{ user.albumNumber }}</td>
-                <td>{{ user.isVerified }}</td>
-                <td>{{ user.isBlocked }}</td>
                 <td>{{ printDate(user.created_at) }}</td>
+                <td><span class="btn badge badge-secondary badge-pill" (click)="activateUserAccount(user.id)"><i class="fas fa-check"></i></span></td>
+            </tr>
+            <tr *ngIf="users.length == 0">
+                <td colspan="8" class="text-center">No matching results.</td>
             </tr>
         </tbody>
     </table>

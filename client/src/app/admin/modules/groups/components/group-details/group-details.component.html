@@ -1,13 +1,71 @@
-<div class="mt-2">         
-    <div class="row">
-        <div class="col-8">
-            Group Details
+<div class="mt-2">
+    <!-- GROUP DETAILS MENU -->
+    <div class="row ml-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a routerLink="/admin/groups/{{ groupId }}/general" class="nav-link active">General</a>
+            </li>
+            <li class="nav-item">
+                <a routerLink="/admin/groups/{{ groupId }}/attendance" class="nav-link">Attendance</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Marks</a>
+            </li>
+        </ul>
+    </div>
+    <!-- GROUP DETAILS CONTENT -->
+    <div class="row mt-3">
+        <div class="col-8 ml-3">
+            <h5>Group Details</h5>
             <div *ngIf="group">
-                Name: {{ group.name }}
+                <table class="group-details">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Course:</th> <td>{{ group.Course.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Specialization:</th> <td>{{ group.Specialization.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Subject:</th> <td>{{ group.Subject.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Academic Year:</th> <td>{{ group.academicYear }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Level:</th> <td>{{ printGroupLevel(group.level) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Studies type:</th> <td>{{ printStudiesType(group.type) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Group type:</th> <td>{{ printGroupType(group.groupType) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Group number:</th> <td>{{ group.number }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+    <!-- ADDITION REQUESTS -->
+    <div class="row mt-3">
         <div class="col-4">
-            <a routerLink="/admin/groups/add_group" class="btn btn-success">Button</a>
+            <h5 class="mt-3">Students requested to join this group:</h5>
+            <ul class="list-group mb-3">
+                <!-- SINGLE REQUEST -->
+                <li *ngFor="let aR of additionRequests" class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>{{ aR.User.firstName }} {{ aR.User.lastName }} {{ aR.User.albumNumber }}</div>
+                    <div class="actions-buttons">
+                        <span class="btn badge badge-secondary badge-pill ml-1"><i class="fas fa-check"></i></span>
+                        <span class="btn badge badge-danger badge-pill ml-1"><i class="fas fa-times"></i></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-outline-dark mt-5">Accept all</button>
         </div>
     </div>
-</div>   
+</div>

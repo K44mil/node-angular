@@ -7,4 +7,5 @@ export class RegisterStudentRequest {
     lastName: string;
     acceptTerms: boolean;
     albumNumber: string;
+    groupId: string;
 }

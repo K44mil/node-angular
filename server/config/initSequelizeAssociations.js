@@ -4,6 +4,7 @@ const NewsCategory = require('../models/relationsModels/NewsCategory');
 const Category = require('../models/Category');
 const File = require('../models/File');
 const Comment = require('../models/Comment');
+const UserGroup = require('../models/relationsModels/UserGroup');
 
 const University = require('../models/University');
 const Faculty = require('../models/Faculty');
@@ -38,16 +39,16 @@ const initSequelizeAssociations = () => {
     // --- GROUPS
 
     // University -|---o< Group
-    University.hasMany(Group, { foreignKey: 'universityId'} );
-    Group.belongsTo(University, { foreignKey: 'universityId'} )
+    // University.hasMany(Group, { foreignKey: 'universityId'} );
+    // Group.belongsTo(University, { foreignKey: 'universityId'} )
 
     // Faculty -|---o< Group
-    Faculty.hasMany(Group, { foreignKey: 'facultyId' });
-    Group.belongsTo(Faculty, { foreignKey: 'facultyId' });
+    // Faculty.hasMany(Group, { foreignKey: 'facultyId' });
+    // Group.belongsTo(Faculty, { foreignKey: 'facultyId' });
 
     // Department -|---o< Group
-    Department.hasMany(Group, { foreignKey: 'departmentId' });
-    Group.belongsTo(Department, { foreignKey: 'departmentId' });
+    // Department.hasMany(Group, { foreignKey: 'departmentId' });
+    // Group.belongsTo(Department, { foreignKey: 'departmentId' });
 
     // Specialization -|---o< Group
     Specialization.hasMany(Group, { foreignKey: 'specializationId' });
@@ -60,6 +61,14 @@ const initSequelizeAssociations = () => {
     // Subject -|---o< Group
     Subject.hasMany(Group, { foreignKey: 'subjectId' });
     Group.belongsTo(Subject, { foreignKey: 'subjectId' });
+
+    // User >o---o< Group
+    // User -|---o< UserGroup
+    User.hasMany(UserGroup, { foreignKey: 'userId' });
+    UserGroup.belongsTo(User, { foreignKey: 'userId' });
+    // Group -|---o< UserGroup
+    Group.hasMany(UserGroup, { foreignKey: 'groupId' });
+    UserGroup.belongsTo(Group, { foreignKey: 'groupId' });
 
 };
 

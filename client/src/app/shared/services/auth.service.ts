@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import { AuthUser, RegisterUserRequest } from '@home/modules/account/models';
+import { AuthUser, RegisterStudentRequest, RegisterUserRequest } from '@home/modules/account/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -30,8 +30,12 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(this.userValue));
     }
 
-    register(registerUserRequest: RegisterUserRequest) {
+    registerUser(registerUserRequest: RegisterUserRequest) {
         return this.http.post<any>(`${environment.apiUrl}/auth/register_user`, registerUserRequest);
+    }
+
+    registerStudent(registerStudentRequest: RegisterStudentRequest) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/register_student`, registerStudentRequest);
     }
 
     loginAndRemember(email, password) {

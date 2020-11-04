@@ -31,6 +31,7 @@ const categoriesRoutes = require('./routes/categories.routes');
 const commentsRoutes = require('./routes/comments.routes');
 const groupsRoutes = require('./routes/groups.routes');
 const contactRoutes = require('./routes/contact.routes');
+const filesRoutes = require('./routes/files.routes');
 
 // App init
 const app = express();
@@ -91,6 +92,7 @@ app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/comments', commentsRoutes);
 app.use('/api/v1/groups', groupsRoutes);
 app.use('/api/v1/contact', contactRoutes);
+app.use('/api/v1/files', filesRoutes);
 
 // Set error handler
 app.use(errorHandler);

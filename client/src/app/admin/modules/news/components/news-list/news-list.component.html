@@ -12,7 +12,6 @@
                             <th scope="col">Visible</th>
                             <th scope="col">Creation Date</th>
                             <th scope="col"></th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,8 +22,10 @@
                             <td><input type="checkbox" [checked]="n.isCommentable" (click)="changeCommentable(n.id)"></td>
                             <td><input type="checkbox" [checked]="n.isVisible" (click)="changeVisibility(n.id)"></td>
                             <td>{{ printDate(n.created_at) }}</td>
-                            <td><button class="btn btn-info">Edit</button></td>
-                            <td><button class="btn btn-danger">Delete</button></td>                      
+                            <td>
+                                <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                                <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                            </td>                     
                         </tr>
                     </tbody>
                 </table>

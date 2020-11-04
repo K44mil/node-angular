@@ -8,6 +8,7 @@ const { updateAnnouncement } = require('../controllers/announcements/updateAnnou
 const { getAnnouncement } = require('../controllers/announcements/getAnnouncement');
 const { getVisibleAnnouncements } = require('../controllers/announcements/getVisibleAnnouncements');
 const { getAnnouncements } = require('../controllers/announcements/getAnnouncements');
+const { changeVisibility } = require('../controllers/announcements/changeVisibility');
 
 // GET
 router.get('/visible', getVisibleAnnouncements);
@@ -16,6 +17,7 @@ router.get('/visible', getVisibleAnnouncements);
 router.use(protect, authorize(Role.Admin));
 
 // GET
+router.get('/:id/change_visibility', changeVisibility);
 router.get('/', getAnnouncements);
 router.get('/:id', getAnnouncement);
 

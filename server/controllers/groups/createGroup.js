@@ -7,6 +7,7 @@ const Department = require('../../models/Department');
 const Specialization = require('../../models/Specialization');
 const Course = require('../../models/Course');
 const Subject = require('../../models/Subject');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Create Group
@@ -15,44 +16,44 @@ const Subject = require('../../models/Subject');
  */
 exports.createGroup = asyncHandler(async (req, res, next) => {
     const {
-        name,
+        number,
         isOpen,
         level,
         type,
-        semester,
+        // semester,
         academicYear,
         groupType,
-        universityId,
-        facultyId,
-        departmentId,
+        // universityId,
+        // facultyId,
+        // departmentId,
         courseId,
         specializationId,
         subjectId
     } = req.body;
 
-    // Check university
-    const university = await University.findByPk(universityId);
-    if (!universityId) {
-        return next(
-            new ErrorResponse(`University does not exist.`, 400)
-        );
-    }
+    // Check university [OLD]
+    // const university = await University.findByPk(universityId);
+    // if (!universityId) {
+    //     return next(
+    //         new ErrorResponse(`University does not exist.`, 400)
+    //     );
+    // }
 
-    // Check faculty
-    const faculty = await Faculty.findByPk(facultyId);
-    if (!faculty) {
-        return next(
-            new ErrorResponse(`Faculty does not exist`, 400)
-        );
-    }
+    // Check faculty [OLD]
+    // const faculty = await Faculty.findByPk(facultyId);
+    // if (!faculty) {
+    //     return next(
+    //         new ErrorResponse(`Faculty does not exist`, 400)
+    //     );
+    // }
 
-    // Check department
-    const department = await Department.findByPk(departmentId);
-    if (!department) {
-        return next(
-            new ErrorResponse(`Department does not exist`, 400)
-        );
-    }
+    // Check department [OLD]
+    // const department = await Department.findByPk(departmentId);
+    // if (!department) {
+    //     return next(
+    //         new ErrorResponse(`Department does not exist`, 400)
+    //     );
+    // }
 
     // Check course
     const course = await Course.findByPk(courseId);
@@ -85,20 +86,51 @@ exports.createGroup = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const displayName = `\\${type}\\${level}\\${university.short}_${specialization.short}_${course.short}_${academicYear}_${subject.short}_${name}`;
+    let name = '';
+    switch(groupType) {
+        case 'lab':
+            name = `L${number}`;
+            break;
+        case 'lec':
+            name = `W${number}`;
+            break;
+        case 'exc':
+            name = `C${number}`;
+            break;
+        case 'proj':
+            name = `P${number}`;
+            break;
+    }
 
-    const group = await Group.build({
-        name,
+    const displayName = `\\${type}\\${level}\\${academicYear}_${course.short}_${specialization.short}_${subject.short}_${name}`;
+
+    // Check if group already exists
+    let group = await Group.findOne({
+        where: {
+            displayName: {
+                [Op.eq]: displayName
+            }
+        }
+    });
+
+    if (group) {
+        return next(
+            new ErrorResponse('This group already exists.', 400)
+        );
+    }
+
+    group = await Group.build({
+        number,
         displayName,
         isOpen,
         level,
         type,
-        semester,
+        // semester,
         academicYear,
         groupType,
-        universityId: university.id,
-        facultyId: faculty.id,
-        departmentId: department.id,
+        // universityId: university.id,
+        // facultyId: faculty.id,
+        // departmentId: department.id,
         courseId: course.id,
         specializationId: specialization.id,
         subjectId: subject.id

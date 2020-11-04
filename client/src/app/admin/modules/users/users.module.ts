@@ -3,16 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { UsersRoutingModule } from './users-routing.module';
 
+import { JwPaginationModule } from 'jw-angular-pagination';
+
 import {
     LayoutComponent,
     UsersListComponent,
     InactiveUsersListComponent
 } from './components';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        UsersRoutingModule
+        UsersRoutingModule,
+        JwPaginationModule,
+        SharedModule
     ],
     declarations: [
         LayoutComponent,

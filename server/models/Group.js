@@ -17,10 +17,10 @@ Group.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    name: {
-        type: DataTypes.STRING(32),
+    number: {
+        type: DataTypes.STRING(2),
         allowNull: false,
-        field: 'name'
+        field: 'number'
     },
     displayName: {
         type: DataTypes.STRING(128),
@@ -47,11 +47,11 @@ Group.init({
         allowNull: false,
         field: 'type'
     },
-    semester: {
-        type: DataTypes.STRING(2),
-        allowNull: false,
-        field: 'semester'
-    },
+    // semester: {
+    //     type: DataTypes.STRING(2),
+    //     allowNull: false,
+    //     field: 'semester'
+    // },
     academicYear: {
         type: DataTypes.STRING(9),
         allowNull: false,
@@ -65,30 +65,30 @@ Group.init({
         allowNull: false,
         field: 'group_type'
     },
-    universityId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: University,
-            key: 'id'
-        }
-    },
-    facultyId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: Faculty,
-            key: 'id'
-        }
-    },
-    departmentId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: Department,
-            key: 'id'
-        }
-    },
+    // universityId: {
+    //     type: DataTypes.UUID,
+    //     allowNull: false,
+    //     references: {
+    //         model: University,
+    //         key: 'id'
+    //     }
+    // },
+    // facultyId: {
+    //     type: DataTypes.UUID,
+    //     allowNull: false,
+    //     references: {
+    //         model: Faculty,
+    //         key: 'id'
+    //     }
+    // },
+    // departmentId: {
+    //     type: DataTypes.UUID,
+    //     allowNull: false,
+    //     references: {
+    //         model: Department,
+    //         key: 'id'
+    //     }
+    // },
     courseId: {
         type: DataTypes.UUID,
         allowNull: false,

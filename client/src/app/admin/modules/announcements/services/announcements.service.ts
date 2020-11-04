@@ -12,6 +12,18 @@ export class AnnouncementsService {
     getAnnouncements() {
         return this.http.get<any>(`${environment.apiUrl}/announcements`);
     }
+    
+    getAnnouncement(id) {
+        return this.http.get<any>(`${environment.apiUrl}/announcements/${id}`);
+    }
+
+    updateAnnouncement(id, announcement) {
+        return this.http.put<any>(`${environment.apiUrl}/announcements/${id}`, announcement);
+    }
+
+    changeVisibility(id) {
+        return this.http.get<any>(`${environment.apiUrl}/announcements/${id}/change_visibility`);
+    }
 
     createAnnouncement(announcement: Announcement) {
         return this.http.post<any>(`${environment.apiUrl}/announcements`, announcement);

@@ -74,15 +74,13 @@
                 <div class="col-md-6">
                     <h4>Student Group</h4>
                     <hr>
-                    <group-finder></group-finder>
-                    <!-- OPEN GROUPS -->
                     <div class="form-group">
-                        <label for="group">Group</label>
-                        <select class="form-control">
-                            <option></option>
-                        </select>
+                        <group-finder (formChanged)="onGroupFinderChanged($event)"></group-finder>
+                        <div *ngIf="submitted && f.groupId.errors" class="invalid-feedback d-block">
+                            <div *ngIf="f.groupId.errors.required">You have to choose a group.</div>
+                        </div>
                     </div>
-                    <!-- END OF OPEN GROUPS -->
+                    
                 </div>
                 <!-- END OF GROUP FINDER -->
                 </div>
@@ -90,6 +88,12 @@
                     <input type="checkbox" formControlName="acceptTerms" class="form-check-input" />
                     <label for="acceptTermsCheckbox">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur distinctio earum quia beatae qui perferendis. Dignissimos atque cum aliquid vitae, dolor asperiores. Odio accusamus soluta quibusdam. Blanditiis autem, velit corporis vel ratione obcaecati, qui sed ab architecto veniam culpa mollitia soluta. Fugit dolorum hic autem, unde saepe inventore illo est cupiditate! Inventore magni voluptate earum aut reiciendis quam eum totam voluptatibus! Necessitatibus reiciendis accusantium voluptatibus quas, nulla dignissimos consectetur a velit asperiores vitae magni, laudantium consequuntur eveniet molestiae maiores reprehenderit culpa odio sequi, ipsa facilis? Quae consequuntur sint expedita recusandae iste quas. Velit aspernatur cumque corporis iusto eaque!</label>
                 </div>
+                <div class="form-group">
+                    <input class="is-invalid" hidden>
+                    <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">          
+                        <div *ngIf="f.acceptTerms.errors.required">You have to accept terms.</div>
+                    </div>
+                </div>      
                 <div class="form-group">
                     <button [disabled]="loading" class="btn btn-secondary">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

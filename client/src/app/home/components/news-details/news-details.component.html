@@ -19,8 +19,7 @@
                 <div>
                     <h5 class="text-muted">Files</h5>    
                     <hr>
-                    <p><a href="#">file.pdf</a></p>
-                    <p><a href="#">file.doc</a></p>
+                    <p *ngFor="let file of news.Files"><a class="file" (click)="downloadFile(file.id, file.name, file.type)">{{ file.name }}</a></p>
                 </div>
                 <!-- COMMENTS HERE -->
                 <div>
@@ -46,7 +45,7 @@
                             </form>
                         </div>
                     </div>
-                    <h5 *ngIf="comments" class="text-muted mt-3">Comments</h5>    
+                    <h5 *ngIf="comments && comments.length > 0" class="text-muted mt-3">Comments</h5>    
                     <hr *ngIf="comments">
                     <!-- COMMENTS -->
                     <div *ngIf="comments" class="comments">

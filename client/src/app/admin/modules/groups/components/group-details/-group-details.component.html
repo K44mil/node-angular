@@ -1,0 +1,310 @@
+<div class="mt-2">
+    <div class="row">
+        <div class="col-8">
+            <h5>Group Details</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div *ngIf="group">
+                <!-- Group info -->
+                <table class="group-details">
+                    <tbody>
+                        <!-- <tr>
+                            <th scope="row">University:</th> <td>{{ group.University.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Faculty:</th> <td>{{ group.Faculty.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Department:</th> <td>{{ group.Department.name }}</td>
+                        </tr> -->
+                        <tr>
+                            <th scope="row">Course:</th> <td>{{ group.Course.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Specialization:</th> <td>{{ group.Specialization.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Subject:</th> <td>{{ group.Subject.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Academic Year:</th> <td>{{ group.academicYear }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Level:</th> <td>{{ printGroupLevel(group.level) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Studies type:</th> <td>{{ printStudiesType(group.type) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Group type:</th> <td>{{ printGroupType(group.groupType) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Group number:</th> <td>{{ group.number }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- GROUP EVENTS -->
+            <h5 class="mt-5">Group Events</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div class="col-6">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="font-weight-bold">1. </span> 
+                            <span class="text-muted mr-1">06.10.2020, 12:15 </span>
+                            Laboratory 1
+                        </div>
+                        <div class="actions-buttons">
+                            <span class="badge badge-success badge-pill ml-1"><i class="fas fa-lock-open"></i></span>
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="font-weight-bold">2. </span> 
+                            <span class="text-muted mr-1">13.10.2020, 12:15 </span>
+                            Laboratory 2
+                        </div>
+                        <div class="actions-buttons">
+                            <span class="badge badge-success badge-pill ml-1"><i class="fas fa-lock-open"></i></span>
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="font-weight-bold">3. </span> 
+                            <span class="text-muted mr-1">20.10.2020, 12:15 </span>
+                            Laboratory 3
+                        </div>
+                        <div class="actions-buttons">
+                            <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="font-weight-bold">4. </span> 
+                            <span class="text-muted mr-1">27.10.2020, 12:15 </span>
+                            Laboratory 4
+                        </div>
+                        <div class="actions-buttons">
+                            <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="font-weight-bold">5. </span> 
+                            <span class="text-muted mr-1">03.11.2020, 12:15 </span>
+                            Laboratory 5
+                        </div>
+                        <div class="actions-buttons">
+                            <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                        </div> 
+                    </li>
+                </ul>
+                <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddEventForm">Add event</button>
+            </div>
+            <div class="col-6" id="collapseEventsForms">
+                <div class="col-6 collapse" id="collapseAddEventForm" data-parent="#collapseEventsForms">
+                    <h6 class="mt-2">Add Event</h6>
+                    <form [formGroup]="eventForm">
+                        <div class="form-group">
+                            <label for="">Event Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Event Date</label>
+                            <input type="date" class="form-control">
+                            <input type="time" class="form-control mt-1">
+                        </div>
+                        <button class="btn btn-outline-dark">Save</button>
+                    </form>
+                </div>
+            </div>
+            <!-- GROUP MEMBERS AND ATTENDANCE -->
+            <h5 class="mt-5">Attendance</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div class="ml-3">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="3"></th>
+                            <th colspan="5" scope="col">Events</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- FIRST ROW FOR EVENTS -->
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" colspan="2">Student</th>
+                            <td>1.</td>
+                            <td>2.</td>
+                            <td>3.</td>
+                            <td>4.</td>
+                            <td>5.</td>
+                        </tr>
+                        <!-- NG FOR OF MEMBERS -->
+                        <!-- Single member -->
+                        <tr>
+                            <td>1</td>
+                            <td>Mariusz Nowak</td>
+                            <td>150012</td>
+                            <!-- NG FOR OF EVENTS -->
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                        </tr>
+                        <!-- Single member -->
+                        <tr>
+                            <td>2</td>
+                            <td>Gall Anonim</td>
+                            <td>156200</td>
+                            <!-- NG FOR OF EVENTS -->
+                            <td><span class="badge badge-primary badge-pill text-primary"></span></td>
+                            <td></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                        </tr>
+                        <!-- Single member -->
+                        <tr>
+                            <td>3</td>
+                            <td>Jan Kowalski</td>
+                            <td>156377</td>
+                            <!-- NG FOR OF EVENTS -->
+                            <td><span class="badge badge-primary badge-pill text-primary"></span></td>
+                            <td></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                        </tr>
+                        <!-- Single member -->
+                        <tr>
+                            <td>4</td>
+                            <td>Mikołaj Koza</td>
+                            <td>156777</td>
+                            <!-- NG FOR OF EVENTS -->
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                            <td><span class="badge badge-primary badge-pill text-primary"></span></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                        </tr>
+                        <!-- Single member -->
+                        <tr>
+                            <td>5</td>
+                            <td>Tadeusz Walczyk</td>
+                            <td>146500</td>
+                            <!-- NG FOR OF EVENTS -->
+                            <td><span class="badge badge-primary badge-pill text-primary"></span></td>
+                            <td></td>
+                            <td><span class="badge badge-primary badge-pill text-primary"></span></td>
+                            <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5 class="mt-5">Marks</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div class="ml-3">
+                <table class="marks-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" colspan="2">Student</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mariusz Nowak</td>
+                            <td>150012</td>
+                            <td class="mark">3.5</td>
+                            <td class="mark">5.0</td>
+                            <td class="mark">2.0</td>
+                            <td class="bg-info text-white">3.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Gall Anonim</td>
+                            <td>156200</td>
+                            <td class="mark">3.5</td>
+                            <td class="mark">5.0</td>
+                            <td class="bg-info text-white">4.25</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Jan Kowalski</td>
+                            <td>156371</td>
+                            <td class="mark">3.5</td>
+                            <td class="mark">5.0</td>
+                            <td class="mark">3.5</td>
+                            <td class="mark">5.0</td>
+                            <td class="bg-info text-white">4.25</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Mikołaj Koza</td>
+                            <td>156777</td>
+                            <td class="mark">3.5</td>
+                            <td class="mark">5.0</td>
+                            <td class="bg-info text-white">4.25</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Tadeusz Walczyk</td>
+                            <td>146500</td>
+                            <td class="mark">3.5</td>
+                            <td class="bg-info text-white">3.5</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
+            </div>
+            <div class="col-6" id="collapseMarksForms">
+                <div class="col-6 collapse" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
+                    <h6 class="mt-2">Add Event</h6>
+                    <form [formGroup]="markForm">
+                        <div class="form-group">
+                            <label for="">Students</label>
+                            <select multiple>
+                                <option value="">Mariusz Nowak 150012</option>
+                                <option value="">Gall Anonim 156200</option>
+                                <option value="">Jan Kowalski 156371</option>
+                                <option value="">Mikołaj Koza 156777</option>
+                                <option value="">Tadeusz Walczyk 146500</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mark</label>
+                            <input type="number" min="2.0" max="5.0" step="0.5" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Description</label>
+                            <select class="form-control">
+                                <option value="">Test</option>
+                                <option value="">Aktywność</option>
+                                <option value="">Kolowium</option>
+                                <option value="">Ocena końcowa</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-outline-dark">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <a routerLink="/admin/groups" class="btn btn-secondary">Groups List</a>
+        </div>
+    </div>
+</div>   

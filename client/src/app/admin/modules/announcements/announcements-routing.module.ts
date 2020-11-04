@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {
     AddAnnouncementComponent,
     AnnouncementsListComponent,
-    LayoutComponent
+    LayoutComponent,
+    EditAnnouncementComponent
 } from './components';
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: '', component: AnnouncementsListComponent },
-            { path: 'add_announcement', component: AddAnnouncementComponent }
+            { path: 'add_announcement', component: AddAnnouncementComponent },
+            { path: 'edit_announcement/:id', component: EditAnnouncementComponent }
         ]
     }
 ];

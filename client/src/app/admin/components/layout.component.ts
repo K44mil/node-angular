@@ -16,7 +16,7 @@ export class LayoutComponent {
         private alertService: AlertService
     ) {
         this.titleService.setTitle('PhD Tomasz Rak - Admin Panel');
-        this.router.navigate(['/admin/users']);
+        // this.router.navigate(['/admin/users']);
     }
 
     showAlert() {

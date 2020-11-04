@@ -29,4 +29,25 @@ export class GroupsListComponent implements OnInit {
             })
     }
 
+    deleteGroup(id) {
+        if (confirm("Are you sure to delete this group?")) {
+            this.groupsService.deleteGroup(id)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        if (res.success == true) {
+                            this.alertService.success('Group has been deleted.', {
+                                autoClose: true
+                            });
+                        }
+                        this.loadGroups();
+                    },
+                    err => {
+                        this.alertService.error(err);
+                        window.scrollTo(0,0);
+                    }
+                );
+        }
+    }
+
 }

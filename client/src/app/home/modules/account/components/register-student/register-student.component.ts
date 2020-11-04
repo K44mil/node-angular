@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService, AlertService } from '@shared/services';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'register-student.component.html' })
 export class RegisterStudentComponent implements OnInit {
@@ -27,13 +28,42 @@ export class RegisterStudentComponent implements OnInit {
             acceptTerms: ['', Validators.required],
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            albumNumber: ['', Validators.required]
+            albumNumber: ['', Validators.required],
+            groupId: ['', Validators.required]
         });
     }
 
     get f() { return this.registrationForm.controls }
 
     onSubmit() {
-        
+        this.submitted = true;
+        this.alertService.clear();
+
+        if (this.registrationForm.invalid) return;
+
+        this.loading = true;
+        this.authService.registerStudent(this.registrationForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.success) {
+                        this.alertService.success('Registration successful. [ ADMIN MUSI POTWIERDZIĆ]', {
+                            keepAfterRouteChange: true
+                        });
+                        this.router.navigate(['/account/login']);
+                    }
+                },
+                err => {
+                    this.alertService.error(err);
+                    window.scrollTo(0,0);
+                    this.loading = false;
+                }
+            );
+    }
+
+    onGroupFinderChanged(event) {
+        this.registrationForm.patchValue({
+            groupId: event
+        });
     }
 }

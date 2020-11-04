@@ -36,4 +36,8 @@ export class PageService {
         return this.http.get<any>(`${environment.apiUrl}/contact`);
     }
 
+    downloadFile(id): any {
+        return this.http.get(`${environment.apiUrl}/files/download/${id}`, { responseType: 'blob' });
+    }
+
 } 

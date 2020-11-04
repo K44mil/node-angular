@@ -8,7 +8,8 @@ import { AnnouncementsRoutingModule } from './announcements-routing.module';
 import {
     AddAnnouncementComponent,
     AnnouncementsListComponent,
-    LayoutComponent
+    LayoutComponent,
+    EditAnnouncementComponent
 } from './components';
 
 @NgModule({
@@ -21,7 +22,8 @@ import {
     declarations: [
         LayoutComponent,
         AnnouncementsListComponent,
-        AddAnnouncementComponent
+        AddAnnouncementComponent,
+        EditAnnouncementComponent
     ]
 })
 export class AnnouncementsModule { }

@@ -4,47 +4,49 @@
             <div class="col-10">
                 <h5>Add News</h5>
                 <hr>
-                <form>
+                <form [formGroup]="addNewsForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                       <label for="">Image</label>
-                      <input type="file" class="form-control-file">
+                      <input formControlName="photo" type="file" class="form-control-file" (change)="onPhotoFileChange($event)">
                     </div>
                     <div class="form-gorup">
                         <label for="">Title</label>
-                        <input type="text" class="form-control">
+                        <input formControlName="title" type="text" class="form-control">
                     </div>
                     <div class="form-gorup">
                         <label for="">Description</label>
-                        <textarea type="text" class="form-control"></textarea>
+                        <textarea formControlName="description" type="text" class="form-control"></textarea>
                     </div>
-                    <div class="form-gorup">
+                    <!-- <div class="form-gorup">
                         <label for="">Content</label>
                         <textarea type="text" class="form-control"></textarea>
-                    </div>
+                    </div> -->
+                    <label for="">Content</label>
+                    <ckeditor formControlName="content" [config]="config"></ckeditor>
                     <div *ngIf="categories" class="form-gorup">
                         <label for="">Categories</label>
-                        <select multiple class="form-control">
+                        <select multiple class="form-control" formControlName="categoriesIds">
                             <option *ngFor="let cat of categories" value="{{ cat.id }}">{{ cat.name }}</option>
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="">Files</label>
-                      <input type="file" class="form-control-file">
+                      <input formControlName="files" (change)="onFilesChange($event)" type="file" class="form-control-file" multiple>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox">
+                        <input formControlName="isLoginProtected" class="form-check-input" type="checkbox">
                         <label class="form-check-label">
                           Only for logged users
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox">
+                        <input formControlName="isCommentable" class="form-check-input" type="checkbox">
                         <label class="form-check-label">
                           Comments
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox">
+                        <input formControlName="isVisible" class="form-check-input" type="checkbox">
                         <label class="form-check-label">
                           Visibility
                         </label>

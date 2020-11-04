@@ -21,8 +21,12 @@ export class AddAnnouncementComponent implements OnInit {
         this.addAnnouncementForm = this.formBuilder.group({
             title: ['', Validators.required],
             content: ['', Validators.required],
-            visibleFrom: ['', Validators.required],
-            visibleTo: ['', Validators.required],
+            visibleFromDate: ['', Validators.required],
+            visibleFromTime: ['', Validators.required],
+            visibleFrom: [''],
+            visibleToDate: ['', Validators.required],
+            visibleToTime: ['', Validators.required],
+            visibleTo: [''],
             isVisible: ['']
         });
     }
@@ -31,12 +35,17 @@ export class AddAnnouncementComponent implements OnInit {
 
     onSubmit() {
         if (this.addAnnouncementForm.invalid) return;
-        
+
         if (this.f.isVisible.value == '') {
             this.addAnnouncementForm.patchValue({
                 isVisible: false
             });
         }
+
+        this.addAnnouncementForm.patchValue({
+            visibleFrom: `${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
+            visibleTo: `${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
+        });
 
         this.announcementsService.createAnnouncement(this.addAnnouncementForm.value)
             .pipe(first())

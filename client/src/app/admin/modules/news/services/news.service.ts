@@ -8,6 +8,10 @@ export class NewsService {
 
     constructor(private http: HttpClient) { }
 
+    createNews(formData: FormData) {
+        return this.http.post<any>(`${environment.apiUrl}/news`, formData);
+    }
+
     getNews() {
         return this.http.get<any>(`${environment.apiUrl}/news`);
     }

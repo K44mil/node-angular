@@ -1,19 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { AlertComponent, GroupFinderComponent } from './components';
+import { AlertComponent, GroupFinderComponent, PaginationComponent } from './components';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ],
     declarations: [
         AlertComponent,
-        GroupFinderComponent
+        GroupFinderComponent,
+        PaginationComponent
     ],
     exports: [
         AlertComponent,
-        GroupFinderComponent
+        GroupFinderComponent,
+        PaginationComponent
     ]
 })
 export class SharedModule { }

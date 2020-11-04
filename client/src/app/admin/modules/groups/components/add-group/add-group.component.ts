@@ -44,18 +44,18 @@ export class AddGroupComponent implements OnInit {
         this.loadSubjects();
 
         this.newGroupForm = this.formBuilder.group({
-            universityId: ['', Validators.required],
-            facultyId: ['', Validators.required],
-            departmentId: ['', Validators.required],
+            // universityId: ['', Validators.required],
+            // facultyId: ['', Validators.required],
+            // departmentId: ['', Validators.required],
             courseId: ['', Validators.required],
             specializationId: ['', Validators.required],
             subjectId: ['', Validators.required],
             level: ['', Validators.required],
             type: ['', Validators.required],
-            semester: ['', Validators.required],
-            academicYear: ['', Validators.required],
+            // semester: ['', Validators.required],
+            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/g)]],
             groupType: ['', Validators.required],
-            name: ['', Validators.required],
+            number: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             isOpen: ['']
         });
     }
@@ -91,7 +91,8 @@ export class AddGroupComponent implements OnInit {
                 this.newGroupForm.reset();
             },
             err => {
-                console.log(err);
+                this.alertService.error(err);
+                window.scrollTo(0,0);
             });
     }
 
@@ -171,5 +172,20 @@ export class AddGroupComponent implements OnInit {
             err => {
                 this.alertService.error(err);
             });
+    }
+
+    setActualAcademicYear() {
+        const date = new Date();
+        let academicYear = '';
+
+        if (date.getMonth()+1 <= 7) {
+            academicYear = `${date.getFullYear()-1}/${date.getFullYear()}`;
+        } else {
+            academicYear = `${date.getFullYear()}/${date.getFullYear()+1}`;
+        }
+
+        this.newGroupForm.patchValue({
+            academicYear: academicYear
+        });
     }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Announcement } from '../../models/Announcement';
@@ -12,7 +13,8 @@ export class AnnouncementsListComponent implements OnInit {
 
     constructor(
         private announcementsService: AnnouncementsService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -60,5 +62,20 @@ export class AnnouncementsListComponent implements OnInit {
                     this.alertService.error(err);
                 });
         }
+    }
+
+    edit(id) {
+        this.router.navigate([`/admin/announcements/edit_announcement/${id}`])
+    }
+
+    changeVisibility(id) {
+        this.announcementsService.changeVisibility(id)
+            .pipe(first())
+            .subscribe(res => {
+
+            },
+            err => {
+                this.alertService.error(err);
+            })
     }
 }

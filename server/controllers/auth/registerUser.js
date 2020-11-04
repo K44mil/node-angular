@@ -27,9 +27,22 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         );
     }
 
+    // PASSWORD VALIDATION
     if (password !== confirmPassword) {
         return next(
             new ErrorResponse(`Passwords must be identical.`, 400)
+        );
+    }
+
+    if (password.length < 8 || password.length > 16) {
+        return next(
+            new ErrorResponse(`Password length must be between 8 and 16 characters.`, 400)
+        );
+    }
+
+    if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)) {
+        return next(
+            new ErrorResponse(`The password must contain upper and lower case letters, a number and a special character.`, 400)
         );
     }
 
@@ -39,6 +52,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         );
     }
 
+    // Check if user exists
     let user = await User.findOne({
         where: {
             email: {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
 const { registerUser } = require('../controllers/auth/registerUser');
+const { registerStudent } = require('../controllers/auth/registerStudent');
 const { login } = require('../controllers/auth/login');
 const { getMe } = require('../controllers/auth/getMe');
 const { forgotPassword } = require('../controllers/auth/forgotPassword');
@@ -11,6 +12,7 @@ const { changeAvatar } = require('../controllers/auth/changeAvatar');
 
 // POST
 router.post('/register_user', registerUser);
+router.post('/register_student', registerStudent);
 router.post('/login', login);
 router.post('/forgot_password', forgotPassword);
 
