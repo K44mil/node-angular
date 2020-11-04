@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
@@ -34,7 +34,8 @@ export class GroupDetailsComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private groupsService: GroupsService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -66,10 +67,12 @@ export class GroupDetailsComponent implements OnInit {
             .subscribe(
                 res => {
                     if (res.data.group) this.group = res.data.group;
-                    console.log(res);
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.error(err, {
+                        keepAfterRouteChange: false
+                    });
+                    this.router.navigate(['/admin/groups']);
                 }
             )
     }
@@ -83,7 +86,26 @@ export class GroupDetailsComponent implements OnInit {
                         this.additionRequests = res.data.additionRequests;
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.error(err, {
+                        keepAfterRouteChange: false
+                    });
+                }
+            )
+    }
+
+    acceptAdditionRequest(id) {
+        this.groupsService.acceptAdditionRequest(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Student has been added to group.', {
+                        autoClose: true
+                    });
+                    this.loadAdditionRequests(this.groupId);
+                },
+                err => {
+
                 }
             )
     }

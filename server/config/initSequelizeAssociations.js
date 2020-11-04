@@ -13,6 +13,8 @@ const Specialization = require('../models/Specialization');
 const Course = require('../models/Course');
 const Subject = require('../models/Subject');
 const Group = require('../models/Group');
+const Event = require('../models/Event');
+const Presence = require('../models/Presence');
 
 const initSequelizeAssociations = () => {
 
@@ -70,6 +72,17 @@ const initSequelizeAssociations = () => {
     Group.hasMany(UserGroup, { foreignKey: 'groupId' });
     UserGroup.belongsTo(Group, { foreignKey: 'groupId' });
 
+    // Group -|---o< Event
+    Group.hasMany(Event, { foreignKey: 'groupId' });
+    Event.belongsTo(Group, { foreignKey: 'groupId' });
+
+    // User -|---o< Presence
+    User.hasMany(Presence, { foreignKey: 'userId' });
+    Presence.belongsTo(User, { foreignKey: 'userId' });
+
+    // Event -|---o< Presence
+    Event.hasMany(Presence, { foreignKey: 'eventId'} );
+    Presence.belongsTo(Event, { foreignKey: 'eventId'});
 };
 
 module.exports = initSequelizeAssociations;

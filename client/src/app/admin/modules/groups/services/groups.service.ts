@@ -27,8 +27,24 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
     }
 
+    createEvent(body) {
+        return this.http.post<any>(`${environment.apiUrl}/events/`, body);
+    }
+
+    getEvents(id) {
+        return this.http.get<any>(`${environment.apiUrl}/events/group/${id}`);
+    }
+
     getGroupAdditionRequests(id) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/requests`);
+    }
+
+    acceptAdditionRequest(id) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/request/${id}/accept`);
+    }
+
+    getGroupAttendance(id) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/attendance`);
     }
 
     deleteGroup(id) {

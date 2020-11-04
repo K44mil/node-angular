@@ -3,10 +3,10 @@
     <div class="row ml-2">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a routerLink="/admin/groups/{{ group.id }}/general" class="nav-link">General</a>
+                <a routerLink="/admin/groups/{{ groupId }}/general" class="nav-link">General</a>
             </li>
             <li class="nav-item">
-                <a routerLink="/admin/groups/{{ group.id }}/attendance" class="nav-link active">Attendance</a>
+                <a routerLink="/admin/groups/{{ groupId }}/attendance" class="nav-link active">Attendance</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">Marks</a>
@@ -18,59 +18,11 @@
     <hr style="width: 50%; margin-left: 0;">
     <div class="col-6">
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let event of events; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <span class="font-weight-bold">1. </span> 
-                    <span class="text-muted mr-1">06.10.2020, 12:15 </span>
-                    Laboratory 1
-                </div>
-                <div class="actions-buttons">
-                    <span class="badge badge-success badge-pill ml-1"><i class="fas fa-lock-open"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="font-weight-bold">2. </span> 
-                    <span class="text-muted mr-1">13.10.2020, 12:15 </span>
-                    Laboratory 2
-                </div>
-                <div class="actions-buttons">
-                    <span class="badge badge-success badge-pill ml-1"><i class="fas fa-lock-open"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="font-weight-bold">3. </span> 
-                    <span class="text-muted mr-1">20.10.2020, 12:15 </span>
-                    Laboratory 3
-                </div>
-                <div class="actions-buttons">
-                    <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="font-weight-bold">4. </span> 
-                    <span class="text-muted mr-1">27.10.2020, 12:15 </span>
-                    Laboratory 4
-                </div>
-                <div class="actions-buttons">
-                    <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="font-weight-bold">5. </span> 
-                    <span class="text-muted mr-1">03.11.2020, 12:15 </span>
-                    Laboratory 5
+                    <span class="font-weight-bold">{{i+1}}. </span> 
+                    <span class="text-muted mr-1">{{ printDate(event.date) }}</span>
+                    {{ event.name }}
                 </div>
                 <div class="actions-buttons">
                     <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
@@ -81,18 +33,18 @@
         </ul>
         <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddEventForm">Add event</button>
     </div>
-    <div class="col-6" id="collapseEventsForms">
-        <div class="col-6 collapse" id="collapseAddEventForm" data-parent="#collapseEventsForms">
+    <div class="col-6">
+        <div class="col-6 collapse" id="collapseAddEventForm">
             <h6 class="mt-2">Add Event</h6>
-            <form [formGroup]="eventForm">
+            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="">Event Name</label>
-                    <input type="text" class="form-control">
+                    <input type="text" formControlName="name" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">Event Date</label>
-                    <input type="date" class="form-control">
-                    <input type="time" class="form-control mt-1">
+                    <input type="date" formControlName="dateDate" class="form-control">
+                    <input type="time" formControlName="dateTime" class="form-control mt-1">
                 </div>
                 <button class="btn btn-outline-dark">Save</button>
             </form>

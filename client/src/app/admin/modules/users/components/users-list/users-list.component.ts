@@ -13,7 +13,7 @@ import { UsersService } from '../../services/users.service';
 export class UsersListComponent implements OnInit {
     public users: User[];
     pageNumber = 1;
-    itemsPerPage = 5;
+    itemsPerPage = 10;
     pageOfItems: Array<any>;
 
     constructor(
