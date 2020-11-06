@@ -27,14 +27,6 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
     }
 
-    createEvent(body) {
-        return this.http.post<any>(`${environment.apiUrl}/events/`, body);
-    }
-
-    getEvents(id) {
-        return this.http.get<any>(`${environment.apiUrl}/events/group/${id}`);
-    }
-
     getGroupAdditionRequests(id) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/requests`);
     }
@@ -73,5 +65,45 @@ export class GroupsService {
 
     getVisibleSubjects() {
         return this.http.get<any>(`${environment.apiUrl}/subjects/visible`);
+    }
+
+    // GROUP EVENTS
+    createEvent(body) {
+        return this.http.post<any>(`${environment.apiUrl}/events/`, body);
+    }
+
+    getEvents(id) {
+        return this.http.get<any>(`${environment.apiUrl}/events/group/${id}`);
+    }
+
+    deleteEvent(id) {
+        return this.http.delete<any>(`${environment.apiUrl}/events/${id}`);
+    }
+
+    updateEvent(id, body) {
+        return this.http.put<any>(`${environment.apiUrl}/events/${id}`, body);
+    }
+
+    openEvent(id) {
+        return this.http.get<any>(`${environment.apiUrl}/events/${id}/open`);
+    }
+
+    closeEvent(id) {
+        return this.http.get<any>(`${environment.apiUrl}/events/${id}/close`);
+    }
+
+    // User groups list
+    getMyGroups() {
+        return this.http.get<any>(`${environment.apiUrl}/groups/my_groups`);
+    }
+
+    // User group info
+    getMyGroupDetails(id) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/my_groups/${id}/details`);
+    }
+
+    // Confirm Presence
+    confirmPresence(id) {
+        return this.http.get<any>(`${environment.apiUrl}/presences/${id}/confirm`);
     }
 }

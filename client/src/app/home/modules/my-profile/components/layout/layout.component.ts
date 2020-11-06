@@ -18,6 +18,6 @@ import { Router } from '@angular/router';
 export class LayoutComponent {
     
     constructor(private router: Router) {
-        this.router.navigate(['/account/my_profile/general']);
+        // this.router.navigate(['/account/my_profile/general']);
     }
 }

@@ -32,7 +32,10 @@ export class GroupAttendanceComponent implements OnInit {
     groupId;
     group;
     eventForm: FormGroup;
+    editEventForm: FormGroup;
     events: Event[];
+    attendance;
+    editedEventId: string = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -55,14 +58,27 @@ export class GroupAttendanceComponent implements OnInit {
             date: [''],
             groupId: ['']
         });
+
+        // EDIT EVENT FORM INIT
+        this.editEventForm = this.formBuilder.group({
+            name: ['', Validators.required],
+            dateDate: ['', Validators.required],
+            dateTime: ['', Validators.required],
+            date: [''],
+            groupId: ['']
+        });
     }
 
     printDate(dateUTC) {
-        const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return this.parseDateToLocale(dateUTC);
+    }
+
+    nullEventEditedId() {
+        this.editedEventId = null;
     }
 
     get f() { return this.eventForm.controls; }
+    get ef() { return this.editEventForm.controls; }
 
     onSubmit() {
         if (this.eventForm.invalid) return;
@@ -77,11 +93,72 @@ export class GroupAttendanceComponent implements OnInit {
             .subscribe(
                 res => {
                     this.loadEvents(this.groupId);
+                    this.loadAttendance(this.groupId);
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
                 }
             )
+    }
+
+    onEditEventFormSubmit() {
+        if (this.editEventForm.invalid) return;
+
+        this.editEventForm.patchValue({
+            date: `${this.ef.dateDate.value} ${this.ef.dateTime.value}`,
+        });
+
+        this.groupsService.updateEvent(this.editedEventId, this.editEventForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadEvents(this.groupId);
+                    this.loadAttendance(this.groupId);
+                },
+                err => {
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+
+    }
+
+    editEvent(event) {
+        const button = document.getElementById('editEventButton');
+        
+        if (this.editedEventId == null) { this.editedEventId = event.id; button.click(); }
+        else if (this.editedEventId == event.id) { this.editedEventId = null; button.click(); }
+        else if (this.editedEventId != event.id) this.editedEventId = event.id;
+
+        event.dateDate = this.parseDateToLocale(event.date).split(', ')[0];
+        event.dateTime = this.parseDateToLocale(event.date).split(', ')[1];
+        
+        this.editEventForm.patchValue({
+            name: event.name,
+            dateDate: this.parseDate(event.dateDate),
+            dateTime: event.dateTime,
+            groupId: event.groupId
+        });
+    }
+
+    parseDateToLocale(dateUTC) {
+        return new Date(dateUTC).toLocaleString('pl', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    parseDate(date) {
+        const dateArr = date.split('.');
+        return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
     }
 
     loadGroup(id) {
@@ -116,11 +193,70 @@ export class GroupAttendanceComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    console.log(res);
+                    const members = res.data.members;
+                    for (const m of members) {
+                        m.User.Presences.sort((a, b) => {
+                            if (a.eventDate < b.eventDate) return -1;
+                            if (a.eventDate > b.eventDate) return 1;
+                            return 0;
+                        });
+                    }
+                    this.attendance = members;
                 },
                 err => {
 
                 }
             );
+    }
+
+    deleteEvent(id) {
+        const button = document.getElementById('editEventButton');
+
+        if (id == this.editedEventId) {
+            this.editedEventId = null;
+            button.click();
+        }
+
+        this.groupsService.deleteEvent(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.data.id) 
+                        this.events = this.events.filter(e => e.id !== id);
+                    this.loadAttendance(this.groupId);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err);
+                    window.scrollTo(0,0);
+                }
+            );
+    }
+
+    // Close & Open Event
+    openEvent(id) {
+        this.groupsService.openEvent(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadEvents(this.groupId);
+                },
+                err => {
+
+                }
+            )
+    }
+
+    closeEvent(id) {
+        this.groupsService.closeEvent(id)
+        .pipe(first())
+        .subscribe(
+            res => {
+                this.loadEvents(this.groupId);
+            },
+            err => {
+
+            }
+        )
     }
 }

@@ -4,54 +4,26 @@
     </div>
     <div class="mt-3">
         <div class="col-md-12 col-lg-8 mt-3">
-            <div class="form-group">
-                <label for="groupName">Group</label>
-                <select class="form-control">
-                    <option value="">PRz_WEiI_Inf_2020/2021_Sieci_L1</option>
-                    <option value="">PRz_WEiI_Inf_2020/2021_Sieci_L2</option>
-                    <option value="">PRz_WEiI_Inf_2020/2021_Sieci_L3</option>
-                </select>
-            </div>
+            <form [formGroup]="selectGroupForm">
+                <div class="form-group">
+                    <label for="groupName">Group</label>
+                    <select formControlName="selectGroup" class="form-control" (change)="onSelectGroupChange()">
+                        <option *ngFor="let g of groups" value="{{ g.Group.id }}">{{ g.Group.displayName }}</option>
+                    </select>
+                </div>
+            </form> 
         </div>
         <div class="col-12">
             <div class="mt-3">
                 <h5>Events</h5>
                 <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngFor="let e of events" class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="text-muted mr-1">06.10.2020, 12:15 </span>
-                            Laboratory 1
+                            <span class="text-muted mr-1">{{ printDate(e.date) }}</span>
+                            {{ e.name }}
                         </div>
-                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted mr-1">13.10.2020, 12:15 </span>
-                            Laboratory 2
-                        </div>
-                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted mr-1">20.10.2020, 12:15 </span>
-                            Laboratory 3
-                        </div>
-                        <!-- <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span> -->
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted mr-1">27.10.2020, 12:15 </span>
-                            Laboratory 4
-                        </div>
-                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted mr-1">03.11.2020, 12:15 </span>
-                            Laboratory 5
-                        </div>
-                        <!-- <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span> -->
-                        <span class="badge badge-info badge-pill"><i class="fas fa-pen"></i></span>
+                        <span *ngIf="e.Presences[0].isConfirmed" class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
+                        <span *ngIf="!e.Presences[0].isConfirmed && e.isOpen" class="btn badge badge-info badge-pill" (click)="confirmPresence(e.Presences[0].id)"><i class="fas fa-pen"></i></span>
                     </li>
                 </ul>
             </div>
@@ -60,7 +32,7 @@
             <div class="mt-3">
                 <h5>Attendance</h5>
                 <div class="progress border border-dark">
-                    <div class="progress-bar bg-secondary " role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">60%</div>
+                    <div class="progress-bar bg-secondary " role="progressbar" style="width: {{ attendance }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ attendance }}%</div>
                 </div>
             </div>
         </div>

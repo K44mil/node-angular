@@ -13,7 +13,6 @@ const Sequelize = require('sequelize');
  * @access  Private/Admin
  */
 exports.getGroupAttendance = asyncHandler(async (req, res, next) => {
-
     const members = await UserGroup.findAll({
         where: {
             groupId: {
@@ -23,26 +22,37 @@ exports.getGroupAttendance = asyncHandler(async (req, res, next) => {
                 [Op.eq]: 1
             }
         },
-        include: [
-            {
-                model: User,
-                attributes: ['id', 'firstName', 'lastName', 'albumNumber'],
-                include: [
-                    {
-                        model: Presence,
+        include: {
+            model: User,
+            include: [
+                {
+                    model: Presence,
+                    attributes: {
                         include: [
-                            {
-                                model: Event,
-                                attributes: ['date']
+                            [
+                                Sequelize.literal('( SELECT `date` FROM `events` AS `Event` WHERE `User.Presences.eventId` = `Event`.`id`)'),
+                                'eventDate'
+                            ],
+                            [
+                                Sequelize.literal('( SELECT `name` FROM `events` AS `Event` WHERE `User.Presences.eventId` = `Event`.`id`)'),
+                                'eventName'
+                            ],
+                        ]
+                    },
+                    include: [
+                        {
+                            model: Event,
+                            where: {
+                                groupId: {
+                                    [Op.eq]: req.params.id
+                                }
                             }
-                        ],
-                        order: [Sequelize.literal('User.Presences.Event.date'), 'DESC']
-                    }
-                ]
-            }
-        ]
+                        }
+                    ]
+                },
+            ]
+        },
     });
-
 
     res.status(200).json({
         success: true,

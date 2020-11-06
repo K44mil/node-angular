@@ -10,8 +10,13 @@ const { getOpenGroups } = require('../controllers/groups/getOpenGroups');
 const { getGroupAdditionRequests } = require('../controllers/groups/getGroupAdditionRequest');
 const { acceptAdditionRequest } = require('../controllers/groups/acceptAdditionRequest');
 const { getGroupAttendance } = require('../controllers/groups/getGroupAttendance');
+const { getMyGroups } = require('../controllers/groups/getMyGroups');
+const { getMyGroupDetails } = require('../controllers/groups/getMyGroupDetails');
 
 router.get('/open', getOpenGroups);
+router.get('/my_groups/:id/details', protect, getMyGroupDetails);
+router.get('/my_groups', protect, getMyGroups);
+
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));

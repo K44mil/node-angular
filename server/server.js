@@ -33,6 +33,7 @@ const groupsRoutes = require('./routes/groups.routes');
 const contactRoutes = require('./routes/contact.routes');
 const filesRoutes = require('./routes/files.routes');
 const eventsRoutes = require('./routes/events.routes');
+const presencesRoutes = require('./routes/presences.routes');
 
 // App init
 const app = express();
@@ -95,6 +96,7 @@ app.use('/api/v1/groups', groupsRoutes);
 app.use('/api/v1/contact', contactRoutes);
 app.use('/api/v1/files', filesRoutes);
 app.use('/api/v1/events', eventsRoutes);
+app.use('/api/v1/presences', presencesRoutes);
 
 // Set error handler
 app.use(errorHandler);

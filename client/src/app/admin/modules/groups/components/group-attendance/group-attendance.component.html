@@ -25,18 +25,41 @@
                     {{ event.name }}
                 </div>
                 <div class="actions-buttons">
-                    <span class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                    <!-- OPEN & CLOSE EVENT -->
+                    <span *ngIf="event.isOpen" class="btn badge badge-success badge-pill" (click)="closeEvent(event.id)"><i class="fas fa-lock-open"></i></span>
+                    <span *ngIf="!event.isOpen" class="btn badge badge-danger badge-pill" (click)="openEvent(event.id)"><i class="fas fa-lock"></i></span>
+                    <!-- EDIT & DELETE -->
+                    <span class="btn badge badge-info badge-pill ml-1" (click)="editEvent(event)">
+                        <i class="fas fa-pen"></i>
+                    </span>
+                    <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteEvent(event.id)"><i class="fas fa-trash-alt"></i></span>
                 </div> 
             </li>
         </ul>
-        <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddEventForm">Add event</button>
+        <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddEventForm" (click)="nullEventEditedId()">Add event</button>
+        <button class="btn btn-outline-dark mt-2 d-none" id="editEventButton" data-toggle="collapse" data-target="#collapseEditEventForm"></button>
     </div>
-    <div class="col-6">
-        <div class="col-6 collapse" id="collapseAddEventForm">
+    <div class="col-6" id="collapseEventForms">
+        <!-- ADD EVENT FORM -->
+        <div class="col-6 collapse" id="collapseAddEventForm" data-parent="#collapseEventForms">
             <h6 class="mt-2">Add Event</h6>
             <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="">Event Name</label>
+                    <input type="text" formControlName="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Event Date</label>
+                    <input type="date" formControlName="dateDate" class="form-control">
+                    <input type="time" formControlName="dateTime" class="form-control mt-1">
+                </div>
+                <button class="btn btn-outline-dark">Save</button>
+            </form>
+        </div>
+        <!-- EDIT EVENT FORM -->
+        <div class="col-6 collapse" id="collapseEditEventForm" data-parent="#collapseEventForms">
+            <h6 class="mt-2">Edit Event</h6>
+            <form [formGroup]="editEventForm" (ngSubmit)="onEditEventFormSubmit()">
                 <div class="form-group">
                     <label for="">Event Name</label>
                     <input type="text" formControlName="name" class="form-control">
@@ -54,11 +77,11 @@
     <h5 class="mt-5">Attendance</h5>
     <hr style="width: 50%; margin-left: 0;">
     <div class="ml-3 mb-3">
-        <table class="attendance-table">
+        <table *ngIf="events" class="attendance-table">
             <thead>
                 <tr>
                     <th scope="col" colspan="3"></th>
-                    <th colspan="5" scope="col">Events</th>
+                    <th *ngIf="events.length != 0" [attr.colspan]="events.length" scope="col">Events</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,72 +89,17 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col" colspan="2">Student</th>
-                    <td>1.</td>
-                    <td>2.</td>
-                    <td>3.</td>
-                    <td>4.</td>
-                    <td>5.</td>
+                    <td *ngFor="let e of events; let i = index">{{ i+1 }}.</td>
                 </tr>
                 <!-- NG FOR OF MEMBERS -->
                 <!-- Single member -->
-                <tr>
-                    <td>1</td>
-                    <td>Mariusz Nowak</td>
-                    <td>150012</td>
+                <tr *ngFor="let a of attendance; let i = index;">
+                    <td>{{ i+1 }}.</td>
+                    <td>{{ a.User.firstName }} {{ a.User.lastName }}</td>
+                    <td>{{ a.User.albumNumber }}</td>
                     <!-- NG FOR OF EVENTS -->
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                </tr>
-                <!-- Single member -->
-                <tr>
-                    <td>2</td>
-                    <td>Gall Anonim</td>
-                    <td>156200</td>
-                    <!-- NG FOR OF EVENTS -->
-                    <td><span class="badge badge-primary badge-pill text-primary"></span></td>
-                    <td></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                </tr>
-                <!-- Single member -->
-                <tr>
-                    <td>3</td>
-                    <td>Jan Kowalski</td>
-                    <td>156377</td>
-                    <!-- NG FOR OF EVENTS -->
-                    <td><span class="badge badge-primary badge-pill text-primary"></span></td>
-                    <td></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                </tr>
-                <!-- Single member -->
-                <tr>
-                    <td>4</td>
-                    <td>Mikołaj Koza</td>
-                    <td>156777</td>
-                    <!-- NG FOR OF EVENTS -->
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                    <td><span class="badge badge-primary badge-pill text-primary"></span></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
-                </tr>
-                <!-- Single member -->
-                <tr>
-                    <td>5</td>
-                    <td>Tadeusz Walczyk</td>
-                    <td>146500</td>
-                    <!-- NG FOR OF EVENTS -->
-                    <td><span class="badge badge-primary badge-pill text-primary"></span></td>
-                    <td></td>
-                    <td><span class="badge badge-primary badge-pill text-primary"></span></td>
-                    <td><span class="badge badge-primary badge-pill text-primary">.</span></td>
-                    <td></td>
+                    <td *ngFor="let p of a.User.Presences"><span *ngIf="p.isConfirmed" class="badge badge-primary badge-pill text-primary">.</span></td>
+                    <!-- <td *ngFor="let p of a.User.Presences">{{ p.eventName }}</td> -->
                 </tr>
             </tbody>
         </table>
