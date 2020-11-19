@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { AuthUser, RegisterStudentRequest, RegisterUserRequest } from '@home/modules/account/models';
+import { CryptService } from '@shared/services/crypt.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,12 +17,51 @@ export class AuthService {
 
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private cryptService: CryptService
     ) {
-        let user = JSON.parse(localStorage.getItem('user'));
-        if (!user) user = JSON.parse(sessionStorage.getItem('user'));
+        let user = this.loadUserValueFromLocalStorage();
+        if (!user) user = this.loadUserValueFromSessionStorage();
+
+        if (!user) {
+            this.clearSessionStorage();
+            this.clearLocalStorage();
+        }
+
         this.userSubject = new BehaviorSubject<AuthUser>(user);
         this.user = this.userSubject.asObservable();
+    }
+
+    private loadUserValueFromLocalStorage(): AuthUser {
+        let user: AuthUser = null;
+        let userString = this.cryptService.decrypt(localStorage.getItem('_u'));
+        try {
+            user = JSON.parse(userString);
+        } catch (err) { }
+        return user;
+    }
+
+    private loadUserValueFromSessionStorage(): AuthUser {
+        let user: AuthUser = null;
+        let userString = this.cryptService.decrypt(sessionStorage.getItem('_u'));
+        try {
+            user = JSON.parse(userString);
+        } catch (err) { }
+        return user;
+    }
+
+    private saveUserValueToLocalStorage(): void {
+        const encryptedUserString = this.cryptService.encrypt(JSON.stringify(this.userValue));
+        localStorage.setItem('_u', encryptedUserString);
+    }
+
+    private saveUserValueToSessionStorage(): void {
+        const encryptedUserString = this.cryptService.encrypt(JSON.stringify(this.userValue));
+        sessionStorage.setItem('_u', encryptedUserString);
+    }
+
+    public saveUserValue(): void {
+        this.saveUserValueToLocalStorage();
     }
 
     public get userValue(): AuthUser {
@@ -30,10 +70,6 @@ export class AuthService {
 
     public isAdmin() {
         return this.http.get<any>(`${environment.apiUrl}/auth/admin`);
-    }
-
-    public saveUserValue(): void {
-        localStorage.setItem('user', JSON.stringify(this.userValue));
     }
 
     public registerUser(registerUserRequest: RegisterUserRequest) {
@@ -56,8 +92,8 @@ export class AuthService {
                         role: res.data.user.role,
                         token: res.data.token
                     };
-                    localStorage.setItem('user', JSON.stringify(user));
                     this.userSubject.next(user);
+                    this.saveUserValueToLocalStorage();
                     return user;
                 }
             }));
@@ -75,8 +111,8 @@ export class AuthService {
                         role: res.data.user.role,
                         token: res.data.token
                     };
-                    sessionStorage.setItem('user', JSON.stringify(user));
                     this.userSubject.next(user);
+                    this.saveUserValueToSessionStorage();
                     return user;
                 }
             }));
@@ -94,9 +130,17 @@ export class AuthService {
         return this.http.get<any>(`${environment.apiUrl}/auth/me`);
     }
 
+    private clearLocalStorage(): void {
+        localStorage.removeItem('_u');
+    }
+
+    private clearSessionStorage(): void {
+        sessionStorage.removeItem('_u');
+    }
+
     public logout() {
-        localStorage.removeItem('user');
-        sessionStorage.removeItem('user');
+        this.clearSessionStorage();
+        this.clearLocalStorage();
         this.userSubject.next(null);
         this.router.navigate(['/auth/login']);
     }
