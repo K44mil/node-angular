@@ -9,6 +9,10 @@ const express = require('express');
 const morgan = require('morgan');
 const { connectMongoDB } = require('./config/db');
 const cors = require('cors');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 const errorHandler = require('./middleware/errorHandler');
 const fileupload = require('express-fileupload');
 
@@ -44,6 +48,27 @@ app.use(express.json());
 // File uploading
 app.use(fileupload());
 
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 mins
+    max: 1000
+});
+app.use(limiter);
+
+// Prevent http param pollution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
+
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -72,11 +97,6 @@ sequelize
     })
     .then(() => console.log('Data synchronized.'))
     .catch(err => console.log(err));
-
-// Enable CORS
-app.use(cors({
-    origin: 'http://localhost:4200'
-}));
 
 // Mount routes
 app.use('/api/v1/auth', authRoutes);
