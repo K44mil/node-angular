@@ -51,7 +51,8 @@ exports.getMyGroupDetails = asyncHandler(async (req, res, next) => {
                     userId: {
                         [Op.eq]: user.id
                     }
-                }
+                },
+                limit: 1
             }
         ],
         order: [['date', 'ASC']]

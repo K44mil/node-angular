@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscribable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
@@ -11,6 +11,8 @@ import { AuthUser, RegisterStudentRequest, RegisterUserRequest } from '@home/mod
 export class AuthService {
     private userSubject: BehaviorSubject<AuthUser>;
     public user: Observable<AuthUser>;
+
+    public admin: boolean = false;
 
     constructor(
         private router: Router,
@@ -26,19 +28,23 @@ export class AuthService {
         return this.userSubject.value;
     }
 
-    saveUserValue() {
+    public isAdmin() {
+        return this.http.get<any>(`${environment.apiUrl}/auth/admin`);
+    }
+
+    public saveUserValue(): void {
         localStorage.setItem('user', JSON.stringify(this.userValue));
     }
 
-    registerUser(registerUserRequest: RegisterUserRequest) {
+    public registerUser(registerUserRequest: RegisterUserRequest) {
         return this.http.post<any>(`${environment.apiUrl}/auth/register_user`, registerUserRequest);
     }
 
-    registerStudent(registerStudentRequest: RegisterStudentRequest) {
+    public registerStudent(registerStudentRequest: RegisterStudentRequest) {
         return this.http.post<any>(`${environment.apiUrl}/auth/register_student`, registerStudentRequest);
     }
 
-    loginAndRemember(email, password) {
+    public loginAndRemember(email, password) {
         return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
             .pipe(map(res => {
                 if (res.data && res.data.user && res.data.token) {
@@ -57,7 +63,7 @@ export class AuthService {
             }));
     }
 
-    login(email, password) {
+    public login(email, password) {
         return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
             .pipe(map(res => {
                 if (res.data && res.data.user && res.data.token) {
@@ -76,27 +82,26 @@ export class AuthService {
             }));
     }
 
-    forgotPassword(email) {
+    public forgotPassword(email) {
         return this.http.post<any>(`${environment.apiUrl}/auth/forgot_password`, { email });
     }
 
-    resetPassword(password, confirmPassword, resetToken) {
+    public resetPassword(password, confirmPassword, resetToken) {
         return this.http.put<any>(`${environment.apiUrl}/auth/reset_password/${resetToken}`, { password, confirmPassword });
     }
 
-    getMe() {
+    public getMe() {
         return this.http.get<any>(`${environment.apiUrl}/auth/me`);
     }
 
-    logout() {
+    public logout() {
         localStorage.removeItem('user');
         sessionStorage.removeItem('user');
         this.userSubject.next(null);
         this.router.navigate(['/auth/login']);
     }
 
-    changeAvatar(formData: FormData) {
+    public changeAvatar(formData: FormData) {
         return this.http.put<any>(`${environment.apiUrl}/auth/change_avatar`, formData);
     }
-  
 }

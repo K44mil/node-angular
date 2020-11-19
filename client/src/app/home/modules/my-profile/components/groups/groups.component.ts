@@ -32,7 +32,8 @@ export class GroupsComponent implements OnInit {
                     if (res.data.groups) {
                         this.groups = res.data.groups;
                         if (this.groups.length > 0) {
-                            this.loadSelectedGroup(this.groups[0].Group.id);
+                            this.selectedGroupId = this.groups[0].Group.id;
+                            this.loadSelectedGroup(this.selectedGroupId);
                             this.selectGroupForm.patchValue({
                                 selectGroup: this.groups[0].Group.id
                             });
@@ -86,9 +87,10 @@ export class GroupsComponent implements OnInit {
                     if (res.success) this.loadSelectedGroup(this.selectedGroupId);
                 },
                 err => {
+                    this.loadSelectedGroup(this.selectedGroupId);
                     this.alertService.clear();
                     this.alertService.error(err);
-                    window.scrollTo(0,0);
+                    window.scrollTo(0,0);    
                 }
             );
     }

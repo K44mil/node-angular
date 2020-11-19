@@ -18,6 +18,10 @@ export class UsersService {
         return this.http.get<any>(`${this.usersUrl}?isVerified=0`);
     }
 
+    getBlockedUsers() {
+        return this.http.get<any>(`${this.usersUrl}?isBlocked=1`);
+    }
+
     activateUser(id) {
         return this.http.get<any>(`${this.usersUrl}/verify/${id}`);
     }

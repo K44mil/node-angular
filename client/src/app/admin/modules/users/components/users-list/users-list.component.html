@@ -1,36 +1,83 @@
-<div *ngIf="users">
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Email</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Album number</th>
-                <th scope="col">Registration Date</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of pageOfItems; let i = index">
-                <td>{{ (this.pageNumber-1)*this.itemsPerPage+i+1 }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.albumNumber }}</td>
-                <td>{{ printDate(user.created_at) }}</td>
-                <td>
-                    <span class="badge badge-dark badge-pill"><i class="fas fa-ban"></i></span>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="d-flex justify-content-center">
-    <pagination [items]="users" [pageSize]="this.itemsPerPage" (changePage)="onChangePage($event)" (getPageNumber)="setPageNumber($event)"></pagination>
-    <!-- <jw-pagination [items]="users" [pageSize]="3" (changePage)="onChangePage($event)"></jw-pagination> -->
+<div class="mt-2">
+    <!-- USERS MENU -->
+    <div class="row ml-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" routerLink="/admin/users">All users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/users/inactive" >Inactive users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/users/blocked">Blocked users</a>
+            </li>
+        </ul>
+    </div>
+    <!-- USERS LIST CONTENT -->
+    <div class="row mt-3">
+        <!-- USERS TABLE -->
+        <div class="col-8">
+            <div *ngIf="users">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Album number</th>
+                            <th scope="col">Registration Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of pageOfItems; let i = index">
+                            <td>{{ (this.pageNumber-1)*this.itemsPerPage+i+1 }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.firstName }}</td>
+                            <td>{{ user.lastName }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.albumNumber }}</td>
+                            <td>{{ printDate(user.created_at) }}</td>
+                            <td>
+                                <span class="badge badge-dark badge-pill"><i class="fas fa-ban"></i></span>
+                                <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                                <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <pagination [items]="users" [pageSize]="this.itemsPerPage" (changePage)="onChangePage($event)" (getPageNumber)="setPageNumber($event)"></pagination>
+            </div>
+        </div>
+        <!-- USERS SIDE MENU -->
+        <div class="col-4">
+            <!-- <button class="btn btn-success">Add User</button> -->
+            <div class="card border-dark mb-3">
+                <div class="card-header text-center" data-toggle="collapse" data-target="#collapseFilter" style="cursor: pointer;">Filter <i class="fas fa-angle-double-down"></i></div>
+                <div id="collapseFilter" class="collapse">
+                    <div class="card-body">
+                        <div class="from-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control" /> 
+                        </div>
+                        <div class="from-group">
+                            <label for="">First Name</label>
+                            <input type="text" class="form-control" /> 
+                        </div>
+                        <div class="from-group">
+                            <label for="">Last Name</label>
+                            <input type="text" class="form-control" /> 
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-outline-dark form-control mt-3">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

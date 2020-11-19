@@ -8,8 +8,10 @@ import { JwPaginationModule } from 'jw-angular-pagination';
 import {
     LayoutComponent,
     UsersListComponent,
-    InactiveUsersListComponent
+    InactiveUsersListComponent,
+    BlockedUsersListComponent
 } from './components';
+
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
@@ -22,7 +24,8 @@ import { SharedModule } from '@app/shared/shared.module';
     declarations: [
         LayoutComponent,
         UsersListComponent,
-        InactiveUsersListComponent
+        InactiveUsersListComponent,
+        BlockedUsersListComponent
     ]
 })
 export class UsersModule { }

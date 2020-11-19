@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {
     LayoutComponent,
     UsersListComponent,
-    InactiveUsersListComponent
+    InactiveUsersListComponent,
+    BlockedUsersListComponent
 } from './components';
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: '', component: UsersListComponent },
-            { path: 'inactive', component: InactiveUsersListComponent }
+            { path: 'inactive', component: InactiveUsersListComponent },
+            { path: 'blocked', component: BlockedUsersListComponent }
         ]
     }
 ];
