@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
@@ -12,24 +13,102 @@ import { UsersService } from '../../services/users.service';
 })
 export class UsersListComponent implements OnInit {
     public users: User[];
-    pageNumber = 1;
-    itemsPerPage = 10;
-    pageOfItems: Array<any>;
+    
+    // PAGINATION
+    totalPages: number;
+    countTotal: number;
+    pagination: any;
+    currentPage: number = 1;
+
+    // Items per page
+    itemsPerPageControl: FormControl;
+    itemsPerPage: number = 10;
+
+    // Filter Form
+    filterForm: FormGroup;
+
+    // Filter on/off
+    filterOn: boolean = false;
+
+    // Mass Actions
+    selectedItems: string[] = [];
+    allSelected = false;
+
+    // Query string
+    private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isVerified=1&isBlocked=0`;
 
     constructor(
         private usersService: UsersService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private formBuilder: FormBuilder
     ) { }
 
     ngOnInit() {
-        this.loadUsers();
+        this.loadUsers(this.query);
+
+        // Items per Page control
+        this.itemsPerPageControl = new FormControl(this.setItemsPerPage);
+
+        // Filter Form
+        this.filterForm = this.formBuilder.group({
+            email: [''],
+            firstName: [''],
+            lastName: [''],
+            role: [''],
+            albumNumber: ['']
+        });
     }
 
-    loadUsers() {
-        this.usersService.getUsers()
+    get f() { return this.filterForm.controls; }
+
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.email.value) query += `&email=${this.f.email.value}`;
+        if (this.f.firstName.value) query += `&firstName=${this.f.firstName.value}`;
+        if (this.f.lastName.value) query += `&lastName=${this.f.lastName.value}`;
+        if (this.f.role.value) query += `&role=${this.f.role.value}`;
+        if (this.f.albumNumber.value) query += `&albumNumber=${this.f.albumNumber.value}`;
+
+        return query;
+    }
+
+    clearQuery() {
+        this.clearSelect();
+        this.query = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isVerified=1&isBlocked=0`;
+    }
+
+    clearSelect() {
+        const selectAllElement = <HTMLInputElement> document.getElementById('select-all');
+        selectAllElement.checked = false;
+        this.allSelected = false;
+        this.selectedItems = [];
+    }
+
+    prepareQuery() {
+        this.clearQuery();
+        this.query += this.getFilterQuery();
+    }
+
+    resetFilterForm() {
+        this.filterForm.reset();
+        this.clearQuery();
+        this.loadUsers(this.query);
+    }
+
+    onFilterFormSubmit() {
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    loadUsers(query: string) {
+        this.usersService.getUsers(query)
             .pipe(first())
             .subscribe(res => {
                 this.users = res.data.users
+                this.countTotal = res.data.count;
+                this.pagination = res.data.pagination;
+                this.totalPages = res.data.countPages;
             },
             err => {
                 this.alertService.error(err);
@@ -41,11 +120,86 @@ export class UsersListComponent implements OnInit {
         return date.toLocaleString('pl');
     }
 
-    onChangePage(pageOfItems: Array<any>) {
-        this.pageOfItems = pageOfItems;
+    filterOnOff() {
+        if (this.filterOn) this.filterOn = false;
+        else this.filterOn = true;
     }
 
-    setPageNumber(pageNumber) {
-        this.pageNumber = pageNumber;
+    nextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage += 1;
+            this.prepareQuery();
+            this.loadUsers(this.query);
+        }
+    }
+
+    prevPage() {
+        if (this.currentPage > 1) {
+            this.currentPage -= 1;
+            this.prepareQuery();
+            this.loadUsers(this.query);
+        }
+    }
+
+    setItemsPerPage(value: number) {
+        this.currentPage = 1;
+        this.itemsPerPage = value;
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    blockUser(id: string) {
+        this.usersService.blockUser(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('User has been blocked.', {
+                        autoClose: true
+                    });
+                    this.loadUsers(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
+
+    selectOrUnselectItem(id: string) {
+        if (!this.selectedItems.includes(id))
+            this.selectedItems.push(id);
+        else
+            this.selectedItems = this.selectedItems.filter(i => i !== id);
+    }
+
+    selectOrUnselectAllItems() {
+        let userSelects: HTMLInputElement[];
+        userSelects = Array.from(document.querySelectorAll('.user-select'));
+        if (!this.allSelected) {
+            userSelects.forEach(uS => {
+                uS.checked = true;
+            });
+            // Push all users
+            this.selectedItems = [];
+            for (const user of this.users) {
+                this.selectedItems.push(user.id);
+            }
+            this.allSelected = true;
+        } else {
+            userSelects.forEach(uS => {
+                uS.checked = false;
+            });
+            // Remove all users
+            this.selectedItems = [];
+            this.allSelected = false;
+        }
+    }
+
+    logSelectedItems() {
+        console.log(this.selectedItems);
     }
 }

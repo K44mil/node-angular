@@ -10,8 +10,8 @@ export class UsersService {
 
     constructor(private http: HttpClient) { }
 
-    getUsers() {
-        return this.http.get<any>(this.usersUrl);
+    getUsers(query: string) {
+        return this.http.get<any>(`${this.usersUrl}${query}`);
     }
 
     getInactiveUsers() {
@@ -22,8 +22,16 @@ export class UsersService {
         return this.http.get<any>(`${this.usersUrl}?isBlocked=1`);
     }
 
-    activateUser(id) {
+    activateUser(id: string) {
         return this.http.get<any>(`${this.usersUrl}/verify/${id}`);
+    }
+
+    blockUser(id: string) {
+        return this.http.get<any>(`${this.usersUrl}/block/${id}`);
+    }
+
+    unblockUser(id: string) {
+        return this.http.get<any>(`${this.usersUrl}/unblock/${id}`);
     }
 
 }

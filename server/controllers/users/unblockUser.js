@@ -5,10 +5,10 @@ const User = require('../../models/User');
 
 /**
  * @desc    Unblock user
- * @route   PUT /api/v1/users/unblock/:id
+ * @route   GET /api/v1/users/unblock/:id
  * @access  Private/Admin
  */
-exports.blockUser = asyncHandler(async (req, res, next) => {
+exports.unblockUser = asyncHandler(async (req, res, next) => {
     const user = await User.findByPk(req.params.id);
     if (!user) {
         return next(
@@ -25,6 +25,11 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
     user.isBlocked = false;
     await user.save();
 
+    res.status(200).json({
+        success: true,
+        data: {}
+    });
+
     const message = `Administrator has just unblocked your account.`;
 
     try {
@@ -33,16 +38,7 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
             subject: 'Account unblocked.',
             message
         });
-
-        res.status(200).json({
-            success: true,
-            data: {}
-        });
     } catch (err) {
         console.log(err);
-
-        return next(
-            new ErrorResponse(`Email could not be sent`, 500)
-        );
     }
 });

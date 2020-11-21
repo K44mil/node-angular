@@ -50,8 +50,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     options.offset = startIndex;
     options.limit = limit;
 
-    const users = await User.findAll(options);
-    
+    const users = await User.findAndCountAll(options);
+
     // Pagination results
     const pagination = {};
 
@@ -69,12 +69,16 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         }
     }
 
+    // Count pages
+    const countPages = Math.ceil(users.count / limit);
+
     res.status(200).json({
         success: true,
         data: {
-            count: users.length,
+            count: users.count,
+            countPages: countPages,
             pagination,
-            users
+            users: users.rows
         }
     });
 });

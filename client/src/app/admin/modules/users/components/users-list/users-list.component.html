@@ -3,7 +3,7 @@
     <div class="row ml-2">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" routerLink="/admin/users">All users</a>
+                <a class="nav-link active" routerLink="/admin/users">Active users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" routerLink="/admin/users/inactive" >Inactive users</a>
@@ -13,15 +13,60 @@
             </li>
         </ul>
     </div>
-    <!-- USERS LIST CONTENT -->
+    <!-- USERS TABLE MENU -->
     <div class="row mt-3">
+        <div class="col-8">
+            <div class="row">
+                <!-- ACTIONS -->
+                <div class="col-2">
+                    <select class="form-control" [disabled]="selectedItems.length === 0">
+                        <option class="form-control">Actions</option>
+                        <option>Delete Many</option>
+                        <option>Block Many</option>
+                    </select>
+                </div>
+                <!-- ADD USER -->
+                <div class="col-2">
+                    <button class="btn btn-success form-control">+ Add User</button>
+                </div>
+                <!-- COUNT RECORDS -->
+                <div *ngIf="pagination" class="col-2 offset-2">
+                    <button [ngClass]="{disabled: !pagination.prev }" class="btn btn-outline-dark" (click)="prevPage()"><</button>
+                    <span class="mx-2">{{ this.currentPage }} of {{ this.totalPages }}</span>
+                    <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
+                </div>
+                <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
+                </div>
+                <!-- ITEMS PER PAGE -->
+                <div class="col-2 ml-auto">
+                    <div class="row px-0">
+                        <div class="col">
+                            <select class="form-control" [formControl]="itemsPerPageControl" (change)="setItemsPerPage(this.itemsPerPageControl.value)">
+                                <option value="5">5</option>
+                                <option value="10" [attr.selected]="true">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col d-flex justify-content-left align-items-center px-0">
+                            <span class="d-block">per page</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- USERS LIST CONTENT -->
+    <div class="row mt-1">
         <!-- USERS TABLE -->
         <div class="col-8">
             <div *ngIf="users">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
                             <th scope="col">Email</th>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
@@ -32,8 +77,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let user of pageOfItems; let i = index">
-                            <td>{{ (this.pageNumber-1)*this.itemsPerPage+i+1 }}</td>
+                        <tr *ngFor="let user of users; let i = index">
+                            <!-- <td>{{ (this.pageNumber-1)*this.itemsPerPage+i+1 }}</td> -->
+                            <td><input type="checkbox" (click)="selectOrUnselectItem(user.id)" class="user-select"/></td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.firstName }}</td>
                             <td>{{ user.lastName }}</td>
@@ -41,40 +87,64 @@
                             <td>{{ user.albumNumber }}</td>
                             <td>{{ printDate(user.created_at) }}</td>
                             <td>
-                                <span class="badge badge-dark badge-pill"><i class="fas fa-ban"></i></span>
+                                <span class="btn badge badge-dark badge-pill" (click)="blockUser(user.id)"><i class="fas fa-ban"></i></span>
                                 <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                                 <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>
+                        <tr *ngIf="users.length == 0">
+                            <td colspan="8" class="text-center">No matching results.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="d-flex justify-content-center">
-                <pagination [items]="users" [pageSize]="this.itemsPerPage" (changePage)="onChangePage($event)" (getPageNumber)="setPageNumber($event)"></pagination>
-            </div>
+            <button (click)="logSelectedItems()">LOG</button>
         </div>
-        <!-- USERS SIDE MENU -->
+        <!-- USERS FILTER-->
         <div class="col-4">
-            <!-- <button class="btn btn-success">Add User</button> -->
             <div class="card border-dark mb-3">
-                <div class="card-header text-center" data-toggle="collapse" data-target="#collapseFilter" style="cursor: pointer;">Filter <i class="fas fa-angle-double-down"></i></div>
+                <div class="card-header text-center" data-toggle="collapse" data-target="#collapseFilter" style="cursor: pointer;" (click)="filterOnOff()">
+                    Filter <i *ngIf="!filterOn" class="far fa-caret-square-down"></i><i *ngIf="filterOn" class="far fa-caret-square-up"></i>
+                </div>
                 <div id="collapseFilter" class="collapse">
                     <div class="card-body">
-                        <div class="from-group">
-                            <label for="">Email</label>
-                            <input type="text" class="form-control" /> 
-                        </div>
-                        <div class="from-group">
-                            <label for="">First Name</label>
-                            <input type="text" class="form-control" /> 
-                        </div>
-                        <div class="from-group">
-                            <label for="">Last Name</label>
-                            <input type="text" class="form-control" /> 
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-outline-dark form-control mt-3">Filter</button>
-                        </div>
+                        <form [formGroup]="filterForm" (ngSubmit)="onFilterFormSubmit()">
+                            <div class="from-group">
+                                <label for="">Email</label>
+                                <input type="text" class="form-control" formControlName="email"/> 
+                            </div>
+                            <div class="from-group">
+                                <label for="">First Name</label>
+                                <input type="text" class="form-control" formControlName="firstName"/> 
+                            </div>
+                            <div class="from-group">
+                                <label for="">Last Name</label>
+                                <input type="text" class="form-control" formControlName="lastName"/> 
+                            </div>
+                            <div class="form-group">
+                                <label for="">Role</label>
+                                <select class="form-control" formControlName="role">
+                                    <option></option>
+                                    <option value="admin">Admin</option>
+                                    <option value="user">User</option>
+                                    <option value="student">Student</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Album Number</label>
+                                <input type="text" class="form-control" formControlName="albumNumber"/> 
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-outline-dark form-control mt-3" type="submit">Filter</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-outline-secondary form-control mt-3" type="button" (click)="resetFilterForm()">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

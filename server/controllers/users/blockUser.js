@@ -2,10 +2,11 @@ const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const sendEmail = require('../../utils/sendEmail');
 const User = require('../../models/User');
+const Role = require('../../models/Role');
 
 /**
  * @desc    Block user
- * @route   PUT /api/v1/users/block/:id
+ * @route   GET /api/v1/users/block/:id
  * @access  Private/Admin
  */
 exports.blockUser = asyncHandler(async (req, res, next) => {
@@ -13,6 +14,12 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
     if (!user) {
         return next(
             new ErrorResponse(`User does not exist.`, 404)
+        )
+    }
+
+    if (user.role === Role.Admin) {
+        return next(
+            new ErrorResponse(`You cannot block an admin account`, 400)
         )
     }
 
@@ -25,6 +32,11 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
     user.isBlocked = true;
     await user.save();
 
+    res.status(200).json({
+        success: true,
+        data: {}
+    });
+
     const message = `Administrator has just blocked your account.`;
 
     try {
@@ -32,17 +44,8 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
             email: user.email,
             subject: 'Account blocked.',
             message
-        });
-
-        res.status(200).json({
-            success: true,
-            data: {}
-        });
+        }); 
     } catch (err) {
         console.log(err);
-
-        return next(
-            new ErrorResponse(`Email could not be sent`, 500)
-        );
     }
 });

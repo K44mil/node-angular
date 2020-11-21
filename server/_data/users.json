@@ -2,7 +2,7 @@
     {
         "id": "1d439af2-ef88-4c4b-be8b-e879bdea104e",
         "email": "admin@admin.pl",
-        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "password": "$2a$10$AjuKUltUOMoXQkqEPL2cFOec3o4abUgb6XdreNT53dYRKsBpQFPVq",
         "role": "admin",
         "isVerified": "true",
         "isBlocked": "false",
