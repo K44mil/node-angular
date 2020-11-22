@@ -9,7 +9,12 @@ import { UsersService } from '../../services/users.service';
 
 @Component({
     selector: 'users-list',
-    templateUrl: 'users-list.component.html'
+    templateUrl: 'users-list.component.html',
+    styles: [`
+                .sort-header {
+                    cursor: pointer;
+                }
+            `]
 })
 export class UsersListComponent implements OnInit {
     public users: User[];
@@ -33,6 +38,9 @@ export class UsersListComponent implements OnInit {
     // Mass Actions
     selectedItems: string[] = [];
     allSelected = false;
+
+    // SORTING
+    sort = { property: null, order: null };
 
     // Query string
     private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isVerified=1&isBlocked=0`;
@@ -92,6 +100,8 @@ export class UsersListComponent implements OnInit {
     prepareQuery() {
         this.clearQuery();
         this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
     }
 
     resetFilterForm() {
@@ -285,6 +295,97 @@ export class UsersListComponent implements OnInit {
             this.selectedItems = [];
             this.allSelected = false;
         }
+    }
+
+    // SORTING FUNCTIONS
+    sortByEmail() {
+        if (this.sort.property === 'email') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'email';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    sortByFirstName() {
+        if (this.sort.property === 'firstName') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'firstName';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    sortByLastName() {
+        if (this.sort.property === 'lastName') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'lastName';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    sortByRole() {
+        if (this.sort.property === 'role') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'role';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    sortByAlbumNumber() {
+        if (this.sort.property === 'albumNumber') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'albumNumber';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    sortByRegistrationDate() {
+        if (this.sort.property === 'created_at') {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = 'created_at';
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
     }
 
     logSelectedItems() {
