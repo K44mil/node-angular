@@ -11,8 +11,24 @@ export class GroupsService {
         private http: HttpClient
     ) { }
 
-    getActiveGroups() {
-        return this.http.get<any>(`${environment.apiUrl}/groups/active`);
+    getGroups(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups${query}`);
+    }
+
+    openGroup(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/open`);
+    }
+
+    closeGroup(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/close`);
+    }
+
+    archiveGroup(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/archive`);
+    }
+
+    restoreGroup(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/restore`);
     }
 
     getOpenGroups() {
@@ -23,23 +39,23 @@ export class GroupsService {
         return this.http.post<any>(`${environment.apiUrl}/groups`, group);
     }
 
-    getGroup(id) {
+    getGroup(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
     }
 
-    getGroupAdditionRequests(id) {
+    getGroupAdditionRequests(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/requests`);
     }
 
-    acceptAdditionRequest(id) {
+    acceptAdditionRequest(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/request/${id}/accept`);
     }
 
-    getGroupAttendance(id) {
+    getGroupAttendance(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/attendance`);
     }
 
-    deleteGroup(id) {
+    deleteGroup(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/groups/${id}`);
     }
 

@@ -48,7 +48,6 @@ export class InactiveUsersListComponent implements OnInit {
         // Items per Page control
         this.itemsPerPageControl = new FormControl(this.setItemsPerPage);
 
-
         // Filter Form
         this.filterForm = this.formBuilder.group({
             email: [''],

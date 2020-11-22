@@ -1,0 +1,132 @@
+<div class="mt-2">
+    <!-- GROUPS MENU -->
+    <div class="row ml-2">
+       <ul class="nav nav-tabs">
+           <li class="nav-item">
+               <a class="nav-link" routerLink="/admin/groups">Active Groups</a>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link active" routerLink="/admin/groups/archival" >Archival Groups</a>
+           </li>
+           <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">More...</a>
+               <div class="dropdown-menu">
+                   <a href="#" class="dropdown-item">Courses</a>
+                   <a href="#" class="dropdown-item">Specializations</a>
+                   <a href="#" class="dropdown-item">Subjects</a>
+               </div>
+           </li>
+       </ul>
+   </div>
+   <!-- GROUPS TABLE MENU -->
+   <div class="row mt-3">
+       <div class="col-9">
+           <div class="row">
+               <!-- ACTIONS -->
+               <div class="col-2">
+                   <select class="form-control" id="actions-select" [disabled]="selectedItems.length === 0">
+                       <option class="form-control">Actions</option>
+                       <option>Delete Many</option>
+                       <option>Block Many</option>
+                   </select>
+               </div>
+               <!-- ADD USER -->
+               <div class="col-2">
+                   <a routerLink="/admin/groups/add_group" class="btn btn-success form-control">+ Add Group</a>
+               </div>
+               <!-- COUNT RECORDS -->
+                <div *ngIf="pagination" class="col-2 offset-2">
+                   <button [ngClass]="{disabled: !pagination.prev }" class="btn btn-outline-dark" (click)="prevPage()"><</button>
+                   <span class="mx-2">{{ this.currentPage }} of {{ this.totalPages }}</span>
+                   <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
+               </div>
+               <div class="col-2 d-flex justify-content-center align-items-center">
+                   <div><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
+               </div>
+               <!-- ITEMS PER PAGE -->
+               <div class="col-2 ml-auto">
+                   <div class="row px-0">
+                       <div class="col">
+                           <select class="form-control" [formControl]="itemsPerPageControl" (change)="setItemsPerPage(this.itemsPerPageControl.value)">
+                               <option value="5">5</option>
+                               <option value="10" [attr.selected]="true">10</option>
+                               <option value="25">25</option>
+                               <option value="50">50</option>
+                               <option value="100">100</option>
+                           </select>
+                       </div>
+                       <div class="col d-flex justify-content-left align-items-center px-0">
+                           <span class="d-block">per page</span>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- GROUPS CONTENT -->
+   <div class="row mt-1">
+       <!-- GROUPS TABLE -->
+       <div class="col-9">
+       <div class="table-responsive">
+           <table class="table table-sm text-nowrap text-center">
+               <thead class="thead-dark">
+                   <tr>
+                       <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
+                       <th scope="col">Display Name</th>
+                       <th scope="col">Academic Year</th>
+                       <th scope="col">Course</th>
+                       <th scope="col">Specialization</th>
+                       <th scope="col">Subject</th>
+                       <th scope="col">Studies Type</th>
+                       <th scope="col">Group Level</th>
+                       <th scope="col">Status</th>
+                       <th scope="col"></th>
+                   </tr>
+               </thead>
+               <tbody *ngIf="groups">
+                   <tr *ngFor="let group of groups; let i = index">
+                       <td><input type="checkbox" (click)="selectOrUnselectItem(group.id)" class="group-select"/></td>
+                       <td><a routerLink="/admin/groups/{{ group.id }}/general">{{ group.displayName }}</a></td>
+                       <td>{{ group.academicYear }}</td>
+                       <td>{{ group.Course.name }}</td>
+                       <td>{{ group.Specialization.name }}</td>
+                       <td>{{ group.Subject.name }}</td>
+                       <td>{{ printFormattedStudiesType(group.type) }}</td>
+                       <td>{{ printFormattedGroupLevel(group.level) }}</td>
+                       <!-- <td><input type="checkbox" [checked]="group.isOpen"></td> -->
+                       <td>
+                           <span *ngIf="group.isOpen" class="badge badge-success badge-pill"><i class="fas fa-lock-open"></i></span>
+                           <span *ngIf="!group.isOpen" class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
+                       </td>
+                       <td>
+                           <span class="btn badge badge-success badge-pill" (click)="restoreGroup(group.id)"><i class="far fa-arrow-alt-circle-left"></i></span>
+                           <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                           <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteGroup(group.id)"><i class="fas fa-trash-alt"></i></span>
+                       </td>
+                   </tr>
+                    <!-- NO MATCHING RESULTS -->
+                    <tr *ngIf="groups.length == 0">
+                       <td colspan="10" class="text-center">
+                           No matching results.
+                       </td>
+                   </tr>
+               </tbody>
+               <tbody *ngIf="!groups">
+                   <tr>
+                       <td colspan="10">
+                           <div class="d-flex justify-content-center">
+                               <div class="spinner-border m-auto" role="status">
+                                   <span class="sr-only">Loading...</span>
+                               </div>
+                           </div>
+                       </td>
+                   </tr>
+               </tbody>
+           </table>
+       </div>
+       </div>
+       <!-- GROUPS SIDE MENU -->
+       <div class="col-3">
+       </div>
+   </div>
+</div>   

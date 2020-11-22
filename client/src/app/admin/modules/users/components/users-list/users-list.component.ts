@@ -55,7 +55,7 @@ export class UsersListComponent implements OnInit {
         this.loadUsers(this.query);
 
         // Items per Page control
-        this.itemsPerPageControl = new FormControl(this.setItemsPerPage);
+        this.itemsPerPageControl = new FormControl(this.itemsPerPage);
 
         // Filter Form
         this.filterForm = this.formBuilder.group({

@@ -45,7 +45,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 100;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    const total = await User.count();
+    // const total = await User.count();
 
     options.offset = startIndex;
     options.limit = limit;
@@ -55,7 +55,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     // Pagination results
     const pagination = {};
 
-    if (endIndex < total) {
+    if (endIndex < users.count) { // total) {
         pagination.next = {
             page: page + 1,
             limit

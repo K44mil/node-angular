@@ -9,7 +9,9 @@ import {
     AddGroupComponent, 
     GroupsListComponent,
     GroupDetailsComponent,
-    GroupAttendanceComponent
+    GroupAttendanceComponent,
+    GroupMarksComponent,
+    ArchivalGroupsListComponent,
 } from './components';
 
 @NgModule({
@@ -24,7 +26,9 @@ import {
         AddGroupComponent,
         GroupsListComponent,
         GroupDetailsComponent,
-        GroupAttendanceComponent
+        GroupAttendanceComponent,
+        GroupMarksComponent,
+        ArchivalGroupsListComponent
     ]
 })
 export class GroupsModule { }
