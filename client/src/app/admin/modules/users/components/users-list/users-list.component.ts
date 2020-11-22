@@ -79,10 +79,14 @@ export class UsersListComponent implements OnInit {
     }
 
     clearSelect() {
+        const actionsSelectElement = <HTMLSelectElement> document.getElementById('actions-select');
         const selectAllElement = <HTMLInputElement> document.getElementById('select-all');
         selectAllElement.checked = false;
         this.allSelected = false;
         this.selectedItems = [];
+
+        // Reset select element to value 'Actions'
+        actionsSelectElement.options.selectedIndex = 0;
     }
 
     prepareQuery() {
@@ -167,6 +171,90 @@ export class UsersListComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    deleteUser(id: string) {
+        if (confirm('Are you sure?')) {
+            this.usersService.deleteUser(id)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.clear();
+                        this.alertService.success('User has been deleted.', {
+                            autoClose: true
+                        });
+                        this.loadUsers(this.query);
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    }
+                )
+        }
+    }
+
+    onActionsSelectChange(e) {
+        switch (e.target.value) {
+            case 'delete-many':
+                this.deleteSelectedUsers();
+                this.clearSelect();
+                break;
+            case 'block-many':
+                this.blockSelectedUsers();
+                this.clearSelect();
+                break;
+        }
+    }
+
+    deleteSelectedUsers() {
+        if (this.selectedItems.length > 0 && 
+            confirm('Are you sure you want to delete all selected users?')) {
+            this.usersService.deleteManyUsers(this.selectedItems)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.clear();
+                        this.alertService.success(res.data.msg, {
+                            autoClose: true
+                        });
+                        this.loadUsers(this.query);
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    }
+                )
+        } 
+    }
+
+    blockSelectedUsers() {
+        if (this.selectedItems.length > 0 &&
+            confirm('Are you sure you want to block all selected users?')) {
+            this.usersService.blockManyUsers(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.loadUsers(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
     }
 
     selectOrUnselectItem(id: string) {

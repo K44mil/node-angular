@@ -34,4 +34,23 @@ export class UsersService {
         return this.http.get<any>(`${this.usersUrl}/unblock/${id}`);
     }
 
+    deleteUser(id: string) {
+        return this.http.delete<any>(`${this.usersUrl}/${id}`);
+    }
+
+    deleteManyUsers(ids: string[]) {
+        return this.http.post<any>(`${this.usersUrl}/delete_many`, { ids });
+    }
+
+    blockManyUsers(ids: string[]) {
+        return this.http.post<any>(`${this.usersUrl}/block_many`, { ids });
+    }
+
+    activateManyUsers(ids: string[]) {
+        return this.http.post<any>(`${this.usersUrl}/activate_many`, { ids });
+    }
+
+    unblockManyUsers(ids: string[]) {
+        return this.http.post<any>(`${this.usersUrl}/unblock_many`, { ids });
+    }
 }

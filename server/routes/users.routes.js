@@ -8,6 +8,11 @@ const { createUser } = require('../controllers/users/createUser');
 const { verifyUser } = require('../controllers/users/verifyUser');
 const { blockUser } = require('../controllers/users/blockUser');
 const { unblockUser } = require('../controllers/users/unblockUser');
+const { deleteUser } = require('../controllers/users/deleteUser');
+const { deleteManyUsers } = require('../controllers/users/deleteManyUsers');
+const { blockManyUsers } = require('../controllers/users/blockManyUsers');
+const { activateManyUsers } = require('../controllers/users/activateManyUsers');
+const { unblockManyUsers } = require('../controllers/users/unblockManyUsers');
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
@@ -18,6 +23,14 @@ router.get('/verify/:id', verifyUser);
 router.get('/block/:id', blockUser);
 router.get('/unblock/:id', unblockUser);
 
+// DELETE
+router.delete('/:id', deleteUser);
+
+// POST
 router.post('/', createUser);
+router.post('/delete_many', deleteManyUsers);
+router.post('/block_many', blockManyUsers);
+router.post('/activate_many', activateManyUsers);
+router.post('/unblock_many', unblockManyUsers);
 
 module.exports = router;

@@ -19,10 +19,10 @@
             <div class="row">
                 <!-- ACTIONS -->
                 <div class="col-2">
-                    <select class="form-control" [disabled]="selectedItems.length === 0">
-                        <option class="form-control">Actions</option>
-                        <option>Delete Many</option>
-                        <option>Block Many</option>
+                    <select class="form-control" id="actions-select" [disabled]="selectedItems.length === 0" (change)="onActionsSelectChange($event)">
+                        <option value="">Actions</option>
+                        <option value="activate-many">Activate Many</option>
+                        <option value="delete-many">Delete Many</option>
                     </select>
                 </div>
                 <!-- ADD USER -->
@@ -59,7 +59,7 @@
         </div>
     </div>
     <!-- USERS LIST CONTENT -->
-    <div class="row mt-3">
+    <div class="row mt-1">
         <!-- USERS TABLE -->
         <div class="col-8">
             <div *ngIf="users">
@@ -85,7 +85,10 @@
                             <td>{{ user.role }}</td>
                             <td>{{ user.albumNumber }}</td>
                             <td>{{ printDate(user.created_at) }}</td>
-                            <td><span class="btn badge badge-secondary badge-pill" (click)="activateUserAccount(user.id)"><i class="fas fa-check"></i></span></td>
+                            <td>
+                                <span class="btn badge badge-secondary badge-pill" (click)="activateUserAccount(user.id)"><i class="fas fa-check"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteUser(user.id)"><i class="fas fa-trash-alt"></i></span>
+                            </td>
                         </tr>
                         <tr *ngIf="users.length == 0">
                             <td colspan="8" class="text-center">No matching results.</td>

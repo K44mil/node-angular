@@ -48,5 +48,60 @@
         "isBlocked": "false",
         "firstName": "Franciszek",
         "lastName": "Drozd"
+    },
+    {
+        "id": "6d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "patryk@student.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "student",
+        "albumNumber": "145678",
+        "isVerified": "false",
+        "isBlocked": "false",
+        "firstName": "Patryk",
+        "lastName": "Nowak"
+    },
+    {
+        "id": "7d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "magda@student.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "student",
+        "albumNumber": "145680",
+        "isVerified": "false",
+        "isBlocked": "false",
+        "firstName": "Magdalena",
+        "lastName": "Kowalska"
+    },
+    {
+        "id": "8d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "janusz@student.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "student",
+        "albumNumber": "145681",
+        "isVerified": "false",
+        "isBlocked": "false",
+        "firstName": "Janusz",
+        "lastName": "Wilk"
+    },
+    {
+        "id": "9d439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "bartek@student.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "student",
+        "albumNumber": "145682",
+        "isVerified": "false",
+        "isBlocked": "false",
+        "firstName": "Bartosz",
+        "lastName": "Nowakowski"
+    },
+    {
+        "id": "1a439af2-ef88-4c4b-be8b-e879bdea104e",
+        "email": "adam@student.pl",
+        "password": "$2a$10$Hpu9fmCr6GFhrYxOqxRtS.4LMiP3hOsG4ugzMTMymC3r.UtK7wDl6",
+        "role": "student",
+        "albumNumber": "145683",
+        "isVerified": "false",
+        "isBlocked": "false",
+        "firstName": "Adam",
+        "lastName": "Małysz"
     }
 ]

@@ -59,6 +59,20 @@ export class InactiveUsersListComponent implements OnInit {
         });
     }
 
+    loadUsers(query: string) {
+        this.usersService.getUsers(query)
+            .pipe(first())
+            .subscribe(res => {
+                this.users = res.data.users
+                this.countTotal = res.data.count;
+                this.pagination = res.data.pagination;
+                this.totalPages = res.data.countPages;
+            },
+            err => {
+                this.alertService.error(err);
+            });
+    }
+
     get f() { return this.filterForm.controls; }
 
     // Query functions
@@ -68,10 +82,14 @@ export class InactiveUsersListComponent implements OnInit {
     }
 
     clearSelect() {
+        const actionsSelectElement = <HTMLSelectElement> document.getElementById('actions-select');
         const selectAllElement = <HTMLInputElement> document.getElementById('select-all');
         selectAllElement.checked = false;
         this.allSelected = false;
         this.selectedItems = [];
+
+        // Reset select element to value 'Actions'
+        actionsSelectElement.options.selectedIndex = 0;
     }
 
     prepareQuery() {
@@ -133,38 +151,146 @@ export class InactiveUsersListComponent implements OnInit {
         this.loadUsers(this.query);
     }
 
-    loadUsers(query: string) {
-        this.usersService.getUsers(query)
-            .pipe(first())
-            .subscribe(res => {
-                this.users = res.data.users
-                this.countTotal = res.data.count;
-                this.pagination = res.data.pagination;
-                this.totalPages = res.data.countPages;
-            },
-            err => {
-                this.alertService.error(err);
-            });
+    // Select functions
+    selectOrUnselectItem(id: string) {
+        if (!this.selectedItems.includes(id))
+            this.selectedItems.push(id);
+        else
+            this.selectedItems = this.selectedItems.filter(i => i !== id);
     }
 
-    // activateUserAccount(id) {
-    //     this.usersService.activateUser(id)
-    //         .pipe(first())
-    //         .subscribe(
-    //             res => {
-    //                 this.loadInactiveUsers();
-    //             },
-    //             err => {
-    //                 this.alertService.error(err, {
-    //                     autoClose: true
-    //                 });
-    //                 window.scrollTo(0,0);
-    //             }
-    //         )
-    // }
+    selectOrUnselectAllItems() {
+        let userSelects: HTMLInputElement[];
+        userSelects = Array.from(document.querySelectorAll('.user-select'));
+        if (!this.allSelected) {
+            userSelects.forEach(uS => {
+                uS.checked = true;
+            });
+            // Push all users
+            this.selectedItems = [];
+            for (const user of this.users) {
+                this.selectedItems.push(user.id);
+            }
+            this.allSelected = true;
+        } else {
+            userSelects.forEach(uS => {
+                uS.checked = false;
+            });
+            // Remove all users
+            this.selectedItems = [];
+            this.allSelected = false;
+        }
+    }
 
+    // Date function
     printDate(dateUTC) {
         const date = new Date(dateUTC);
         return date.toLocaleString('pl');
+    }
+
+    // Action functions
+    activateUserAccount(id) {
+        this.usersService.activateUser(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('User account has been activated', {
+                        autoClose: true
+                    });
+                    this.loadUsers(this.query);
+                },
+                err => {
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
+
+    deleteUser(id: string) {
+        if (confirm('Are you sure?')) {
+            this.usersService.deleteUser(id)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.clear();
+                        this.alertService.success('User has been deleted.', {
+                            autoClose: true
+                        });
+                        this.loadUsers(this.query);
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    }
+                )
+        }
+    }
+
+    // Mass actions
+    onActionsSelectChange(e) {
+        switch (e.target.value) {
+            case 'delete-many':
+                this.deleteSelectedUsers();
+                this.clearSelect();
+                break;
+            case 'activate-many':
+                this.activateSelectedUsers();
+                this.clearSelect();
+                break;
+        }
+    }
+
+    deleteSelectedUsers() {
+        if (this.selectedItems.length > 0 && 
+            confirm('Are you sure you want to delete all selected users?')) {
+            this.usersService.deleteManyUsers(this.selectedItems)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.clear();
+                        this.alertService.success(res.data.msg, {
+                            autoClose: true
+                        });
+                        this.loadUsers(this.query);
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    }
+                )
+        } 
+    }
+
+    activateSelectedUsers() {
+        if (this.selectedItems.length > 0 &&
+            confirm('Are you sure you want to activate all selected users?')) {
+            this.usersService.activateManyUsers(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.loadUsers(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
     }
 }
