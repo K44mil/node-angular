@@ -1,6 +1,6 @@
-<div class="mt-2">
+<div class="">
     <!-- GROUP DETAILS MENU -->
-    <div class="row ml-2">
+    <div class="row mt-2 ml-2">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a routerLink="/admin/groups/{{ groupId }}/general" class="nav-link active">General</a>
@@ -49,23 +49,67 @@
             </div>
         </div>
     </div>
+    <!-- GROUP MEMBERS  -->
+    <div class="row mt-3">
+        <div class="col-4 ml-3">
+            <h5 class="mt-3">Group Members:</h5>
+            <table class="table table-sm text-center">
+                <thead class="thead-dark">
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Album Number</th>
+                    <th scope="col"></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let gM of groupMembers; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ gM.User.firstName }}</td>
+                        <td>{{ gM.User.lastName }}</td>
+                        <td>{{ gM.User.albumNumber }}</td>
+                        <td>
+                            <span class="btn badge badge-danger badge-pill ml-1" (click)="removeMemberFromGroup(gM.id)"><i class="fas fa-trash-alt"></i></span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="groupMembers.length === 0">
+                        <td colspan="5" class="text-center">
+                            No members.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- ADDITION REQUESTS -->
     <div class="row mt-3">
-        <div class="col-4">
+        <div class="col-4 ml-3">
             <h5 class="mt-3">Students requested to join this group:</h5>
-            <ul class="list-group mb-3">
-                <!-- SINGLE REQUEST -->
-                <li *ngFor="let aR of additionRequests" class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>{{ aR.User.firstName }} {{ aR.User.lastName }} {{ aR.User.albumNumber }}</div>
-                    <div class="actions-buttons">
-                        <span class="btn badge badge-secondary badge-pill ml-1" (click)="acceptAdditionRequest(aR.id)"><i class="fas fa-check"></i></span>
-                        <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-times"></i></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="col-4">
-            <button class="btn btn-outline-dark mt-5">Accept all</button>
+            <table class="table table-sm text-center">
+                <thead class="thead-dark">
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Album Number</th>
+                    <th scope="col"></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let aR of additionRequests; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ aR.User.firstName }}</td>
+                        <td>{{ aR.User.lastName }}</td>
+                        <td>{{ aR.User.albumNumber }}</td>
+                        <td>
+                            <span class="btn badge badge-secondary badge-pill ml-1" (click)="acceptAdditionRequest(aR.id)"><i class="fas fa-check"></i></span>
+                            <span class="btn badge badge-danger badge-pill ml-1" (click)="rejectAdditionRequest(aR.id)"><i class="fas fa-times"></i></span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="additionRequests.length === 0">
+                        <td class="text-center" colspan="5">
+                            No requests.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

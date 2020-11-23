@@ -1,5 +1,6 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
+const Course = require('./Course');
 
 class Specialization extends Model {
 
@@ -25,6 +26,14 @@ Specialization.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         field: 'is_visible'
+    },
+    courseId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: Course,
+            key: 'id'
+        }
     }
 }, {
     sequelize,

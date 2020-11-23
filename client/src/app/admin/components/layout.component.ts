@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 @Component({ template: 
                         `
                             <admin-nav *ngIf="isAdmin()"></admin-nav>       
-                            <admin-side-nav *ngIf="isAdmin()"></admin-side-nav>
+                            <admin-side-nav *ngIf="isAdmin()"></admin-side-nav> 
 
                             <div *ngIf="!isAdmin()" class="d-flex flex-column justify-content-center align-items-center" style="width: 100vw; height: 80vh;">
                                 <div class="spinner-border" style="width: 6rem; height: 6rem;" role="status">

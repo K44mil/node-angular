@@ -44,7 +44,7 @@
                         <div class="col">
                             <select class="form-control" [formControl]="itemsPerPageControl" (change)="setItemsPerPage(this.itemsPerPageControl.value)">
                                 <option value="5">5</option>
-                                <option value="10" [attr.selected]="true">10</option>
+                                <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
@@ -63,31 +63,31 @@
         <!-- USERS TABLE -->
         <div class="col-8">
             <div *ngIf="users">
-                <table class="table">
+                <table class="table table-sm">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
-                            <th scope="col" class="sort-header" (click)="sortByEmail()">Email 
+                            <th scope="col" class="sort-header" (click)="sortBy('email')">Email 
                                 <i *ngIf="sort.property === 'email' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'email' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>
-                            <th scope="col" class="sort-header" (click)="sortByFirstName()">First Name
+                            <th scope="col" class="sort-header" (click)="sortBy('firstName')">First Name
                                 <i *ngIf="sort.property === 'firstName' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'firstName' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>
-                            <th scope="col" class="sort-header" (click)="sortByLastName()">Last Name
+                            <th scope="col" class="sort-header" (click)="sortBy('lastName')">Last Name
                                 <i *ngIf="sort.property === 'lastName' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'lastName' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>   
-                            <th scope="col" class="sort-header" (click)="sortByRole()">Role    
+                            <th scope="col" class="sort-header" (click)="sortBy('role')">Role    
                                 <i *ngIf="sort.property === 'role' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'role' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>
-                            <th scope="col" class="sort-header" (click)="sortByAlbumNumber()">Album number
+                            <th scope="col" class="sort-header" (click)="sortBy('albumNumber')">Album number
                                 <i *ngIf="sort.property === 'albumNumber' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'albumNumber' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>
-                            <th scope="col" class="sort-header" (click)="sortByRegistrationDate()">Registration Date
+                            <th scope="col" class="sort-header" (click)="sortBy('created_at')">Registration Date
                                 <i *ngIf="sort.property === 'created_at' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                                 <i *ngIf="sort.property === 'created_at' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                             </th>

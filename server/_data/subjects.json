@@ -1,20 +1,37 @@
 [
     {
         "id": "1d439af7-ef80-4c4b-be8b-e879bdea1041",
-        "name": "Sieci Komputerowe",
-        "short": "SK",
-        "isVisible": true
+        "name": "Programowanie C++",
+        "short": "C++",
+        "isVisible": true,
+        "specializationId": "1d439af7-ef80-4c4b-be8b-e879bdea1041"
     },
     {
         "id": "1d439af7-ef81-4c4b-be8b-e879bdea1042",
         "name": "Aplikacje Internetowe",
         "short": "AI",
-        "isVisible": true
+        "isVisible": true,
+        "specializationId": "1d439af7-ef80-4c4b-be8b-e879bdea1041"
     },
     {
         "id": "1d439af7-ef82-4c4b-be8b-e879bdea1043",
-        "name": "Programowanie Linux",
-        "short": "L",
-        "isVisible": true
+        "name": "Systemy operacyjne",
+        "short": "SO",
+        "isVisible": true,
+        "specializationId": "1d439af7-ef80-4c4b-be8b-e879bdea1041"
+    },
+    {
+        "id": "1d439af7-ef83-4c4b-be8b-e879bdea1044",
+        "name": "Sieci Komputerowe II",
+        "short": "SKII",
+        "isVisible": true,
+        "specializationId": "1d439af7-ef81-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "1d439af7-ef83-4c4b-be8b-e879bdea1045",
+        "name": "Inżynieria oprogramowania",
+        "short": "IO",
+        "isVisible": true,
+        "specializationId": "1d439af7-ef82-4c4b-be8b-e879bdea1043"
     }
 ]

@@ -8,27 +8,27 @@ const { Op } = require('sequelize');
 const Presence = require('../../models/Presence');
 
 /**
- * @desc    Accept request to group
- * @route   GET /api/v1/groups/request/:id/accept
+ * @desc    Remove User from Group
+ * @route   GET /api/v1/groups/members/:id/remove
  * @access  Private/Admin
  */
-exports.acceptAdditionRequest = asyncHandler(async (req, res, next) => {
-    const additionRequest = await UserGroup.findByPk(req.params.id);
+exports.removeUserFromGroup = asyncHandler(async (req, res, next) => {
+    const userGroup = await UserGroup.findByPk(req.params.id);
 
-    if (!additionRequest) {
+    if (!userGroup) {
         return next(
-            new ErrorResponse('Request does not exist', 400)
+            new ErrorResponse('User do not belongs to this group.', 400)
         );
     }
 
-    const group = await Group.findByPk(additionRequest.groupId);
+    const group = await Group.findByPk(userGroup.groupId);
     if (!group) {
         return next(
             new ErrorResponse('Group does not exist', 400)
         );
     }
 
-    const user = await User.findByPk(additionRequest.userId);
+    const user = await User.findByPk(userGroup.userId);
     if (!user) {
         return next(
             new ErrorResponse('User does not exist', 400)
@@ -43,16 +43,16 @@ exports.acceptAdditionRequest = asyncHandler(async (req, res, next) => {
         }
     });
 
+    // Delete Presences assigned to user and group
     for (const e of events) {
-        await Presence.create({
+        const presence = await Presence.findOne({
             userId: user.id,
             eventId: e.id
         });
+        if (presence) await presence.destroy();
     }
 
-    await additionRequest.update({
-        isConfirmed: true
-    });
+    await userGroup.destroy();
 
     res.status(200).json({
         success: true,

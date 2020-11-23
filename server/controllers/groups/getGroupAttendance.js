@@ -4,7 +4,6 @@ const Presence = require("../../models/Presence");
 const User = require("../../models/User");
 const { Op } = require('sequelize');
 const UserGroup = require("../../models/relationsModels/UserGroup");
-const { sequelize } = require('../../config/db');
 const Sequelize = require('sequelize');
 
 /**

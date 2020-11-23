@@ -16,6 +16,9 @@ const { openGroup } = require('../controllers/groups/openGroup');
 const { closeGroup } = require('../controllers/groups/closeGroup');
 const { archiveGroup } = require('../controllers/groups/archiveGroup');
 const { restoreGroup } = require('../controllers/groups/restoreGroup');
+const { rejectAdditionRequest } = require('../controllers/groups/rejectAdditionRequest');
+const { getGroupMembers } = require('../controllers/groups/getGroupMembers');
+const { removeUserFromGroup } = require('../controllers/groups/removeUserFromGroup');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
@@ -29,8 +32,11 @@ router.post('/', createGroup);
 router.get('/', getGroups);
 
 router.get('/request/:id/accept', acceptAdditionRequest);
+router.get('/request/:id/reject', rejectAdditionRequest);
+router.get('/members/:id/remove', removeUserFromGroup);
 router.get('/:id/requests', getGroupAdditionRequests);
 router.get('/:id/attendance', getGroupAttendance);
+router.get('/:id/members', getGroupMembers);
 router.get('/:id/open', openGroup);
 router.get('/:id/close', closeGroup);
 router.get('/:id/archive', archiveGroup);

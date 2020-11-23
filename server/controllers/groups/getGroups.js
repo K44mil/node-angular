@@ -41,7 +41,7 @@ exports.getGroups = asyncHandler(async (req, res, next) => {
     if (isArchive) options.where.isArchive = { [Op.eq]: isArchive === 'true' ? 1 : isArchive === 'false' ? 0 : isArchive };
     if (level) options.where.level = { [Op.like]: `${level}`};
     if (type) options.where.type = { [Op.like]: `${type}`};
-    if (academicYear) options.where.academicYear = { [Op.like]: `${academicYear}`};
+    if (academicYear) options.where.academicYear = { [Op.like]: `%${academicYear}%`};
     if (groupType) options.where.groupType = { [Op.like]: `${groupType}`};
     if (courseId) options.where.courseId = { [Op.like]: `${courseId}`};
     if (specializationId) options.where.specializationId = { [Op.like]: `${specializationId}`};
@@ -52,24 +52,37 @@ exports.getGroups = asyncHandler(async (req, res, next) => {
     options.include.push({ model: Specialization, attributes: ['name'] });
     options.include.push({ model: Subject, attributes: ['name'] });
 
-    // TODO: Order
-    // if (req.query.sort) {
-    //     const order = req.query.sort.split(',');
-    //     if (order.length > 0)
-    //         switch (order[0]) {
-    //             case 'course':
-                    
-    //                 const order = [Course, 'name'];
-                    
-    //                 break;
-    //             case 'specialization':
-    //                 break;
-    //             case 'subject':
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    // }
+    // Sorting
+    if (req.query.sort) {
+        const order = req.query.sort.split(',');
+        let sort;
+        if (order.length > 0)
+            switch (order[0]) {
+                case 'course':
+                    sort = req.query.sort.split(',');
+                    sort = sort.reverse(); sort.pop(); sort.push('name'); sort.push(Course); sort = sort.reverse();
+                    if (!sort.includes('ASC') && !sort.includes('DESC')) sort.pus('ASC');
+                    options.order.push(sort);
+                    break;
+                case 'specialization':
+                    sort = req.query.sort.split(',');
+                    sort = sort.reverse(); sort.pop(); sort.push('name'); sort.push(Specialization); sort = sort.reverse();
+                    if (!sort.includes('ASC') && !sort.includes('DESC')) sort.pus('ASC');
+                    options.order.push(sort);
+                    break;
+                case 'subject':
+                    sort = req.query.sort.split(',');
+                    sort = sort.reverse(); sort.pop(); sort.push('name'); sort.push(Subject); sort = sort.reverse();
+                    if (!sort.includes('ASC') && !sort.includes('DESC')) sort.pus('ASC');
+                    options.order.push(sort);
+                    break;
+                default:
+                    sort = req.query.sort.split(',');
+                    if (!sort.includes('ASC') && !sort.includes('DESC')) sort[1] = 'ASC';
+                    options.order.push(sort);
+                    break;
+            }
+    }
 
     // Pagination
     const page = parseInt(req.query.page, 10) || 1;

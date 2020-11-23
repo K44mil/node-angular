@@ -3,18 +3,63 @@
         "id": "1d439af7-ef80-4c4b-be8b-e879bdea1041",
         "name": "Inżynieria Systemów Informatycznych",
         "short": "ISI",
-        "isVisible": true
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1041"
     },
     {
         "id": "1d439af7-ef81-4c4b-be8b-e879bdea1042",
         "name": "Sieci Komputerowe",
         "short": "SK",
-        "isVisible": true
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1041"
     },
     {
         "id": "1d439af7-ef82-4c4b-be8b-e879bdea1043",
         "name": "Informatyka w Przedsiębiorstwie",
         "short": "IwP",
-        "isVisible": true
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1041"
+    },
+    {
+        "id": "1d439af7-ef83-4c4b-be8b-e879bdea1041",
+        "name": "Elektronika Specializacja 1",
+        "short": "ES1",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "1d439af7-ef84-4c4b-be8b-e879bdea1042",
+        "name": "Elektronika Specializacja 2",
+        "short": "ES2",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1042"
+    },
+    {
+        "id": "1d439af7-ef85-4c4b-be8b-e879bdea1041",
+        "name": "Automatyka i Robotyka Specializacja 1",
+        "short": "AiR1",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1043"
+    },
+    {
+        "id": "1d439af7-ef86-4c4b-be8b-e879bdea1042",
+        "name": "Automatyka i Robotyka Specializacja 2",
+        "short": "AiR2",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1043"
+    },
+    {
+        "id": "1d439af7-ef87-4c4b-be8b-e879bdea1041",
+        "name": "Automatyka i Robotyka Specializacja 3",
+        "short": "AiR3",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1043"
+    },
+    {
+        "id": "1d439af7-ef88-4c4b-be8b-e879bdea1042",
+        "name": "Automatyka i Robotyka Specializacja 4",
+        "short": "AiR4",
+        "isVisible": true,
+        "courseId": "4d439af2-ef88-4c4b-be8b-e879bdea1043"
     }
 ]

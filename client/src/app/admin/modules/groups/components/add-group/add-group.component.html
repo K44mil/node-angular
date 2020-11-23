@@ -31,20 +31,23 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="">Course</label>
-                            <select formControlName="courseId" class="form-control">
+                            <select formControlName="courseId" class="form-control" (change)="onCourseSelectChange($event)">
+                                <option value=""></option>
                                 <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Specialization</label>
-                            <select formControlName="specializationId" class="form-control">
-                                <option *ngFor="let spec of specializations" value="{{ spec.id }}">{{ spec.name }}</option>
+                            <select formControlName="specializationId" class="form-control" (change)="onSpecializationSelectChange($event)">
+                                <option value=""></option>
+                                <option *ngFor="let spec of availableSpecializations" value="{{ spec.id }}">{{ spec.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Subject</label>
                             <select formControlName="subjectId" class="form-control">
-                                <option *ngFor="let sub of subjects" value="{{ sub.id }}">{{ sub.name }}</option>
+                                <option value=""></option>
+                                <option *ngFor="let sub of availableSubjects" value="{{ sub.id }}">{{ sub.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">

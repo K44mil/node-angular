@@ -6,9 +6,9 @@ const File = require('../models/File');
 const Comment = require('../models/Comment');
 const UserGroup = require('../models/relationsModels/UserGroup');
 
-const University = require('../models/University');
-const Faculty = require('../models/Faculty');
-const Department = require('../models/Department');
+// const University = require('../models/University');
+// const Faculty = require('../models/Faculty');
+// const Department = require('../models/Department');
 const Specialization = require('../models/Specialization');
 const Course = require('../models/Course');
 const Subject = require('../models/Subject');
@@ -39,6 +39,14 @@ const initSequelizeAssociations = () => {
     Comment.belongsTo(User, { foreignKey: 'userId' });
 
     // --- GROUPS
+
+    // Course -|---o< Specialization
+    Course.hasMany(Specialization, { foreignKey: 'courseId' });
+    Specialization.belongsTo(Course, { foreignKey: 'courseId' });
+
+    // Specialization -|---o< Subject
+    Specialization.hasMany(Subject, { foreignKey: 'specializationId' });
+    Subject.belongsTo(Specialization, { foreignKey: 'specializationId' });
 
     // University -|---o< Group
     // University.hasMany(Group, { foreignKey: 'universityId'} );

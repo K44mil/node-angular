@@ -11,25 +11,13 @@ import { GroupsService } from '../../services/groups.service';
         .group-details tbody td {
             padding-left: 20px !important;
         }
-
-        .marks-table {
-            border-collapse: collapse;
-        }
-
-        .marks-table td, .marks-table th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        .marks-table th {
-            text-align: center;
-        }
     `]
 })
 export class GroupDetailsComponent implements OnInit {
     group;
     groupId;
     additionRequests = [];
+    groupMembers = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -41,9 +29,11 @@ export class GroupDetailsComponent implements OnInit {
     ngOnInit() {
         this.groupId = this.route.snapshot.paramMap.get('id');
         this.loadGroup(this.groupId);
+        this.loadGroupMembers(this.groupId);
         this.loadAdditionRequests(this.groupId);
     }
 
+    // Format Functions
     printGroupLevel(level) {
         if (level == 'I') return 'first-degree';
         if (level == 'M') return 'second-degree';
@@ -61,7 +51,8 @@ export class GroupDetailsComponent implements OnInit {
         if (type == 'proj') return 'Project';
     }
 
-    loadGroup(id) {
+    // Load Data Functions
+    loadGroup(id: string) {
         this.groupsService.getGroup(id)
             .pipe(first())
             .subscribe(
@@ -69,7 +60,9 @@ export class GroupDetailsComponent implements OnInit {
                     if (res.data.group) this.group = res.data.group;
                 },
                 err => {
+                    this.alertService.clear();
                     this.alertService.error(err, {
+                        autoClose: true,
                         keepAfterRouteChange: false
                     });
                     this.router.navigate(['/admin/groups']);
@@ -77,7 +70,7 @@ export class GroupDetailsComponent implements OnInit {
             )
     }
 
-    loadAdditionRequests(id) {
+    loadAdditionRequests(id: string) {
         this.groupsService.getGroupAdditionRequests(id)
             .pipe(first())
             .subscribe(
@@ -86,14 +79,34 @@ export class GroupDetailsComponent implements OnInit {
                         this.additionRequests = res.data.additionRequests;
                 },
                 err => {
+                    this.alertService.clear();
                     this.alertService.error(err, {
                         keepAfterRouteChange: false
                     });
+                    window.scrollTo(0,0);
                 }
             )
     }
 
-    acceptAdditionRequest(id) {
+    loadGroupMembers(id: string) {
+        this.groupsService.getGroupMembers(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.groupMembers = res.data.members;
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        keepAfterRouteChange: false
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
+
+    // Actions Functions
+    acceptAdditionRequest(id: string) {
         this.groupsService.acceptAdditionRequest(id)
             .pipe(first())
             .subscribe(
@@ -102,10 +115,58 @@ export class GroupDetailsComponent implements OnInit {
                     this.alertService.success('Student has been added to group.', {
                         autoClose: true
                     });
+                    this.loadGroupMembers(this.groupId);
                     this.loadAdditionRequests(this.groupId);
                 },
                 err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
 
+    rejectAdditionRequest(id: string) {
+        this.groupsService.rejectAdditionRequest(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Student request has been rejected.', {
+                        autoClose: true
+                    });
+                    this.loadAdditionRequests(this.groupId);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
+
+    removeMemberFromGroup(id: string) {
+        this.groupsService.removeUserFromGroup(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Student has been successfully removed from this group.', {
+                        autoClose: true
+                    });
+                    this.loadGroupMembers(this.groupId);
+                    this.loadAdditionRequests(this.groupId);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
                 }
             )
     }

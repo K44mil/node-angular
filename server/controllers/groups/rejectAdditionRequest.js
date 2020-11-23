@@ -3,16 +3,13 @@ const Group = require("../../models/Group");
 const UserGroup = require("../../models/relationsModels/UserGroup");
 const User = require("../../models/User");
 const ErrorResponse = require("../../utils/ErrorResponse");
-const Event = require('../../models/Event');
-const { Op } = require('sequelize');
-const Presence = require('../../models/Presence');
 
 /**
- * @desc    Accept request to group
- * @route   GET /api/v1/groups/request/:id/accept
+ * @desc    Reject request to group
+ * @route   GET /api/v1/groups/request/:id/reject
  * @access  Private/Admin
  */
-exports.acceptAdditionRequest = asyncHandler(async (req, res, next) => {
+exports.rejectAdditionRequest = asyncHandler(async (req, res, next) => {
     const additionRequest = await UserGroup.findByPk(req.params.id);
 
     if (!additionRequest) {
@@ -35,24 +32,7 @@ exports.acceptAdditionRequest = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const events = await Event.findAll({
-        where: {
-            groupId: {
-                [Op.eq]: group.id
-            }
-        }
-    });
-
-    for (const e of events) {
-        await Presence.create({
-            userId: user.id,
-            eventId: e.id
-        });
-    }
-
-    await additionRequest.update({
-        isConfirmed: true
-    });
+    await additionRequest.destroy();
 
     res.status(200).json({
         success: true,

@@ -26,6 +26,10 @@ export class AddGroupComponent implements OnInit {
     subjects: Subject[];
     countLoaded = 0;
 
+    // --
+    availableSpecializations: Specialization[];
+    availableSubjects: Subject[];
+
     newGroupForm: FormGroup;
 
     constructor(
@@ -187,5 +191,16 @@ export class AddGroupComponent implements OnInit {
         this.newGroupForm.patchValue({
             academicYear: academicYear
         });
+    }
+
+    // onChange events
+    onCourseSelectChange(e) {
+        this.availableSubjects = [];
+
+        this.availableSpecializations = this.specializations.filter(spec => spec.courseId === e.target.value);
+    }
+
+    onSpecializationSelectChange(e) {
+        this.availableSubjects = this.subjects.filter(sub => sub.specializationId === e.target.value);
     }
 }

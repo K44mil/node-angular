@@ -51,8 +51,20 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/request/${id}/accept`);
     }
 
+    rejectAdditionRequest(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/request/${id}/reject`);
+    }
+
     getGroupAttendance(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/attendance`);
+    }
+
+    getGroupMembers(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/members`);
+    }
+
+    removeUserFromGroup(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/members/${id}/remove`);
     }
 
     deleteGroup(id: string) {

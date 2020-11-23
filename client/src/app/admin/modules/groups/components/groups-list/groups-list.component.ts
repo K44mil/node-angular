@@ -3,10 +3,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
-import { Group } from '../../models';
+import { Course, Group, Specialization, Subject } from '../../models';
 import { GroupsService } from '../../services/groups.service';
 
-@Component({ templateUrl: 'groups-list.component.html' })
+@Component({
+    templateUrl: 'groups-list.component.html',
+    styles: [` table th { cursor: pointer; }`]
+})
 export class GroupsListComponent implements OnInit {
     groups: Group[];
 
@@ -30,8 +33,19 @@ export class GroupsListComponent implements OnInit {
     selectedItems: string[] = [];
     allSelected = false;
 
+    // SORTING
+    sort = { property: null, order: null };
+
     // Query string
     private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isArchive=0`;
+
+    // For filter selects
+    courses: Course[];
+    specializations: Specialization[];
+    subjects: Subject[];
+
+    availableSpecializations: Specialization[];
+    availableSubjects: Subject[];
 
     constructor(
         private groupsService: GroupsService,
@@ -42,10 +56,69 @@ export class GroupsListComponent implements OnInit {
     ngOnInit() {
         this.loadGroups(this.query);
 
+        // Load Data for Filter
+        this.loadCourses();
+        this.loadSpecializations();
+        this.loadSubjects();
+
         // Items per Page control
-        this.itemsPerPageControl = new FormControl(this.setItemsPerPage);
+        this.itemsPerPageControl = new FormControl(this.itemsPerPage);
+
+        // Filter Form init
+        this.filterForm = this.formBuilder.group({
+            displayName: [''],
+            academicYear: [''],
+            courseId: [''],
+            specializationId: [''],
+            subjectId: [''],
+            type: [''],
+            level: [''],
+            groupType: [''],
+            number: ['']
+        });
     }
 
+    get f() { return this.filterForm.controls; }
+
+    resetFilterForm() {
+        this.filterForm.reset();
+        this.clearQuery();
+        this.loadGroups(this.query);
+    }
+
+    onFilterFormSubmit() {
+        this.prepareQuery();
+        this.loadGroups(this.query);
+    }
+
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.displayName.value) {
+            let displayName = this.f.displayName.value;
+            displayName = displayName.replaceAll("\\", "\\\\");
+            query += `&displayName=${displayName}`;
+        }
+        if (this.f.academicYear.value) query += `&academicYear=${this.f.academicYear.value}`;
+        if (this.f.courseId.value) query += `&courseId=${this.f.courseId.value}`;
+        if (this.f.specializationId.value) query += `&specializationId=${this.f.specializationId.value}`;
+        if (this.f.subjectId.value) query += `&subjectId=${this.f.subjectId.value}`;
+        if (this.f.type.value) query += `&type=${this.f.type.value}`;
+        if (this.f.level.value) query += `&level=${this.f.level.value}`;
+        if (this.f.groupType.value) query += `&groupType=${this.f.groupType.value}`;
+        if (this.f.number.value) query += `&number=${this.f.number.value}`;
+
+        return query;
+    }
+
+    prepareQuery() {
+        this.clearQuery();
+        this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
+    }
+
+    // Load data
     loadGroups(query: string) {
         this.groupsService.getGroups(query)
             .pipe(first())
@@ -63,6 +136,42 @@ export class GroupsListComponent implements OnInit {
             })
     }
 
+    loadCourses() {
+        this.groupsService.getVisibleCourses()
+            .pipe(first())
+            .subscribe(res => {                
+                if (res.data.courses)
+                    this.courses = res.data.courses;         
+            },
+            err => {
+                this.alertService.error(err);
+            });
+    }
+
+    loadSpecializations() {
+        this.groupsService.getVisibleSpecializations()
+            .pipe(first())
+            .subscribe(res => {
+                if (res.data.specializations)
+                    this.specializations = res.data.specializations;        
+            },
+            err => {
+                this.alertService.error(err);
+            });
+    }
+
+    loadSubjects() {
+        this.groupsService.getVisibleSubjects()
+            .pipe(first())
+            .subscribe(res => {
+                if (res.data.subjects)
+                    this.subjects = res.data.subjects;       
+            },
+            err => {
+                this.alertService.error(err);
+            });
+    }
+
     // Query functions
     clearQuery() {
         this.clearSelect();
@@ -78,11 +187,6 @@ export class GroupsListComponent implements OnInit {
 
         // Reset select element to value 'Actions'
         actionsSelectElement.options.selectedIndex = 0;
-    }
-
-    prepareQuery() {
-        this.clearQuery();
-        // this.query += this.getFilterQuery();
     }
 
     // Pagination function
@@ -150,9 +254,9 @@ export class GroupsListComponent implements OnInit {
     printFormattedGroupLevel(value: string): string {
         switch(value) {
             case 'M':
-                return 'mgr';
+                return 'Mgr';
             case 'I':
-                return 'inż.';
+                return 'Inż.';
         }
         return '';
     }
@@ -160,15 +264,14 @@ export class GroupsListComponent implements OnInit {
     printFormattedStudiesType(value: string): string {
         switch(value) {
             case 'Z':
-                return 'zaoczne';
+                return 'Zaoczne';
             case 'D':
-                return 'dzienne';
+                return 'Dzienne';
         }
         return '';
     }
 
     // Actions function
-
     deleteGroup(id: string) {
         if (confirm("Are you sure to delete this group?")) {
             this.groupsService.deleteGroup(id)
@@ -242,5 +345,32 @@ export class GroupsListComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    // onChange events
+    onCourseSelectChange(e) {
+        this.availableSubjects = [];
+
+        this.availableSpecializations = this.specializations.filter(spec => spec.courseId === e.target.value);
+    }
+
+    onSpecializationSelectChange(e) {
+        this.availableSubjects = this.subjects.filter(sub => sub.specializationId === e.target.value);
+    }
+
+    // Sort Funtcions
+    sortBy(property: string) {
+        if (this.sort.property === property) {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = property;
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadGroups(this.query);
     }
 }

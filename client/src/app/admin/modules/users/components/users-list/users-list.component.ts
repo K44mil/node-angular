@@ -298,90 +298,15 @@ export class UsersListComponent implements OnInit {
     }
 
     // SORTING FUNCTIONS
-    sortByEmail() {
-        if (this.sort.property === 'email') {
+    sortBy(property: string) {
+        if (this.sort.property === property) {
             if (this.sort.order === 'ASC') this.sort.order = 'DESC';
             else {
                 this.sort.property = null;
                 this.sort.order = null;
             }
         } else {
-            this.sort.property = 'email';
-            this.sort.order = 'ASC';
-        }
-        this.prepareQuery();
-        this.loadUsers(this.query);
-    }
-
-    sortByFirstName() {
-        if (this.sort.property === 'firstName') {
-            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
-            else {
-                this.sort.property = null;
-                this.sort.order = null;
-            }
-        } else {
-            this.sort.property = 'firstName';
-            this.sort.order = 'ASC';
-        }
-        this.prepareQuery();
-        this.loadUsers(this.query);
-    }
-
-    sortByLastName() {
-        if (this.sort.property === 'lastName') {
-            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
-            else {
-                this.sort.property = null;
-                this.sort.order = null;
-            }
-        } else {
-            this.sort.property = 'lastName';
-            this.sort.order = 'ASC';
-        }
-        this.prepareQuery();
-        this.loadUsers(this.query);
-    }
-
-    sortByRole() {
-        if (this.sort.property === 'role') {
-            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
-            else {
-                this.sort.property = null;
-                this.sort.order = null;
-            }
-        } else {
-            this.sort.property = 'role';
-            this.sort.order = 'ASC';
-        }
-        this.prepareQuery();
-        this.loadUsers(this.query);
-    }
-
-    sortByAlbumNumber() {
-        if (this.sort.property === 'albumNumber') {
-            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
-            else {
-                this.sort.property = null;
-                this.sort.order = null;
-            }
-        } else {
-            this.sort.property = 'albumNumber';
-            this.sort.order = 'ASC';
-        }
-        this.prepareQuery();
-        this.loadUsers(this.query);
-    }
-
-    sortByRegistrationDate() {
-        if (this.sort.property === 'created_at') {
-            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
-            else {
-                this.sort.property = null;
-                this.sort.order = null;
-            }
-        } else {
-            this.sort.property = 'created_at';
+            this.sort.property = property;
             this.sort.order = 'ASC';
         }
         this.prepareQuery();

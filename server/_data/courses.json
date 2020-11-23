@@ -16,23 +16,5 @@
         "name": "Automatyka i Robotyka",
         "short": "AiR",
         "isVisible": true
-    },
-    {
-        "id": "4d439af2-ef88-4c4b-be8b-e879bdea1044",
-        "name": "Marketing",
-        "short": "Mr",
-        "isVisible": true
-    },
-    {
-        "id": "4d439af2-ef88-4c4b-be8b-e879bdea1045",
-        "name": "Zarządzanie",
-        "short": "Z",
-        "isVisible": true
-    },
-    {
-        "id": "4d439af2-ef88-4c4b-be8b-e879bdea1046",
-        "name": "Ekonomia",
-        "short": "Ekon",
-        "isVisible": true
     }
 ]
