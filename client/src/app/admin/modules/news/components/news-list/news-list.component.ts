@@ -22,8 +22,7 @@ export class NewsListComponent implements OnInit {
         this.newsService.getNews()
             .pipe(first())
             .subscribe(res => {
-                if (res.data.news)
-                    this.news = res.data.news;
+                this.news = res.data.news;
             },
             err => {
 

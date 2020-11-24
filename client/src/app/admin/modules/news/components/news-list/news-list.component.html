@@ -6,11 +6,16 @@
                 <a class="nav-link active" routerLink="/admin/news">News</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/admin/users/inactive">Categories</a>
+                <a class="nav-link" routerLink="/admin/news/categories">Categories</a>
             </li>
         </ul>
-    </div>      
+    </div>
     <div class="row mt-3">
+        <div class="col-2">
+            <a routerLink="/admin/news/add_news" class="btn btn-success">+ Add News</a>
+        </div>
+    </div>
+    <div class="row mt-1">
         <div class="col-8">
             <div *ngIf="news">
                 <table class="table table-sm">
@@ -41,9 +46,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="col-4">
-        <a routerLink="/admin/news/add_news" class="btn btn-success">Add New News</a>
         </div>
     </div>
 </div>   

@@ -15,7 +15,7 @@
     </div>
     <!-- USERS TABLE MENU -->
     <div class="row mt-3">
-        <div class="col-8">
+        <div class="col-9">
             <div class="row">
                 <!-- ACTIONS -->
                 <div class="col-2">
@@ -61,7 +61,7 @@
     <!-- USERS LIST CONTENT -->
     <div class="row mt-1">
         <!-- USERS TABLE -->
-        <div class="col-8">
+        <div class="col-9">
             <div *ngIf="users">
                 <table class="table table-sm">
                     <thead class="thead-dark">
@@ -98,7 +98,7 @@
             </div>
         </div>
         <!-- USERS FILTER-->
-        <div class="col-4">
+        <div class="col-3">
             <div class="card border-dark mb-3">
                 <div class="card-header text-center" data-toggle="collapse" data-target="#collapseFilter" style="cursor: pointer;" (click)="filterOnOff()">
                     Filter <i *ngIf="!filterOn" class="far fa-caret-square-down"></i><i *ngIf="filterOn" class="far fa-caret-square-up"></i>

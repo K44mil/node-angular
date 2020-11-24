@@ -19,6 +19,14 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/open`);
     }
 
+    openManyGroups(ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/open_many`, { ids });
+    }
+
+    closeManyGroups(ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/close_many`, { ids });
+    }
+
     closeGroup(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/close`);
     }
@@ -37,6 +45,10 @@ export class GroupsService {
 
     createGroup(group: Group) {
         return this.http.post<any>(`${environment.apiUrl}/groups`, group);
+    }
+
+    editGroup(id: string, group: Group) {
+        return this.http.put<any>(`${environment.apiUrl}/groups/${id}`, group);
     }
 
     getGroup(id: string) {

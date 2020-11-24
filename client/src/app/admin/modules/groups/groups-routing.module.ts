@@ -8,7 +8,11 @@ import {
     GroupDetailsComponent,
     GroupAttendanceComponent,
     ArchivalGroupsListComponent,
-    GroupMarksComponent
+    GroupMarksComponent,
+    EditGroupComponent,
+    CoursesListComponent,
+    SpecializationsListComponent,
+    SubjectsListComponent
 } from './components';
 
 const routes: Routes = [
@@ -18,9 +22,13 @@ const routes: Routes = [
             { path: '', component: GroupsListComponent },
             { path: 'archival', component: ArchivalGroupsListComponent },
             { path: 'add_group', component: AddGroupComponent },
+            { path: ':id/edit', component: EditGroupComponent},
             { path: ':id/general', component: GroupDetailsComponent },
             { path: ':id/attendance', component: GroupAttendanceComponent },
-            { path: ':id/marks', component: GroupMarksComponent }
+            { path: ':id/marks', component: GroupMarksComponent },
+            { path: 'courses', component: CoursesListComponent },
+            { path: 'specializations', component: SpecializationsListComponent },
+            { path: 'subjects', component: SubjectsListComponent }
         ]
     }
 ];

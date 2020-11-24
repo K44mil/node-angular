@@ -28,8 +28,5 @@ export class NewsService {
         return this.http.get<any>(`${environment.apiUrl}/news/${id}/change_protected`);
     }
 
-    getCategories() {
-        return this.http.get<any>(`${environment.apiUrl}/categories`);
-    }
 
 }

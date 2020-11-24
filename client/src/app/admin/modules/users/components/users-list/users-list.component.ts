@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AlertService } from '@app/shared/services';
+import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 
 import { User } from '../../models/User';
@@ -48,7 +49,8 @@ export class UsersListComponent implements OnInit {
     constructor(
         private usersService: UsersService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -311,6 +313,15 @@ export class UsersListComponent implements OnInit {
         }
         this.prepareQuery();
         this.loadUsers(this.query);
+    }
+
+    // Modal functions
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+
+    openModal(id: string) {
+        this.modalService.open(id);
     }
 
     logSelectedItems() {

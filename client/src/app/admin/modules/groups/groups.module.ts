@@ -12,6 +12,13 @@ import {
     GroupAttendanceComponent,
     GroupMarksComponent,
     ArchivalGroupsListComponent,
+    EditGroupComponent,
+    // Courses
+    CoursesListComponent,
+    // Specializations
+    SpecializationsListComponent,
+    SubjectsListComponent
+    // Subjects
 } from './components';
 
 @NgModule({
@@ -28,7 +35,11 @@ import {
         GroupDetailsComponent,
         GroupAttendanceComponent,
         GroupMarksComponent,
-        ArchivalGroupsListComponent
+        ArchivalGroupsListComponent,
+        EditGroupComponent,
+        CoursesListComponent,
+        SpecializationsListComponent,
+        SubjectsListComponent
     ]
 })
 export class GroupsModule { }

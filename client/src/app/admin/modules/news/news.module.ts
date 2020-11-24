@@ -8,7 +8,8 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import {
     LayoutComponent,
     NewsListComponent,
-    AddNewsComponent
+    AddNewsComponent,
+    CategoriesListComponent
 } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,7 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     declarations: [
         LayoutComponent,
         NewsListComponent,
-        AddNewsComponent
+        AddNewsComponent,
+        CategoriesListComponent
     ]
 })
 export class NewsModule { }

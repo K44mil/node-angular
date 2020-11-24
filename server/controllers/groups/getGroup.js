@@ -11,7 +11,7 @@ const Subject = require('../../models/Subject');
 
 /**
  * @desc    Get Group Details [for Admin]
- * @route   POST /api/v1/group/:id
+ * @route   GET/api/v1/group/:id
  * @access  Private/Admin
  */
 exports.getGroup = asyncHandler(async (req, res, next) => {

@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AlertComponent, GroupFinderComponent, PaginationComponent } from './components';
+import {
+    AlertComponent,
+    GroupFinderComponent,
+    PaginationComponent,
+    ModalComponent
+} from './components';
 
 @NgModule({
     imports: [
@@ -12,12 +17,14 @@ import { AlertComponent, GroupFinderComponent, PaginationComponent } from './com
     declarations: [
         AlertComponent,
         GroupFinderComponent,
-        PaginationComponent
+        PaginationComponent,
+        ModalComponent
     ],
     exports: [
         AlertComponent,
         GroupFinderComponent,
-        PaginationComponent
+        PaginationComponent,
+        ModalComponent
     ]
 })
 export class SharedModule { }

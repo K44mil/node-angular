@@ -9,13 +9,7 @@ const Faculty = require('../../models/Faculty');
  * @access  Private/Admin
  */
 exports.getCourses = asyncHandler(async (req, res, next) => {
-    const courses = await Course.findAll({
-        include: [
-            {
-                model: Faculty
-            }
-        ]
-    });
+    const courses = await Course.findAll({});
 
     res.status(200).json({
         success: true,

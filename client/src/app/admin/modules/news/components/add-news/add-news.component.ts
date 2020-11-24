@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { NewsService } from '../../services/news.service';
+import { CategoriesService } from '../../services/categories.service';
 
 @Component({ templateUrl: 'add-news.component.html' })
 export class AddNewsComponent implements OnInit {
@@ -16,6 +17,7 @@ export class AddNewsComponent implements OnInit {
 
     constructor(
         private newsService: NewsService,
+        private categoriesService: CategoriesService,
         private formBuilder: FormBuilder,
         private alertService: AlertService,
         private router: Router
@@ -42,7 +44,7 @@ export class AddNewsComponent implements OnInit {
     }
 
     loadCategories() {
-        this.newsService.getCategories()
+        this.categoriesService.getCategories()
             .pipe(first())
             .subscribe(
                 res => {

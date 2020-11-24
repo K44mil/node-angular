@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Course, Group, Specialization, Subject } from '../../models';
@@ -50,7 +51,8 @@ export class GroupsListComponent implements OnInit {
     constructor(
         private groupsService: GroupsService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -345,6 +347,74 @@ export class GroupsListComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    editGroup(id: string) {
+        this.router.navigate([`/admin/groups/${id}/edit`]);
+    }
+
+    // Mass actions functions
+    onActionsSelectChange(e) {
+        switch (e.target.value) {
+            case 'open-many':
+                this.openSelectedGroups();
+                this.clearSelect();
+                break;
+            case 'close-many':
+                this.closeSelectedGroups();
+                this.clearSelect();
+                break;
+        }
+    }
+
+    openSelectedGroups() {
+        console.log(this.selectedItems);
+        
+        if (this.selectedItems.length > 0 && 
+            confirm('Are you sure you want to open all selected groups?')) {
+            this.groupsService.openManyGroups(this.selectedItems)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.clear();
+                        this.alertService.success(res.data.msg, {
+                            autoClose: true
+                        });
+                        this.loadGroups(this.query);
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    }
+                )
+        }
+    }
+
+    closeSelectedGroups() {
+        if (this.selectedItems.length > 0 && 
+            confirm('Are you sure you want to close all selected groups?')) {
+            this.groupsService.closeManyGroups(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.loadGroups(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
     }
 
     // onChange events

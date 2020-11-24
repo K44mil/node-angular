@@ -52,7 +52,11 @@ app.use(fileupload());
 app.use(helmet());
 
 // Prevent XSS attacks
-app.use(xss());
+// app.use(xss({
+//     whiteList: [],
+//     stripIgnoreTag: true,
+//     stripIgnoreTagBody: ["script"]
+// }));
 
 // Rate limiting
 const limiter = rateLimit({

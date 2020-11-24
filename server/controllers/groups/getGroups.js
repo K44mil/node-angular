@@ -8,7 +8,7 @@ const Subject = require('../../models/Subject');
 
 /**
  * @desc    Get Active Groups
- * @route   POST /api/v1/groups/active
+ * @route   GET /api/v1/groups/active
  * @access  Private/Admin
  */
 exports.getGroups = asyncHandler(async (req, res, next) => {

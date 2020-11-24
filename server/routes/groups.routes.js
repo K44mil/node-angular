@@ -19,6 +19,9 @@ const { restoreGroup } = require('../controllers/groups/restoreGroup');
 const { rejectAdditionRequest } = require('../controllers/groups/rejectAdditionRequest');
 const { getGroupMembers } = require('../controllers/groups/getGroupMembers');
 const { removeUserFromGroup } = require('../controllers/groups/removeUserFromGroup');
+const { updateGroup } = require('../controllers/groups/updateGroup');
+const { openManyGroups } = require('../controllers/groups/openManyGroups');
+const { closeManyGroups } = require('../controllers/groups/closeManyGroups');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
@@ -44,5 +47,12 @@ router.get('/:id/restore', restoreGroup);
 router.get('/:id', getGroup);
 
 router.delete('/:id', deleteGroup);
+
+router.put('/:id', updateGroup);
+
+// Mass actions
+router.post('/open_many', openManyGroups);
+router.post('/close_many', closeManyGroups);
+
 
 module.exports = router;
