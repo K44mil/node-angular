@@ -8,6 +8,7 @@ export * from './group-marks/group-marks.component';
 export * from './edit-group/edit-group.component';
 // Courses
 export * from './courses/courses-list/courses-list.component';
+export * from './courses/add-course/add-course.component';
 
 // Specializations
 export * from './specializations/specializations-list/specializations-list.component';

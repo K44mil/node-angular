@@ -15,6 +15,7 @@ import {
     EditGroupComponent,
     // Courses
     CoursesListComponent,
+    AddCourseComponent,
     // Specializations
     SpecializationsListComponent,
     SubjectsListComponent
@@ -39,7 +40,8 @@ import {
         EditGroupComponent,
         CoursesListComponent,
         SpecializationsListComponent,
-        SubjectsListComponent
+        SubjectsListComponent,
+        AddCourseComponent
     ]
 })
 export class GroupsModule { }

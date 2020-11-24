@@ -18,15 +18,14 @@
     <div class="row mt-1">
         <div class="col-8">
             <div *ngIf="news">
-                <table class="table table-sm">
+                <table class="table table-sm text-center">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Only for logged</th>
-                            <th scope="col">Commentable</th>
-                            <th scope="col">Visible</th>
+                            <th scope="col">Author</th>
                             <th scope="col">Creation Date</th>
+                            <th scope="col" colspan="3">Status</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -34,10 +33,23 @@
                         <tr *ngFor="let n of news; let i = index">
                             <td>{{ i+1 }}</td>
                             <td>{{ n.title }}</td>
-                            <td><input type="checkbox" [checked]="n.isLoginProtected" (click)="changeProtected(n.id)"></td>
-                            <td><input type="checkbox" [checked]="n.isCommentable" (click)="changeCommentable(n.id)"></td>
-                            <td><input type="checkbox" [checked]="n.isVisible" (click)="changeVisibility(n.id)"></td>
+                            <td>{{ n.User.firstName }} {{ n.User.lastName }}</td>
                             <td>{{ printDate(n.created_at) }}</td>
+                            <td colspan="3">
+                                <!-- VISIBILITY -->
+                                <span *ngIf="n.isVisible" class="btn badge badge-success badge-pill mx-2" (click)="changeVisibility(n.id)" title="News is visible"><i class="fas fa-eye"></i></span>
+                                <span *ngIf="!n.isVisible" class="btn badge badge-danger badge-pill mx-2" (click)="changeVisibility(n.id)" title="News is invisible"><i class="fas fa-eye"></i></span>
+                                <!-- COMMENTS -->
+                                <span *ngIf="n.isCommentable" class="btn badge badge-success badge-pill mx-2" (click)="changeCommentable(n.id)" title="Comments on"><i class="fas fa-comment"></i></span>
+                                <span *ngIf="!n.isCommentable" class="btn badge badge-danger badge-pill mx-2" (click)="changeCommentable(n.id)" title="Comments off"><i class="fas fa-comment"></i></span>
+                                <!-- LOGIN PROTECT -->
+                                <span *ngIf="n.isLoginProtected" class="btn badge badge-warning badge-pill mx-2" (click)="changeProtected(n.id)" title="Login required"><i class="fas fa-lock"></i></span>
+                                <span *ngIf="!n.isLoginProtected" class="btn badge badge-secondary badge-pill mx-2" (click)="changeProtected(n.id)" title="Login not required"><i class="fas fa-lock"></i></span>
+
+                                <!-- <input type="checkbox" [checked]="n.isLoginProtected" (click)="changeProtected(n.id)">
+                                <input type="checkbox" [checked]="n.isCommentable" (click)="changeCommentable(n.id)">
+                                <input type="checkbox" [checked]="n.isVisible" (click)="changeVisibility(n.id)"> -->
+                            </td>
                             <td>
                                 <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                                 <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>

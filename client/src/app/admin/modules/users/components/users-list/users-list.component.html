@@ -116,6 +116,8 @@
                     </tbody>
                 </table>
             </div>
+            <!-- TEST BUTTON -->
+            <button class="btn btn-outline-dark" (click)="openModal('test-modal')">SHOW MODAL</button>
         </div>
         <!-- USERS FILTER-->
         <div class="col-3">
@@ -168,3 +170,8 @@
         </div>
     </div>
 </div>
+
+<jw-modal id="test-modal" [bodyClasses]="'col-md-12,col-lg-6,offset-lg-6,text-center'">
+    <h1>Test Modal</h1>
+    <button class="btn btn-secondary" (click)="closeModal('test-modal')">Close</button>
+</jw-modal>

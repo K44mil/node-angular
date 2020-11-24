@@ -114,9 +114,9 @@
                         <td><input type="checkbox" (click)="selectOrUnselectItem(group.id)" class="group-select"/></td>
                         <td><a routerLink="/admin/groups/{{ group.id }}/general">{{ group.displayName }}</a></td>
                         <td>{{ group.academicYear }}</td>
-                        <td>{{ group.Course.name }}</td>
-                        <td>{{ group.Specialization.name }}</td>
-                        <td>{{ group.Subject.name }}</td>
+                        <td *ngIf="group.Course" >{{ group.Course.name }}</td><td *ngIf="!group.Course">-</td>
+                        <td *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
+                        <td *ngIf="group.Subject">{{ group.Subject }}</td><td *ngIf="!group.Subject">-</td>
                         <td>{{ printFormattedStudiesType(group.type) }}</td>
                         <td>{{ printFormattedGroupLevel(group.level) }}</td>
                         <!-- <td><input type="checkbox" [checked]="group.isOpen"></td> -->

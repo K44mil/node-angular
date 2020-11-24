@@ -1,56 +1,55 @@
-<div class="mt-2">         
-    <div class="row">
-        <div class="col-8">
-        <div>
-            <table class="table table-sm">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
-                        <th scope="col">Visible</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="announcements">
-                    <tr *ngFor="let announcement of pageOfItems; let i = index">
-                        <td>{{ i+1 }}</td>
-                        <td>{{ announcement.title }}</td>
-                        <td>{{ printDate(announcement.visibleFrom) }}</td>
-                        <td>{{ printDate(announcement.visibleTo) }}</td>
-                        <td><input type="checkbox" [checked]="announcement.isVisible" (click)="changeVisibility(announcement._id)"></td>
-                        <td>
-                            <span class="btn badge badge-info badge-pill ml-1" (click)="edit(announcement._id)"><i class="fas fa-pen"></i></span>
-                            <span class="btn badge badge-danger badge-pill ml-1" (click)="delete(announcement._id)"><i class="fas fa-trash-alt"></i></span>
-                        </td> 
-                    </tr>
-                    <!-- NO MATCHING RESULTS -->
-                    <tr *ngIf="announcements.length == 0">
-                        <td colspan="6" class="text-center">
-                            No matching results.
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="!announcements">
-                    <tr>
-                        <td colspan="6">
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border m-auto" role="status">
-                                    <span class="sr-only">Loading...</span>
+<div class="">
+    <div class="row mt-3">
+        <div class="col-2">
+            <a routerLink="/admin/announcements/add_announcement" class="btn btn-success">+ Add Announcement</a>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-6">
+            <div>
+                <table class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Visible</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="announcements">
+                        <tr *ngFor="let announcement of announcements; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ announcement.title }}</td>
+                            <td>{{ printDate(announcement.visibleFrom) }}</td>
+                            <td>{{ printDate(announcement.visibleTo) }}</td>
+                            <td><input type="checkbox" [checked]="announcement.isVisible" (click)="changeVisibility(announcement._id)"></td>
+                            <td>
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="edit(announcement._id)"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="delete(announcement._id)"><i class="fas fa-trash-alt"></i></span>
+                            </td> 
+                        </tr>
+                        <!-- NO MATCHING RESULTS -->
+                        <tr *ngIf="announcements.length == 0">
+                            <td colspan="6" class="text-center">
+                                No matching results.
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!announcements">
+                        <tr>
+                            <td colspan="6">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border m-auto" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-            <div class="d-flex justify-content-center">
-                <jw-pagination [items]="announcements" (changePage)="onChangePage($event)"></jw-pagination>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div class="col-4">
-        <a routerLink="/admin/announcements/add_announcement" class="btn btn-success">Add New Announcement</a>
         </div>
     </div>
 </div>   

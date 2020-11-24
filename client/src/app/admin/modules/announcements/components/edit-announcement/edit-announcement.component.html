@@ -1,10 +1,15 @@
-<div class="mt-2">         
+<div class="">
     <div class="row">
+        <div class="col-8">
+            <a routerLink="/admin/announcements" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>           
+    <div class="row mt-3">
       <div class="col-8">
         <div class="col-6">
             <h5>Edit Announcement</h5>
             <hr>
-            <form [formGroup]="editAnnouncementForm" (ngSubmit)="onSubmit()">
+            <form *ngIf="announcementLoaded" [formGroup]="editAnnouncementForm" (ngSubmit)="onSubmit()">
                 <div class="form-gorup">
                     <label for="">Title</label>
                     <input formControlName="title" type="text" class="form-control">
@@ -35,9 +40,5 @@
             </form>
         </div>
       </div>
-      
-      <div class="col-4">
-        <a routerLink="/admin/announcements" class="btn btn-secondary">Announcements List</a>
-      </div>
     </div>
-  </div>   
+</div>

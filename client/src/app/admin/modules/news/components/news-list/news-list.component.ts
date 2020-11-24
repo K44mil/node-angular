@@ -37,18 +37,39 @@ export class NewsListComponent implements OnInit {
     changeProtected(id) {
         this.newsService.changeProtected(id)
             .pipe(first())
-            .subscribe(res => {}, err => { this.alertService.error(err); });
+            .subscribe(
+                res => {
+                    this.loadNews();
+                },
+                err => {
+                    this.alertService.error(err);
+                }
+            );
     }
 
     changeVisibility(id) {
         this.newsService.changeVisibility(id)
             .pipe(first())
-            .subscribe(res => {}, err => { this.alertService.error(err); });
+            .subscribe(
+                res => {
+                    this.loadNews();
+                },
+                err => {
+                    this.alertService.error(err);
+                }
+            );
     }
 
     changeCommentable(id) {
         this.newsService.changeCommentable(id)
             .pipe(first())
-            .subscribe(res => {}, err => { this.alertService.error(err); });
+            .subscribe(
+                res => {
+                    this.loadNews();
+                },
+                err => {
+                    this.alertService.error(err);
+                }
+            );
     }
 }

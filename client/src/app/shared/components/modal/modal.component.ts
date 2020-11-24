@@ -12,6 +12,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() width: string;
     @Input() height: string;
+    @Input() bodyClasses: any;
 
     private element: any;
 
@@ -36,9 +37,20 @@ export class ModalComponent implements OnInit, OnDestroy {
             }
         });
 
+        // Modal body element
+        const modalBody = document.getElementById('jw-modal-body');
+
         // Add width and height
-        if (this.width) document.getElementById('jw-modal-body').style.width = this.width;
-        if (this.height) document.getElementById('jw-modal-body').style.height = this.height;
+        if (this.width) modalBody.style.width = this.width;
+        if (this.height) modalBody.style.height = this.height;
+
+        // Add classes to body
+        if (this.bodyClasses) {
+            const classes = this.bodyClasses.split(',');
+            for (const c of classes) {
+                modalBody.classList.add(c);
+            }
+        }
 
         // add self (this modal instance) to the modal service so it's accessible from controllers
         this.modalService.add(this);

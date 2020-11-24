@@ -11,6 +11,7 @@ import { AnnouncementsService } from '../../services/announcements.service';
 export class EditAnnouncementComponent implements OnInit {
     editAnnouncementForm: FormGroup;
     id: string;
+    announcementLoaded: boolean = false;
 
     constructor(
         private announcementsService: AnnouncementsService,
@@ -58,6 +59,7 @@ export class EditAnnouncementComponent implements OnInit {
                             isVisible: announcement.isVisible
                         });
                     }
+                    this.announcementLoaded = true;
                 },
                 err => {
                     this.alertService.error(err);

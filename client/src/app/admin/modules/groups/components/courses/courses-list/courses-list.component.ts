@@ -34,4 +34,25 @@ export class CoursesListComponent implements OnInit {
                 }
             )
     }
+
+    deleteCourse(id: string) {
+        this.coursesService.deleteCourse(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Course has been deleted.', {
+                        autoClose: true
+                    });
+                    this.loadCourses();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    })
+                    window.scrollTo(0,0);
+                }
+            )
+    }
 }

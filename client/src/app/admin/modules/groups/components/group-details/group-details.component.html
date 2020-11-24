@@ -1,6 +1,12 @@
 <div class="">
+    <!-- ARROW BACK -->
+    <div class="row">
+        <div class="col-8">
+            <a routerLink="/admin/groups" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>  
     <!-- GROUP DETAILS MENU -->
-    <div class="row mt-2 ml-2">
+    <div class="row mt-3 ml-2">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a routerLink="/admin/groups/{{ groupId }}/general" class="nav-link active">General</a>
@@ -21,13 +27,13 @@
                 <table class="group-details">
                     <tbody>
                         <tr>
-                            <th scope="row">Course:</th> <td>{{ group.Course.name }}</td>
+                            <th scope="row">Course:</th> <td *ngIf="group.Course" >{{ group.Course.name }}</td><td *ngIf="!group.Course">-</td>
                         </tr>
                         <tr>
-                            <th scope="row">Specialization:</th> <td>{{ group.Specialization.name }}</td>
+                            <th scope="row">Specialization:</th> <td *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
                         </tr>
                         <tr>
-                            <th scope="row">Subject:</th> <td>{{ group.Subject.name }}</td>
+                            <th scope="row">Subject:</th> <td *ngIf="group.Subject">{{ group.Subject }}</td><td *ngIf="!group.Subject">-</td>
                         </tr>
                         <tr>
                             <th scope="row">Academic Year:</th> <td>{{ group.academicYear }}</td>

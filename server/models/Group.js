@@ -91,7 +91,7 @@ Group.init({
     // },
     courseId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Course,
             key: 'id'
@@ -99,7 +99,7 @@ Group.init({
     },
     specializationId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Specialization,
             key: 'id'
@@ -107,7 +107,7 @@ Group.init({
     },
     subjectId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Subject,
             key: 'id'

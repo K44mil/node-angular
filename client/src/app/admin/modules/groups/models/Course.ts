@@ -1,5 +1,5 @@
 export class Course {
-    id: string;
+    id?: string;
     name: string;
     short: string;
     isVisible: boolean;

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 
         <div class="row mt-2">
             <div class="col-md-8">
-                <h3>About Pages</h3>
+                <h3>About Pages // TODO</h3>
                 <hr>
             </div>
         </div>

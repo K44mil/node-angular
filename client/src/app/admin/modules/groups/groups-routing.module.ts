@@ -12,7 +12,8 @@ import {
     EditGroupComponent,
     CoursesListComponent,
     SpecializationsListComponent,
-    SubjectsListComponent
+    SubjectsListComponent,
+    AddCourseComponent
 } from './components';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
             { path: ':id/attendance', component: GroupAttendanceComponent },
             { path: ':id/marks', component: GroupMarksComponent },
             { path: 'courses', component: CoursesListComponent },
+            { path: 'courses/add_course', component: AddCourseComponent },
             { path: 'specializations', component: SpecializationsListComponent },
             { path: 'subjects', component: SubjectsListComponent }
         ]
