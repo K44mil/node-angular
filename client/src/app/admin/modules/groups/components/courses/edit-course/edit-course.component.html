@@ -1,0 +1,27 @@
+<div class="">
+    <div class="row">
+        <div class="col-8">
+            <a routerLink="/admin/groups/courses" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>         
+    <div class="row mt-3">
+        <div class="col-8">
+            <h5>Edit Course</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div *ngIf="courseLoaded" class="col-4">
+                <form [formGroup]="editCourseForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" formControlName="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Short</label>
+                        <input type="text" class="form-control" formControlName="short" />
+                    </div>
+                    <br>
+                    <button class="btn btn-outline-dark" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>   

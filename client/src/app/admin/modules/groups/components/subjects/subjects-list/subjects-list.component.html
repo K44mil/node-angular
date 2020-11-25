@@ -21,7 +21,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-2">
-            <button class="btn btn-success">+ Add Subject</button>
+            <a routerLink="/admin/groups/subjects/add_subject" class="btn btn-success">+ Add Subject</a>
         </div>
     </div>
     <div class="row mt-1">
@@ -44,7 +44,8 @@
                             <td>{{ sub.name }}</td>
                             <td>{{ sub.short }}</td>
                             <td>
-                                edit delete
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editSubject(sub.id)"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteSubject(sub.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>
                         <tr *ngIf="subjects.length === 0">

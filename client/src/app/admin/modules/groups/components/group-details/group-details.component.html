@@ -33,7 +33,7 @@
                             <th scope="row">Specialization:</th> <td *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
                         </tr>
                         <tr>
-                            <th scope="row">Subject:</th> <td *ngIf="group.Subject">{{ group.Subject }}</td><td *ngIf="!group.Subject">-</td>
+                            <th scope="row">Subject:</th> <td *ngIf="group.Subject">{{ group.Subject.name }}</td><td *ngIf="!group.Subject">-</td>
                         </tr>
                         <tr>
                             <th scope="row">Academic Year:</th> <td>{{ group.academicYear }}</td>

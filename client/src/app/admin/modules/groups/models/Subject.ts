@@ -1,7 +1,7 @@
 export class Subject {
-    id: string;
+    id?: string;
     name: string;
     short: string;
     isVisible: boolean;
-    specializationId: string;
+    specializationId?: string;
 }

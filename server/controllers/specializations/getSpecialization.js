@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Specialization = require('../../models/Specialization');
+const Course = require('../../models/Course');
 
 /**
  * @desc    Get Specialization by ID

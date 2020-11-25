@@ -21,7 +21,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-2">
-            <button class="btn btn-success">+ Add Specialization</button>
+            <a routerLink="/admin/groups/specializations/add_specialization" class="btn btn-success">+ Add Specialization</a>
         </div>
     </div>
     <div class="row mt-1">
@@ -42,7 +42,8 @@
                             <td>{{ spec.name }}</td>
                             <td>{{ spec.short }}</td>
                             <td>
-                                edit delete
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editSpecialization(spec.id)"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteSpecialization(spec.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>
                         <tr *ngIf="specializations.length === 0">

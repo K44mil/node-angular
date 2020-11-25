@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Subject } from '../../../models';
@@ -10,7 +11,8 @@ export class SubjectsListComponent implements OnInit {
 
     constructor(
         private subjectsService: SubjectsService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -32,5 +34,29 @@ export class SubjectsListComponent implements OnInit {
                 window.scrollTo(0,0);
             }
         )
+    }
+
+    deleteSubject(id: string) {
+        this.subjectsService.deleteSubject(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.success('Subject has been deleted.', {
+                        autoClose: true
+                    });
+                    this.loadSubjects();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
+
+    editSubject(id: string) {
+        this.router.navigate([`/admin/groups/subjects/${id}/edit`]);
     }
 }

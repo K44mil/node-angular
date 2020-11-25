@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Course } from '../../../models';
@@ -11,7 +12,8 @@ export class CoursesListComponent implements OnInit {
 
     constructor(
         private coursesService: CoursesService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -54,5 +56,9 @@ export class CoursesListComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    editCourse(id: string) {
+        this.router.navigate([`/admin/groups/courses/${id}/edit`]);
     }
 }

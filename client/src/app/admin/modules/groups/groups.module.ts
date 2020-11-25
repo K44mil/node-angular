@@ -16,10 +16,16 @@ import {
     // Courses
     CoursesListComponent,
     AddCourseComponent,
+    EditCourseComponent,
     // Specializations
     SpecializationsListComponent,
-    SubjectsListComponent
+    AddSpecializationComponent,
+    EditSpecializationComponent,
     // Subjects
+    SubjectsListComponent,
+    AddSubjectComponent,
+    EditSubjectComponent
+
 } from './components';
 
 @NgModule({
@@ -41,7 +47,12 @@ import {
         CoursesListComponent,
         SpecializationsListComponent,
         SubjectsListComponent,
-        AddCourseComponent
+        AddCourseComponent,
+        EditCourseComponent,
+        AddSpecializationComponent,
+        EditSpecializationComponent,
+        AddSubjectComponent,
+        EditSubjectComponent
     ]
 })
 export class GroupsModule { }

@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Subject = require('../../models/Subject');
+const Specialization = require('../../models/Specialization');
 
 /**
  * @desc    Get Subject by ID
@@ -8,7 +9,14 @@ const Subject = require('../../models/Subject');
  * @access  Private/Admin
  */
 exports.getSubject = asyncHandler(async (req, res, next) => {
-    const subject = await Subject.findByPk(req.params.id);
+    const subject = await Subject.findByPk(req.params.id, {
+        include: [
+            {
+                model: Specialization,
+                attributes: ['courseId']
+            }
+        ]
+    });
 
     if (!subject) {
         return next(

@@ -13,7 +13,12 @@ import {
     CoursesListComponent,
     SpecializationsListComponent,
     SubjectsListComponent,
-    AddCourseComponent
+    AddCourseComponent,
+    EditCourseComponent,
+    AddSpecializationComponent,
+    EditSpecializationComponent,
+    AddSubjectComponent,
+    EditSubjectComponent
 } from './components';
 
 const routes: Routes = [
@@ -29,8 +34,13 @@ const routes: Routes = [
             { path: ':id/marks', component: GroupMarksComponent },
             { path: 'courses', component: CoursesListComponent },
             { path: 'courses/add_course', component: AddCourseComponent },
+            { path: 'courses/:id/edit', component: EditCourseComponent },
             { path: 'specializations', component: SpecializationsListComponent },
-            { path: 'subjects', component: SubjectsListComponent }
+            { path: 'specializations/add_specialization', component: AddSpecializationComponent },
+            { path: 'specializations/:id/edit', component: EditSpecializationComponent },
+            { path: 'subjects', component: SubjectsListComponent },
+            { path: 'subjects/add_subject', component: AddSubjectComponent },
+            { path: 'subjects/:id/edit', component: EditSubjectComponent }
         ]
     }
 ];

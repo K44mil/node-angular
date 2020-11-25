@@ -14,7 +14,7 @@
                 <a class="nav-link" routerLink="/admin/groups/archival" >Archival Groups</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">More...</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">More...</a>
                 <div class="dropdown-menu">
                     <a routerLink="/admin/groups/courses" class="dropdown-item">Courses</a>
                     <a routerLink="/admin/groups/specializations" class="dropdown-item">Specializations</a>
@@ -116,7 +116,7 @@
                         <td>{{ group.academicYear }}</td>
                         <td *ngIf="group.Course" >{{ group.Course.name }}</td><td *ngIf="!group.Course">-</td>
                         <td *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
-                        <td *ngIf="group.Subject">{{ group.Subject }}</td><td *ngIf="!group.Subject">-</td>
+                        <td *ngIf="group.Subject">{{ group.Subject.name }}</td><td *ngIf="!group.Subject">-</td>
                         <td>{{ printFormattedStudiesType(group.type) }}</td>
                         <td>{{ printFormattedGroupLevel(group.level) }}</td>
                         <!-- <td><input type="checkbox" [checked]="group.isOpen"></td> -->

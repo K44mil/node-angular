@@ -40,7 +40,7 @@
                             <td>{{ course.name }}</td>
                             <td>{{ course.short }}</td>
                             <td>
-                                <span class="btn badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editCourse(course.id)"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteCourse(course.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>
