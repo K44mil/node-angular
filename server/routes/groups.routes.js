@@ -22,6 +22,7 @@ const { removeUserFromGroup } = require('../controllers/groups/removeUserFromGro
 const { updateGroup } = require('../controllers/groups/updateGroup');
 const { openManyGroups } = require('../controllers/groups/openManyGroups');
 const { closeManyGroups } = require('../controllers/groups/closeManyGroups');
+const { addUsersToGroup } = require('../controllers/groups/addUsersToGroup');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
@@ -53,6 +54,6 @@ router.put('/:id', updateGroup);
 // Mass actions
 router.post('/open_many', openManyGroups);
 router.post('/close_many', closeManyGroups);
-
+router.post('/:id/add_members', addUsersToGroup);
 
 module.exports = router;

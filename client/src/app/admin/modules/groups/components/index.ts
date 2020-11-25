@@ -6,6 +6,8 @@ export * from './group-attendance/group-attendance.component';
 export * from './archival-groups-list/archival-groups-list.component';
 export * from './group-marks/group-marks.component';
 export * from './edit-group/edit-group.component';
+export * from './students-list/students-list.component';
+
 // Courses
 export * from './courses/courses-list/courses-list.component';
 export * from './courses/add-course/add-course.component';

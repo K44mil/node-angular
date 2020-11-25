@@ -27,6 +27,10 @@ export class GroupsService {
         return this.http.post<any>(`${environment.apiUrl}/groups/close_many`, { ids });
     }
 
+    addUsersToGroup(id: string, ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/${id}/add_members`, { ids });
+    }
+
     closeGroup(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/close`);
     }

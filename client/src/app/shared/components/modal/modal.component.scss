@@ -1,10 +1,10 @@
 /* MODAL STYLES
 -------------------------------*/
-jw-modal {
+box-modal {
     /* modals are hidden by default */
     display: none;
 
-    .jw-modal {
+    .box-modal {
         /* modal container fixed across whole screen */
         position: fixed;
         top: 0;
@@ -12,22 +12,21 @@ jw-modal {
         bottom: 0;
         left: 0;
 
-        /* z-index must be higher than .jw-modal-background */
+        /* z-index must be higher than .box-modal-background */
         z-index: 1000;
         
         /* enables scrolling for tall modals */
         overflow: auto;
 
-        .jw-modal-body {
-            padding: 20px;
+        .box-modal-body {
             background: #fff;
             border-radius: 10px;
             /* margin exposes part of the modal background */
-            margin: 40px;
+            margin-top: 40px;
         }
     }
 
-    .jw-modal-background {
+    .box-modal-background {
         /* modal background fixed across whole screen */
         position: fixed;
         top: 0;
@@ -39,12 +38,12 @@ jw-modal {
         background-color: #000;
         opacity: 0.75;
         
-        /* z-index must be below .jw-modal and above everything else  */
+        /* z-index must be below .box-modal and above everything else  */
         z-index: 900;
     }
 }
 
-body.jw-modal-open {
+body.box-modal-open {
     /* body overflow is hidden to hide main scrollbar when modal window is open */
     overflow: hidden;
 }

@@ -3,7 +3,7 @@ import { Component, ViewEncapsulation, ElementRef, Input, OnInit, OnDestroy } fr
 import { ModalService } from '@shared/services/modal.service';
 
 @Component({ 
-    selector: 'jw-modal', 
+    selector: 'box-modal', 
     templateUrl: 'modal.component.html', 
     styleUrls: ['modal.component.scss'],
     encapsulation: ViewEncapsulation.None
@@ -32,13 +32,13 @@ export class ModalComponent implements OnInit, OnDestroy {
 
         // close modal on background click
         this.element.addEventListener('click', el => {
-            if (el.target.className === 'jw-modal') {
+            if (el.target.className === 'box-modal') {
                 this.close();
             }
         });
 
         // Modal body element
-        const modalBody = document.getElementById('jw-modal-body');
+        const modalBody = document.getElementById('box-modal-body');
 
         // Add width and height
         if (this.width) modalBody.style.width = this.width;
@@ -65,12 +65,12 @@ export class ModalComponent implements OnInit, OnDestroy {
     // open modal
     open(): void {
         this.element.style.display = 'block';
-        document.body.classList.add('jw-modal-open');
+        document.body.classList.add('box-modal-open');
     }
 
     // close modal
     close(): void {
         this.element.style.display = 'none';
-        document.body.classList.remove('jw-modal-open');
+        document.body.classList.remove('box-modal-open');
     }
 }

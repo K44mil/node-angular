@@ -1,6 +1,7 @@
 const asyncHandler = require('../../middleware/asyncHandler');
 const User = require('../../models/User');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
+const UserGroup = require('../../models/relationsModels/UserGroup');
 
 /**
  * @desc    Get all users
@@ -11,6 +12,10 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     let options = {
         where: { },
         order: [],
+        include: [],
+        attributes: [
+            'id', 'email', 'firstName', 'lastName', 'albumNumber'
+        ]
     };
     const {
         email,
@@ -19,7 +24,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         isBlocked,
         firstName,
         lastName,
-        albumNumber
+        albumNumber,
+        notInGroup
     } = req.query;
 
     // SELECT
@@ -50,8 +56,16 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     options.offset = startIndex;
     options.limit = limit;
 
+    // check if user not in group
+    if (notInGroup) {
+        options.attributes.push([
+            Sequelize.literal(`( SELECT groupId FROM user_group AS ug WHERE userId = User.id AND ug.groupId = "${notInGroup}")`),
+            'userGroup'
+        ]);
+    }
+        
     const users = await User.findAndCountAll(options);
-
+    
     // Pagination results
     const pagination = {};
 

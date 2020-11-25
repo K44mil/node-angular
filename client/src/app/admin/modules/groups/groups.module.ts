@@ -13,6 +13,7 @@ import {
     GroupMarksComponent,
     ArchivalGroupsListComponent,
     EditGroupComponent,
+    StudentsListComponent,
     // Courses
     CoursesListComponent,
     AddCourseComponent,
@@ -27,10 +28,12 @@ import {
     EditSubjectComponent
 
 } from './components';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        SharedModule,
         GroupsRoutingModule,
         ReactiveFormsModule,
         FormsModule
@@ -52,7 +55,8 @@ import {
         AddSpecializationComponent,
         EditSpecializationComponent,
         AddSubjectComponent,
-        EditSubjectComponent
+        EditSubjectComponent,
+        StudentsListComponent
     ]
 })
 export class GroupsModule { }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GroupsModule } from '@app/admin/modules/groups/groups.module';
 
 import {
     AlertComponent,

@@ -59,7 +59,8 @@
     <div class="row mt-3">
         <div class="col-4 ml-3">
             <h5 class="mt-3">Group Members:</h5>
-            <table class="table table-sm text-center">
+            <button class="btn btn-success" (click)="openModal('add-student-modal')">+ Add Students</button>
+            <table class="table table-sm text-center mt-1">
                 <thead class="thead-dark">
                     <th scope="col">#</th>
                     <th scope="col">First Name</th>
@@ -119,3 +120,15 @@
         </div>
     </div>
 </div>
+
+<!-- ADD STUDENT MODAL -->
+<box-modal id="add-student-modal" [bodyClasses]="getAddStudentModalClasses()">
+    <div class="row">
+        <div class="ml-auto mr-3 mt-2">
+            <i class="fas fa-times" (click)="closeModal('add-student-modal')" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div *ngIf="groupId">
+        <students-list [groupId]="groupId" (studentsAdded)="reloadUsers()"></students-list>
+    </div>
+</box-modal>

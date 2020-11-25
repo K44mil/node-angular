@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
+import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
 
@@ -23,7 +24,8 @@ export class GroupDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private groupsService: GroupsService,
         private alertService: AlertService,
-        private router: Router
+        private router: Router,
+        private modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -169,5 +171,23 @@ export class GroupDetailsComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    // Modals functions
+    openModal(id: string) {
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+
+    getAddStudentModalClasses() {
+        return 'col-6,offset-6';
+    }
+
+    reloadUsers() {
+        this.loadAdditionRequests(this.groupId);
+        this.loadGroupMembers(this.groupId);
     }
 }

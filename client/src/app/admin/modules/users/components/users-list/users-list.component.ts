@@ -314,17 +314,4 @@ export class UsersListComponent implements OnInit {
         this.prepareQuery();
         this.loadUsers(this.query);
     }
-
-    // Modal functions
-    closeModal(id: string) {
-        this.modalService.close(id);
-    }
-
-    openModal(id: string) {
-        this.modalService.open(id);
-    }
-
-    logSelectedItems() {
-        console.log(this.selectedItems);
-    }
 }
