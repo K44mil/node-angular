@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '@app/shared/services';
+import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
 
@@ -25,14 +26,17 @@ import { GroupsService } from '../../services/groups.service';
 export class GroupMarksComponent implements OnInit {
     groupId: string;
     members;
+    selectedMarkId: string;
 
     addMarkForm: FormGroup;
+    editMarkForm: FormGroup;
 
     constructor(
         private route: ActivatedRoute,
         private alertService: AlertService,
         private groupsService: GroupsService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -44,9 +48,17 @@ export class GroupMarksComponent implements OnInit {
             value: ['', Validators.required],
             description: ['', Validators.required]
         });
+
+        this.editMarkForm = this.formBuilder.group({
+            id: [''],
+            student: [''],
+            value: ['', Validators.required],
+            description: ['', Validators.required]
+        });
     }
 
     get f() { return this.addMarkForm.controls; }
+    get ef() { return this.editMarkForm.controls; }
 
     onSubmit() {
         if (this.addMarkForm.invalid) return;
@@ -57,6 +69,24 @@ export class GroupMarksComponent implements OnInit {
                 res => {
                     this.loadMarks(this.groupId);
                     this.addMarkForm.reset();
+                },
+                err => {
+
+                }
+            )
+    }
+
+    onEditFormSubmit() {
+        if (this.editMarkForm.invalid) return;
+
+        this.groupsService.updateMark(this.ef.id.value, this.editMarkForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.success('Mark has been edited.', {
+                        autoClose: true
+                    });
+                    this.loadMarks(this.groupId);
                 },
                 err => {
 
@@ -77,6 +107,35 @@ export class GroupMarksComponent implements OnInit {
             )
     }
 
+    onMarkDeleted() {
+        this.loadMarks(this.groupId);
+    }
+
+    onMarkEdited(id) {
+        const editModalButton = document.getElementById('showEditMarkFormButton');
+        editModalButton.click();
+
+        this.groupsService.getMark(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    const mark = res.data.mark;
+                    this.editMarkForm.patchValue({
+                        id: mark.id,
+                        student: `${mark.User.firstName} ${mark.User.lastName}`,
+                        value: mark.value,
+                        description: mark.description
+                    });
+                    setTimeout(() => {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }, 300);
+                },
+                err => {
+
+                }
+            )
+    }
+
     calculateAverage(marks) {
         let sum = 0, count = 0;
         for (const m of marks) {
@@ -90,4 +149,23 @@ export class GroupMarksComponent implements OnInit {
     printMark(mark) {
         return Number(mark).toFixed(1);
     }
+
+    // Modal
+    getMarkModalClasses() {
+        return 'col-md-2,offset-md-4';
+    }
+
+    openModal(id: string) {
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+
+    showMarkDetails(id: string) {
+        this.selectedMarkId = id;
+        this.openModal('mark-modal');
+    }
+
 }

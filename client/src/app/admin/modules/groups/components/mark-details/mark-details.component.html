@@ -1,0 +1,38 @@
+<div class="my-2 d-flex justify-content-center" *ngIf="mark">
+    <div>
+        <h4>Mark Details</h4>
+        <table class="table">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Value</th>
+                    <td>{{ mark.value }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description</th>
+                    <td>{{ mark.description }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Student</th>
+                    <td>{{ mark.User.firstName }} {{ mark.User.lastName }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Created At</th>
+                    <td>{{ printDate(mark.created_at) }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Updated At</th>
+                    <td>{{ printDate(mark.updated_at) }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-outline-danger form-control" (click)="deleteMark(mark.id)">DELETE</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-outline-dark form-control" (click)="editMark(mark.id)">EDIT</button>
+            </div>
+        </div>
+    </div>
+</div>

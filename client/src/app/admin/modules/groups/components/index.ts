@@ -25,3 +25,6 @@ export * from './subjects/edit-subject/edit-subject.component';
 
 // Presence
 export * from './presence-details/presence-details.component';
+
+// Mark
+export * from './mark-details/mark-details.component';

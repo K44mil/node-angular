@@ -170,4 +170,17 @@ export class GroupsService {
     createMarks(id: string, body: any) {
         return this.http.post<any>(`${environment.apiUrl}/marks/group/${id}`, body);
     }
+
+    // Get Mark
+    getMark(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/marks/${id}`);
+    }
+
+    deleteMark(id: string) {
+        return this.http.delete<any>(`${environment.apiUrl}/marks/${id}`);
+    }
+
+    updateMark(id: string, body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/marks/${id}`, body);
+    }
 }

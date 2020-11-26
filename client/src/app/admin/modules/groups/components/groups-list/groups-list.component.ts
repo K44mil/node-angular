@@ -22,7 +22,7 @@ export class GroupsListComponent implements OnInit {
 
     // Items per page
     itemsPerPageControl: FormControl;
-    itemsPerPage: number = 10;
+    itemsPerPage: number = 25;
 
     // Filter Form
     filterForm: FormGroup;

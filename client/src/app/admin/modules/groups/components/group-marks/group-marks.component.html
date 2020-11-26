@@ -35,15 +35,16 @@
                     <td>{{ i+1 }}</td>
                     <td>{{ m.User.firstName }} {{ m.User.lastName }}</td>
                     <td>{{ m.User.albumNumber }}</td>
-                    <td *ngFor="let mark of m.User.Marks" class="mark text-center">{{ printMark(mark.value) }}</td>
+                    <td *ngFor="let mark of m.User.Marks" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
                     <td *ngIf="m.User.Marks.length !== 0" class="bg-info text-white">{{ calculateAverage(m.User.Marks) }}</td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-outline-dark mt-2" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
+        <button class="btn btn-outline-dark mt-2 mb-3" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
     </div>
     <div class="col-6" id="collapseMarksForms">
-        <div class="col-6 collapse" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
+        <!-- ADD MARK FORM -->
+        <div class="col-6 collapse mb-3" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
             <h6 class="mt-2">Add Mark</h6>
             <form [formGroup]="addMarkForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
@@ -68,5 +69,43 @@
                 <button class="btn btn-outline-dark">Save</button>
             </form>
         </div>
+        <!-- EDIT MARK FORM -->
+        <button class="d-none" id="showEditMarkFormButton" data-toggle="collapse" data-target="#collapseEditMarkForm"></button>
+        <div class="col-6 collapse mb-3" id="collapseEditMarkForm" data-parent="#collapseMarksForms">
+            <h6 class="mt-2">Edit Mark</h6>
+            <form [formGroup]="editMarkForm" (ngSubmit)="onEditFormSubmit()">
+                <div class="form-group">
+                    <label for="">Student</label>
+                    <input type="text" formControlName="student" class="form-control" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="">Mark</label>
+                    <input type="number" min="2.0" max="5.0" step="0.5" class="form-control" formControlName="value">
+                </div>
+                <div class="form-group">
+                    <label for="">Description</label>
+                    <select class="form-control" formControlName="description">
+                        <option value="Test">Test</option>
+                        <option value="Aktywność">Aktywność</option>
+                        <option value="Kolowium">Kolowium</option>
+                        <option value="Ocena końcowa">Ocena końcowa</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline-dark">Save</button>
+            </form>
+        </div>
     </div>
 </div>
+
+<box-modal id="mark-modal" [bodyClasses]="getMarkModalClasses()">
+    <div class="row">
+        <div class="ml-auto mr-3 mt-2">
+            <i class="fas fa-times" (click)="closeModal('mark-modal')" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <mark-details [markId]="selectedMarkId" (markDeleted)="onMarkDeleted()" (markEdited)="onMarkEdited($event)"></mark-details>
+        </div>
+    </div>
+</box-modal>

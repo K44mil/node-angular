@@ -29,6 +29,9 @@ exports.getGroupMarks = asyncHandler(async (req, res, next) => {
                 }
             ]
         },
+        order: [
+            [User, 'lastName', 'ASC']
+        ]
     });
 
     res.status(200).json({

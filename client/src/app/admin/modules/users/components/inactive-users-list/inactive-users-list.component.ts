@@ -21,7 +21,7 @@ export class InactiveUsersListComponent implements OnInit {
 
     // Items per page
     itemsPerPageControl: FormControl;
-    itemsPerPage: number = 10;
+    itemsPerPage: number = 25;
 
     // Filter Form
     filterForm: FormGroup;
@@ -46,7 +46,7 @@ export class InactiveUsersListComponent implements OnInit {
         this.loadUsers(this.query);
 
         // Items per Page control
-        this.itemsPerPageControl = new FormControl(this.setItemsPerPage);
+        this.itemsPerPageControl = new FormControl(this.itemsPerPage);
 
         // Filter Form
         this.filterForm = this.formBuilder.group({

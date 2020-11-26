@@ -37,7 +37,7 @@ sequelize
 
 // USERS
 const users = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
+    fs.readFileSync(`${__dirname}/_data/users2.json`, 'utf-8')
 );
 
 // UNIVERSITIES
