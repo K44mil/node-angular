@@ -129,6 +129,6 @@
         </div>
     </div>
     <div *ngIf="groupId">
-        <students-list [groupId]="groupId" (studentsAdded)="reloadUsers()"></students-list>
+        <students-list [groupId]="groupId" [userRemoved]="userRemoved" (studentsAdded)="reloadUsers()"></students-list>
     </div>
 </box-modal>

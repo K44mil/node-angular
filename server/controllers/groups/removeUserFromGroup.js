@@ -43,13 +43,24 @@ exports.removeUserFromGroup = asyncHandler(async (req, res, next) => {
         }
     });
 
+    console.log(events);
+
     // Delete Presences assigned to user and group
     for (const e of events) {
         const presence = await Presence.findOne({
-            userId: user.id,
-            eventId: e.id
+            where: {
+                userId: {
+                    [Op.eq]: user.id
+                },
+                eventId: {
+                    [Op.eq]: e.id
+                }
+            }
         });
-        if (presence) await presence.destroy();
+        if (presence) {
+            console.log(presence);
+            await presence.destroy();
+        }
     }
 
     await userGroup.destroy();

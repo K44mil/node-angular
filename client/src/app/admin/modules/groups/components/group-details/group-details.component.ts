@@ -20,6 +20,8 @@ export class GroupDetailsComponent implements OnInit {
     additionRequests = [];
     groupMembers = [];
 
+    userRemoved: boolean;
+
     constructor(
         private route: ActivatedRoute,
         private groupsService: GroupsService,
@@ -160,6 +162,8 @@ export class GroupDetailsComponent implements OnInit {
                     this.alertService.success('Student has been successfully removed from this group.', {
                         autoClose: true
                     });
+                    if (this.userRemoved) this.userRemoved = false;
+                    else this.userRemoved = true;
                     this.loadGroupMembers(this.groupId);
                     this.loadAdditionRequests(this.groupId);
                 },

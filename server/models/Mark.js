@@ -1,22 +1,25 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
-const Event = require('./Event');
+const Group = require('./Group');
 const User = require('./User');
 
-class Presence extends Model {
+class Mark extends Model {
 
 }
 
-Presence.init({
+Mark.init({
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    isConfirmed: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        field: 'is_confirmed'
+    value: {
+        type: DataTypes.STRING(3),
+        allowNull: false
+    },
+    description: {
+        type: DataTypes.STRING(63),
+        allowNull: false
     },
     userId: {
         type: DataTypes.UUID,
@@ -26,24 +29,20 @@ Presence.init({
             key: 'id'
         }
     },
-    eventId: {
+    groupId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: Event,
+            model: Group,
             key: 'id'
         }
-    },
-    updatedBy: {
-        type: DataTypes.STRING(100),
-        allowNull: true
     }
 }, {
     sequelize,
-    modelName: 'Presence',
-    tableName: 'presences',
+    modelName: 'Mark',
+    tableName: 'marks',
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-module.exports = Presence;
+module.exports = Mark;

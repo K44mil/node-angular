@@ -22,3 +22,6 @@ export * from './specializations/edit-specialization/edit-specialization.compone
 export * from './subjects/subjects-list/subjects-list.component';
 export * from './subjects/add-subject/add-subject.component';
 export * from './subjects/edit-subject/edit-subject.component';
+
+// Presence
+export * from './presence-details/presence-details.component';

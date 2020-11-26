@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '@app/admin/modules/users/models/User';
 import { UsersService } from '@app/admin/modules/users/services/users.service';
@@ -11,11 +11,12 @@ import { GroupsService } from '../../services/groups.service';
     selector: 'students-list',
     templateUrl: 'students-list.component.html'
 })
-export class StudentsListComponent implements OnInit {
+export class StudentsListComponent implements OnInit, OnChanges {
     filterForm: FormGroup;
     users: User[];
 
     @Input() groupId: string;
+    @Input() userRemoved: boolean;
 
     @Output() studentsAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -32,16 +33,21 @@ export class StudentsListComponent implements OnInit {
         private modalService: ModalService,
         private formBuilder: FormBuilder,
         private groupsService: GroupsService
-    ) { }
-
-    ngOnInit() {
+    ) {
         this.filterForm = this.formBuilder.group({
             email: [''],
             firstName: [''],
             lastName: [''],
             albumNumber: ['']
         });
+    }
 
+    ngOnInit() {
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    ngOnChanges() {
         this.prepareQuery();
         this.loadUsers(this.query);
     }
@@ -53,7 +59,6 @@ export class StudentsListComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 this.users = res.data.users.filter(u => u.userGroup == null);
-                console.log(res);
             },
             err => {
                 this.alertService.error(err, {

@@ -121,6 +121,7 @@ export class UsersListComponent implements OnInit {
         this.usersService.getUsers(query)
             .pipe(first())
             .subscribe(res => {
+                console.log(res.data.users);
                 this.users = res.data.users
                 this.countTotal = res.data.count;
                 this.pagination = res.data.pagination;

@@ -104,10 +104,36 @@
                     <td>{{ a.User.firstName }} {{ a.User.lastName }}</td>
                     <td>{{ a.User.albumNumber }}</td>
                     <!-- NG FOR OF EVENTS -->
-                    <td *ngFor="let p of a.User.Presences"><span *ngIf="p.isConfirmed" class="badge badge-primary badge-pill text-primary">.</span></td>
+                    <td *ngFor="let p of a.User.Presences">
+                        <span *ngIf="!editAttendanceMode && p.isConfirmed" class="badge badge-primary badge-pill text-primary" style="cursor: pointer;" (click)="showPresenceDetails(p.id)">&nbsp;</span>
+                        <span *ngIf="editAttendanceMode && p.isConfirmed" class="badge badge-success badge-pill text-primary" style="cursor: pointer;" (click)="setUserAbsent(p.id)">&nbsp;</span>
+                        <span *ngIf="editAttendanceMode && !p.isConfirmed" class="badge badge-secondary badge-pill text-primary" style="cursor: pointer;" (click)="setUserPresent(p.id)">&nbsp;</span>
+                    </td>
                     <!-- <td *ngFor="let p of a.User.Presences">{{ p.eventName }}</td> -->
                 </tr>
             </tbody>
         </table>
+        <button class="btn mt-2" [ngClass]="{'btn-outline-dark': !editAttendanceMode, 'btn-outline-success': editAttendanceMode }" (click)="editAttendanceModeOnOff()">
+            <span *ngIf="editAttendanceMode">Edit Mode: ON</span>
+            <span *ngIf="!editAttendanceMode">Edit Mode: OFF</span>
+        </button>
     </div>
 </div>
+
+<box-modal id="presence-modal" [bodyClasses]="getPresenceModalClasses()">
+    <div class="row">
+        <div class="ml-auto mr-3 mt-2">
+            <i class="fas fa-times" (click)="closeModal('presence-modal')" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <presence-details [presenceId]="selectedPresenceId"></presence-details>
+        </div>
+        <!-- Presence:
+        Event: Laboratory 1
+        Student: Jan Kowalski
+        Confirmed By: Jan Kowalski
+        Confirmed At: 10-11-2020 15:12 -->
+    </div>
+</box-modal>

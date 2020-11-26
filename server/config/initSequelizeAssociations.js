@@ -15,6 +15,7 @@ const Subject = require('../models/Subject');
 const Group = require('../models/Group');
 const Event = require('../models/Event');
 const Presence = require('../models/Presence');
+const Mark = require('../models/Mark');
 
 const initSequelizeAssociations = () => {
 
@@ -91,6 +92,15 @@ const initSequelizeAssociations = () => {
     // Event -|---o< Presence
     Event.hasMany(Presence, { foreignKey: 'eventId'} );
     Presence.belongsTo(Event, { foreignKey: 'eventId'});
+
+    // MARKS
+    // User -|---o< Mark
+    User.hasMany(Mark, { foreignKey: 'userId' });
+    Mark.belongsTo(User, { foreignKey: 'userId' });
+
+    // Group -|---o< Mark
+    Group.hasMany(Mark, { foreignKey: 'groupId' });
+    Mark.belongsTo(Group, { foreignKey: 'groupId' });
 };
 
 module.exports = initSequelizeAssociations;

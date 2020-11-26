@@ -25,7 +25,9 @@ import {
     // Subjects
     SubjectsListComponent,
     AddSubjectComponent,
-    EditSubjectComponent
+    EditSubjectComponent,
+    // Presence
+    PresenceDetailsComponent
 
 } from './components';
 import { SharedModule } from '@app/shared/shared.module';
@@ -56,7 +58,8 @@ import { SharedModule } from '@app/shared/shared.module';
         EditSpecializationComponent,
         AddSubjectComponent,
         EditSubjectComponent,
-        StudentsListComponent
+        StudentsListComponent,
+        PresenceDetailsComponent
     ]
 })
 export class GroupsModule { }

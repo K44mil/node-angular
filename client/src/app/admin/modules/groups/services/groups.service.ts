@@ -75,6 +75,10 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/attendance`);
     }
 
+    getGroupMarks(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/marks`);
+    }
+
     getGroupMembers(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/members`);
     }
@@ -149,5 +153,21 @@ export class GroupsService {
     // Confirm Presence
     confirmPresence(id) {
         return this.http.get<any>(`${environment.apiUrl}/presences/${id}/confirm`);
+    }
+
+    // Change Presence for Admin
+    setPresence(id: string, isPresent: boolean) {
+        if (isPresent)
+            return this.http.get<any>(`${environment.apiUrl}/presences/${id}/present`);
+        return this.http.get<any>(`${environment.apiUrl}/presences/${id}/absent`);
+    }
+
+    getPresence(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/presences/${id}`);
+    }
+
+    // Create Mark
+    createMarks(id: string, body: any) {
+        return this.http.post<any>(`${environment.apiUrl}/marks/group/${id}`, body);
     }
 }

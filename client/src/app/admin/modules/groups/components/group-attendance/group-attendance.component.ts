@@ -6,6 +6,7 @@ import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
 import { Event } from '../../models/Event';
+import { ModalService } from '@app/shared/services/modal.service';
 
 @Component({
     templateUrl: 'group-attendance.component.html',
@@ -37,11 +38,16 @@ export class GroupAttendanceComponent implements OnInit {
     attendance;
     editedEventId: string = null;
 
+    editAttendanceMode: boolean = false;
+
+    selectedPresenceId: string;
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private alertService: AlertService,
-        private groupsService: GroupsService
+        private groupsService: GroupsService,
+        private modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -258,5 +264,57 @@ export class GroupAttendanceComponent implements OnInit {
 
             }
         )
+    }
+
+    // Attendance functions
+    editAttendanceModeOnOff() {
+        if (this.editAttendanceMode)
+            this.editAttendanceMode = false;
+        else
+            this.editAttendanceMode = true;
+    }
+
+    setUserAbsent(id: string) {
+        this.groupsService.setPresence(id, false)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadAttendance(this.groupId);
+                },
+                err => {
+
+                }
+            )
+    }
+
+    setUserPresent(id: string) {
+        this.groupsService.setPresence(id, true)
+        .pipe(first())
+        .subscribe(
+            res => {
+                this.loadAttendance(this.groupId);
+            },
+            err => {
+
+            }
+        )
+    }
+
+    // Modal
+    showPresenceDetails(id: string) {
+        this.selectedPresenceId = id;
+        this.openModal('presence-modal');
+    }
+
+    openModal(id: string) {
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+
+    getPresenceModalClasses() {
+        return 'col-md-2,offset-md-4';
     }
 }

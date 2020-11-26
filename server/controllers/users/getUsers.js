@@ -14,7 +14,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         order: [],
         include: [],
         attributes: [
-            'id', 'email', 'firstName', 'lastName', 'albumNumber'
+            'id', 'email', 'firstName', 'lastName', 'role', 'albumNumber', 'created_at', 'updated_at', 
         ]
     };
     const {
@@ -59,7 +59,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     // check if user not in group
     if (notInGroup) {
         options.attributes.push([
-            Sequelize.literal(`( SELECT groupId FROM user_group AS ug WHERE userId = User.id AND ug.groupId = "${notInGroup}")`),
+            Sequelize.literal(`( SELECT groupId FROM user_group AS ug WHERE userId = User.id AND ug.is_confirmed = 1 AND ug.groupId = "${notInGroup}")`),
             'userGroup'
         ]);
     }
