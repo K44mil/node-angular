@@ -31,7 +31,6 @@ export class NewsComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 if (res.data.news) this.news = res.data.news;       
-                // console.log(res.data.news);
             });
     }
 

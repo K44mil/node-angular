@@ -368,8 +368,6 @@ export class GroupsListComponent implements OnInit {
     }
 
     openSelectedGroups() {
-        console.log(this.selectedItems);
-        
         if (this.selectedItems.length > 0 && 
             confirm('Are you sure you want to open all selected groups?')) {
             this.groupsService.openManyGroups(this.selectedItems)

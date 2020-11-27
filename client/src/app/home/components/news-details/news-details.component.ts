@@ -95,12 +95,11 @@ export class NewsDetailsComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {         
-                    this.alertService.success('Comment added.', { autoClose: true });
+                    this.alertService.success('Comment has been added.', { autoClose: true });
                     this.comments.reverse();
                     this.comments.push(res.data.comment);
                     this.comments.reverse();
                 },
-                err => console.log(err)
             );
 
         this.commentForm.reset();

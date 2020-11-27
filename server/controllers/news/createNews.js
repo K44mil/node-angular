@@ -100,7 +100,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
             fileExt = path.parse(file.name).ext;
             if (allowedExtensions.includes(fileExt)) {
                 if (file.size < process.env.MAX_FILE_UPLOAD) {
-                    console.log(file);
+                    // console.log(file);
                     // const type = path.extname(file.name).toString().replace('.', '');
                     const createdFile = await File.build({
                         name: file.name,

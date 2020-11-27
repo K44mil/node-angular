@@ -27,7 +27,7 @@ exports.downloadFile = asyncHandler(async (req, res, next) => {
     }
 
     const filePath = `${path.join(path.resolve(__dirname, '../..'), `${file.path}`)}`;
-    console.log(file.id);
+    // console.log(file.id);
 
     res.download(filePath);
 });

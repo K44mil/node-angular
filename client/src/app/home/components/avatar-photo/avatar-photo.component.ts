@@ -29,10 +29,6 @@ export class AvatarPhotoComponent implements OnInit {
             const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length));
             this.circleColor = this.colors[randomIndex];
         }
-
-        console.log(this.avatarSize);
-        
-       
     }
 
     private createInitials() {
