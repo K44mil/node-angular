@@ -9,9 +9,15 @@ import { Title } from '@angular/platform-browser';
                                 <alert></alert>
                                 <router-outlet></router-outlet>
                             </div>
-                            <div class="footer">
+                            <div *ngIf="cookiesAccepted" class="footer">
                                 <div class="text-center">
                                     Footer
+                                </div>
+                            </div>
+                            <div *ngIf="!cookiesAccepted" class="footer">
+                                <div class="text-center">
+                                    This site is using cookies.
+                                    <button class="btn btn-success p-1" (click)="acceptCookies()">Close</button>
                                 </div>
                             </div>
                         `,
@@ -32,5 +38,14 @@ import { Title } from '@angular/platform-browser';
                         `]
 })
 export class LayoutComponent {
-    constructor(private titleService: Title) { this.titleService.setTitle('PhD Tomasz Rak - Home Page'); }
+    cookiesAccepted: boolean = false;
+
+    constructor(private titleService: Title) {
+        this.titleService.setTitle('PhD Tomasz Rak - Home Page');
+    }
+
+    acceptCookies() {
+        this.cookiesAccepted = true;
+    }
+
 }

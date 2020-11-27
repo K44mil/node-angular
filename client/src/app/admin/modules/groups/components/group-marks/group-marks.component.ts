@@ -51,7 +51,7 @@ export class GroupMarksComponent implements OnInit {
 
         this.editMarkForm = this.formBuilder.group({
             id: [''],
-            student: [''],
+            student: [{ value: '', disabled: true }],
             value: ['', Validators.required],
             description: ['', Validators.required]
         });
