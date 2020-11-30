@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@env/environment';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PageService {
+
+    profilePage = new Subject<string>();
 
     constructor(private http: HttpClient) { }
 
@@ -40,4 +43,7 @@ export class PageService {
         return this.http.get(`${environment.apiUrl}/files/download/${id}`, { responseType: 'blob' });
     }
 
+    deleteComment(id) {
+        return this.http.delete<any>(`${environment.apiUrl}/comments/${id}`);
+    }
 } 

@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { AuthUser, RegisterStudentRequest, RegisterUserRequest } from '@home/modules/account/models';
 import { CryptService } from '@shared/services/crypt.service';
+import { AlertService } from './alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,7 +19,8 @@ export class AuthService {
     constructor(
         private router: Router,
         private http: HttpClient,
-        private cryptService: CryptService
+        private cryptService: CryptService,
+        private alertService: AlertService
     ) {
         let user = this.loadUserValueFromLocalStorage();
         if (!user) user = this.loadUserValueFromSessionStorage();
@@ -130,6 +132,18 @@ export class AuthService {
         return this.http.get<any>(`${environment.apiUrl}/auth/me`);
     }
 
+    public changeAvatar(formData: FormData) {
+        return this.http.put<any>(`${environment.apiUrl}/auth/change_avatar`, formData);
+    }
+
+    public changeUserData(body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/auth/me`, body);
+    }
+
+    public changePassword(body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/auth/change_password`, body);
+    }
+
     private clearLocalStorage(): void {
         localStorage.removeItem('_u');
     }
@@ -142,10 +156,12 @@ export class AuthService {
         this.clearSessionStorage();
         this.clearLocalStorage();
         this.userSubject.next(null);
-        this.router.navigate(['/auth/login']);
-    }
-
-    public changeAvatar(formData: FormData) {
-        return this.http.put<any>(`${environment.apiUrl}/auth/change_avatar`, formData);
+        this.router.navigate(['/']);
+        setTimeout(() => {
+            this.alertService.info('You have been log out.', {
+                autoClose: true,
+                keepAfterRouteChange: true
+            });
+        }, 100);
     }
 }

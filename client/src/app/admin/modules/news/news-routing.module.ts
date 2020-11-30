@@ -5,7 +5,8 @@ import {
     LayoutComponent,
     NewsListComponent,
     AddNewsComponent,
-    CategoriesListComponent
+    CategoriesListComponent,
+    AddCategoryComponent
 } from './components';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
         children: [
             { path: '', component: NewsListComponent },
             { path: 'add_news', component: AddNewsComponent },
-            { path: 'categories', component: CategoriesListComponent }
+            { path: 'categories', component: CategoriesListComponent },
+            { path: 'add_category', component: AddCategoryComponent }
         ]
     }
 ];

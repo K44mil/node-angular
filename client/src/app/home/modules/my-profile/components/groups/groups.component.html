@@ -47,21 +47,11 @@
                         <th scope="col">Description</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>06.10.2020, 12:31</td>
-                        <td>3.5</td>
-                        <td>Wejściówka</td>
-                      </tr>
-                      <tr>
-                        <td>06.10.2020, 12:55</td>
-                        <td>2.0</td>
-                        <td>Aktywność</td>
-                      </tr>
-                      <tr>
-                        <td>13.10.2020, 13:42</td>
-                        <td>4.0</td>
-                        <td>Test</td>
+                    <tbody *ngIf="marks">
+                      <tr *ngFor="let m of marks">
+                        <td>{{ printDate(m.created_at) }}</td>
+                        <td>{{ m.value }}</td>
+                        <td>{{ m.description }}</td>
                       </tr>
                     </tbody>
                   </table>

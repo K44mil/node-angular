@@ -9,7 +9,8 @@ import {
     LayoutComponent,
     NewsListComponent,
     AddNewsComponent,
-    CategoriesListComponent
+    CategoriesListComponent,
+    AddCategoryComponent
 } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -25,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         LayoutComponent,
         NewsListComponent,
         AddNewsComponent,
-        CategoriesListComponent
+        CategoriesListComponent,
+        AddCategoryComponent
     ]
 })
 export class NewsModule { }

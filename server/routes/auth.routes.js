@@ -11,6 +11,7 @@ const { resetPassword } = require('../controllers/auth/resetPassword');
 const { changePassword } = require('../controllers/auth/changePassword');
 const { changeAvatar } = require('../controllers/auth/changeAvatar');
 const { isAdmin } = require('../controllers/auth/isAdmin');
+const { updateMe } = require('../controllers/auth/updateMe');
 
 // POST
 router.post('/register_user', registerUser);
@@ -25,6 +26,7 @@ router.get('/me', protect, getMe);
 router.put('/change_password', protect, changePassword);
 router.put('/reset_password/:resetToken', resetPassword);
 router.put('/change_avatar', protect, changeAvatar);
+router.put('/me', protect, updateMe);
 
 // Check if user is admin
 router.get('/admin', protect, authorize(Role.Admin), isAdmin);

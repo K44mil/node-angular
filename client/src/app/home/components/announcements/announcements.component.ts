@@ -10,16 +10,32 @@ import { first } from 'rxjs/operators';
 })
 export class AnnouncementsComponent implements OnInit {
 
-    public announcements: Announcement[];
+    public announcements: Announcement[] = [];
 
     constructor(private pageService: PageService) {}
 
     ngOnInit() {
+        let _a = JSON.parse(sessionStorage.getItem('_a'));
+        if (!_a) _a = [];
+        if (!Array.isArray(_a))
+            _a = [];
+
         this.pageService.getAnnouncements()
             .pipe(first())
             .subscribe(res => {
-                if (res.data.announcements)
-                    this.announcements = res.data.announcements;
+                let announcements = res.data.announcements;
+                for (const a of announcements) {
+                    if (!_a.includes(a._id)) this.announcements.push(a);
+                }
             });
+    }
+
+    announcementClosed(id) {
+        let _a = JSON.parse(sessionStorage.getItem('_a'));
+        if (!Array.isArray(_a))
+            _a = [];
+
+        _a.push(id);
+        sessionStorage.setItem('_a', JSON.stringify(_a));
     }
 }

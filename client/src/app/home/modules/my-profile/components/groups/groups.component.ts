@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupsService } from '@app/admin/modules/groups/services/groups.service';
+import { PageService } from '@app/home/services';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
@@ -10,6 +11,7 @@ import { first } from 'rxjs/operators';
 export class GroupsComponent implements OnInit {
     groups;
     events;
+    marks;
     attendance: string = '0';
     selectGroupForm: FormGroup;
     selectedGroupId: string;
@@ -17,13 +19,16 @@ export class GroupsComponent implements OnInit {
     constructor(
         private alertService: AlertService,
         private groupsService: GroupsService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private pageService: PageService
     ) { }
 
     ngOnInit() {
         this.selectGroupForm = this.formBuilder.group({
             selectGroup: ['']
         });
+
+        this.pageService.profilePage.next('groups');
 
         this.groupsService.getMyGroups()
             .pipe(first())
@@ -63,7 +68,24 @@ export class GroupsComponent implements OnInit {
                 },
                 err => {
                     this.alertService.clear();
-                    this.alertService.error(err);
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+
+        this.groupsService.getMyMarks(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.marks = res.data.marks;
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                     window.scrollTo(0,0);
                 }
             )

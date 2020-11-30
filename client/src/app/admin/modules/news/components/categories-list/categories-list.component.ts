@@ -34,4 +34,21 @@ export class CategoriesListComponent implements OnInit {
                 }
             )
     }
+
+    deleteCategory(id) {
+        this.categoriesService.deleteCategory(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Category has been deleted.', {
+                        autoClose: true
+                    });
+                    this.loadCategories();
+                },
+                err => {
+
+                }
+            )
+    }
 }

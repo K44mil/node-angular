@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, AlertService } from '@shared/services';
 import { AuthUser, Role } from '@home/modules/account/models';
 
+import { environment } from '@env/environment';
+
 @Component({
     selector: 'main-nav',
     templateUrl: 'main-nav.component.html',
@@ -11,7 +13,7 @@ import { AuthUser, Role } from '@home/modules/account/models';
 export class MainNavComponent implements OnInit {
 
     loggedUser: AuthUser;
-
+    
     constructor(
         private authService: AuthService,
         private alertService: AlertService
@@ -24,9 +26,6 @@ export class MainNavComponent implements OnInit {
 
     logout() {
         this.authService.logout();
-        this.alertService.info('Logout successful.', {
-            autoClose: true
-        });
     }
 
     isAdmin() {
@@ -42,7 +41,7 @@ export class MainNavComponent implements OnInit {
 
     getPhotoUrl() {
         if (this.loggedUser && this.loggedUser.avatar)
-            return `http://localhost:5000/uploads/avatars/${this.loggedUser.avatar}`;
+            return `${environment.hostUrl}/uploads/avatars/${this.loggedUser.avatar}`;
         return null;
     }
 }

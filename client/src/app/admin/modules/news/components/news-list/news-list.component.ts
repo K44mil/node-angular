@@ -72,4 +72,21 @@ export class NewsListComponent implements OnInit {
                 }
             );
     }
+
+    deleteNews(id) {
+        this.newsService.deleteNews(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('News has been deleted.', {
+                        autoClose: true
+                    });
+                    this.loadNews();
+                },
+                err => {
+                    console.log(err);
+                }
+            )
+    }
 }

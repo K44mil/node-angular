@@ -5,6 +5,10 @@ import { AuthUser } from '@app/home/modules/account/models';
 import { AlertService, AuthService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
+import { environment } from '@env/environment';
+import { ReturnStatement } from '@angular/compiler';
+import { PageService } from '@app/home/services';
+
 @Component({
     templateUrl: 'general.component.html'
 })
@@ -15,20 +19,22 @@ export class GeneralComponent implements OnInit {
     changeAvatarFormLoading = false;
     changeAvatarForm: FormGroup;
 
-
+    editUserDataFormLoading: boolean = false;
     editUserDataForm: FormGroup;
 
     constructor(
         private authService: AuthService,
         private formBuilder: FormBuilder,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private pageService: PageService
     ) {
 
     }
 
     ngOnInit() {
-
         this.loggedUser = this.authService.userValue;
+
+        this.pageService.profilePage.next('general');
 
         this.authService.getMe()
             .pipe(first())
@@ -45,8 +51,8 @@ export class GeneralComponent implements OnInit {
 
         // EDIT USER DATA FORM
         this.editUserDataForm = this.formBuilder.group({
-            firstName: [''],
-            lastName: ['']
+            firstName: ['', Validators.max(50)],
+            lastName: ['', Validators.max(50)]
         });
     }
 
@@ -59,7 +65,7 @@ export class GeneralComponent implements OnInit {
 
     getPhotoUrl() {
         if (this.user && this.user.avatar)
-            return `http://localhost:5000/uploads/avatars/${this.user.avatar}`;
+            return `${environment.hostUrl}/uploads/avatars/${this.loggedUser.avatar}`;
         return null;
     }
 
@@ -88,9 +94,13 @@ export class GeneralComponent implements OnInit {
                     this.authService.saveUserValue();
                     this.changeAvatarFormLoading = false;
                     this.changeAvatarForm.reset();
+                    window.location.reload();
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                     this.changeAvatarFormLoading = false;
                     this.changeAvatarForm.reset();
                 }
@@ -98,6 +108,25 @@ export class GeneralComponent implements OnInit {
     }
 
     onSubmitEditUserDataForm() {
-        
+        if (this.editUserDataForm.invalid) return;
+
+        this.authService.changeUserData(this.editUserDataForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.user = res.data.user;
+                    this.authService.userValue.firstName = this.user.firstName;
+                    this.authService.userValue.lastName = this.user.lastName;
+                    this.authService.saveUserValue();
+                    window.location.reload();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
     }
 }                                                    

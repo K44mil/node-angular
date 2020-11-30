@@ -9,6 +9,7 @@ const { getVisibleNews } = require('../controllers/news/getVisibleNews');
 const { changeVisibility } = require('../controllers/news/changeVisibility');
 const { changeCommentable } = require('../controllers/news/changeCommentable');
 const { changeProtected } = require('../controllers/news/changeProtected');
+const { deleteNews } = require('../controllers/news/deleteNews');
 
 // GET
 router.get('/:id/change_protected', protect, authorize(Role.Admin), changeProtected);
@@ -24,5 +25,8 @@ router.use(protect, authorize(Role.Admin));
 
 // POST
 router.post('/', createNews);
+
+// DELETE
+router.delete('/:id', deleteNews);
 
 module.exports = router;

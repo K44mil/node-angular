@@ -8,7 +8,7 @@
                 </div>
                 <h3>{{ news.title }}</h3>
                 <div class="categories">
-                    <span *ngFor="let category of news.Categories" class="badge badge-primary mr-1">{{ category.name }}</span>
+                    <span *ngFor="let category of news.Categories" class="badge badge-primary mr-1 p-1">{{ category.name }}</span>
                 </div>
                 <small class="">
                     <i class="fa fa-user-o"></i> {{ news.User.firstName }} {{ news.User.lastName }}
@@ -53,12 +53,21 @@
                         <div *ngFor="let comment of comments" class="comment">
                             <div class="row mt-3">
                                 <div class="col-md-2 d-none d-sm-none d-md-block" style="display: flex; justify-content: center;">
-                                    <avatar-photo [name]="getUserName(comment.User.firstName, comment.User.lastName)" [avatarSize]="1"></avatar-photo>
+                                    <avatar-photo [name]="getUserName(comment.User.firstName, comment.User.lastName)" [photoUrl]="getPhotoUrl(comment.User.avatar)"  [avatarSize]="1"></avatar-photo>
                                 </div>
                                 <div class="col-md-8">
                                     <div>
-                                        <div class="user-name">{{ comment.User.firstName }} {{ comment.User.lastName }}</div>
-                                        <p class="comment-date text-muted">{{ printDate(comment.created_at) }}</p>
+                                        <div class="row">
+                                            
+                                            <div class="user-name">{{ comment.User.firstName }} {{ comment.User.lastName }}</div>
+                                            <div *ngIf="canDelete(comment)" class="ml-auto text-danger" style="cursor: pointer;">
+                                                <p (click)="deleteComment(comment.id)">Usuń</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p class="comment-date text-muted">{{ printDate(comment.created_at) }}</p>
+                                        </div>
+                                        
                                     </div>
                                     <div>
                                         {{ comment.content }}

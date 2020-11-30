@@ -6,6 +6,10 @@ const { createMarks } = require('../controllers/marks/createMark');
 const { deleteMark } = require('../controllers/marks/deleteMark');
 const { updateMark } = require('../controllers/marks/updateMark');
 const { getMark } = require('../controllers/marks/getMark');
+const { getMyMarks } = require('../controllers/marks/getMyMarks');
+
+// For Student
+router.get('/group/:id', protect, authorize(Role.Student), getMyMarks);
 
 // For Admin
 router.post('/group/:id', protect, authorize(Role.Admin), createMarks);

@@ -183,4 +183,8 @@ export class GroupsService {
     updateMark(id: string, body: any) {
         return this.http.put<any>(`${environment.apiUrl}/marks/${id}`, body);
     }
+
+    getMyMarks(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/marks/group/${id}`);
+    }
 }

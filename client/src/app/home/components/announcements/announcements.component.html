@@ -2,7 +2,7 @@
     <div *ngFor="let announcement of announcements" class="alert alert-warning alert-dismissible fade show m-0" role="alert">
         <strong>{{ announcement.title }}</strong> <br>
         {{ announcement.content }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="announcementClosed(announcement._id)">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

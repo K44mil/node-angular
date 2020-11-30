@@ -12,4 +12,12 @@ export class CategoriesService {
         return this.http.get<any>(`${environment.apiUrl}/categories`);
     }
 
+    deleteCategory(id: string) {
+        return this.http.delete<any>(`${environment.apiUrl}/categories/${id}`);
+    }
+
+    createCategory(body: any) {
+        return this.http.post<any>(`${environment.apiUrl}/categories`, body);
+    }
+
 }

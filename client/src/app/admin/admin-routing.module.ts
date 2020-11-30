@@ -8,6 +8,7 @@ const aboutModule = () => import('./modules/about/about.module').then(x => x.Abo
 const groupsModule = () => import('./modules/groups/groups.module').then(x => x.GroupsModule);
 const newsModule = () => import('./modules/news/news.module').then(x => x.NewsModule);
 const announcementsModule = () => import('./modules/announcements/announcements.module').then(x => x.AnnouncementsModule);
+const filesModule = () => import('./modules/files/files.module').then(x => x.FilesModule);
 
 const routes: Routes = [
     {
@@ -17,6 +18,7 @@ const routes: Routes = [
             { path: 'about', loadChildren: aboutModule },
             { path: 'groups', loadChildren: groupsModule },
             { path: 'news', loadChildren: newsModule },
+            { path: 'files', loadChildren: filesModule },
             { path: 'announcements', loadChildren: announcementsModule }
         ]
     }

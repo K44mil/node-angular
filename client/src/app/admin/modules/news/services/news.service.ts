@@ -28,5 +28,9 @@ export class NewsService {
         return this.http.get<any>(`${environment.apiUrl}/news/${id}/change_protected`);
     }
 
+    deleteNews(id) {
+        return this.http.delete<any>(`${environment.apiUrl}/news/${id}`);
+    }
+
 
 }

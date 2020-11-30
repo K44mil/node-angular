@@ -31,6 +31,8 @@ export class GroupMarksComponent implements OnInit {
     addMarkForm: FormGroup;
     editMarkForm: FormGroup;
 
+    editedMarkId: string;
+
     constructor(
         private route: ActivatedRoute,
         private alertService: AlertService,
@@ -87,9 +89,17 @@ export class GroupMarksComponent implements OnInit {
                         autoClose: true
                     });
                     this.loadMarks(this.groupId);
+                    window.scrollTo(0,0);
+                    const editModalButton = document.getElementById('showEditMarkFormButton');
+                    editModalButton.click();
+                    this.editedMarkId = null;
                 },
                 err => {
-
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
                 }
             )
     }
@@ -100,6 +110,9 @@ export class GroupMarksComponent implements OnInit {
             .subscribe(
                 res => {
                     this.members = res.data.members;
+                    for (const m of this.members) {
+                        if (m.User && m.User.Marks) m.User.Marks = m.User.Marks.filter(m => m.groupId === this.groupId);
+                    }
                 },
                 err => {
 
@@ -114,6 +127,7 @@ export class GroupMarksComponent implements OnInit {
     onMarkEdited(id) {
         const editModalButton = document.getElementById('showEditMarkFormButton');
         editModalButton.click();
+        this.editedMarkId = id;
 
         this.groupsService.getMark(id)
             .pipe(first())
@@ -164,8 +178,13 @@ export class GroupMarksComponent implements OnInit {
     }
 
     showMarkDetails(id: string) {
+        if (this.editedMarkId) {
+            const editModalButton = document.getElementById('showEditMarkFormButton');
+            editModalButton.click();
+            this.editedMarkId = null;
+        }
+        
         this.selectedMarkId = id;
         this.openModal('mark-modal');
     }
-
 }

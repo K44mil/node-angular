@@ -7,7 +7,7 @@ import { PageService } from '@home/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AlertService, AuthService } from '@app/shared/services';
-import { AuthUser } from '@app/home/modules/account/models';
+import { AuthUser, Role } from '@app/home/modules/account/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -59,18 +59,25 @@ export class NewsDetailsComponent implements OnInit {
             .subscribe(
                 res => {
                     this.news = res.data.news
-                    if (this.news) {
-                        this.pageService.getComments(this.news.id)
-                            .pipe(first())
-                            .subscribe(res => {
-                                if (res.data.comments) this.comments = res.data.comments;
-                            });
-                    }
+                    this.loadComments(this.news.id);
                 },
                 err => {
                     this.alertService.error(err);
                     this.router.navigate(['/']);
             });
+    }
+
+    loadComments(id: string) {
+        this.pageService.getComments(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.comments = res.data.comments;
+                },
+                err => {
+
+                }
+            )
     }
 
     getNewsPhotoUrl(news) {
@@ -96,9 +103,10 @@ export class NewsDetailsComponent implements OnInit {
             .subscribe(
                 res => {         
                     this.alertService.success('Comment has been added.', { autoClose: true });
-                    this.comments.reverse();
-                    this.comments.push(res.data.comment);
-                    this.comments.reverse();
+                    // this.comments.reverse();
+                    // this.comments.push(res.data.comment);
+                    // this.comments.reverse();
+                    this.loadComments(this.news.id);
                 },
             );
 
@@ -122,4 +130,33 @@ export class NewsDetailsComponent implements OnInit {
             })
     }
 
+    getPhotoUrl(avatar: string) {
+        return `${ environment.hostUrl }/uploads/avatars/${avatar}`;
+    }
+
+    canDelete(comment) {
+        if (this.loggedUser && this.loggedUser.role === Role.Admin) return true;
+        if (this.loggedUser && comment.User.id === this.loggedUser.id) return true;
+        return false;
+    }
+
+    deleteComment(id) {
+        this.pageService.deleteComment(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.success) {
+                        this.loadComments(this.news.id);
+                        this.alertService.clear();
+                        this.alertService.success('Comment has been deleted', {
+                            autoClose: true
+                        });
+                        window.scrollTo(0,0);
+                    } 
+                },
+                err => {
+
+                }
+            )
+    }
 }

@@ -63,7 +63,7 @@
                             <input formControlName="lastName" type="text" class="form-control">
                         </div>
                         <button class="btn btn-outline-dark">
-                            <span class="spinner-border spinner-border-sm mr-1"></span>
+                            <span *ngIf="editUserDataFormLoading" class="spinner-border spinner-border-sm mr-1"></span>
                             Save
                         </button>
                     </div>

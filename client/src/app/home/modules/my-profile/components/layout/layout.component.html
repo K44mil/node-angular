@@ -13,9 +13,9 @@
             
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="nav flex-column nav-pills " style="width: 100% !important;">
-                                <a class="nav-link active" data-toggle="pill" routerLink="/account/my_profile/general">General</a>
-                                <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/security">Security</a>
-                                <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/groups">My groups</a>
+                                <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/general" id="general-link">General</a>
+                                <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/security" id="security-link">Security</a>
+                                <a *ngIf="loggedUser && loggedUser.role === 'student'" class="nav-link" data-toggle="pill" id="groups-link" routerLink="/account/my_profile/groups">My groups</a>
                             </div>
                         </div>
                     </div>
