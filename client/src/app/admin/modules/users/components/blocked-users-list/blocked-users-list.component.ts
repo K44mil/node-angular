@@ -152,6 +152,8 @@ export class BlockedUsersListComponent implements OnInit {
             this.selectedItems.push(id);
         else
             this.selectedItems = this.selectedItems.filter(i => i !== id);
+
+        if (this.selectedItems.length === 0) this.clearSelect();
     }
 
     selectOrUnselectAllItems() {
@@ -172,15 +174,20 @@ export class BlockedUsersListComponent implements OnInit {
                 uS.checked = false;
             });
             // Remove all users
-            this.selectedItems = [];
-            this.allSelected = false;
+            this.clearSelect();
         }
     }
 
     // Date functions
     printDate(dateUTC) {
         const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return date.toLocaleString('pl', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
     }
 
     // Action functions
@@ -231,19 +238,22 @@ export class BlockedUsersListComponent implements OnInit {
     onActionsSelectChange(e) {
         switch (e.target.value) {
             case 'delete-many':
-                this.deleteSelectedUsers();
-                this.clearSelect();
+                const btnDelete = document.getElementById('btnDeleteManyConfirmationModal');
+                btnDelete.click();
+                // this.deleteSelectedUsers();
+                // this.clearSelect();
                 break;
             case 'unblock-many':
-                this.unblockSelectedUsers();
-                this.clearSelect();
+                const btnUnblock = document.getElementById('btnUnblockManyConfirmationModal');
+                btnUnblock.click();
+                // this.unblockSelectedUsers();
+                // this.clearSelect();
                 break;
         }
     }
 
     deleteSelectedUsers() {
-        if (this.selectedItems.length > 0 && 
-            confirm('Are you sure you want to delete all selected users?')) {
+        if (this.selectedItems.length > 0 ) {
             this.usersService.deleteManyUsers(this.selectedItems)
                 .pipe(first())
                 .subscribe(
@@ -252,6 +262,7 @@ export class BlockedUsersListComponent implements OnInit {
                         this.alertService.success(res.data.msg, {
                             autoClose: true
                         });
+                        this.clearSelect();
                         this.loadUsers(this.query);
                     },
                     err => {
@@ -266,8 +277,7 @@ export class BlockedUsersListComponent implements OnInit {
     }
 
     unblockSelectedUsers() {
-        if (this.selectedItems.length > 0 &&
-            confirm('Are you sure you want to unblock all selected users?')) {
+        if (this.selectedItems.length > 0 ) {
             this.usersService.unblockManyUsers(this.selectedItems)
             .pipe(first())
             .subscribe(
@@ -276,6 +286,7 @@ export class BlockedUsersListComponent implements OnInit {
                     this.alertService.success(res.data.msg, {
                         autoClose: true
                     });
+                    this.clearSelect();
                     this.loadUsers(this.query);
                 },
                 err => {

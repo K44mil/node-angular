@@ -156,6 +156,8 @@ export class InactiveUsersListComponent implements OnInit {
             this.selectedItems.push(id);
         else
             this.selectedItems = this.selectedItems.filter(i => i !== id);
+
+        if (this.selectedItems.length === 0) this.clearSelect();
     }
 
     selectOrUnselectAllItems() {
@@ -176,15 +178,20 @@ export class InactiveUsersListComponent implements OnInit {
                 uS.checked = false;
             });
             // Remove all users
-            this.selectedItems = [];
-            this.allSelected = false;
+            this.clearSelect();
         }
     }
 
     // Date function
     printDate(dateUTC) {
         const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return date.toLocaleString('pl', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
     }
 
     // Action functions
@@ -235,19 +242,22 @@ export class InactiveUsersListComponent implements OnInit {
     onActionsSelectChange(e) {
         switch (e.target.value) {
             case 'delete-many':
-                this.deleteSelectedUsers();
-                this.clearSelect();
+                const btnDelete = document.getElementById('btnDeleteManyConfirmationModal');
+                btnDelete.click();
+                // this.deleteSelectedUsers();
+                // this.clearSelect();
                 break;
             case 'activate-many':
-                this.activateSelectedUsers();
-                this.clearSelect();
+                const btnActivate = document.getElementById('btnActivateManyConfirmationModal');
+                btnActivate.click();
+                // this.activateSelectedUsers();
+                // this.clearSelect();
                 break;
         }
     }
 
     deleteSelectedUsers() {
-        if (this.selectedItems.length > 0 && 
-            confirm('Are you sure you want to delete all selected users?')) {
+        if (this.selectedItems.length > 0) {
             this.usersService.deleteManyUsers(this.selectedItems)
                 .pipe(first())
                 .subscribe(
@@ -256,6 +266,7 @@ export class InactiveUsersListComponent implements OnInit {
                         this.alertService.success(res.data.msg, {
                             autoClose: true
                         });
+                        this.clearSelect();
                         this.loadUsers(this.query);
                     },
                     err => {
@@ -266,12 +277,11 @@ export class InactiveUsersListComponent implements OnInit {
                         window.scrollTo(0,0);
                     }
                 )
-        } 
+        }
     }
 
     activateSelectedUsers() {
-        if (this.selectedItems.length > 0 &&
-            confirm('Are you sure you want to activate all selected users?')) {
+        if (this.selectedItems.length > 0) {
             this.usersService.activateManyUsers(this.selectedItems)
             .pipe(first())
             .subscribe(
@@ -280,6 +290,7 @@ export class InactiveUsersListComponent implements OnInit {
                     this.alertService.success(res.data.msg, {
                         autoClose: true
                     });
+                    this.clearSelect();
                     this.loadUsers(this.query);
                 },
                 err => {

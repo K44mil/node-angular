@@ -5,24 +5,39 @@
         </div>
     </div>
     <div class="row mt-1">
-        <div class="col-6">
+        <div class="col-4">
             <table class="table table-sm">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Page Title</th>
-                        <th scope="col">Visible</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="pages">
                     <tr *ngFor="let page of pages; let i = index">
                         <td>{{ i+1 }}</td>
                         <td>{{ page.title }}</td>
-                        <td>true</td>
                         <td class="text-right">
                             <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                             <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteAboutPage(page._id)"><i class="fas fa-trash-alt"></i></span>
+                        </td>
+                    </tr>
+                    <!-- NO MATCHING RESULTS -->
+                    <tr *ngIf="pages.length == 0">
+                        <td colspan="3" class="text-center">
+                            No matching results.
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!pages">
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border m-auto" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
