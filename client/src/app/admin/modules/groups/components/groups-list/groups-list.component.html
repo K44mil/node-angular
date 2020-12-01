@@ -124,7 +124,7 @@
                             <span *ngIf="group.isOpen" class="btn badge badge-success badge-pill" (click)="closeGroup(group.id)"><i class="fas fa-lock-open"></i></span>
                             <span *ngIf="!group.isOpen" class="btn badge badge-danger badge-pill" (click)="openGroup(group.id)"><i class="fas fa-lock"></i></span>
                         </td>
-                        <td>
+                        <td class="text-right">
                             <span class="btn badge badge-dark badge-pill" (click)="archiveGroup(group.id)"><i class="far fa-calendar-times"></i></span>
                             <span class="btn badge badge-info badge-pill ml-1" (click)="editGroup(group.id)"><i class="fas fa-pen"></i></span>
                             <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteGroup(group.id)"><i class="fas fa-trash-alt"></i></span>

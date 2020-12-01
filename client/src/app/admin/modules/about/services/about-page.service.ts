@@ -12,4 +12,8 @@ export class AboutPageService {
         return this.http.get<any>(`${environment.apiUrl}/about`);
     }
 
+    deleteAboutPage(id: string) {
+        return this.http.delete<any>(`${environment.apiUrl}/about/${id}`);
+    }
+
 }

@@ -12,4 +12,11 @@ export class FilesService {
         return this.http.get<any>(`${environment.apiUrl}/files`);
     }
 
+    deleteFile(id: string) {
+        return this.http.delete<any>(`${environment.apiUrl}/files/${id}`);
+    }
+
+    downloadFile(id: string): any {
+        return this.http.get(`${environment.apiUrl}/files/download/${id}`, { responseType: 'blob' });
+    }
 }

@@ -105,6 +105,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
                     const createdFile = await File.build({
                         name: file.name,
                         type: file.mimetype,
+                        size: String(file.size),
                         newsId: news.id
                     });
 

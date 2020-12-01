@@ -1,23 +1,32 @@
-<div *ngIf="pages">
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Page Title</th>
-                <th scope="col">Visible</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let page of pages; let i = index">
-                <td>{{ i+1 }}</td>
-                <td>{{ page.title }}</td>
-                <td>true</td>
-                <td>
-                    <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                    <span class="badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt"></i></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="mt-2">
+    <div class="row mt-3">
+        <div class="col-2">
+            <a routerLink="/admin/about/add_about_page" class="btn btn-success">+ Add Page</a>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-6">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Page Title</th>
+                        <th scope="col">Visible</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let page of pages; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ page.title }}</td>
+                        <td>true</td>
+                        <td class="text-right">
+                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                            <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteAboutPage(page._id)"><i class="fas fa-trash-alt"></i></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

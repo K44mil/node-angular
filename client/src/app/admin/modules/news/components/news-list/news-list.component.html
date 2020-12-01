@@ -17,7 +17,7 @@
     </div>
     <div class="row mt-1">
         <div class="col-8">
-            <div *ngIf="news">
+            <div>
                 <table class="table table-sm text-center">
                     <thead class="thead-dark">
                         <tr>
@@ -29,7 +29,7 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="news">
                         <tr *ngFor="let n of news; let i = index">
                             <td>{{ i+1 }}</td>
                             <td>{{ n.title }}</td>
@@ -45,15 +45,28 @@
                                 <!-- LOGIN PROTECT -->
                                 <span *ngIf="n.isLoginProtected" class="btn badge badge-warning badge-pill mx-2" (click)="changeProtected(n.id)" title="Login required"><i class="fas fa-lock"></i></span>
                                 <span *ngIf="!n.isLoginProtected" class="btn badge badge-secondary badge-pill mx-2" (click)="changeProtected(n.id)" title="Login not required"><i class="fas fa-lock"></i></span>
-
-                                <!-- <input type="checkbox" [checked]="n.isLoginProtected" (click)="changeProtected(n.id)">
-                                <input type="checkbox" [checked]="n.isCommentable" (click)="changeCommentable(n.id)">
-                                <input type="checkbox" [checked]="n.isVisible" (click)="changeVisibility(n.id)"> -->
                             </td>
-                            <td>
+                            <td class="text-right">
                                 <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteNews(n.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>                     
+                        </tr>
+                         <!-- NO MATCHING RESULTS -->
+                        <tr *ngIf="news.length == 0">
+                            <td colspan="8" class="text-center">
+                                No matching results.
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!news">
+                        <tr>
+                            <td colspan="10">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border m-auto" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

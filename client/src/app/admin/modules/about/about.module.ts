@@ -4,7 +4,8 @@ import { AboutRoutingModule } from './about-routing.module';
 
 import {
     LayoutComponent,
-    AboutPagesListComponent
+    AboutPagesListComponent,
+    AddAboutPageComponent
 } from './components';
 
 @NgModule({
@@ -14,7 +15,8 @@ import {
     ],
     declarations: [
         LayoutComponent,
-        AboutPagesListComponent
+        AboutPagesListComponent,
+        AddAboutPageComponent
     ]
 })
 export class AboutModule { }

@@ -26,11 +26,13 @@ export class AnnouncementsListComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    if (res.data.announcements)
-                        this.announcements = res.data.announcements;
+                    this.announcements = res.data.announcements;
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                 }
             );
     }
@@ -72,10 +74,13 @@ export class AnnouncementsListComponent implements OnInit {
         this.announcementsService.changeVisibility(id)
             .pipe(first())
             .subscribe(res => {
-
+                this.loadAnnouncements();
             },
             err => {
-                this.alertService.error(err);
+                this.alertService.clear();
+                this.alertService.error(err, {
+                    autoClose: true
+                });
             })
     }
 }

@@ -98,7 +98,7 @@
                            <span *ngIf="group.isOpen" class="badge badge-success badge-pill"><i class="fas fa-lock-open"></i></span>
                            <span *ngIf="!group.isOpen" class="badge badge-danger badge-pill"><i class="fas fa-lock"></i></span>
                        </td>
-                       <td>
+                       <td class="text-right">
                            <span class="btn badge badge-success badge-pill" (click)="restoreGroup(group.id)"><i class="far fa-arrow-alt-circle-left"></i></span>
                            <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                            <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteGroup(group.id)"><i class="fas fa-trash-alt"></i></span>

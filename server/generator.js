@@ -91,9 +91,9 @@ for (let i = 0; i < 300; i++) {
     USERS.push(user);
 }
 
-// fs.appendFile(path.resolve('..')'users.json', JSON.stringify(USERS), (err) => {
-//     if (err) throw err;
-//     console.log('Users created');
-// });
+fs.appendFile(path.join(__dirname, '_data/users2.json'), JSON.stringify(USERS), (err) => {
+    if (err) throw err;
+    console.log('Users created');
+});
 
 console.log(path.join(__dirname, '_data/users2.json'));

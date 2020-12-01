@@ -22,6 +22,11 @@ File.init({
         allowNull: false,
         field: 'type'
     },
+    size: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: 'size'
+    },
     path: {
         type: DataTypes.STRING,
         allowNull: false,

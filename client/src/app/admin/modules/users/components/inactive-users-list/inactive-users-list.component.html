@@ -85,7 +85,7 @@
                             <td>{{ user.role }}</td>
                             <td>{{ user.albumNumber }}</td>
                             <td>{{ printDate(user.created_at) }}</td>
-                            <td>
+                            <td class="text-right">
                                 <span class="btn badge badge-secondary badge-pill" (click)="activateUserAccount(user.id)"><i class="fas fa-check"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteUser(user.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
