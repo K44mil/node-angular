@@ -9,13 +9,15 @@ import {
     AdminNavComponent,
     AdminSideNavComponent
 } from './components';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         AdminRoutingModule,
-        SharedModule
-    ],
+        SharedModule,
+        ReactiveFormsModule
+        ],
     declarations: [
         AdminNavComponent,
         LayoutComponent,

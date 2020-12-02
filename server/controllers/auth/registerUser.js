@@ -76,6 +76,13 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     });
     await user.hashPassword();
 
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        data: { }
+    });
+
     const message = `Your account was created.
         It has to be verified by the administrator.`;
 
@@ -85,13 +92,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
             subject: 'Registration',
             message
         });
-
-        await user.save();
-
-        res.status(200).json({
-            success: true,
-            data: { }
-        });
+        
     } catch (err) {
         console.log(err);
 

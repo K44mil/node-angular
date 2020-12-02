@@ -8,7 +8,14 @@ import { User } from '../../models/User';
 import { UsersService } from '../../services/users.service';
 
 @Component({
-    templateUrl: 'inactive-users-list.component.html'
+    templateUrl: 'inactive-users-list.component.html',
+    styles: [
+        `
+            .sort-header {
+                cursor: pointer;
+            }
+        `
+    ]
 })
 export class InactiveUsersListComponent implements OnInit {
     public users: User[];
@@ -35,6 +42,9 @@ export class InactiveUsersListComponent implements OnInit {
 
     // Query string
     private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isVerified=0`;
+
+    // SORTING
+    sort = { property: null, order: null };
 
     constructor(
         private usersService: UsersService,
@@ -94,6 +104,8 @@ export class InactiveUsersListComponent implements OnInit {
     prepareQuery() {
         this.clearQuery();
         this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
     }
 
     getFilterQuery() {
@@ -302,5 +314,21 @@ export class InactiveUsersListComponent implements OnInit {
                 }
             )
         }
+    }
+
+     // SORTING FUNCTIONS
+     sortBy(property: string) {
+        if (this.sort.property === property) {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = property;
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
     }
 }

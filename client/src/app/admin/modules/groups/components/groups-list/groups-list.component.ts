@@ -9,7 +9,7 @@ import { GroupsService } from '../../services/groups.service';
 
 @Component({
     templateUrl: 'groups-list.component.html',
-    styles: [` table th { cursor: pointer; }`]
+    styles: [` .sort-header { cursor: pointer; }`]
 })
 export class GroupsListComponent implements OnInit {
     groups: Group[];

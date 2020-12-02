@@ -65,7 +65,8 @@ export class UsersListComponent implements OnInit {
             firstName: [''],
             lastName: [''],
             role: [''],
-            albumNumber: ['']
+            albumNumber: [''],
+            groupId: ['']
         });
     }
 
@@ -79,6 +80,7 @@ export class UsersListComponent implements OnInit {
         if (this.f.lastName.value) query += `&lastName=${this.f.lastName.value}`;
         if (this.f.role.value) query += `&role=${this.f.role.value}`;
         if (this.f.albumNumber.value) query += `&albumNumber=${this.f.albumNumber.value}`;
+        if (this.f.groupId.value) query += `&groupId=${this.f.groupId.value}`;
 
         return query;
     }
@@ -323,5 +325,23 @@ export class UsersListComponent implements OnInit {
         }
         this.prepareQuery();
         this.loadUsers(this.query);
+    }
+
+    selectedGroupId: string;
+
+    onGroupFinderChanged(event) {
+        this.selectedGroupId = event;
+    }
+
+    confirmGroupId() {
+        this.filterForm.patchValue({
+            groupId: this.selectedGroupId
+        });
+    }
+
+    clearGroup() {
+        this.filterForm.patchValue({
+            groupId: null
+        });
     }
 }

@@ -1,9 +1,4 @@
 <div class="mt-2">
-    <!-- <div class="d-block d-sm-none">XS</div>
-    <div class="d-none d-sm-block d-md-none">SM</div>
-    <div class="d-none d-md-block d-lg-none">MD</div>
-    <div class="d-none d-lg-block d-xl-none">LG</div>
-    <div class="d-none d-xl-block">XL</div> -->
      <!-- GROUPS MENU -->
      <div class="row ml-2">
         <ul class="nav nav-tabs">
@@ -77,31 +72,31 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
-                        <th scope="col" (click)="sortBy('displayName')">Display Name
+                        <th scope="col" class="sort-header" (click)="sortBy('displayName')">Display Name
                             <i *ngIf="sort.property === 'displayName' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'displayName' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('academicYear')">Academic Year
+                        <th scope="col" class="sort-header" (click)="sortBy('academicYear')">Academic Year
                             <i *ngIf="sort.property === 'academicYear' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'academicYear' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('course')">Course
+                        <th scope="col" class="sort-header" (click)="sortBy('course')">Course
                             <i *ngIf="sort.property === 'course' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'course' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('specialization')">Specialization
+                        <th scope="col" class="sort-header" (click)="sortBy('specialization')">Specialization
                             <i *ngIf="sort.property === 'specialization' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'specialization' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('subject')">Subject
+                        <th scope="col" class="sort-header" (click)="sortBy('subject')">Subject
                             <i *ngIf="sort.property === 'subject' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'subject' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('type')">Studies Type
+                        <th scope="col" class="sort-header" (click)="sortBy('type')">Studies Type
                             <i *ngIf="sort.property === 'type' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'type' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>
-                        <th scope="col" (click)="sortBy('level')">Group Level
+                        <th scope="col" class="sort-header" (click)="sortBy('level')">Group Level
                             <i *ngIf="sort.property === 'level' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
                             <i *ngIf="sort.property === 'level' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
                         </th>

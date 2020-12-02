@@ -96,6 +96,19 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
     });
     await user.hashPassword();
 
+    await user.save();
+
+    // Connect user with group
+    await UserGroup.create({
+        userId: user.id,
+        groupId: group.id
+    });
+
+    res.status(200).json({
+        success: true,
+        data: { }
+    });
+
     const message = `Your account was created.
         It has to be verified by the administrator.`;
 
@@ -104,19 +117,6 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
             email: user.email,
             subject: 'Registration',
             message
-        });
-
-        await user.save();
-
-        // Connect user with group
-        await UserGroup.create({
-            userId: user.id,
-            groupId: group.id
-        });
-
-        res.status(200).json({
-            success: true,
-            data: { }
         });
     } catch (err) {
         console.log(err);

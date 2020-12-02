@@ -47,14 +47,20 @@ export class RegisterStudentComponent implements OnInit {
             .subscribe(
                 res => {
                     if (res.success) {
-                        this.alertService.success('Registration successful. [ ADMIN MUSI POTWIERDZIĆ]', {
+                        this.alertService.clear();
+                        this.alertService.success('Your account has been registered. It has to be verify by Administrator.', {
+                            autoClose: true,
                             keepAfterRouteChange: true
                         });
                         this.router.navigate(['/account/login']);
                     }
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
                     window.scrollTo(0,0);
                     this.loading = false;
                 }

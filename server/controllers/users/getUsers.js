@@ -25,7 +25,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         firstName,
         lastName,
         albumNumber,
-        notInGroup
+        notInGroup,
+        groupId
     } = req.query;
 
     // SELECT
@@ -62,6 +63,11 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
             Sequelize.literal(`( SELECT groupId FROM user_group AS ug WHERE userId = User.id AND ug.is_confirmed = 1 AND ug.groupId = "${notInGroup}")`),
             'userGroup'
         ]);
+    }
+
+    // Get user in group
+    if (groupId) {
+        options.include.push({ model: UserGroup, where: { groupId: { [Op.eq]: groupId} }});
     }
         
     const users = await User.findAndCountAll(options);

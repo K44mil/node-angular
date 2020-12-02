@@ -49,7 +49,7 @@
                        <div class="col">
                            <select class="form-control" [formControl]="itemsPerPageControl" (change)="setItemsPerPage(this.itemsPerPageControl.value)">
                                <option value="5">5</option>
-                               <option value="10" [attr.selected]="true">10</option>
+                               <option value="10">10</option>
                                <option value="25">25</option>
                                <option value="50">50</option>
                                <option value="100">100</option>
@@ -72,13 +72,34 @@
                <thead class="thead-dark">
                    <tr>
                        <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
-                       <th scope="col">Display Name</th>
-                       <th scope="col">Academic Year</th>
-                       <th scope="col">Course</th>
-                       <th scope="col">Specialization</th>
-                       <th scope="col">Subject</th>
-                       <th scope="col">Studies Type</th>
-                       <th scope="col">Group Level</th>
+                       <th scope="col" class="sort-header" (click)="sortBy('displayName')">Display Name
+                        <i *ngIf="sort.property === 'displayName' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                        <i *ngIf="sort.property === 'displayName' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('academicYear')">Academic Year
+                            <i *ngIf="sort.property === 'academicYear' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'academicYear' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('course')">Course
+                            <i *ngIf="sort.property === 'course' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'course' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('specialization')">Specialization
+                            <i *ngIf="sort.property === 'specialization' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'specialization' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('subject')">Subject
+                            <i *ngIf="sort.property === 'subject' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'subject' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('type')">Studies Type
+                            <i *ngIf="sort.property === 'type' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'type' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
+                        <th scope="col" class="sort-header" (click)="sortBy('level')">Group Level
+                            <i *ngIf="sort.property === 'level' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                            <i *ngIf="sort.property === 'level' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                        </th>
                        <th scope="col">Status</th>
                        <th scope="col"></th>
                    </tr>
@@ -125,8 +146,90 @@
            </table>
        </div>
        </div>
-       <!-- GROUPS SIDE MENU -->
-       <div class="col-3">
-       </div>
+       <!-- GROUPS FILTER-->
+       <div class="col-12 col-xl-3" style="margin-top: -125px;">
+        <div class="card border-dark mb-3">
+            <div class="card-header text-center" data-toggle="collapse" data-target="#collapseFilter" style="cursor: pointer;" (click)="filterOnOff()">
+                Filter
+                <i *ngIf="!filterOn" class="far fa-caret-square-down" data-toggle="collapse" data-target="#collapseFilter"></i>
+                <i *ngIf="filterOn" class="far fa-caret-square-up" data-toggle="collapse" data-target="#collapseFilter"></i>
+            </div>
+            <div id="collapseFilter" class="collapse">
+                <div class="card-body">
+                    <form [formGroup]="filterForm" (ngSubmit)="onFilterFormSubmit()">
+                        <div class="form-group">
+                            <label for="">Display Name</label>
+                            <input type="text" formControlName="displayName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Academic Year</label>
+                            <input type="text" formControlName="academicYear" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Course</label>
+                            <select class="form-control" formControlName="courseId" (change)="onCourseSelectChange($event)">
+                                <option value=""></option>
+                                <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Specialization</label>
+                            <select class="form-control" formControlName="specializationId" (change)="onSpecializationSelectChange($event)">
+                                <option value=""></option>
+                                <option *ngFor="let spec of availableSpecializations" value="{{ spec.id }}">{{ spec.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Subject</label>
+                            <select class="form-control" formControlName="subjectId">
+                                <option value=""></option>
+                                <option *ngFor="let sub of availableSubjects" value="{{ sub.id }}">{{ sub.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Studies Type</label>
+                            <select class="form-control" formControlName="type">
+                                <option value=""></option>
+                                <option value="D">Dzienne</option>
+                                <option value="Z">Zaoczne</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Group Level</label>
+                            <select class="form-control" formControlName="level">
+                                <option value=""></option>
+                                <option value="I">Inż.</option>
+                                <option value="M">Mgr</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Group Type</label>
+                            <select class="form-control" formControlName="groupType">
+                                <option value=""></option>
+                                <option value="lab">Laboratoryjna</option>
+                                <option value="lec">Wykładowa</option>
+                                <option value="exc">Ćwiczeniowa</option>
+                                <option value="proj">Projektowa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Group Number</label>
+                            <input type="number" class="form-control" formControlName="number" min="0" max="99" />
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-outline-dark form-control mt-3" type="submit">Filter</button>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-outline-secondary form-control mt-3" type="button" (click)="resetFilterForm()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
    </div>
 </div>   

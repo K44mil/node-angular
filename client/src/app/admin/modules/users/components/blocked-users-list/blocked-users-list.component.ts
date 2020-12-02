@@ -5,7 +5,16 @@ import { first } from 'rxjs/operators';
 import { User } from '../../models/User';
 import { UsersService } from '../../services/users.service';
 
-@Component({ templateUrl: 'blocked-users-list.component.html' })
+@Component({
+    templateUrl: 'blocked-users-list.component.html',
+    styles: [
+        `
+            .sort-header {
+                cursor: pointer;
+            }
+        `
+    ]
+})
 export class BlockedUsersListComponent implements OnInit {
     public users: User[];
 
@@ -31,6 +40,9 @@ export class BlockedUsersListComponent implements OnInit {
 
     // Query string
     private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}&isBlocked=1`;
+    
+    // SORTING
+    sort = { property: null, order: null };
 
     constructor(
         private usersService: UsersService,
@@ -50,7 +62,8 @@ export class BlockedUsersListComponent implements OnInit {
             firstName: [''],
             lastName: [''],
             role: [''],
-            albumNumber: ['']
+            albumNumber: [''],
+            groupId: ['']
         });
     }
     
@@ -90,6 +103,8 @@ export class BlockedUsersListComponent implements OnInit {
     prepareQuery() {
         this.clearQuery();
         this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
     }
 
     getFilterQuery() {
@@ -100,6 +115,7 @@ export class BlockedUsersListComponent implements OnInit {
         if (this.f.lastName.value) query += `&lastName=${this.f.lastName.value}`;
         if (this.f.role.value) query += `&role=${this.f.role.value}`;
         if (this.f.albumNumber.value) query += `&albumNumber=${this.f.albumNumber.value}`;
+        if (this.f.groupId.value) query += `&groupId=${this.f.groupId.value}`;
 
         return query;
     }
@@ -298,5 +314,33 @@ export class BlockedUsersListComponent implements OnInit {
                 }
             )
         }
+    }
+
+     // SORTING FUNCTIONS
+     sortBy(property: string) {
+        if (this.sort.property === property) {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = property;
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadUsers(this.query);
+    }
+
+    onGroupFinderChanged(event) {
+        this.filterForm.patchValue({
+            groupId: event
+        });
+    }
+
+    clearGroup() {
+        this.filterForm.patchValue({
+            groupId: null
+        });
     }
 }
