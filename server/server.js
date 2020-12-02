@@ -39,6 +39,7 @@ const filesRoutes = require('./routes/files.routes');
 const eventsRoutes = require('./routes/events.routes');
 const presencesRoutes = require('./routes/presences.routes');
 const marksRoutes = require('./routes/marks.routes');
+const sliderRoutes = require('./routes/slider.routes');
 
 // App init
 const app = express();
@@ -121,6 +122,7 @@ app.use('/api/v1/files', filesRoutes);
 app.use('/api/v1/events', eventsRoutes);
 app.use('/api/v1/presences', presencesRoutes);
 app.use('/api/v1/marks', marksRoutes);
+app.use('/api/v1/slider', sliderRoutes);
 
 // Set error handler
 app.use(errorHandler);

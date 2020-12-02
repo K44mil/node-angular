@@ -11,6 +11,10 @@ export class PageService {
 
     constructor(private http: HttpClient) { }
 
+    getSlider() {
+        return this.http.get<any>(`${environment.apiUrl}/slider/visible`);
+    }
+    
     getAboutPages() {
         return this.http.get<any>(`${environment.apiUrl}/about`);
     }
@@ -23,8 +27,8 @@ export class PageService {
         return this.http.get<any>(`${environment.apiUrl}/announcements/visible`);
     }
 
-    getNews() {
-        return this.http.get<any>(`${environment.apiUrl}/news/visible`);
+    getNews(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/news/visible${query}`);
     }
 
     addComment(newsId, content) {

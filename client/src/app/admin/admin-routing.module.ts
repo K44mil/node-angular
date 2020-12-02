@@ -9,6 +9,8 @@ const groupsModule = () => import('./modules/groups/groups.module').then(x => x.
 const newsModule = () => import('./modules/news/news.module').then(x => x.NewsModule);
 const announcementsModule = () => import('./modules/announcements/announcements.module').then(x => x.AnnouncementsModule);
 const filesModule = () => import('./modules/files/files.module').then(x => x.FilesModule);
+const contactModule = () => import('./modules/contact/contact.module').then(x => x.ContactModule);
+const sliderModule = () => import('./modules/slider/slider.module').then(x => x.SliderModule);
 
 const routes: Routes = [
     {
@@ -19,7 +21,9 @@ const routes: Routes = [
             { path: 'groups', loadChildren: groupsModule },
             { path: 'news', loadChildren: newsModule },
             { path: 'files', loadChildren: filesModule },
-            { path: 'announcements', loadChildren: announcementsModule }
+            { path: 'announcements', loadChildren: announcementsModule },
+            { path: 'contact', loadChildren: contactModule },
+            { path: 'slider', loadChildren: sliderModule }
         ]
     }
 ];

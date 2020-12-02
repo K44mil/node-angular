@@ -13,37 +13,61 @@ const Comment = require('../../models/Comment');
  * @access  Public
  */
 exports.getVisibleNews = asyncHandler(async (req, res, next) => {
-    const news = await News.findAll({
-        // attributes: {
-        //     include: [[Sequelize.fn('COUNT', Sequelize.col('Comments.id')), 'commentsCount']],
-        // },
-        // group: ['News.id'],
-        include: [
-            // {
-            //     model: Comment,
-            //     attributes: []
-            // },
-            {
-                model: User,
-                attributes: ['firstName', 'lastName']
-            },
-            {
-                model: Category,
-                attributes: ['name']
-            },
-        ],
-        where: {
-            isVisible: {
-                [Op.eq]: 1
-            }
-        },
-        order: [
-            ['created_at', 'DESC']
-        ]
-    });
+    let options = {
+        where: { },
+        order: [],
+        include: []
+    }
+
+    const { title } = req.query;
+    
+    // SELECT
+
+    // Where
+    if (title) options.where.title = { [Op.like]: `%${title}%` };
+    options.where.isVisible = { [Op.eq]: 1 };
+    
+    // Order
+    options.order.push(['created_at', 'DESC']);
+
+    // INCLUDE
+    options.include.push({ model: User, attributes: ['firstName', 'lastName'] });
+    options.include.push({ model: Category, attributes: ['name'] })
+        
+    // Pagination
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 100;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    // const total = await User.count();
+
+    options.offset = startIndex;
+    options.limit = limit;
+
+    const news = await News.findAndCountAll(options);
+
+    // Pagination results
+    const pagination = {};
+
+    if (endIndex < news.count) {
+        pagination.next = {
+            page: page + 1,
+            limit
+        }
+    }
+
+    if (startIndex > 0) {
+        pagination.prev = {
+            page: page - 1,
+            limit
+        }
+    }
+
+    // Count pages
+    const countPages = Math.ceil(news.count / limit);
 
     const returnNews = [];
-    for (const n of news) {
+    for (const n of news.rows) {
         const newsJSON = n.toJSON();
         newsJSON.commentsCount = await Comment.count({
             where: {
@@ -58,6 +82,9 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
+            count: news.count,
+            countPages: countPages,
+            pagination,
             news: returnNews
         }
     });

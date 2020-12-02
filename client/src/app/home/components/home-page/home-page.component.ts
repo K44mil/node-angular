@@ -6,10 +6,18 @@ import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
 
 @Component({
-    templateUrl: 'home-page.component.html'
+    templateUrl: 'home-page.component.html',
+    styles: [`
+        .lock-icon {
+            color: #fff;
+            font-size: 1rem;
+            cursor: mark;
+        }
+    `]
 })
 export class HomePageComponent implements OnInit {
     public news: News[];
+    public slider;
 
     constructor(
         private pageService: PageService,
@@ -19,15 +27,33 @@ export class HomePageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageService.getNews()
+        this.loadLatestNews();
+        this.loadSlider();
+    }
+
+    loadLatestNews() {
+        this.pageService.getNews('?limit=3')
+        .pipe(first())
+        .subscribe(res => {
+            this.news = res.data.news;
+        });
+    }
+
+    loadSlider() {
+        this.pageService.getSlider()
             .pipe(first())
-            .subscribe(res => {
-                if (res.data.news) this.news = res.data.news;
-                let i = 0;
-                this.news = this.news.filter((news) => {
-                    if (i++ < 3) return news;
-                });
-            });
+            .subscribe(
+                res => {
+                    this.slider = res.data.slider;
+                },
+                err => {
+                    console.log(err);
+                }
+            )
+    }
+
+    getSlideUrl(image) {
+        return `${environment.hostUrl}/uploads/slider/${image}`;
     }
 
     getNewsPhotoUrl(news) {

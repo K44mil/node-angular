@@ -1,0 +1,45 @@
+<div class="">           
+    <div class="row mt-3">
+        <div class="col-3">
+            <h5>Edit Contact Info</h5>
+            <hr>
+            <form [formGroup]="editContactForm" (ngSubmit)="onSubmit()">
+                <h6>Address</h6>
+                <div class="form-group">
+                    <label for="">Country</label>
+                    <input type="text" formControlName="country" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">City</label>
+                    <input type="text" formControlName="city" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Street</label>
+                    <input type="text" formControlName="street" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">ZIP Code</label>
+                    <input type="text" formControlName="postalCode" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Room</label>
+                    <input type="text" formControlName="room" class="form-control"/>
+                </div>
+                <h6>Contact</h6>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="text" formControlName="email" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Phone</label>
+                    <input type="text" formControlName="phone" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Web Page</label>
+                    <input type="text" formControlName="webPage" class="form-control"/>
+                </div>
+                <button class="btn btn-outline-dark mt-2">Save</button>
+            </form>
+        </div>
+    </div>
+</div>   

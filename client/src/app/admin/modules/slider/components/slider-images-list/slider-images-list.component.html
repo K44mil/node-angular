@@ -1,0 +1,66 @@
+<div>
+    <div class="row mt-3">
+      <div class="col-2">
+          <a routerLink="/admin/slider/add_slider_image" class="btn btn-success">+ Add Slider Image</a>
+      </div>
+  </div>
+   <div class="row mt-1">
+       <div class="col-4">
+           <div>
+               <table class="table table-sm text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Slider Title</th>
+                            <th scope="col">Slider Image</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="sliderImages">
+                        <tr *ngFor="let img of sliderImages; let i = index;">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ img.title }}</td>
+                            <td>
+                                <span class="btn badge badge-info badge-pill p-1" (click)="showImage(img)">SHOW</span>
+                            </td>
+                            <td class="text-right">
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteSliderImage(img._id)"><i class="fas fa-trash-alt"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!sliderImages">
+                      <tr>
+                          <td colspan="10">
+                              <div class="d-flex justify-content-center">
+                                  <div class="spinner-border m-auto" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+               </table>
+           </div>
+       </div>
+   </div>
+</div>
+<button type="button" id="btnImageModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#imageModal"></button>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div *ngIf="selectedImage" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ selectedImage.title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="{{ getSelectedImageUrl() }}" class="img-fluid">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  </div>
+</div>
