@@ -31,7 +31,7 @@ export class RegisterUserComponent implements OnInit {
         });
     }
 
-    get f() { return this.registrationForm.controls }
+    get f() { return this.registrationForm.controls; }
 
     onSubmit() {
         this.submitted = true;

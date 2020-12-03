@@ -27,6 +27,18 @@ export class GroupsService {
         return this.http.post<any>(`${environment.apiUrl}/groups/close_many`, { ids });
     }
 
+    archiveManyGroups(ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/archive_many`, { ids });
+    }
+
+    restoreManyGroups(ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/restore_many`, { ids });
+    }
+
+    deleteManyGroups(ids: string[]) {
+        return this.http.post<any>(`${environment.apiUrl}/groups/delete_many`, { ids });
+    }
+
     addUsersToGroup(id: string, ids: string[]) {
         return this.http.post<any>(`${environment.apiUrl}/groups/${id}/add_members`, { ids });
     }

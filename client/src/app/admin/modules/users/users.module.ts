@@ -10,7 +10,8 @@ import {
     UsersListComponent,
     InactiveUsersListComponent,
     BlockedUsersListComponent,
-    AdminGroupFinderComponent
+    AdminGroupFinderComponent,
+    AddUserComponent
 } from './components';
 
 import { SharedModule } from '@app/shared/shared.module';
@@ -30,7 +31,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         UsersListComponent,
         InactiveUsersListComponent,
         BlockedUsersListComponent,
-        AdminGroupFinderComponent
+        AdminGroupFinderComponent,
+        AddUserComponent
     ]
 })
 export class UsersModule { }

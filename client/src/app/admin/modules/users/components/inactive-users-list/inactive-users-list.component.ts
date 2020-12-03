@@ -227,9 +227,15 @@ export class InactiveUsersListComponent implements OnInit {
             )
     }
 
-    deleteUser(id: string) {
-        if (confirm('Are you sure?')) {
-            this.usersService.deleteUser(id)
+    userToDeleteId: string;
+
+    setUserToDelete(id: string) {
+        this.userToDeleteId = id;
+    }
+
+    deleteUser() {
+        if (this.userToDeleteId)
+            this.usersService.deleteUser(this.userToDeleteId)
                 .pipe(first())
                 .subscribe(
                     res => {
@@ -247,7 +253,6 @@ export class InactiveUsersListComponent implements OnInit {
                         window.scrollTo(0,0);
                     }
                 )
-        }
     }
 
     // Mass actions

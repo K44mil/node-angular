@@ -221,6 +221,8 @@ export class GroupsListComponent implements OnInit {
             this.selectedItems.push(id);
         else
             this.selectedItems = this.selectedItems.filter(i => i !== id);
+
+        if (this.selectedItems.length === 0) this.clearSelect();
     }
 
     selectOrUnselectAllItems() {
@@ -274,9 +276,15 @@ export class GroupsListComponent implements OnInit {
     }
 
     // Actions function
-    deleteGroup(id: string) {
-        if (confirm("Are you sure to delete this group?")) {
-            this.groupsService.deleteGroup(id)
+    groupToDeleteId: string;
+
+    setGroupToDelete(id: string) {
+        this.groupToDeleteId = id;
+    }
+
+    deleteGroup() {
+        if (this.groupToDeleteId) {
+            this.groupsService.deleteGroup(this.groupToDeleteId)
                 .pipe(first())
                 .subscribe(
                     res => {
@@ -357,19 +365,30 @@ export class GroupsListComponent implements OnInit {
     onActionsSelectChange(e) {
         switch (e.target.value) {
             case 'open-many':
-                this.openSelectedGroups();
-                this.clearSelect();
+                const btnOpen = document.getElementById('btnOpenManyConfirmationModal');
+                btnOpen.click();
+                // this.openSelectedGroups();
+                // this.clearSelect();
                 break;
             case 'close-many':
-                this.closeSelectedGroups();
-                this.clearSelect();
+                const btnClose = document.getElementById('btnCloseManyConfirmationModal');
+                btnClose.click();
+                // this.closeSelectedGroups();
+                // this.clearSelect();
+                break;
+            case 'archive-many':
+                const btnArchive = document.getElementById('btnArchiveManyConfirmationModal');
+                btnArchive.click();
+                break;
+            case 'delete-many':
+                const btnDelete = document.getElementById('btnDeleteManyConfirmationModal');
+                btnDelete.click();
                 break;
         }
     }
 
     openSelectedGroups() {
-        if (this.selectedItems.length > 0 && 
-            confirm('Are you sure you want to open all selected groups?')) {
+        if (this.selectedItems.length > 0) {
             this.groupsService.openManyGroups(this.selectedItems)
                 .pipe(first())
                 .subscribe(
@@ -378,6 +397,7 @@ export class GroupsListComponent implements OnInit {
                         this.alertService.success(res.data.msg, {
                             autoClose: true
                         });
+                        this.clearSelect();
                         this.loadGroups(this.query);
                     },
                     err => {
@@ -392,8 +412,7 @@ export class GroupsListComponent implements OnInit {
     }
 
     closeSelectedGroups() {
-        if (this.selectedItems.length > 0 && 
-            confirm('Are you sure you want to close all selected groups?')) {
+        if (this.selectedItems.length > 0) {
             this.groupsService.closeManyGroups(this.selectedItems)
             .pipe(first())
             .subscribe(
@@ -402,6 +421,55 @@ export class GroupsListComponent implements OnInit {
                     this.alertService.success(res.data.msg, {
                         autoClose: true
                     });
+                    this.clearSelect();
+                    this.loadGroups(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
+    }
+
+    archiveSelectedGroups() {
+        if (this.selectedItems.length > 0) {
+            this.groupsService.archiveManyGroups(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.clearSelect();
+                    this.loadGroups(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
+    }
+
+    deleteSelectedGroups() {
+        if (this.selectedItems.length > 0) {
+            this.groupsService.deleteManyGroups(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.clearSelect();
                     this.loadGroups(this.query);
                 },
                 err => {

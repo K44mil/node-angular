@@ -90,11 +90,12 @@ export class GeneralComponent implements OnInit {
             .subscribe(
                 res => {
                     this.user = res.data.user;
+                    const prevAvatar = this.authService.userValue.avatar;
                     this.authService.userValue.avatar = res.data.user.avatar;
                     this.authService.saveUserValue();
                     this.changeAvatarFormLoading = false;
                     this.changeAvatarForm.reset();
-                    window.location.reload();
+                    if (!prevAvatar) window.location.reload();
                 },
                 err => {
                     this.alertService.clear();
@@ -115,10 +116,11 @@ export class GeneralComponent implements OnInit {
             .subscribe(
                 res => {
                     this.user = res.data.user;
+                    const prevAvatar = this.authService.userValue.avatar;
                     this.authService.userValue.firstName = this.user.firstName;
                     this.authService.userValue.lastName = this.user.lastName;
                     this.authService.saveUserValue();
-                    window.location.reload();
+                    if (!prevAvatar) window.location.reload();
                 },
                 err => {
                     this.alertService.clear();

@@ -2,6 +2,7 @@ const asyncHandler = require("../../middleware/asyncHandler");
 const Group = require("../../models/Group");
 const UserGroup = require("../../models/relationsModels/UserGroup");
 const User = require("../../models/User");
+const Mark = require('../../models/Mark');
 const ErrorResponse = require("../../utils/ErrorResponse");
 const Event = require('../../models/Event');
 const { Op } = require('sequelize');
@@ -62,6 +63,18 @@ exports.removeUserFromGroup = asyncHandler(async (req, res, next) => {
             await presence.destroy();
         }
     }
+
+    // Delete Marks
+    await Mark.destroy({
+        where: {
+            groupId: {
+                [Op.eq]: group.id
+            },
+            userId: {
+                [Op.eq]: user.id
+            }
+        }
+    })
 
     await userGroup.destroy();
 

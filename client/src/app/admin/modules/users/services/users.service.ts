@@ -10,6 +10,10 @@ export class UsersService {
 
     constructor(private http: HttpClient) { }
 
+    createUser(body: any) {
+        return this.http.post<any>(`${this.usersUrl}`, body);
+    }
+
     getUsers(query: string) {
         return this.http.get<any>(`${this.usersUrl}${query}`);
     }

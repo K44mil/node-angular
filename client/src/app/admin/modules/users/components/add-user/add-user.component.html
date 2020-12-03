@@ -1,0 +1,47 @@
+<div class="">
+    <div class="row">
+        <div class="col-8">
+            <a routerLink="/admin/users" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>             
+    <div class="row mt-3">
+        <div class="col-3">
+            <h5>Add User</h5>
+            <hr>
+            <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input class="form-control" type="email" formControlName="email"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input class="form-control" type="password" formControlName="password"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Confirm Password</label>
+                    <input class="form-control" type="password" formControlName="confirmPassword"/>
+                </div>
+                <div class="form-group">
+                    <label for="">First Name</label>
+                    <input class="form-control" type="text" formControlName="firstName"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Last Name</label>
+                    <input class="form-control" type="text" formControlName="lastName"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Role</label>
+                    <select class="form-control" formControlName="role" (change)="onRoleChange($event)">
+                        <option value="user">User</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <div class="form-group d-none" id="albumNumber">
+                    <label for="">Album Number</label>
+                    <input class="form-control" type="text" formControlName="albumNumber"/>
+                </div>
+                <button class="btn btn-outline-dark mt-2">Save</button>
+            </form>
+        </div>
+    </div>
+</div>   

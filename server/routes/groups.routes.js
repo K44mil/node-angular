@@ -24,6 +24,9 @@ const { openManyGroups } = require('../controllers/groups/openManyGroups');
 const { closeManyGroups } = require('../controllers/groups/closeManyGroups');
 const { addUsersToGroup } = require('../controllers/groups/addUsersToGroup');
 const { getGroupMarks } = require('../controllers/groups/getGroupMarks');
+const { archiveManyGroups } = require('../controllers/groups/archiveManyGroups');
+const { deleteManyGroups } = require('../controllers/groups/deleteManyGroups');
+const { restoreManyGroups } = require('../controllers/groups/restoreManyGroups');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
@@ -56,6 +59,9 @@ router.put('/:id', updateGroup);
 // Mass actions
 router.post('/open_many', openManyGroups);
 router.post('/close_many', closeManyGroups);
+router.post('/archive_many', archiveManyGroups);
+router.post('/delete_many', deleteManyGroups);
+router.post('/restore_many', restoreManyGroups);
 router.post('/:id/add_members', addUsersToGroup);
 
 module.exports = router;

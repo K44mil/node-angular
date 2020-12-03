@@ -28,6 +28,8 @@
                         <option class="form-control">Actions</option>
                         <option value="open-many">Open Many</option>
                         <option value="close-many">Close Many</option>
+                        <option value="archive-many">Archive Many</option>
+                        <option value="delete-many">Delete Many</option>
                     </select>
                 </div>
                 <!-- ADD USER -->
@@ -122,7 +124,7 @@
                         <td class="text-right">
                             <span class="btn badge badge-dark badge-pill" (click)="archiveGroup(group.id)"><i class="far fa-calendar-times"></i></span>
                             <span class="btn badge badge-info badge-pill ml-1" (click)="editGroup(group.id)"><i class="fas fa-pen"></i></span>
-                            <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteGroup(group.id)"><i class="fas fa-trash-alt"></i></span>
+                            <span class="btn badge badge-danger badge-pill ml-1" data-toggle="modal" data-target="#deleteGroupConfirmationModal" (click)="setGroupToDelete(group.id)"><i class="fas fa-trash-alt"></i></span>
                         </td>
                     </tr>
                      <!-- NO MATCHING RESULTS -->
@@ -232,4 +234,113 @@
             </div>
         </div>
     </div>
-</div>   
+</div>
+<!-- MODALS -->
+<!-- GROUPS OPEN CONFIRMATION MODAL -->
+<button class="btn btn-primary d-none" id="btnOpenManyConfirmationModal" data-target="#openManyConfirmationModal" data-toggle="modal">  
+</button>
+<div class="modal fade" id="openManyConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="openManyConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="openManyConfirmationModalLabel"><i class="fas fa-exclamation-circle text-dark"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to open these groups?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="openSelectedGroups()">OPEN</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- GROUPS CLOSE CONFIRMATION MODAL -->
+<button class="btn btn-primary d-none" id="btnCloseManyConfirmationModal" data-target="#closeManyConfirmationModal" data-toggle="modal">  
+</button>
+<div class="modal fade" id="closeManyConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="closeManyConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="closeManyConfirmationModalLabel"><i class="fas fa-exclamation-circle text-dark"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to close these groups?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="closeSelectedGroups()">CLOSE</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- GROUPS ARCHIVE CONFIRMATION MODAL -->
+<button class="btn btn-primary d-none" id="btnArchiveManyConfirmationModal" data-target="#archiveManyConfirmationModal" data-toggle="modal">  
+</button>
+<div class="modal fade" id="archiveManyConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveManyConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="archiveManyConfirmationModalLabel"><i class="fas fa-exclamation-circle text-dark"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to archive these groups?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="archiveSelectedGroups()">ARCHIVE</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- GROUPS DELETE CONFIRMATION MODAL -->
+<button class="btn btn-primary d-none" id="btnDeleteManyConfirmationModal" data-target="#deleteManyConfirmationModal" data-toggle="modal">  
+</button>
+<div class="modal fade" id="deleteManyConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteManyConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteManyConfirmationModalLabel"><i class="fas fa-exclamation-circle text-danger"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to delete these groups?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteSelectedGroups()">DELETE</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- GROUP DELETE CONFIRMATION MODAL -->
+<div class="modal fade" id="deleteGroupConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteGroupConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteGroupConfirmationModalLabel"><i class="fas fa-exclamation-circle text-danger"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to delete this group? This process cannot be undone.
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="setGroupToDelete(null)">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteGroup()">DELETE</button>
+        </div>
+        </div>
+    </div>
+</div>

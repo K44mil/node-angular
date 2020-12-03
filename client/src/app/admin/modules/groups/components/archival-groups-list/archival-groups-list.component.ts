@@ -270,9 +270,15 @@ export class ArchivalGroupsListComponent implements OnInit {
     }
 
     // Actions functions
-    deleteGroup(id: string) {
-        if (confirm("Are you sure to delete this group?")) {
-            this.groupsService.deleteGroup(id)
+    groupToDeleteId: string;
+
+    setGroupToDelete(id: string) {
+        this.groupToDeleteId = id;
+    }
+
+    deleteGroup() {
+        if (this.groupToDeleteId) {
+            this.groupsService.deleteGroup(this.groupToDeleteId)
                 .pipe(first())
                 .subscribe(
                     res => {
@@ -284,7 +290,10 @@ export class ArchivalGroupsListComponent implements OnInit {
                         this.loadGroups(this.query);
                     },
                     err => {
-                        this.alertService.error(err);
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        });
                         window.scrollTo(0,0);
                     }
                 );
@@ -306,6 +315,68 @@ export class ArchivalGroupsListComponent implements OnInit {
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    // Mass actions functions
+    onActionsSelectChange(e) {
+        switch (e.target.value) {
+            case 'delete-many':
+                const btnDelete = document.getElementById('btnDeleteManyConfirmationModal');
+                btnDelete.click();
+                break;
+            case 'restore-many':
+                const btnRestore = document.getElementById('btnRestoreManyConfirmationModal');
+                btnRestore.click();
+                break;
+        }
+    }
+
+    restoreSelectedGroups() {
+        if (this.selectedItems.length > 0) {
+            this.groupsService.restoreManyGroups(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.clearSelect();
+                    this.loadGroups(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
+    }
+
+    deleteSelectedGroups() {
+        if (this.selectedItems.length > 0) {
+            this.groupsService.deleteManyGroups(this.selectedItems)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.msg, {
+                        autoClose: true
+                    });
+                    this.clearSelect();
+                    this.loadGroups(this.query);
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+        }
     }
 
     // Sort Funtcions

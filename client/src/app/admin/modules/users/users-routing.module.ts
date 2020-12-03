@@ -5,7 +5,8 @@ import {
     LayoutComponent,
     UsersListComponent,
     InactiveUsersListComponent,
-    BlockedUsersListComponent
+    BlockedUsersListComponent,
+    AddUserComponent
 } from './components';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
         children: [
             { path: '', component: UsersListComponent },
             { path: 'inactive', component: InactiveUsersListComponent },
-            { path: 'blocked', component: BlockedUsersListComponent }
+            { path: 'blocked', component: BlockedUsersListComponent },
+            { path: 'add_user', component: AddUserComponent }
         ]
     }
 ];

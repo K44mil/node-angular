@@ -28,7 +28,7 @@
                 </div>
                 <!-- ADD USER -->
                 <div class="col-2">
-                    <button class="btn btn-success form-control">+ Add User</button>
+                    <a routerLink="/admin/users/add_user" class="btn btn-success form-control">+ Add User</a>
                 </div>
                 <!-- COUNT RECORDS -->
                 <div *ngIf="pagination" class="col-2 offset-2">
@@ -106,7 +106,7 @@
                             <td class="text-right">
                                 <span class="btn badge badge-dark badge-pill"><i class="fas fa-unlock" (click)="unblockUser(user.id)"></i></span>
                                 <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
-                                <span class="btn badge badge-danger badge-pill ml-1"><i class="fas fa-trash-alt" (click)="deleteUser(user.id)"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" data-target="#deleteUserConfirmationModal" data-toggle="modal" (click)="setUserToDelete(user.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>
                         <tr *ngIf="users.length == 0">
@@ -242,7 +242,27 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearGroup()">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmGroupId()">Confirm</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- USER DELETE CONFIRMATION MODAL -->
+<div class="modal fade" id="deleteUserConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteUserConfirmationModalLabel"><i class="fas fa-exclamation-circle text-danger"></i> Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Do you really want to delete this user? This process cannot be undone.
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="setUserToDelete(null)">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">DELETE</button>
         </div>
         </div>
     </div>

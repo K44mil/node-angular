@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row mt-1">
-        <div class="col-5">
+        <div class="col-6">
             <div class="table-responsive">
                 <table class="table table-sm text-center">
                     <thead class="thead-dark">
@@ -43,7 +43,7 @@
                             <td>{{ sub.Specialization.name }}</td>
                             <td>{{ sub.name }}</td>
                             <td>{{ sub.short }}</td>
-                            <td>
+                            <td class="text-right">
                                 <span class="btn badge badge-info badge-pill ml-1" (click)="editSubject(sub.id)"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteSubject(sub.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
