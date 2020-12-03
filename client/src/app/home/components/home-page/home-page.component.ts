@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit {
                     this.slider = res.data.slider;
                 },
                 err => {
-                    console.log(err);
+                    
                 }
             )
     }

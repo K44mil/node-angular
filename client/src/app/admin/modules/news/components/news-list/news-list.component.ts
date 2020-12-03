@@ -85,7 +85,10 @@ export class NewsListComponent implements OnInit {
                     this.loadNews();
                 },
                 err => {
-                    console.log(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                 }
             )
     }

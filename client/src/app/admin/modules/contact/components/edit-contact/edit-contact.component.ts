@@ -49,7 +49,10 @@ export class EditContactComponent implements OnInit {
                     });
                 },
                 err => {
-                    console.log(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                 }
             )
     }
