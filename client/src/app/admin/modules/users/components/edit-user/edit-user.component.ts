@@ -1,26 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { PasswordConfirmValidator } from '@app/home/modules/account/validators/PasswordConfirmValidator';
 import { UserFormValidator } from '../../validators/UserFormValidator';
-import { AlertService } from '@app/shared/services';
-import { first } from 'rxjs/operators';
-import { UsersService } from '../../services/users.service';
 
-@Component({ templateUrl: 'add-user.component.html' })
-export class AddUserComponent implements OnInit {
-    addUserForm: FormGroup;
+@Component({ templateUrl: 'edit-user.component.html' })
+export class EditUserComponent implements OnInit {
+    editUserForm: FormGroup;
     submitted: boolean = false;
 
-    constructor(
-        private alertService: AlertService,
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private usersService: UsersService
-    ) { }
+    constructor(private formBuilder: FormBuilder) {
+        
+    }
 
     ngOnInit() {
-        this.addUserForm = this.formBuilder.group({
+        this.editUserForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)]],
             confirmPassword: ['', Validators.required],
@@ -36,30 +29,11 @@ export class AddUserComponent implements OnInit {
         });
     }
 
-    get f() { return this.addUserForm.controls; }
+    get f() { return this.editUserForm.controls; }
 
     onSubmit() {
         this.submitted = true;
-        if (this.addUserForm.invalid) return;
-
-        this.usersService.createUser(this.addUserForm.value)
-            .pipe(first())
-            .subscribe(
-                res => {
-                    this.alertService.clear();
-                    this.alertService.success('User has been created.', {
-                        autoClose: true,
-                        keepAfterRouteChange: true
-                    });
-                    this.router.navigate(['/admin/users']);
-                },
-                err => {
-                    this.alertService.clear();
-                    this.alertService.error(err, {
-                        autoClose: true
-                    });
-                }
-            )
+        if (this.editUserForm.invalid) return;
     }
 
     onRoleChange(e) {

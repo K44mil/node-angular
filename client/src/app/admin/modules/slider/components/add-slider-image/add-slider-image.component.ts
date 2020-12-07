@@ -9,6 +9,7 @@ import { SliderService } from '../../services/slider.service';
 @Component({ templateUrl: 'add-slider-image.component.html' })
 export class AddSliderImageComponent implements OnInit {
     addSliderImageForm: FormGroup;
+    loading: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -46,6 +47,8 @@ export class AddSliderImageComponent implements OnInit {
             });
         }
 
+        this.loading = true;
+
         const formData = new FormData();
         formData.append('photo', this.addSliderImageForm.get('photoSource').value);
         formData.append('title', this.addSliderImageForm.get('title').value);
@@ -59,6 +62,7 @@ export class AddSliderImageComponent implements OnInit {
                     this.alertService.success('Slider Image has been added.', {
                         autoClose: true
                     });
+                    this.loading = false;
                     this.router.navigate(['/admin/slider']);
                 },
                 err => {

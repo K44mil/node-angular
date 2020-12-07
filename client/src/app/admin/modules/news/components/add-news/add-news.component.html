@@ -55,7 +55,10 @@
                       Visibility
                     </label>
                   </div>
-                <button class="btn btn-outline-dark mt-2">Save</button>
+                <button class="btn btn-outline-dark mt-2">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Save
+                </button>
             </form>
         </div>
     </div>

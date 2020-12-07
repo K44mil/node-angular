@@ -52,6 +52,19 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         );
     }
 
+    // First Name & Last Name validation
+    if (firstName.length > 30 || !firstName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
+    if (lastName.length > 30 || !lastName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
     // Check if user exists
     let user = await User.findOne({
         where: {
@@ -63,7 +76,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
 
     if (user) {
         return next(
-            new ErrorResponse(`Email in use.`, 400)
+            new ErrorResponse(`User with provided email already exists.`, 400)
         );
     }
 

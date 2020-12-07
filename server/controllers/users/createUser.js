@@ -46,6 +46,19 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         );
     }
 
+     // First Name & Last Name validation
+     if (firstName.length > 30 || !firstName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
+    if (lastName.length > 30 || !lastName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
     // Role validation
     if (role !== Role.User && role !== Role.Student) {
         return next(
@@ -64,20 +77,58 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 
     if (user) {
         return next(
-            new ErrorResponse(`Email in use.`, 400)
+            new ErrorResponse(`User with provided email already exists.`, 400)
         );
     }
 
-    user = await User.build({
-        email,
-        password,
-        role: role,
-        firstName,
-        lastName,
-        albumNumber,
-        isVerified: true,
-        isBlocked: false
-    });
+    switch (role) {
+        case Role.User:
+            user = await User.build({
+                email,
+                password,
+                role: Role.User,
+                firstName,
+                lastName,
+                isVerified: true,
+                isBlocked: false
+            });
+            break;
+        case Role.Student:
+            // Album Number validation
+            if (!albumNumber.match(/^[0-9]{6}$/)) {
+                return next(
+                    new ErrorResponse('Album number must consist of exacly 6 digits.', 400)
+                )
+            }
+
+            user = await User.findOne({
+                where: {
+                    albumNumber: {
+                        [Op.eq]: albumNumber 
+                    }
+                }
+            });
+
+            if (user) {
+                return next(
+                    new ErrorResponse(`Student with provided album number already exists.`, 400)
+                );
+            }
+
+            user = await User.build({
+                email,
+                password,
+                role: Role.Student,
+                firstName,
+                lastName,
+                albumNumber,
+                isVerified: true,
+                isBlocked: false
+            });
+            break;
+    }
+
+    
     await user.hashPassword();
 
     await user.save();

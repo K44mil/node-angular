@@ -10,6 +10,7 @@ import { CategoriesService } from '../../services/categories.service';
 export class AddNewsComponent implements OnInit {
     addNewsForm: FormGroup;
     categories;
+    loading: boolean = false;
 
     public config = {
         removeButtons: 'Anchor,Image,Maximize,Scayt,About'
@@ -113,6 +114,7 @@ export class AddNewsComponent implements OnInit {
             formData.append(`files`, files[i]);
         }
 
+        this.loading = true;
         this.newsService.createNews(formData)
             .pipe(first())
             .subscribe(
@@ -122,6 +124,7 @@ export class AddNewsComponent implements OnInit {
                             keepAfterRouteChange: true,
                             autoClose: true
                         });
+                        this.loading = false;
                         this.router.navigate(['/admin/news']);
                     }
                 },

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
@@ -50,7 +51,7 @@ export class UsersListComponent implements OnInit {
         private usersService: UsersService,
         private alertService: AlertService,
         private formBuilder: FormBuilder,
-        private modalService: ModalService
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -219,6 +220,10 @@ export class UsersListComponent implements OnInit {
                         window.scrollTo(0,0);
                     }
                 )
+    }
+
+    editUser(id: string) {
+        this.router.navigate([`/admin/users/edit_user/${id}`]);
     }
 
     onActionsSelectChange(e) {

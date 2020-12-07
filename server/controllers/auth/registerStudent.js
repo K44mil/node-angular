@@ -34,7 +34,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
     // PASSWORD VALIDATION
     if (password !== confirmPassword) {
         return next(
-            new ErrorResponse(`Passwords must be identical.`, 400)
+            new ErrorResponse(`Passwords must be the same.`, 400)
         );
     }
 
@@ -56,6 +56,19 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
         );
     }
 
+    // First Name & Last Name validation
+    if (firstName.length > 30 || !firstName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
+    if (lastName.length > 30 || !lastName.match(/([a-zA-Z])$/)) {
+        return next(
+            new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
+        )
+    }
+
     // Check if user exists
     let user = await User.findOne({
         where: {
@@ -67,8 +80,29 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 
     if (user) {
         return next(
-            new ErrorResponse(`Email in use.`, 400)
+            new ErrorResponse(`User with provided email already exists.`, 400)
         );
+    }
+
+    // Album Number validation
+    user = await User.findOne({
+        where: {
+            albumNumber: {
+                [Op.eq]: albumNumber 
+            }
+        }
+    });
+
+    if (user) {
+        return next(
+            new ErrorResponse(`Student with provided album number already exists.`, 400)
+        );
+    }
+
+    if (!albumNumber.match(/^[0-9]{6}$/)) {
+        return next(
+            new ErrorResponse('Album number must consist of exacly 6 digits.', 400)
+        )
     }
 
     // Check if group exists and is open
