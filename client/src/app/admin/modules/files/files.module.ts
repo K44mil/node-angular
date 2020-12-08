@@ -8,14 +8,15 @@ import {
     FilesListComponent,
     LayoutComponent
 } from './components';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         FilesRoutingModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         LayoutComponent,

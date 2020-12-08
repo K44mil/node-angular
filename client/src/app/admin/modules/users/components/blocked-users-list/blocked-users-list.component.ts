@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { User } from '../../models/User';
@@ -47,7 +48,8 @@ export class BlockedUsersListComponent implements OnInit {
     constructor(
         private usersService: UsersService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -65,6 +67,10 @@ export class BlockedUsersListComponent implements OnInit {
             albumNumber: [''],
             groupId: ['']
         });
+    }
+
+    editUser(id: string) {
+        this.router.navigate([`/admin/users/edit_user/${id}`]);
     }
     
     loadUsers(query: string) {

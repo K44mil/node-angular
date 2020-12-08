@@ -4,10 +4,14 @@ import { first } from 'rxjs/operators';
 import { FilesService } from '../../services/files.service';
 import { File } from '../../models/File';
 import { AlertService } from '@app/shared/services';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({ templateUrl: 'files-list.component.html' })
 export class FilesListComponent implements OnInit {
     files: File[];
+    uploadFileForm: FormGroup;
+    uploadProgress: number = 0;
 
     private KB = 1024;
     private MB = 1024*1024;
@@ -15,11 +19,60 @@ export class FilesListComponent implements OnInit {
 
     constructor(
         private filesService: FilesService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private formBuilder: FormBuilder
     ) { }
 
     ngOnInit() {
         this.loadFiles();
+
+        this.uploadFileForm = this.formBuilder.group({
+            file: [''],
+            fileSource: ['']
+        });
+    }
+
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.uploadFileForm.patchValue({
+                fileSource: file
+            });
+        } 
+    }
+
+    onSubmit() {        
+        if (this.uploadFileForm.invalid) return; 
+
+        const formData = new FormData();
+        formData.append('file', this.uploadFileForm.get('fileSource').value);
+
+        this.filesService.uploadFile(formData)
+            .subscribe(
+                (event: HttpEvent<any>) => {
+                    if (event && event !== undefined)
+                        switch (event.type) {
+                            case HttpEventType.Sent:
+                                console.log('Request has been made!');
+                                break;
+                            case HttpEventType.ResponseHeader:
+                                console.log('Response header has been received!');
+                                break;
+                            case HttpEventType.UploadProgress:
+                                this.uploadProgress = Math.round(event.loaded / event.total * 100);
+                                console.log(`Uploaded! ${this.uploadProgress}%`);
+                                break;
+                            case HttpEventType.Response:
+                                console.log('User successfully created!', event.body);
+                                setTimeout(() => {
+                                    this.uploadProgress = 0;
+                                }, 1500);
+                        }
+                },
+                err => {
+                    console.log(err);
+                }
+            );
     }
 
     loadFiles() {

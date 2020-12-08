@@ -18,6 +18,14 @@ export class UsersService {
         return this.http.get<any>(`${this.usersUrl}${query}`);
     }
 
+    getUser(id: string) {
+        return this.http.get<any>(`${this.usersUrl}/${id}`);
+    }
+
+    updateUser(id: string, body: any) {
+        return this.http.put<any>(`${this.usersUrl}/${id}`, body);
+    }
+
     getInactiveUsers() {
         return this.http.get<any>(`${this.usersUrl}?isVerified=0`);
     }

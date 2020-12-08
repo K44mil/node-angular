@@ -32,19 +32,19 @@ File.init({
         allowNull: false,
         field: 'path'
     },
-    newsId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: News,
-            key: 'id'
-        }
-    },
-    isLoginProtected: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        field: 'is_login_protected'
-    }
+    // newsId: {
+    //     type: DataTypes.UUID,
+    //     allowNull: false,
+    //     references: {
+    //         model: News,
+    //         key: 'id'
+    //     }
+    // },
+    // isLoginProtected: {
+    //     type: DataTypes.BOOLEAN,
+    //     defaultValue: false,
+    //     field: 'is_login_protected'
+    // }
 }, {
     sequelize,
     modelName: 'File',

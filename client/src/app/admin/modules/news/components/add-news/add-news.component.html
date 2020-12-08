@@ -21,10 +21,6 @@
                     <label for="">Description</label>
                     <textarea formControlName="description" type="text" class="form-control"></textarea>
                 </div>
-                <!-- <div class="form-gorup">
-                    <label for="">Content</label>
-                    <textarea type="text" class="form-control"></textarea>
-                </div> -->
                 <label for="">Content</label>
                 <ckeditor formControlName="content" [config]="config"></ckeditor>
                 <div *ngIf="categories" class="form-gorup">

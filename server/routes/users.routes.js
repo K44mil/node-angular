@@ -13,6 +13,7 @@ const { deleteManyUsers } = require('../controllers/users/deleteManyUsers');
 const { blockManyUsers } = require('../controllers/users/blockManyUsers');
 const { activateManyUsers } = require('../controllers/users/activateManyUsers');
 const { unblockManyUsers } = require('../controllers/users/unblockManyUsers');
+const { updateUser } = require('../controllers/users/updateUser');
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
@@ -22,6 +23,7 @@ router.get('/', getUsers);
 router.get('/verify/:id', verifyUser);
 router.get('/block/:id', blockUser);
 router.get('/unblock/:id', unblockUser);
+router.get('/:id', getUser);
 
 // DELETE
 router.delete('/:id', deleteUser);
@@ -32,5 +34,8 @@ router.post('/delete_many', deleteManyUsers);
 router.post('/block_many', blockManyUsers);
 router.post('/activate_many', activateManyUsers);
 router.post('/unblock_many', unblockManyUsers);
+
+// PUT
+router.put('/:id', updateUser);
 
 module.exports = router;

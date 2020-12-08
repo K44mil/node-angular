@@ -105,7 +105,7 @@
                             <td>{{ printDate(user.created_at) }}</td>
                             <td class="text-right">
                                 <span class="btn badge badge-dark badge-pill"><i class="fas fa-unlock" (click)="unblockUser(user.id)"></i></span>
-                                <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editUser(user.id)"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" data-target="#deleteUserConfirmationModal" data-toggle="modal" (click)="setUserToDelete(user.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>
                         </tr>

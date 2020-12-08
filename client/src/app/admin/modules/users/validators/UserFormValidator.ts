@@ -10,7 +10,7 @@ export const UserFormValidator =
         const albumNumberValue = albumNumberField.value;
 
         if (roleValue === 'student') {
-            if (albumNumberValue !== '') {
+            if (albumNumberValue) {
                 albumNumberField.setErrors({
                     required: null
                 })
