@@ -6,12 +6,14 @@ const { createCategory } = require('../controllers/categories/createCategory');
 const { updateCategory } = require('../controllers/categories/updateCategory');
 const { getCategories } = require('../controllers/categories/getCategories');
 const { deleteCategory } = require('../controllers/categories/deleteCategory');
+const { getCategory } = require('../controllers/categories/getCategory');
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
 
 // GET
 router.get('/', getCategories);
+router.get('/:id', getCategory);
 
 // POST 
 router.post('/', createCategory);

@@ -1,0 +1,36 @@
+<div class="row mt-2">
+    <div class="col-12">
+        <form>
+            <div class="form-row">
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="File Name...">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-12" style="max-height: 400px; overflow: auto;">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
+                        <th scope="col">File Name</th>
+                        <th scope="col">File Size</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="files">
+                    <tr *ngFor="let file of files; let i = index;">
+                        <td><input type="checkbox" (click)="selectOrUnselectItem(file.id)" class="file-select"/></td>
+                        <td>{{ file.name }}</td>
+                        <td>{{ parseFileSize(file.size) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <button class="btn btn-info ml-auto m-3" (click)="linkFiles()">Link</button>
+</div>

@@ -5,12 +5,18 @@ import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { NewsService } from '../../services/news.service';
 import { CategoriesService } from '../../services/categories.service';
+import { ModalService } from '@app/shared/services/modal.service';
+import { File } from '../../../files/models/File';
 
 @Component({ templateUrl: 'add-news.component.html' })
 export class AddNewsComponent implements OnInit {
     addNewsForm: FormGroup;
     categories;
     loading: boolean = false;
+
+    files: File[] = [];
+
+    fileUnlinked: boolean = false;
 
     public config = {
         removeButtons: 'Anchor,Image,Maximize,Scayt,About'
@@ -21,7 +27,8 @@ export class AddNewsComponent implements OnInit {
         private categoriesService: CategoriesService,
         private formBuilder: FormBuilder,
         private alertService: AlertService,
-        private router: Router
+        private router: Router,
+        private modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -53,7 +60,10 @@ export class AddNewsComponent implements OnInit {
                         this.categories = res.data.categories;
                 },
                 err => {
-
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
                 }
             )
     }
@@ -67,13 +77,13 @@ export class AddNewsComponent implements OnInit {
         }
     }
 
-    onFilesChange(event) {
-        if (event.target.files.length > 0) {
-            this.addNewsForm.patchValue({
-                filesSource: event.target.files
-            });
-        } 
-    }
+    // onFilesChange(event) {
+    //     if (event.target.files.length > 0) {
+    //         this.addNewsForm.patchValue({
+    //             filesSource: event.target.files
+    //         });
+    //     } 
+    // }
 
     get f() { return this.addNewsForm.controls; }
 
@@ -109,10 +119,10 @@ export class AddNewsComponent implements OnInit {
         formData.append('isVisible', this.addNewsForm.get('isVisible').value);
         // formData.append('files', this.addNewsForm.get('filesSource').value);
 
-        const files = this.addNewsForm.get('filesSource').value;
-        for(let i = 0; i < files.length; i++) {
-            formData.append(`files`, files[i]);
-        }
+        // const files = this.addNewsForm.get('filesSource').value;
+        // for(let i = 0; i < files.length; i++) {
+        //     formData.append(`files`, files[i]);
+        // }
 
         this.loading = true;
         this.newsService.createNews(formData)
@@ -129,9 +139,40 @@ export class AddNewsComponent implements OnInit {
                     }
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0, 0);
                 }
             )
+    }
 
+    onFilesLinked(event) {
+        for (const file of event) {
+            let isLinked = false;
+            for (const file2 of this.files) {
+                if (file.id === file2.id) isLinked = true;
+            }
+            if (!isLinked) this.files.push(file);
+        }
+    }
+
+    openModal(id: string) {  
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+
+    getLinkFileModalClasses() {
+        return 'col-4,offset-4';
+    }
+
+    unlinkFile(id: string) {
+        this.files = this.files.filter(f => f.id !== id);
+        if (this.fileUnlinked) this.fileUnlinked = false;
+        else this.fileUnlinked = true;
     }
 }

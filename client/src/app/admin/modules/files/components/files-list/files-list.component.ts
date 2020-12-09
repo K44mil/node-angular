@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { FilesService } from '../../services/files.service';
@@ -16,6 +16,8 @@ export class FilesListComponent implements OnInit {
     private KB = 1024;
     private MB = 1024*1024;
     private GB = 1024*1024*1024;
+
+    @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
     constructor(
         private filesService: FilesService,
@@ -53,24 +55,44 @@ export class FilesListComponent implements OnInit {
                     if (event && event !== undefined)
                         switch (event.type) {
                             case HttpEventType.Sent:
-                                console.log('Request has been made!');
+                                // console.log('Request has been made!');
                                 break;
                             case HttpEventType.ResponseHeader:
-                                console.log('Response header has been received!');
+                                // console.log('Response header has been received!');
                                 break;
                             case HttpEventType.UploadProgress:
                                 this.uploadProgress = Math.round(event.loaded / event.total * 100);
-                                console.log(`Uploaded! ${this.uploadProgress}%`);
+                                // console.log(`Uploaded! ${this.uploadProgress}%`);
                                 break;
                             case HttpEventType.Response:
-                                console.log('User successfully created!', event.body);
                                 setTimeout(() => {
+                                    this.loadFiles();
+                                    this.alertService.clear();
+                                    this.alertService.success('File has been uploaded.', {
+                                        autoClose: true
+                                    });
+                                    const btnFileUploadModal = document.getElementById('btnFileUploadModal');
+                                    btnFileUploadModal.click();
+    
+                                    // Reset Form
+                                    this.uploadFileForm.reset();
+                                    this.fileInput.nativeElement.value = '';
                                     this.uploadProgress = 0;
-                                }, 1500);
+                                }, 500);  
                         }
                 },
                 err => {
-                    console.log(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    const btnFileUploadModal = document.getElementById('btnFileUploadModal');
+                    btnFileUploadModal.click();
+
+                    // Reset Form
+                    this.uploadFileForm.reset();
+                    this.fileInput.nativeElement.value = '';
+                    this.uploadProgress = 0;
                 }
             );
     }
@@ -135,9 +157,9 @@ export class FilesListComponent implements OnInit {
     parseFileSize(size) {
         let sizeNumber = Number(size);
         if (sizeNumber >= this.GB)
-            return `${sizeNumber/this.GB} GB`;
+            return `${(sizeNumber/this.GB).toFixed(2)} GB`;
         if (sizeNumber >= this.MB)
-            return `${sizeNumber/this.MB} MB`;
+            return `${(sizeNumber/this.MB).toFixed(2)} MB`;
         else
             return `${(sizeNumber/this.KB).toFixed(2)} KB`;
     }

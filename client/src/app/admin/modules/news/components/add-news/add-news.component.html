@@ -29,9 +29,41 @@
                         <option *ngFor="let cat of categories" value="{{ cat.id }}">{{ cat.name }}</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-1">
                   <label for="">Files</label>
-                  <input formControlName="files" (change)="onFilesChange($event)" type="file" class="form-control-file" multiple>
+                  <div class="row">
+                    <div class="col-6">
+                      <button class="btn btn-info" (click)="openModal('link-file-modal')"><i class="fas fa-link"></i>Link File</button>
+                    </div>
+                  </div>
+                  <div class="row mt-1">
+                    <div class="col-6">
+                      <table class="table table-sm">
+                        <thead class="thead-dark">
+                          <th scope="col">#</th>
+                          <th scope="col">File Name</th>
+                          <th scope="col"></th>
+                        </thead>
+                        <tbody *ngIf="files && files.length > 0">
+                          <tr *ngFor="let file of files; let i = index;"> 
+                            <td>{{ i+1 }}</td>
+                            <td>{{ file.name }}</td>
+                            <td class="text-right">
+                              <span class="btn badge badge-secondary badge-pill" (click)="unlinkFile(file.id)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody *ngIf="!files || files.length === 0">
+                          <tr class="text-center">
+                            <td colspan="3">No files linked.</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- <input formControlName="files" (change)="onFilesChange($event)" type="file" class="form-control-file" multiple> -->
                 </div>
                 <div class="form-check">
                     <input formControlName="isLoginProtected" class="form-check-input" type="checkbox">
@@ -58,4 +90,19 @@
             </form>
         </div>
     </div>
-</div>   
+</div>
+
+<!-- LINK FILE MODAL -->
+<box-modal id="link-file-modal" [bodyClasses]="getLinkFileModalClasses()">
+  <div class="row">
+      <div class="ml-auto mr-3 mt-2">
+          <i class="fas fa-times" (click)="closeModal('link-file-modal')" style="cursor: pointer;"></i>
+      </div>
+  </div>
+  <div>
+    <files-finder (filesLinked)="onFilesLinked($event)" [newsFiles]="files"></files-finder>
+  </div>
+  <!-- <div *ngIf="groupId">
+      <students-list [groupId]="groupId" [userRemoved]="userRemoved" (studentsAdded)="reloadUsers()"></students-list>
+  </div> -->
+</box-modal>

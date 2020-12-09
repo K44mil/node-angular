@@ -15,7 +15,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 
     if (!category) {
         return next(
-            new ErrorResponse(`Category with ID '${req.params.id}' does not exist.`, 400)
+            new ErrorResponse(`Category does not exist.`, 400)
         );
     }
 

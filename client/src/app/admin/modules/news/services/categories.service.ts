@@ -12,6 +12,10 @@ export class CategoriesService {
         return this.http.get<any>(`${environment.apiUrl}/categories`);
     }
 
+    getCategory(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/categories/${id}`);
+    }
+
     deleteCategory(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/categories/${id}`);
     }
@@ -20,4 +24,7 @@ export class CategoriesService {
         return this.http.post<any>(`${environment.apiUrl}/categories`, body);
     }
 
+    updateCategory(id: string, body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/categories/${id}`, body);
+    }
 }

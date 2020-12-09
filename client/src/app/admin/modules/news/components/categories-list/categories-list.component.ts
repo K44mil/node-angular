@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
@@ -11,7 +12,8 @@ export class CategoriesListComponent implements OnInit {
 
     constructor(
         private categoriesService: CategoriesService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -35,7 +37,7 @@ export class CategoriesListComponent implements OnInit {
             )
     }
 
-    deleteCategory(id) {
+    deleteCategory(id: string) {
         this.categoriesService.deleteCategory(id)
             .pipe(first())
             .subscribe(
@@ -50,5 +52,9 @@ export class CategoriesListComponent implements OnInit {
 
                 }
             )
+    }
+
+    editCategory(id: string) {
+        this.router.navigate([`/admin/news/edit_category/${id}`]);
     }
 }

@@ -30,10 +30,6 @@ exports.uploadFile = asyncHandler(async (req, res, next) => {
             new ErrorResponse('File size is too big.', 400)
         )
     }
-
-    setTimeout(() => {
-        console.log('TIMEOUT END');
-    }, 3000);
     
     const createdFile = await File.build({
         name: file.name,

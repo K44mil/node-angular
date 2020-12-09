@@ -7,8 +7,8 @@ import { CategoriesService } from '../../services/categories.service';
 
 @Component({ templateUrl: 'add-category.component.html' })
 export class AddCategoryComponent implements OnInit {
-
-    addCategoryForm: FormGroup;
+    public addCategoryForm: FormGroup;
+    public submitted: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -19,13 +19,14 @@ export class AddCategoryComponent implements OnInit {
 
     ngOnInit() {
         this.addCategoryForm = this.formBuilder.group({
-            name: ['', Validators.required]
+            name: ['', [Validators.required, Validators.maxLength(30)]]
         });
     }
 
     get f() { return this.addCategoryForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addCategoryForm.invalid) return;
 
         this.categoriesService.createCategory(this.addCategoryForm.value)

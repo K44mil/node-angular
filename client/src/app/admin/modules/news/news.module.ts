@@ -10,9 +10,12 @@ import {
     NewsListComponent,
     AddNewsComponent,
     CategoriesListComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    EditCategoryComponent,
+    FilesFinderComponent,
 } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
     imports: [
@@ -20,14 +23,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         NewsRoutingModule,
         ReactiveFormsModule,
         FormsModule,
-        CKEditorModule
+        CKEditorModule,
+        SharedModule
     ],
     declarations: [
         LayoutComponent,
         NewsListComponent,
         AddNewsComponent,
         CategoriesListComponent,
-        AddCategoryComponent
+        AddCategoryComponent,
+        EditCategoryComponent,
+        FilesFinderComponent
     ]
 })
 export class NewsModule { }

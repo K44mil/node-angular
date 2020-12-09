@@ -5,7 +5,7 @@ const Category = require('../models/Category');
 const File = require('../models/File');
 const Comment = require('../models/Comment');
 const UserGroup = require('../models/relationsModels/UserGroup');
-
+const NewsFile = require('../models/relationsModels/NewsFile');
 // const University = require('../models/University');
 // const Faculty = require('../models/Faculty');
 // const Department = require('../models/Department');
@@ -28,8 +28,12 @@ const initSequelizeAssociations = () => {
     Category.belongsToMany(News, { through: NewsCategory, foreignKey: 'categoryId', otherKey: 'newsId' });
     
     // News -|---o< File
-    News.hasMany(File, { foreignKey: 'newsId' } );
-    File.belongsTo(News, { foreignKey: 'newsId' });
+    // News.hasMany(File, { foreignKey: 'newsId' } );
+    // File.belongsTo(News, { foreignKey: 'newsId' });
+
+    // News >o---o< File
+    News.belongsToMany(File, { through: NewsFile, foreignKey: 'newsId', otherKey: 'fileId' });
+    File.belongsToMany(News, { through: NewsFile, foreignKey: 'fileId', otherKey: 'newsId' });
 
     // News -|---o< Comment
     News.hasMany(Comment, { foreignKey: 'newsId' });

@@ -7,6 +7,7 @@ const slugify = require('slugify');
 const { Op } = require('sequelize');
 const Category = require('../../models/Category');
 const File = require('../../models/File');
+const NewsFile = require('../../models/relationsModels/NewsFile');
 
 /**
  * @desc    Create News
@@ -15,7 +16,7 @@ const File = require('../../models/File');
  */
 exports.createNews = asyncHandler(async (req, res, next) => {
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected, categories } = req.body;
+         isCommentable, isLoginProtected, categories, filesIds } = req.body;
     const authorId = req.user.id;
     let categoriesIds;
     if (categories) categoriesIds = categories.split(',');
@@ -90,42 +91,65 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         }    
     }
 
-    // Files
-    if (req.files && req.files.files) {
-        const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
-        const files = req.files.files.length === undefined ? new Array(req.files.files) : req.files.files;
-
-
-        for (const file of files) {
-            fileExt = path.parse(file.name).ext;
-            if (allowedExtensions.includes(fileExt)) {
-                if (file.size < process.env.MAX_FILE_UPLOAD) {
-                    // console.log(file);
-                    // const type = path.extname(file.name).toString().replace('.', '');
-                    const createdFile = await File.build({
-                        name: file.name,
-                        type: file.mimetype,
-                        size: String(file.size),
+    // Link Files
+    if (filesIds) {
+        for (const id of filesIds) {
+            const file = await File.findByPk(id);
+            if (file) {
+                const newsFile = await NewsFile.findOne({
+                    where: {
+                        fileId: {
+                            [Op.eq]: file.id
+                        },
+                        newsId: {
+                            [Op.eq]: news.id
+                        }
+                    }
+                });
+                if (!newsFile) {
+                    await NewsFile.create({
+                        fileId: file.id,
                         newsId: news.id
                     });
-
-                    // Is Login Protected
-                    if (news.isLoginProtected)
-                        createdFile.isLoginProtected = true;
-
-                    createdFile.path = `${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
-                    file.mv(`./${createdFile.path}`, err => {
-                        console.log(err);
-                    });
-
-                    await createdFile.save();
                 }
             }
         }
     }
+    // if (req.files && req.files.files) {
+    //     const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
+    //     const files = req.files.files.length === undefined ? new Array(req.files.files) : req.files.files;
+
+
+    //     for (const file of files) {
+    //         fileExt = path.parse(file.name).ext;
+    //         if (allowedExtensions.includes(fileExt)) {
+    //             if (file.size < process.env.MAX_FILE_UPLOAD) {
+    //                 // console.log(file);
+    //                 // const type = path.extname(file.name).toString().replace('.', '');
+    //                 const createdFile = await File.build({
+    //                     name: file.name,
+    //                     type: file.mimetype,
+    //                     size: String(file.size),
+    //                     newsId: news.id
+    //                 });
+
+    //                 // Is Login Protected
+    //                 if (news.isLoginProtected)
+    //                     createdFile.isLoginProtected = true;
+
+    //                 createdFile.path = `${process.env.FILE_UPLOAD_PATH}/${createdFile.id}${fileExt}`;
+    //                 file.mv(`./${createdFile.path}`, err => {
+    //                     console.log(err);
+    //                 });
+
+    //                 await createdFile.save();
+    //             }
+    //         }
+    //     }
+    // }
 
     news = await News.findByPk(news.id, {
-        include: [Category, File]
+        // include: [Category, File]
     });
 
     res.status(200).json({

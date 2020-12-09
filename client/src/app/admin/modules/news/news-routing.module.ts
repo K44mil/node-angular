@@ -6,7 +6,8 @@ import {
     NewsListComponent,
     AddNewsComponent,
     CategoriesListComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    EditCategoryComponent
 } from './components';
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
             { path: '', component: NewsListComponent },
             { path: 'add_news', component: AddNewsComponent },
             { path: 'categories', component: CategoriesListComponent },
-            { path: 'add_category', component: AddCategoryComponent }
+            { path: 'add_category', component: AddCategoryComponent },
+            { path: 'edit_category/:id', component: EditCategoryComponent }
         ]
     }
 ];
