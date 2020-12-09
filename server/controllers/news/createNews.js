@@ -16,10 +16,13 @@ const NewsFile = require('../../models/relationsModels/NewsFile');
  */
 exports.createNews = asyncHandler(async (req, res, next) => {
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected, categories, filesIds } = req.body;
+         isCommentable, isLoginProtected, categories, files } = req.body;
     const authorId = req.user.id;
     let categoriesIds;
     if (categories) categoriesIds = categories.split(',');
+
+    let filesIds;
+    if (files) filesIds = JSON.parse(files);
 
     if (!title) {
         return next(

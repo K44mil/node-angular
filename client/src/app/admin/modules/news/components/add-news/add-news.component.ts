@@ -119,6 +119,15 @@ export class AddNewsComponent implements OnInit {
         formData.append('isVisible', this.addNewsForm.get('isVisible').value);
         // formData.append('files', this.addNewsForm.get('filesSource').value);
 
+        // Files
+        const filesIds = [];
+        for (const file of this.files) {
+            filesIds.push(file.id);
+        }        
+
+        // Append filesIds to FormData Object
+        formData.append('files', JSON.stringify(filesIds));
+
         // const files = this.addNewsForm.get('filesSource').value;
         // for(let i = 0; i < files.length; i++) {
         //     formData.append(`files`, files[i]);
