@@ -3,6 +3,7 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const Subject = require('../../models/Subject');
 const Specialization = require('../../models/Specialization');
 const { Op } = require('sequelize');
+const Group = require('../../models/Group');
 
 /**
  * @desc    Update Subject
@@ -59,6 +60,19 @@ exports.updateSubject = asyncHandler(async (req, res, next) => {
             new ErrorResponse(`Subject with this short already exists for specialization '${specialization.name}'`, 400)
         )
     }
+
+    
+    // Update groups props
+    await Group.update({
+        courseId: specialization.courseId,
+        specializationId: specialization.id
+    }, {
+        where: {
+            subjectId: {
+                [Op.eq]: subject.id
+            }
+        }
+    })
 
     await subject.update({
         name,

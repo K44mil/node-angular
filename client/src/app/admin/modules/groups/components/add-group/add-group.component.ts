@@ -26,6 +26,8 @@ export class AddGroupComponent implements OnInit {
     subjects: Subject[];
     countLoaded = 0;
 
+    submitted: boolean = false;
+
     // --
     availableSpecializations: Specialization[];
     availableSubjects: Subject[];
@@ -76,6 +78,7 @@ export class AddGroupComponent implements OnInit {
     get f() { return this.newGroupForm.controls; } 
 
     onSubmit() {
+        this.submitted = true;
         if (this.newGroupForm.invalid) return;
 
         if (this.f.isOpen.value == '') {
@@ -91,6 +94,7 @@ export class AddGroupComponent implements OnInit {
                     keepAfterRouteChange: true,
                     autoClose: true
                 });
+                this.submitted = false;
                 this.router.navigate(['/admin/groups']);
                 this.newGroupForm.reset();
             },

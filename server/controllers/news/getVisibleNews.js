@@ -44,6 +44,7 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     options.offset = startIndex;
     options.limit = limit;
 
+    options.distinct = true;
     const news = await News.findAndCountAll(options);
 
     // Pagination results
