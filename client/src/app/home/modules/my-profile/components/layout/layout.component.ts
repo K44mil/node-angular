@@ -36,22 +36,32 @@ export class LayoutComponent implements OnInit, OnDestroy {
             const generalLink = document.getElementById('general-link');
             const securityLink = document.getElementById('security-link');
             const groupsLink = document.getElementById('groups-link');
-            
+            const findGroupLink = document.getElementById('find-group-link');
+
             switch (p) {
                 case 'general':
                     if (generalLink) generalLink.classList.add('active');
                     if (securityLink) securityLink.classList.remove('active');
                     if (groupsLink) groupsLink.classList.remove('active');
+                    if (findGroupLink) findGroupLink.classList.remove('active');
                     break;
                 case 'security':
                     if (generalLink) generalLink.classList.remove('active');
                     if (securityLink) securityLink.classList.add('active');
                     if (groupsLink) groupsLink.classList.remove('active');
+                    if (findGroupLink) findGroupLink.classList.remove('active');
                     break;
                 case 'groups':
                     if (generalLink) generalLink.classList.remove('active');
                     if (securityLink) securityLink.classList.remove('active');
                     if (groupsLink) groupsLink.classList.add('active');
+                    if (findGroupLink) findGroupLink.classList.remove('active');
+                    break;
+                case 'find-group':
+                    if (generalLink) generalLink.classList.remove('active');
+                    if (securityLink) securityLink.classList.remove('active');
+                    if (groupsLink) groupsLink.classList.remove('active');
+                    if (findGroupLink) findGroupLink.classList.add('active');
                     break;
             }
         })

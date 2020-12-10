@@ -124,6 +124,5 @@ export class GroupsComponent implements OnInit {
         }
         if (this.events.length > 0)
         this.attendance = String((Math.floor(confirmedPresence/this.events.length * 100)));
-        
     }
 }

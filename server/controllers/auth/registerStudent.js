@@ -106,18 +106,21 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
     }
 
     // Check if group exists and is open
-    const group = await Group.findByPk(groupId);
+    let group;
+    if (groupId) {
+        group = await Group.findByPk(groupId);
 
-    if (!group) {
-        return next(
-            new ErrorResponse('Choosen group does not exist or it is closed.', 400)
-        );
-    }
+        if (!group) {
+            return next(
+                new ErrorResponse('Choosen group does not exist or it is closed.', 400)
+            );
+        }
 
-    if (!group.isOpen) {
-        return next(
-            new ErrorResponse('Choosen group does not exist or it is closed.', 400)
-        );
+        if (!group.isOpen) {
+            return next(
+                new ErrorResponse('Choosen group does not exist or it is closed.', 400)
+            );
+        }
     }
 
     user = await User.build({
@@ -133,10 +136,11 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
     await user.save();
 
     // Connect user with group
-    await UserGroup.create({
-        userId: user.id,
-        groupId: group.id
-    });
+    if (groupId)
+        await UserGroup.create({
+            userId: user.id,
+            groupId: group.id
+        });
 
     res.status(200).json({
         success: true,

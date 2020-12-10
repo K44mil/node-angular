@@ -9,8 +9,10 @@ import {
     LayoutComponent,
     GeneralComponent,
     SecurityComponent,
-    GroupsComponent
+    GroupsComponent,
+    FindGroupComponent
 } from './components';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
     imports: [
@@ -18,13 +20,15 @@ import {
         HomeModule,
         MyProfileRoutingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        SharedModule
     ],
     declarations: [
         LayoutComponent,
         GeneralComponent,
         SecurityComponent,
-        GroupsComponent
+        GroupsComponent,
+        FindGroupComponent
     ]
 })
 export class MyProfileModule { }

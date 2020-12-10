@@ -10,11 +10,11 @@ const { Op } = require('sequelize');
  */
 exports.updateCourse = asyncHandler(async (req, res, next) => {
     const { name, short, isVisible } = req.body;
-    let course = await Course.findByPk(req.params.id);
+    const course = await Course.findByPk(req.params.id);
 
     if (!course) {
         return next(
-            new ErrorResponse(`Cannot find Course with ID '${req.params.id}'.`, 400)
+            new ErrorResponse(`Course does not exist.`, 400)
         );
     }
 
@@ -24,22 +24,31 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
         );
     }
 
+    // Check if course with name exists
     let existingCourse = await Course.findOne({
         where: {
-            [Op.or]: [
-                {
-                    name: { [Op.like]: name }
-                },
-                {
-                    short: { [Op.like]: short }
-                }
-            ]
+            name: {
+                [Op.like]: name
+            }
         }
     });
-
-    if (existingCourse) {
+    if (existingCourse && existingCourse.id !== course.id) {
         return next(
-            new ErrorResponse('Course with this name or short already exists.', 400)
+            new ErrorResponse('Course with this name already exists.', 400)
+        )
+    }
+
+    // Check if course with short exists
+    existingCourse = await Course.findOne({
+        where: {
+            short: {
+                [Op.like]: short
+            }
+        }
+    });
+    if (existingCourse && existingCourse.id !== course.id) {
+        return next(
+            new ErrorResponse('Course with this short already exists.', 400)
         )
     }
 

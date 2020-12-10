@@ -28,9 +28,6 @@ export class EditSubjectComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loadCourses();
-        this.loadSpecializations();
-
         this.subjectId = this.route.snapshot.paramMap.get('id');
 
         this.editSubjectForm = this.formBuilder.group({
@@ -68,6 +65,7 @@ export class EditSubjectComponent implements OnInit {
             .subscribe(
                 res => {
                     this.specializations = res.data.specializations;
+                    this.onCourseSelectChange();
                 },
                 err => {
                     this.alertService.clear();
@@ -90,7 +88,8 @@ export class EditSubjectComponent implements OnInit {
                         specializationId: sub.specializationId,
                         courseId: sub.Specialization.courseId
                     });
-                    this.onCourseSelectChange();
+                    this.loadCourses();
+                    this.loadSpecializations();
                 },
                 err => {
                     this.alertService.clear();
@@ -115,22 +114,22 @@ export class EditSubjectComponent implements OnInit {
                 isVisible: true
             });
 
-        this.subjectsService.createSubject(this.editSubjectForm.value)
-        .pipe(first())
-        .subscribe(
-            res => {
-                this.alertService.clear();
-                this.alertService.success('Subject has been edited.', {
-                    autoClose: true,
-                    keepAfterRouteChange: true
-                });
-            },
-            err => {
-                this.alertService.clear();
-                this.alertService.error(err, {
-                    autoClose: true
-                });
-            }
-        )   
+        this.subjectsService.updateSubject(this.subjectId, this.editSubjectForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.alertService.clear();
+                    this.alertService.success('Subject has been edited.', {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                }
+            )   
     }
 }

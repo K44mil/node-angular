@@ -31,7 +31,7 @@ export class RegisterStudentComponent implements OnInit {
             firstName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
             lastName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
             albumNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]],
-            groupId: ['', Validators.required]
+            groupId: ['']
         }, {
             validator: PasswordConfirmValidator('password', 'confirmPassword')
         });

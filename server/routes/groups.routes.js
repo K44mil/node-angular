@@ -27,18 +27,23 @@ const { getGroupMarks } = require('../controllers/groups/getGroupMarks');
 const { archiveManyGroups } = require('../controllers/groups/archiveManyGroups');
 const { deleteManyGroups } = require('../controllers/groups/deleteManyGroups');
 const { restoreManyGroups } = require('../controllers/groups/restoreManyGroups');
+const { getMyAdditionRequests } = require('../controllers/groups/getMyAdditionRequest');
+const { sendAdditionRequest } = require('../controllers/groups/sendAdditionRequest');
+const { cancelAdditionRequest } = require('../controllers/groups/cancelAdditionRequest');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
 router.get('/my_groups', protect, getMyGroups);
-
+router.get('/my_requests', protect, authorize(Role.Student, Role.Admin), getMyAdditionRequests);
+router.get('/:id/send_request', protect, authorize(Role.Student, Role.Admin), sendAdditionRequest);
+router.get('/cancel_request/:id', protect, authorize(Role.Student, Role.Admin), cancelAdditionRequest);
 
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
 
 router.post('/', createGroup);
-router.get('/', getGroups);
 
+router.get('/', getGroups);
 router.get('/request/:id/accept', acceptAdditionRequest);
 router.get('/request/:id/reject', rejectAdditionRequest);
 router.get('/members/:id/remove', removeUserFromGroup);

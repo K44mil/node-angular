@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PasswordConfirmValidator } from '@app/home/modules/account/validators/PasswordConfirmValidator';
 import { PageService } from '@app/home/services';
 import { AlertService, AuthService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
@@ -8,7 +9,7 @@ import { first } from 'rxjs/operators';
     templateUrl: 'security.component.html',
 })
 export class SecurityComponent implements OnInit {
-
+    submitted: boolean = false;
     changePasswordForm: FormGroup;
     changePasswordLoading: boolean = false;
 
@@ -24,14 +25,17 @@ export class SecurityComponent implements OnInit {
 
         this.changePasswordForm = this.formBuilder.group({
             oldPassword: ['', Validators.required],
-            password: ['', Validators.required],
+            password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)]],
             confirmPassword: ['', Validators.required]
+        }, {
+            validator: PasswordConfirmValidator('password', 'confirmPassword')
         });
     }
 
     get f() { return this.changePasswordForm.controls; }
 
     onChangePasswordFormSubmit() {
+        this.submitted = true;
         if (this.changePasswordForm.invalid) return;
 
         this.changePasswordLoading = true;
@@ -47,12 +51,15 @@ export class SecurityComponent implements OnInit {
                     }
                     this.changePasswordForm.reset();
                     this.changePasswordLoading = false;
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                    this.submitted = false;
+                    this.changePasswordLoading = false;
                     window.scrollTo(0,0);
                 }
             )

@@ -5,7 +5,8 @@ import {
     LayoutComponent,
     GeneralComponent,
     SecurityComponent,
-    GroupsComponent
+    GroupsComponent,
+    FindGroupComponent
 } from './components';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
         children: [
             { path: 'general', component: GeneralComponent },
             { path: 'security', component: SecurityComponent },
-            { path: 'groups', component: GroupsComponent }
+            { path: 'groups', component: GroupsComponent },
+            { path: 'find_group', component: FindGroupComponent }
         ]
     }
 ];

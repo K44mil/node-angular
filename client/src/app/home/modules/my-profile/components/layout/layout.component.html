@@ -16,6 +16,7 @@
                                 <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/general" id="general-link">General</a>
                                 <a class="nav-link" data-toggle="pill" routerLink="/account/my_profile/security" id="security-link">Security</a>
                                 <a *ngIf="loggedUser && loggedUser.role === 'student'" class="nav-link" data-toggle="pill" id="groups-link" routerLink="/account/my_profile/groups">My groups</a>
+                                <a *ngIf="loggedUser && loggedUser.role === 'student'" class="nav-link" data-toggle="pill" id="find-group-link" routerLink="/account/my_profile/find_group">Find Group</a>
                             </div>
                         </div>
                     </div>

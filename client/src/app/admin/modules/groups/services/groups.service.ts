@@ -71,6 +71,18 @@ export class GroupsService {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}`);
     }
 
+    getMyAdditionRequests() {
+        return this.http.get<any>(`${environment.apiUrl}/groups/my_requests`);
+    }
+
+    sendAdditionRequest(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/${id}/send_request`);
+    }
+
+    cancelAdditionRequest(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/groups/cancel_request/${id}`);
+    }
+
     getGroupAdditionRequests(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups/${id}/requests`);
     }

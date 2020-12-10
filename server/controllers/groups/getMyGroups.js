@@ -16,6 +16,9 @@ exports.getMyGroups = asyncHandler(async (req, res, next) => {
         where: {
             userId: {
                 [Op.eq]: user.id
+            },
+            isConfirmed: {
+                [Op.eq]: 1
             }
         },
         include: [
