@@ -27,7 +27,7 @@ export class RegisterStudentComponent implements OnInit {
             password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)]],
             confirmPassword: ['', Validators.required],
             role: ['student', Validators.required],
-            acceptTerms: ['', Validators.required],
+            acceptTerms: ['', Validators.requiredTrue],
             firstName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
             lastName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
             albumNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]],

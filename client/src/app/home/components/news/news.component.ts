@@ -55,8 +55,6 @@ export class NewsComponent implements OnInit {
                 res => {
                     this.news = res.data.news;
                     this.pagination = res.data.pagination;
-                    console.log(res.data.countPages);
-                    
                     this.totalPages = res.data.countPages;
                 },
                 err => {
