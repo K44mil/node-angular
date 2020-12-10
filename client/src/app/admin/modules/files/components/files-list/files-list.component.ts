@@ -163,4 +163,26 @@ export class FilesListComponent implements OnInit {
         else
             return `${(sizeNumber/this.KB).toFixed(2)} KB`;
     }
+
+    downloadMySqlFile() {
+        this.filesService.backupMySql()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    let blob: any = new Blob([res], { type: `application/octet-stream` });
+                    let url = window.URL.createObjectURL(blob);
+                    let anchor = document.createElement('a');
+                    anchor.download = 'backup.sql';
+                    anchor.href = url;
+                    anchor.click();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
+    }
 }

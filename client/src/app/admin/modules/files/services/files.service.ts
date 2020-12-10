@@ -21,6 +21,10 @@ export class FilesService {
         return this.http.get(`${environment.apiUrl}/files/download/${id}`, { responseType: 'blob' });
     }
 
+    backupMySql(): any {
+        return this.http.get(`${environment.apiUrl}/files/backup/mysql`, { responseType: 'blob' });
+    }
+
     uploadFile(formData: FormData) {
         return this.http.post<any>(`${environment.apiUrl}/files/upload`, formData, {
             reportProgress: true,
