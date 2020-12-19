@@ -17,6 +17,12 @@ const Event = require('../models/Event');
 const Presence = require('../models/Presence');
 const Mark = require('../models/Mark');
 
+// News Access
+const NewsAccess = require('../models/NewsAccess');
+const NewsAccessCourse = require('../models/relationsModels/NewsAccessCourse');
+const NewsAccessGroup = require('../models/relationsModels/NewsAccessGroup');
+const NewsAccessUser = require('../models/relationsModels/NewsAccessUser');
+
 const initSequelizeAssociations = () => {
 
     // User -|---o< News
@@ -105,6 +111,24 @@ const initSequelizeAssociations = () => {
     // Group -|---o< Mark
     Group.hasMany(Mark, { foreignKey: 'groupId' });
     Mark.belongsTo(Group, { foreignKey: 'groupId' });
+
+    // News -|---|- NewsAccess
+    // NewsAccess.hasOne(News, { foreignKey: 'newsId' });
+    // News.belongsTo(NewsAccess);
+    News.hasOne(NewsAccess, { foreignKey: 'newsId' });
+    NewsAccess.belongsTo(News, { foreignKey: 'newsId' });
+
+    // NewsAccess >o---o< Course
+    NewsAccess.belongsToMany(Course, { through: NewsAccessCourse, foreignKey: 'newsAccessId', otherKey: 'courseId' });
+    Course.belongsToMany(NewsAccess, { through: NewsAccessCourse, foreignKey: 'courseId', otherKey: 'newsAccessId' });
+
+    // NewsAccess >o---o< Group
+    NewsAccess.belongsToMany(Group, { through: NewsAccessGroup, foreignKey: 'newsAccessId', otherKey: 'groupId' });
+    Group.belongsToMany(NewsAccess, { through: NewsAccessGroup, foreignKey: 'groupId', otherKey: 'newsAccessId' });
+
+    // NewsAccess >o---o< User
+    NewsAccess.belongsToMany(User, { through: NewsAccessUser, foreignKey: 'newsAccessId', otherKey: 'userId' });
+    User.belongsToMany(NewsAccess, { through: NewsAccessUser, foreignKey: 'userId', otherKey: 'newsAccessId' });
 };
 
 module.exports = initSequelizeAssociations;

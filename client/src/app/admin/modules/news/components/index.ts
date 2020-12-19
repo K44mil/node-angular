@@ -5,3 +5,7 @@ export * from './categories-list/categories-list.component';
 export * from './add-category/add-category.component';
 export * from './edit-category/edit-category.component';
 export * from './files-finder/files-finder.component';
+export * from './news-access-settings/news-access-settings.component';
+export * from './users-finder/users-finder.component';
+export * from './courses-finder/courses-finder.component';
+export * from './edit-news/edit-news.component';

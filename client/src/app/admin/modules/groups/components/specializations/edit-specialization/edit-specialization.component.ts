@@ -14,6 +14,8 @@ export class EditSpecializationComponent implements OnInit {
     specLoaded: boolean = false;
     courses: Course[];
 
+    submitted: boolean = false;
+
     constructor(
         private alertService: AlertService,
         private coursesService: CoursesService,
@@ -29,8 +31,8 @@ export class EditSpecializationComponent implements OnInit {
         this.specializationId = this.route.snapshot.paramMap.get('id');
 
         this.editSpecializationForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            short: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
+            short: ['', [Validators.required, Validators.maxLength(8)]],
             isVisible: [''],
             courseId: ['', Validators.required]
         });
@@ -81,6 +83,7 @@ export class EditSpecializationComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editSpecializationForm.invalid) return;
 
         if (this.f.isVisible.value === '')
@@ -97,6 +100,7 @@ export class EditSpecializationComponent implements OnInit {
                         autoClose: true,
                         keepAfterRouteChange: true
                     });
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();

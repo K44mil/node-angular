@@ -38,9 +38,9 @@
                                 <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
                             </small>
                             <p class="card-text">{{ singleNews.description }}</p>
-                            <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>
+                            <a *ngIf="canActivate(singleNews) && authorized(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>
                             <span *ngIf="!canActivate(singleNews)" class="badge badge-warning ml-1 lock-icon" title="Login required."><i class="fas fa-lock" ></i></span>
-                            <!-- <span class="badge badge-danger ml-1 lock-icon" title="Specific role protected."><i class="fas fa-lock"></i></span> -->
+                            <span *ngIf="canActivate(singleNews) && !authorized(singleNews)" class="badge badge-danger ml-1 lock-icon" title="Not authorized."><i class="fas fa-lock"></i></span>
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
                             <div class="data">

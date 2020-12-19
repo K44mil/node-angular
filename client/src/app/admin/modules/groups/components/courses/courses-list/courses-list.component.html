@@ -37,7 +37,7 @@
                     <tbody *ngIf="courses">
                         <tr *ngFor="let course of courses; let i = index;">
                             <td>{{ i+1 }}</td>
-                            <td>{{ course.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ course.name }}">{{ course.name }}</td>
                             <td>{{ course.short }}</td>
                             <td class="text-right">
                                 <span class="btn badge badge-info badge-pill ml-1" (click)="editCourse(course.id)"><i class="fas fa-pen"></i></span>

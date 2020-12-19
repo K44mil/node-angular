@@ -12,11 +12,21 @@
                 <form [formGroup]="addCourseForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" class="form-control" formControlName="name"/>
+                        <input type="text" class="form-control" formControlName="name"
+                        [ngClass]="{'is-invalid': submitted && this.f.name.errors }"/>
+                        <div class="invalid-feedback" *ngIf="submitted && this.f.name.errors">
+                            <div *ngIf="this.f.name.errors?.required">Name is required.</div>
+                            <div *ngIf="this.f.name.errors?.maxlength">Name cannot be longer than 50 characters.</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Short</label>
-                        <input type="text" class="form-control" formControlName="short" />
+                        <input type="text" class="form-control" formControlName="short"
+                        [ngClass]="{'is-invalid': submitted && this.f.short.errors }"/>
+                        <div class="invalid-feedback" *ngIf="submitted && this.f.short.errors">
+                            <div *ngIf="this.f.short.errors?.required">Short is required.</div>
+                            <div *ngIf="this.f.short.errors?.maxlength">Short cannot be longer than 8 characters.</div>
+                        </div>
                     </div>
                     <br>
                     <button class="btn btn-outline-dark" type="submit">Save</button>

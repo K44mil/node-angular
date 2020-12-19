@@ -1,0 +1,159 @@
+<!-- ACCESS MENU -->
+<ul class="nav nav-tabs" id="accessTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="courses-tab" data-toggle="tab" href="#courses" role="tab">Courses</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab">Groups</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab">Users</a>
+    </li>
+    </ul>
+    <div class="tab-content" id="accessTabContent">
+    <!-- COURSES SETTINGS -->
+    <div class="tab-pane fade show active" id="courses" role="tabpanel">
+        <div class="row mt-2">
+        <div class="col-12">
+            <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Course</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of courses; let i = index;">
+                <td>{{ i+1 }}</td>
+                <td>{{ c.name }}</td>
+                <td class="text-right">
+                    <span class="btn badge badge-pill badge-secondary" (click)="removeCourse(c.id)"><i class="fas fa-times"></i></span>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="3" class="text-center">
+                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#coursesFinderModal">+ Add Course</button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- GROUPS SETTINGS -->
+    <div class="tab-pane fade" id="groups" role="tabpanel">
+        <div class="row mt-2">
+        <div class="col-12">
+            <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Group</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let group of groups; let i = index;">
+                <td>{{ i+1 }}</td>
+                <td>{{ group.displayName }}</td>
+                <td class="text-right">
+                    <span class="btn badge badge-pill badge-secondary" (click)="removeGroup(group.id)"><i class="fas fa-times"></i></span>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="3" class="text-center">
+                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#groupFinderModal">+ Add Group</button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- USERS SETTINGS -->
+    <div class="tab-pane fade" id="users" role="tabpanel">
+        <div class="row mt-2">
+        <div class="col-12">
+            <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Album Number</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of users; let i = index;">
+                <td>{{ i+1 }}</td>
+                <td>{{ u.firstName }}</td>
+                <td>{{ u.lastName }}</td>
+                <td>{{ u.albumNumber }}</td>
+                <td class="text-right">
+                    <span class="btn badge badge-pill badge-secondary" (click)="removeUser(u.id)"><i class="fas fa-times"></i></span>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="5" class="text-center">
+                    <button type="button" class="btn btn-outline-dark" (click)="openModal('add-user-modal')">+ Add User</button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- GROUP FINDER MODAL -->
+<div class="modal fade" id="groupFinderModal" tabindex="-1" role="dialog" aria-labelledby="groupFinderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="groupFinderModalLabel">Choose group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <admin-group-finder (formChanged)="onGroupFinderChanged($event)"></admin-group-finder>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmGroup()">Confirm</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- USERS FINDER MODAL -->
+<box-modal id="add-user-modal" [bodyClasses]="getAddUserModalClasses()">
+    <div class="row">
+        <div class="ml-auto mr-3 mt-2">
+            <i class="fas fa-times" (click)="closeModal('add-user-modal')" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div>
+        <users-finder [usersIds]="access.users" (usersAdded)="onUsersAdded($event)"></users-finder>
+    </div>
+</box-modal>
+<!-- COURSES FINDER MODAL -->
+<div class="modal fade" id="coursesFinderModal" tabindex="-1" role="dialog" aria-labelledby="coursesFinderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="coursesFinderModalLabel">Choose course</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <courses-finder (formChanged)="onCourseFormChanged($event)"></courses-finder>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addChoosenCourse()">Confirm</button>
+        </div>
+        </div>
+    </div>
+</div>

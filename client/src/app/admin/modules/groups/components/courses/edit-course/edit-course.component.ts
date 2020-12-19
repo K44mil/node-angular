@@ -11,6 +11,8 @@ export class EditCourseComponent implements OnInit {
     courseId: string;
     courseLoaded: boolean = false;
 
+    submitted: boolean = false;
+
     constructor(
         private alertService: AlertService,
         private coursesService: CoursesService,
@@ -23,8 +25,8 @@ export class EditCourseComponent implements OnInit {
         this.courseId = this.route.snapshot.paramMap.get('id');
 
         this.editCourseForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            short: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
+            short: ['', [Validators.required, Validators.maxLength(8)]],
             isVisible: ['']
         });
 
@@ -56,6 +58,7 @@ export class EditCourseComponent implements OnInit {
     get f() { return this.editCourseForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editCourseForm.invalid) return;
 
         if (this.f.isVisible.value === '')
@@ -72,6 +75,7 @@ export class EditCourseComponent implements OnInit {
                         autoClose: true,
                         keepAfterRouteChange: true
                     });
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();

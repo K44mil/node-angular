@@ -22,6 +22,8 @@ export class GeneralComponent implements OnInit {
     editUserDataFormLoading: boolean = false;
     editUserDataForm: FormGroup;
 
+    editDataFormSubmitted: boolean = false;
+
     constructor(
         private authService: AuthService,
         private formBuilder: FormBuilder,
@@ -51,10 +53,12 @@ export class GeneralComponent implements OnInit {
 
         // EDIT USER DATA FORM
         this.editUserDataForm = this.formBuilder.group({
-            firstName: ['', Validators.max(50)],
-            lastName: ['', Validators.max(50)]
+            firstName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
+            lastName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]]
         });
     }
+
+    get f() { return this.editUserDataForm.controls; }
 
     getUserName() {
         if (this.user)
@@ -109,6 +113,7 @@ export class GeneralComponent implements OnInit {
     }
 
     onSubmitEditUserDataForm() {
+        this.editDataFormSubmitted = true;
         if (this.editUserDataForm.invalid) return;
 
         this.authService.changeUserData(this.editUserDataForm.value)
@@ -120,6 +125,7 @@ export class GeneralComponent implements OnInit {
                     this.authService.userValue.firstName = this.user.firstName;
                     this.authService.userValue.lastName = this.user.lastName;
                     this.authService.saveUserValue();
+                    this.editDataFormSubmitted = false;
                     if (!prevAvatar) window.location.reload();
                 },
                 err => {

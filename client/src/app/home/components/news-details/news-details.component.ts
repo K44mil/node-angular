@@ -130,8 +130,10 @@ export class NewsDetailsComponent implements OnInit {
             })
     }
 
-    getPhotoUrl(avatar: string) {
-        return `${ environment.hostUrl }/uploads/avatars/${avatar}`;
+    getPhotoUrl(avatar: any) {
+        if (avatar)
+            return `${ environment.hostUrl }/uploads/avatars/${avatar}`;
+        return null;
     }
 
     canDelete(comment) {

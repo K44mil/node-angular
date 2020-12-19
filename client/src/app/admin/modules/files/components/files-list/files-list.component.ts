@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import { FilesService } from '../../services/files.service';
 import { File } from '../../models/File';
 import { AlertService } from '@app/shared/services';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({ templateUrl: 'files-list.component.html' })
@@ -19,6 +19,25 @@ export class FilesListComponent implements OnInit {
 
     @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
+    // PAGINATION
+    totalPages: number;
+    countTotal: number;
+    pagination: any;
+    currentPage: number = 1;
+
+    // Items per page
+    itemsPerPageControl: FormControl;
+    itemsPerPage: number = 25;
+
+    // Filter Form
+    filterForm: FormGroup;
+
+    // SORTING
+    sort = { property: null, order: null };
+
+    // Query string
+    private query: string = `?limit=${this.itemsPerPage}&page=${this.currentPage}`;
+
     constructor(
         private filesService: FilesService,
         private alertService: AlertService,
@@ -26,12 +45,65 @@ export class FilesListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loadFiles();
+        this.loadFiles(this.query);
+
+        // Items per Page control
+        this.itemsPerPageControl = new FormControl(this.itemsPerPage);
+
+        // Filter form
+        this.filterForm = this.formBuilder.group({
+            name: ['']
+        });
 
         this.uploadFileForm = this.formBuilder.group({
             file: [''],
             fileSource: ['']
         });
+    }
+
+    get f() { return this.filterForm.controls; }
+
+    clearQuery() {
+        // this.clearSelect();
+        this.query = `?limit=${this.itemsPerPage}&page=${this.currentPage}`;
+    }
+
+    prepareQuery() {
+        this.clearQuery();
+        this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
+    }
+
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.name.value) query += `&name=${this.f.name.value}`;
+
+        return query;
+    }
+
+    setItemsPerPage(value: number) {
+        this.currentPage = 1;
+        this.itemsPerPage = value;
+        this.prepareQuery();
+        this.loadFiles(this.query);
+    }
+
+    nextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage += 1;
+            this.prepareQuery();
+            this.loadFiles(this.query);
+        }
+    }
+
+    prevPage() {
+        if (this.currentPage > 1) {
+            this.currentPage -= 1;
+            this.prepareQuery();
+            this.loadFiles(this.query);
+        }
     }
 
     onFileChange(event) {
@@ -66,7 +138,7 @@ export class FilesListComponent implements OnInit {
                                 break;
                             case HttpEventType.Response:
                                 setTimeout(() => {
-                                    this.loadFiles();
+                                    this.loadFiles(this.query);
                                     this.alertService.clear();
                                     this.alertService.success('File has been uploaded.', {
                                         autoClose: true
@@ -97,12 +169,15 @@ export class FilesListComponent implements OnInit {
             );
     }
 
-    loadFiles() {
-        this.filesService.getFiles()
+    loadFiles(query: string) {
+        this.filesService.getFiles(query)
             .pipe(first())
             .subscribe(
                 res => {
                     this.files = res.data.files;
+                    this.countTotal = res.data.count;
+                    this.pagination = res.data.pagination;
+                    this.totalPages = res.data.countPages;
                 },
                 err => {
                     this.alertService.clear();
@@ -122,7 +197,7 @@ export class FilesListComponent implements OnInit {
                     this.alertService.success('File has been deleted.', {
                         autoClose: true
                     });
-                    this.loadFiles();
+                    this.loadFiles(this.query);
                 },
                 err => {
                     this.alertService.clear();

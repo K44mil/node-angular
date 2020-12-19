@@ -18,6 +18,13 @@ export class AddNewsComponent implements OnInit {
 
     fileUnlinked: boolean = false;
 
+    private access: any = {
+        isOn: false,
+        courses: [],
+        groups: [],
+        users: []
+    };
+
     public config = {
         removeButtons: 'Anchor,Image,Maximize,Scayt,About'
     };
@@ -47,7 +54,8 @@ export class AddNewsComponent implements OnInit {
             // --
             isLoginProtected: [''],
             isCommentable: [''],
-            isVisible: ['']
+            isVisible: [''],
+            accessOn: ['']
         });
     }
 
@@ -77,14 +85,6 @@ export class AddNewsComponent implements OnInit {
         }
     }
 
-    // onFilesChange(event) {
-    //     if (event.target.files.length > 0) {
-    //         this.addNewsForm.patchValue({
-    //             filesSource: event.target.files
-    //         });
-    //     } 
-    // }
-
     get f() { return this.addNewsForm.controls; }
 
     onSubmit() {
@@ -106,7 +106,7 @@ export class AddNewsComponent implements OnInit {
             this.addNewsForm.patchValue({
                 isVisible: false
             });
-        }
+        }        
 
         const formData = new FormData();
         formData.append('photo', this.addNewsForm.get('photoSource').value);
@@ -117,7 +117,6 @@ export class AddNewsComponent implements OnInit {
         formData.append('isLoginProtected', this.addNewsForm.get('isLoginProtected').value);
         formData.append('isCommentable', this.addNewsForm.get('isCommentable').value);
         formData.append('isVisible', this.addNewsForm.get('isVisible').value);
-        // formData.append('files', this.addNewsForm.get('filesSource').value);
 
         // Files
         const filesIds = [];
@@ -128,10 +127,9 @@ export class AddNewsComponent implements OnInit {
         // Append filesIds to FormData Object
         formData.append('files', JSON.stringify(filesIds));
 
-        // const files = this.addNewsForm.get('filesSource').value;
-        // for(let i = 0; i < files.length; i++) {
-        //     formData.append(`files`, files[i]);
-        // }
+        // Access object
+        this.access.isOn = this.f.accessOn.value;
+        formData.append('access', JSON.stringify(this.access));
 
         this.loading = true;
         this.newsService.createNews(formData)
@@ -176,12 +174,16 @@ export class AddNewsComponent implements OnInit {
     }
 
     getLinkFileModalClasses() {
-        return 'col-4,offset-4';
+        return 'col-6,offset-3';
     }
 
     unlinkFile(id: string) {
         this.files = this.files.filter(f => f.id !== id);
         if (this.fileUnlinked) this.fileUnlinked = false;
         else this.fileUnlinked = true;
+    }
+
+    onAccessChanged(event) {
+        this.access = event;
     }
 }

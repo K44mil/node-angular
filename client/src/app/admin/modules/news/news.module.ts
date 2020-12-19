@@ -13,9 +13,14 @@ import {
     AddCategoryComponent,
     EditCategoryComponent,
     FilesFinderComponent,
+    NewsAccessSettings,
+    UsersFinder,
+    CoursesFinderComponent,
+    EditNewsComponent
 } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared/shared.module';
+import { UsersModule } from '../users/users.module';
 
 @NgModule({
     imports: [
@@ -24,7 +29,8 @@ import { SharedModule } from '@app/shared/shared.module';
         ReactiveFormsModule,
         FormsModule,
         CKEditorModule,
-        SharedModule
+        SharedModule,
+        UsersModule
     ],
     declarations: [
         LayoutComponent,
@@ -33,7 +39,11 @@ import { SharedModule } from '@app/shared/shared.module';
         CategoriesListComponent,
         AddCategoryComponent,
         EditCategoryComponent,
-        FilesFinderComponent
+        FilesFinderComponent,
+        NewsAccessSettings,
+        UsersFinder,
+        CoursesFinderComponent,
+        EditNewsComponent
     ]
 })
 export class NewsModule { }

@@ -47,7 +47,7 @@
                                 <span *ngIf="!n.isLoginProtected" class="btn badge badge-secondary badge-pill mx-2" (click)="changeProtected(n.id)" title="Login not required"><i class="fas fa-lock"></i></span>
                             </td>
                             <td class="text-right">
-                                <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editNews(n.id)"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteNews(n.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>                     
                         </tr>

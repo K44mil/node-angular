@@ -15,11 +15,18 @@ const NewsAccessGroup = require('../../models/relationsModels/NewsAccessGroup');
 const NewsAccessUser = require('../../models/relationsModels/NewsAccessUser');
 
 /**
- * @desc    Create News
- * @route   POST /api/v1/news
+ * @desc    Update News
+ * @route   PUT /api/v1/news/:id
  * @access  Private/Admin
  */
-exports.createNews = asyncHandler(async (req, res, next) => {
+exports.updateNews = asyncHandler(async (req, res, next) => {
+    let news = await News.findByPk(req.params.id);
+    if (!news) {
+        return next(
+            new ErrorResponse('News does not exist.', 400)
+        )
+    }
+
     const { title, description, content, isVisible,
          isCommentable, isLoginProtected, categories, files } = req.body;
     const authorId = req.user.id;
@@ -35,16 +42,8 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         );
     }
 
-    let news = await News.build({
-        title,
-        description,
-        content,
-        isVisible,
-        isCommentable,
-        isLoginProtected,
-        authorId
-    });
     // Slugify title
+    news.title = title;
     news.slug = slugify(news.title, { lower: true });
 
     let existingNews = await News.findOne({
@@ -55,7 +54,7 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         }
     });
 
-    if (existingNews) {
+    if (existingNews && existingNews.id !== news.id) {
         return next(
             new ErrorResponse(`News with this title already exists`, 400)
         );
@@ -89,6 +88,14 @@ exports.createNews = asyncHandler(async (req, res, next) => {
     }
     news = await news.save();
 
+    await NewsCategory.destroy({
+        where: {
+            newsId: {
+                [Op.eq]: news.id
+            }
+        }
+    });
+
     for (const categoryId of categoriesIds) {
         const category = await Category.findByPk(categoryId);
         if (category) {
@@ -98,6 +105,14 @@ exports.createNews = asyncHandler(async (req, res, next) => {
             });
         }    
     }
+
+    await NewsFile.destroy({
+        where: {
+            newsId: {
+                [Op.eq]: news.id
+            }
+        }
+    })
 
     // Link Files
     if (filesIds) {
@@ -123,6 +138,14 @@ exports.createNews = asyncHandler(async (req, res, next) => {
             }
         }
     }
+
+    await NewsAccess.destroy({
+        where: {
+            newsId: {
+                [Op.eq]: news.id
+            }
+        }
+    });
 
     // Set up news access
     let { access } = req.body;
@@ -176,8 +199,14 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         }
     }
 
-    news = await News.findByPk(news.id);
-
+    news.description = description;
+    news.content = content;
+    news.isVisible = isVisible;
+    news.isCommentable = isCommentable;
+    news.isLoginProtected = isLoginProtected;
+    news.authorId = authorId;
+    await news.save();
+    
     res.status(200).json({
         success: true,
         data: {

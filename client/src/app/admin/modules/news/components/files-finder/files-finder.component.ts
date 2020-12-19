@@ -51,7 +51,7 @@ export class FilesFinderComponent implements OnInit, OnChanges {
     }
 
     loadFiles() {
-        this.filesService.getFiles()
+        this.filesService.getFiles('')
             .pipe(first())
             .subscribe(
                 res => {

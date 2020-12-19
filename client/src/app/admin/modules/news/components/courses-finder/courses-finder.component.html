@@ -1,0 +1,9 @@
+<div>
+    <div class="form-group">
+        <label for="">Course</label>
+        <select [formControl]="choosenCourse" class="form-control" (change)="onCoursesFormChange()">
+            <option value=""></option>
+            <option *ngFor="let c of courses" value="{{ c.id }}">{{ c.name }}</option>
+        </select>
+    </div>
+</div>

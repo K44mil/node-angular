@@ -69,8 +69,8 @@
     <div class="row mt-1">
         <!-- GROUPS TABLE -->
         <div class="col-12 col-xl-9">
-        <div class="table-responsive">
-            <table class="table table-sm text-nowrap text-center">
+        <div class="">
+            <table class="table table-sm text-center">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"><input type="checkbox" (click)="selectOrUnselectAllItems()" id="select-all"/></th>
@@ -111,9 +111,9 @@
                         <td><input type="checkbox" (click)="selectOrUnselectItem(group.id)" class="group-select"/></td>
                         <td><a routerLink="/admin/groups/{{ group.id }}/general">{{ group.displayName }}</a></td>
                         <td>{{ group.academicYear }}</td>
-                        <td *ngIf="group.Course" >{{ group.Course.name }}</td><td *ngIf="!group.Course">-</td>
-                        <td *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
-                        <td *ngIf="group.Subject">{{ group.Subject.name }}</td><td *ngIf="!group.Subject">-</td>
+                        <td class="text-truncate" style="max-width: 100px;" title="{{ group.Course.name }}" *ngIf="group.Course" >{{ group.Course.name }}</td><td *ngIf="!group.Course">-</td>
+                        <td class="text-truncate" style="max-width: 100px;" title="{{ group.Specialization.name }}" *ngIf="group.Specialization">{{ group.Specialization.name }}</td><td *ngIf="!group.Specialization">-</td>
+                        <td class="text-truncate" style="max-width: 100px;" title="{{ group.Subject.name }}" *ngIf="group.Subject">{{ group.Subject.name }}</td><td *ngIf="!group.Subject">-</td>
                         <td>{{ printFormattedStudiesType(group.type) }}</td>
                         <td>{{ printFormattedGroupLevel(group.level) }}</td>
                         <!-- <td><input type="checkbox" [checked]="group.isOpen"></td> -->
@@ -121,7 +121,7 @@
                             <span *ngIf="group.isOpen" class="btn badge badge-success badge-pill" (click)="closeGroup(group.id)"><i class="fas fa-lock-open"></i></span>
                             <span *ngIf="!group.isOpen" class="btn badge badge-danger badge-pill" (click)="openGroup(group.id)"><i class="fas fa-lock"></i></span>
                         </td>
-                        <td class="text-right">
+                        <td  class="text-right">
                             <span class="btn badge badge-dark badge-pill" (click)="archiveGroup(group.id)"><i class="far fa-calendar-times"></i></span>
                             <span class="btn badge badge-info badge-pill ml-1" (click)="editGroup(group.id)"><i class="fas fa-pen"></i></span>
                             <span class="btn badge badge-danger badge-pill ml-1" data-toggle="modal" data-target="#deleteGroupConfirmationModal" (click)="setGroupToDelete(group.id)"><i class="fas fa-trash-alt"></i></span>

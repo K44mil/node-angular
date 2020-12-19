@@ -39,9 +39,9 @@
                     <tbody *ngIf="subjects">
                         <tr *ngFor="let sub of subjects; let i = index;">
                             <td>{{ i+1 }}</td>
-                            <td>{{ sub.Specialization.Course.name }}</td>
-                            <td>{{ sub.Specialization.name }}</td>
-                            <td>{{ sub.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ sub.Specialization.Course.name }}">{{ sub.Specialization.Course.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ sub.Specialization.name }}">{{ sub.Specialization.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ sub.name }}">{{ sub.name }}</td>
                             <td>{{ sub.short }}</td>
                             <td class="text-right">
                                 <span class="btn badge badge-info badge-pill ml-1" (click)="editSubject(sub.id)"><i class="fas fa-pen"></i></span>

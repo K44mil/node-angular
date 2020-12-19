@@ -97,7 +97,7 @@
                     <tbody>
                         <tr *ngFor="let user of users; let i = index">
                             <td><input type="checkbox" (click)="selectOrUnselectItem(user.id)" class="user-select"/></td>
-                            <td>{{ user.email }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ user.email }}">{{ user.email }}</td>
                             <td>{{ user.firstName }}</td>
                             <td>{{ user.lastName }}</td>
                             <td>{{ user.role }}</td>
@@ -156,10 +156,10 @@
                             <div class="form-row">
                                 <label for="">User in Group</label>
                                 <div class="col-10">
-                                    <button class="btn btn-outline-secondary form-control" data-target="#groupFinderModal" data-toggle="modal">
+                                    <a class="btn btn-outline-secondary form-control" data-target="#groupFinderModal" data-toggle="modal">
                                         <span *ngIf="!this.f.groupId.value">Select Group</span>
-                                        <span *ngIf="this.f.groupId.value">{{ this.f.groupId.value }}</span>
-                                    </button>
+                                        <span *ngIf="this.f.groupId.value">{{ selectedGroup.displayName }}</span>
+                                    </a>
                                 </div>
                                 <div class="col-2">
                                     <button class="btn btn-outline-danger form-control" (click)="clearGroup()"><i class="fas fa-times"></i></button>

@@ -12,6 +12,8 @@ export class AddSpecializationComponent implements OnInit {
     addSpecializationForm: FormGroup;
     courses: Course[];
 
+    submitted: boolean = false;
+
     constructor(
         private alertService: AlertService,
         private coursesService: CoursesService,
@@ -24,8 +26,8 @@ export class AddSpecializationComponent implements OnInit {
         this.loadCourses();
 
         this.addSpecializationForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            short: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
+            short: ['', [Validators.required, Validators.maxLength(8)]],
             isVisible: [''],
             courseId: ['', Validators.required]
         });
@@ -50,6 +52,7 @@ export class AddSpecializationComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addSpecializationForm.invalid) return;
 
         if (this.f.isVisible.value === '')
@@ -66,6 +69,7 @@ export class AddSpecializationComponent implements OnInit {
                         autoClose: true,
                         keepAfterRouteChange: true
                     });
+                    this.submitted = false;
                     this.router.navigate(['/admin/groups/specializations']);
                 },
                 err => {

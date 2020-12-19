@@ -1,5 +1,5 @@
 <div class="">
-    <div class="row mt-3">
+    <!-- <div class="row mt-3">
         <div class="ml-3">
             <button class="btn btn-info" data-toggle="modal" data-target="#fileUploadModal" id="btnFileUploadModal">
                 <i class="fa fa-upload" aria-hidden="true"></i> Upload File
@@ -8,7 +8,53 @@
                 <i class="fa fa-download" aria-hidden="true"></i> MySQL Backup
             </button> 
         </div>
+    </div> -->
+    <!-- FILES TABLE MENU -->
+    <div class="row mt-3">
+        <div class="col-8">
+            <div class="row">
+                <!-- Upload File -->
+                <div class="col-2">
+                    <button class="btn btn-info form-control" data-toggle="modal" data-target="#fileUploadModal" id="btnFileUploadModal">
+                        <i class="fa fa-upload" aria-hidden="true"></i> Upload File
+                    </button>
+                </div>
+                <!-- Backup -->
+                <div class="col-2">
+                    <button class="btn btn-warning ml-1 form-control" (click)="downloadMySqlFile()">
+                        <i class="fa fa-download" aria-hidden="true"></i>Backup
+                    </button> 
+                </div>
+                <!-- COUNT RECORDS -->
+                <div *ngIf="pagination" class="col-2 offset-2">
+                    <button [ngClass]="{disabled: !pagination.prev }" class="btn btn-outline-dark" (click)="prevPage()"><</button>
+                    <span class="mx-2">{{ this.currentPage }} of {{ this.totalPages }}</span>
+                    <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
+                </div>
+                <div class="col-2 d-flex justify-content-center align-items-center">
+                    <div><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
+                </div>
+                <!-- ITEMS PER PAGE -->
+                <div class="col-2 ml-auto">
+                    <div class="row px-0">
+                        <div class="col">
+                            <select class="form-control" [formControl]="itemsPerPageControl" (change)="setItemsPerPage(this.itemsPerPageControl.value)">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col d-flex justify-content-left align-items-center px-0">
+                            <span class="d-block">per page</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- FILES TABLE CONTENT -->
    <div class="row mt-1">
        <div class="col-8">
             <div>
@@ -24,7 +70,7 @@
                     </thead>
                     <tbody *ngIf="files">
                         <tr *ngFor="let f of files; let i = index">
-                            <td>{{ i+1 }}</td>
+                            <td>{{ (itemsPerPage * (currentPage-1)) + i+1 }}</td>
                             <!-- <td>{{ f.News.title }}</td> -->
                             <td>{{ f.name }}</td>
                             <td>{{ parseFileSize(f.size) }}</td>                        

@@ -35,6 +35,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         AdminGroupFinderComponent,
         AddUserComponent,
         EditUserComponent
+    ],
+    exports: [
+        AdminGroupFinderComponent
     ]
 })
 export class UsersModule { }

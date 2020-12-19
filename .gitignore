@@ -6,3 +6,4 @@
 /server/static
 /server/private
 /server/public
+/server/dump.sql

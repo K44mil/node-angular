@@ -345,11 +345,11 @@ export class BlockedUsersListComponent implements OnInit {
 
     
     selectedGroupId: string;
+    selectedGroup: any;
 
     onGroupFinderChanged(event) {
-        this.filterForm.patchValue({
-            groupId: event
-        });
+        this.selectedGroup = event;
+        this.selectedGroupId = event ? event.id : event;
     }
 
     confirmGroupId() {

@@ -12,18 +12,32 @@
                 <form [formGroup]="editSpecializationForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                         <label for="">Course</label>
-                        <select formControlName="courseId" class="form-control">
+                        <select formControlName="courseId" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.courseId.errors }">
                             <option value=""></option>
                             <option *ngFor="let course of courses" value="{{ course.id }}" >{{ course.name }}</option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="submitted && this.f.courseId.errors">
+                            <div *ngIf="this.f.courseId.errors?.required">Course is required.</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" class="form-control" formControlName="name"/>
+                        <input type="text" class="form-control" formControlName="name"
+                        [ngClass]="{'is-invalid': submitted && this.f.name.errors}"/>
+                        <div *ngIf="submitted && this.f.name.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.name.errors?.required">Name is required.</div>
+                            <div *ngIf="this.f.name.errors?.maxlength">Name cannot be longer than 50 characters.</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Short</label>
-                        <input type="text" class="form-control" formControlName="short" />
+                        <input type="text" class="form-control" formControlName="short"
+                        [ngClass]="{'is-invalid': submitted && this.f.short.errors}"/>
+                        <div *ngIf="submitted && this.f.short.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.short.errors?.required">Short is required.</div>
+                            <div *ngIf="this.f.short.errors?.maxlength">Short cannot be longer than 8 characters.</div>
+                        </div>
                     </div>
                     <br>
                     <button class="btn btn-outline-dark" type="submit">Save</button>

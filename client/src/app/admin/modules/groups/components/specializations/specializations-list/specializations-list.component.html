@@ -38,8 +38,8 @@
                     <tbody *ngIf="specializations">
                         <tr *ngFor="let spec of specializations; let i = index;">
                             <td>{{ i+1 }}</td>
-                            <td>{{ spec.Course.name }}</td>
-                            <td>{{ spec.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ spec.Course.name }}">{{ spec.Course.name }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ spec.name }}">{{ spec.name }}</td>
                             <td>{{ spec.short }}</td>
                             <td class="text-right">
                                 <span class="btn badge badge-info badge-pill ml-1" (click)="editSpecialization(spec.id)"><i class="fas fa-pen"></i></span>

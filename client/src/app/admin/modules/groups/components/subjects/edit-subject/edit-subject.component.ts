@@ -17,6 +17,8 @@ export class EditSubjectComponent implements OnInit {
     subjectId: string;
     availableSpecializations: Specialization[];
 
+    submitted: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private coursesService: CoursesService,
@@ -31,8 +33,8 @@ export class EditSubjectComponent implements OnInit {
         this.subjectId = this.route.snapshot.paramMap.get('id');
 
         this.editSubjectForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            short: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
+            short: ['', [Validators.required, Validators.maxLength(8)]],
             isVisible: [''],
             specializationId: ['', Validators.required],
             courseId: ['']
@@ -107,6 +109,7 @@ export class EditSubjectComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editSubjectForm.invalid) return;
 
         if (this.f.isVisible.value === '')
@@ -123,6 +126,7 @@ export class EditSubjectComponent implements OnInit {
                         autoClose: true,
                         keepAfterRouteChange: true
                     });
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();

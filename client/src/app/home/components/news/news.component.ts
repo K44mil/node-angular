@@ -124,4 +124,10 @@ export class NewsComponent implements OnInit {
         return true;
     }
 
+    authorized(news) {
+        if (news.canOpen)
+            return true;
+        return false;
+    }
+
 }

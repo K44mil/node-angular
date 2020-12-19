@@ -16,21 +16,28 @@ export class NewsService {
         return this.http.get<any>(`${environment.apiUrl}/news`);
     }
 
-    changeVisibility(id) {
+    changeVisibility(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/news/${id}/change_visibility`);
     }
 
-    changeCommentable(id) {
+    changeCommentable(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/news/${id}/change_commentable`);
     }
 
-    changeProtected(id) {
+    changeProtected(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/news/${id}/change_protected`);
     }
 
-    deleteNews(id) {
+    deleteNews(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/news/${id}`);
     }
 
+    getNewsById(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/news/id/${id}`);
+    }
+
+    updateNews(id: string, formData: FormData) {
+        return this.http.put<any>(`${environment.apiUrl}/news/${id}`, formData);
+    }
 
 }

@@ -42,6 +42,9 @@ export class GroupAttendanceComponent implements OnInit {
 
     selectedPresenceId: string;
 
+    addEventSubmitted: boolean = false;
+    editEventSubmitted: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -58,7 +61,7 @@ export class GroupAttendanceComponent implements OnInit {
 
         // EVENT FORM INIT
         this.eventForm = this.formBuilder.group({
-            name: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
             dateDate: ['', Validators.required],
             dateTime: ['', Validators.required],
             date: [''],
@@ -67,7 +70,7 @@ export class GroupAttendanceComponent implements OnInit {
 
         // EDIT EVENT FORM INIT
         this.editEventForm = this.formBuilder.group({
-            name: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
             dateDate: ['', Validators.required],
             dateTime: ['', Validators.required],
             date: [''],
@@ -86,7 +89,8 @@ export class GroupAttendanceComponent implements OnInit {
     get f() { return this.eventForm.controls; }
     get ef() { return this.editEventForm.controls; }
 
-    onSubmit() {
+    onSubmit() {   
+        this.addEventSubmitted = true;
         if (this.eventForm.invalid) return;
 
         this.eventForm.patchValue({
@@ -100,6 +104,7 @@ export class GroupAttendanceComponent implements OnInit {
                 res => {
                     this.loadEvents(this.groupId);
                     this.loadAttendance(this.groupId);
+                    this.addEventSubmitted = false;
                 },
                 err => {
                     this.alertService.error(err, {

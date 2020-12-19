@@ -13,7 +13,7 @@ exports.getNews = asyncHandler(async (req, res, next) => {
             {
                 model: User,
                 attributes: ['firstName', 'lastName']
-            }
+            },
         ]
     });
 

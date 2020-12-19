@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { News } from '../../models/News';
-
 import { NewsService } from '../../services/news.service';
 
 @Component({ templateUrl: 'news-list.component.html' })
@@ -11,7 +11,8 @@ export class NewsListComponent implements OnInit {
 
     constructor(
         private newsService: NewsService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -91,5 +92,9 @@ export class NewsListComponent implements OnInit {
                     });
                 }
             )
+    }
+
+    editNews(id: string) {
+        this.router.navigate([`/admin/news/edit_news/${id}`]);
     }
 }

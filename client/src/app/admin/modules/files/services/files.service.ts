@@ -9,8 +9,8 @@ export class FilesService {
 
     constructor(private http: HttpClient) { }
 
-    getFiles() {
-        return this.http.get<any>(`${environment.apiUrl}/files`);
+    getFiles(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/files${query}`);
     }
 
     deleteFile(id: string) {

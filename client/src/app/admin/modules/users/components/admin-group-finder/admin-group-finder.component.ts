@@ -22,7 +22,7 @@ export class AdminGroupFinderComponent implements OnInit {
     groupsNumbers = [];
 
     @Output()
-    formChanged: EventEmitter<string> = new EventEmitter<string>();
+    formChanged: EventEmitter<any> = new EventEmitter<any>();
     
     constructor(
         private formBuilder: FormBuilder,
@@ -301,7 +301,7 @@ export class AdminGroupFinderComponent implements OnInit {
             .filter(g =>  g.academicYear == academicYear && g.Course.name == course && g.Specialization.name == specialization &&
                      g.Subject.name == subject && g.level == level && g.type == type && g.groupType == groupType && g.number == groupNumber)[0];
 
-        if (group) this.formChanged.emit(group.id);
+        if (group) this.formChanged.emit(group);
         else this.formChanged.emit(null);
     }
 }

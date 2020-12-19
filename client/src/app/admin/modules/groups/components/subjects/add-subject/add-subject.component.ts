@@ -16,6 +16,8 @@ export class AddSubjectComponent implements OnInit {
 
     availableSpecializations: Specialization[];
 
+    submitted: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private coursesService: CoursesService,
@@ -30,8 +32,8 @@ export class AddSubjectComponent implements OnInit {
         this.loadSpecializations();
 
         this.addSubjectForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            short: ['', Validators.required],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
+            short: ['', [Validators.required, Validators.maxLength(8)]],
             isVisible: [''],
             specializationId: ['', Validators.required],
         });
@@ -76,6 +78,7 @@ export class AddSubjectComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addSubjectForm.invalid) return;
 
         if (this.f.isVisible.value === '')
@@ -92,6 +95,7 @@ export class AddSubjectComponent implements OnInit {
                     autoClose: true,
                     keepAfterRouteChange: true
                 });
+                this.submitted = false;
                 this.router.navigate(['/admin/groups/subjects']);
             },
             err => {

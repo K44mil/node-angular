@@ -7,7 +7,8 @@ import {
     AddNewsComponent,
     CategoriesListComponent,
     AddCategoryComponent,
-    EditCategoryComponent
+    EditCategoryComponent,
+    EditNewsComponent
 } from './components';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
         children: [
             { path: '', component: NewsListComponent },
             { path: 'add_news', component: AddNewsComponent },
+            { path: 'edit_news/:id', component: EditNewsComponent },
             { path: 'categories', component: CategoriesListComponent },
             { path: 'add_category', component: AddCategoryComponent },
             { path: 'edit_category/:id', component: EditCategoryComponent }

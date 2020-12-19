@@ -22,21 +22,6 @@ exports.deleteNews = asyncHandler(async (req, res, next) => {
         )
     }
 
-    const files = await File.findAll({
-        where: {
-            newsId: {
-                [Op.eq]: news.id
-            }
-        }
-    });
-
-    // DELETE FILES
-    for (const file of files) {
-        const filePath = path.join(path.resolve(__dirname, '../..'), file.path);
-        fs.unlinkSync(filePath);
-        await file.destroy();
-    }
-
     await news.destroy();
 
     res.status(200).json({

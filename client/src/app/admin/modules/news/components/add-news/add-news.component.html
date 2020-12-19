@@ -62,8 +62,20 @@
                         </tbody>
                       </table>
                     </div>
+                  </div>          
+                </div>
+                <div class="form-group">
+                  <!-- <button type="button" class="btn btn-warning mb-1" data-toggle="modal" data-target="#newsAccessModal">Access settings</button> -->
+                  <button type="button" class="btn btn-warning mb-2" data-toggle="collapse" data-target="#accessSettingsCollapse">Access settings</button>
+                  <div class="collapse" id="accessSettingsCollapse">
+                    <news-access-settings (accessChanged)="onAccessChanged($event)"></news-access-settings>
+                    <div class="form-check">
+                      <input formControlName="accessOn" class="form-check-input" type="checkbox">
+                      <label class="form-check-label">
+                        Restrict access
+                      </label>
+                    </div>
                   </div>
-                  <!-- <input formControlName="files" (change)="onFilesChange($event)" type="file" class="form-control-file" multiple> -->
                 </div>
                 <div class="form-check">
                     <input formControlName="isLoginProtected" class="form-check-input" type="checkbox">
@@ -106,3 +118,25 @@
       <students-list [groupId]="groupId" [userRemoved]="userRemoved" (studentsAdded)="reloadUsers()"></students-list>
   </div> -->
 </box-modal>
+
+<!-- Access modal -->
+<!-- Modal -->
+<!-- <div class="modal fade" id="newsAccessModal" tabindex="-1" role="dialog" aria-labelledby="newsAccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newsAccessModalLabel">Access Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <news-access-settings></news-access-settings>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div> -->

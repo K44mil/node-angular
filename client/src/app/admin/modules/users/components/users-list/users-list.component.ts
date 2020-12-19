@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
-import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 
 import { User } from '../../models/User';
@@ -338,9 +337,11 @@ export class UsersListComponent implements OnInit {
     }
 
     selectedGroupId: string;
+    selectedGroup: any;
 
     onGroupFinderChanged(event) {
-        this.selectedGroupId = event;
+        this.selectedGroup = event;
+        this.selectedGroupId = event ? event.id : event;
     }
 
     confirmGroupId() {
