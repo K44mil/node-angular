@@ -27,7 +27,7 @@ export class CoursesFinderComponent implements OnInit {
     }
 
     loadCourses() {
-        this.coursesService.getCourses()
+        this.coursesService.getCourses('')
             .pipe(first())
             .subscribe(
                 res => {

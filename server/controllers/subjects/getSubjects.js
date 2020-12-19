@@ -2,6 +2,7 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const Course = require('../../models/Course');
 const Specialization = require('../../models/Specialization');
 const Subject = require('../../models/Subject');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Get Subjects
@@ -9,7 +10,8 @@ const Subject = require('../../models/Subject');
  * @access  Private/Admin
  */
 exports.getSubjects = asyncHandler(async (req, res, next) => {
-    const subjects = await Subject.findAll({
+    let options = {
+        where: {},
         include: [
             {
                 model: Specialization,
@@ -22,7 +24,12 @@ exports.getSubjects = asyncHandler(async (req, res, next) => {
                 ]
             }
         ]
-    });
+    };
+    
+    const { isArchive } = req.query; 
+    if (isArchive) options.where.isArchive = { [Op.eq]: isArchive };
+
+    const subjects = await Subject.findAll(options);
 
     res.status(200).json({
         success: true,

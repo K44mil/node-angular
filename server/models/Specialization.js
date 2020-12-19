@@ -27,6 +27,11 @@ Specialization.init({
         defaultValue: false,
         field: 'is_visible'
     },
+    isArchive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'is_archive'
+    },
     courseId: {
         type: DataTypes.UUID,
         allowNull: false,

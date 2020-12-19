@@ -9,8 +9,8 @@ export class SpecializationsService {
 
     constructor(private http: HttpClient) { }
 
-    getSpecializations() {
-        return this.http.get<any>(`${environment.apiUrl}/specializations`);
+    getSpecializations(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/specializations${query}`);
     }
 
     getSpecialization(id: string) {
@@ -27,5 +27,13 @@ export class SpecializationsService {
 
     deleteSpecialization(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/specializations/${id}`);
+    }
+
+    archiveSpecialization(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/specializations/${id}/archive`);
+    }
+
+    restoreSpecialization(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/specializations/${id}/restore`);
     }
 }

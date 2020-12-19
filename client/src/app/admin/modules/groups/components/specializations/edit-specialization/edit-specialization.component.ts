@@ -43,7 +43,7 @@ export class EditSpecializationComponent implements OnInit {
     get f() { return this.editSpecializationForm.controls; }
 
     loadCourses() {
-        this.coursesService.getCourses()
+        this.coursesService.getCourses('')
             .pipe(first())
             .subscribe(
                 res => {

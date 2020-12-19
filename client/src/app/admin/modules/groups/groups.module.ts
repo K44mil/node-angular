@@ -29,7 +29,10 @@ import {
     // Presence
     PresenceDetailsComponent,
     // Mark
-    MarkDetailsComponent
+    MarkDetailsComponent,
+    ArchivalCoursesListComponent,
+    ArchivalSpecializationsListComponent,
+    ArchivalSubjectsListComponent
 
 } from './components';
 import { SharedModule } from '@app/shared/shared.module';
@@ -62,7 +65,10 @@ import { SharedModule } from '@app/shared/shared.module';
         EditSubjectComponent,
         StudentsListComponent,
         PresenceDetailsComponent,
-        MarkDetailsComponent
+        MarkDetailsComponent,
+        ArchivalCoursesListComponent,
+        ArchivalSpecializationsListComponent,
+        ArchivalSubjectsListComponent
     ]
 })
 export class GroupsModule { }

@@ -8,6 +8,8 @@ const { getCourse } = require('../controllers/courses/getCourse');
 const { getCourses } = require('../controllers/courses/getCourses');
 const { getVisibleCourses } = require('../controllers/courses/getVisibleCourses');
 const { updateCourse } = require('../controllers/courses/updateCourse');
+const { archiveCourse } = require('../controllers/courses/archiveCourse');
+const { restoreCourse } = require('../controllers/courses/restoreCourse');
 
 // GET
 router.get('/visible', getVisibleCourses);
@@ -17,6 +19,8 @@ router.use(protect, authorize(Role.Admin));
 
 // GET
 router.get('/', getCourses);
+router.get('/:id/archive', archiveCourse);
+router.get('/:id/restore', restoreCourse);
 router.get('/:id', getCourse);
 
 // POST

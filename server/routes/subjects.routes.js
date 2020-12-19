@@ -8,6 +8,8 @@ const { getSubject } = require('../controllers/subjects/getSubject');
 const { getSubjects } = require('../controllers/subjects/getSubjects');
 const { getVisibleSubjects } = require('../controllers/subjects/getVisibleSubjects');
 const { updateSubject } = require('../controllers/subjects/updateSubject');
+const { archiveSubject } = require('../controllers/subjects/archiveSubject');
+const { restoreSubject } = require('../controllers/subjects/restoreSubject');
 
 // GET
 router.get('/visible', getVisibleSubjects);
@@ -17,6 +19,8 @@ router.use(protect, authorize(Role.Admin));
 
 // GET
 router.get('/', getSubjects);
+router.get('/:id/archive', archiveSubject);
+router.get('/:id/restore', restoreSubject);
 router.get('/:id', getSubject);
 
 // POST

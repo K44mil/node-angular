@@ -28,3 +28,8 @@ export * from './presence-details/presence-details.component';
 
 // Mark
 export * from './mark-details/mark-details.component';
+
+// Archive
+export * from './courses/archival-courses-list/archival-courses-list.component';
+export * from './specializations/archival-specializations-list/archival-specializations-list.component';
+export * from './subjects/archival-subjects-list/archival-subjects-list.component';

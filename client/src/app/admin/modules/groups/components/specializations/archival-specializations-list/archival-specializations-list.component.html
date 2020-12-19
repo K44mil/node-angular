@@ -2,32 +2,29 @@
     <!-- ARROW BACK TO GROUP LIST -->
     <div class="row ml-2">
         <div class="col-8">
-            <a routerLink="/admin/groups" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+            <a routerLink="/admin/groups/specializations" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
         </div>
     </div>         
     <!-- MENU -->
     <div class="row ml-2 mt-3">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" routerLink="/admin/groups/courses">Courses</a>
+                <a class="nav-link" routerLink="/admin/groups/archive/courses">Archival Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" routerLink="/admin/groups/specializations" >Specializations</a>
+                <a class="nav-link active" routerLink="/admin/groups/archive/specializations">Archival Specializations</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/admin/groups/subjects" >Subjects</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/admin/groups/archive/specializations" >Archive</a>
+                <a class="nav-link" routerLink="/admin/groups/archive/subjects" >Archival Subjects</a>
             </li>
         </ul>
     </div>
-    <div class="row mt-3">
+    <!-- <div class="row mt-3">
         <div class="col-2">
             <a routerLink="/admin/groups/specializations/add_specialization" class="btn btn-success">+ Add Specialization</a>
         </div>
-    </div>
-    <div class="row mt-1">
+    </div> -->
+    <div class="row mt-3">
         <div class="col-5">
             <div class="table-responsive">
                 <table class="table table-sm text-center">
@@ -45,7 +42,7 @@
                             <td class="text-truncate" style="max-width: 200px;" title="{{ spec.name }}">{{ spec.name }}</td>
                             <td>{{ spec.short }}</td>
                             <td class="text-right">
-                                <span class="btn badge badge-dark badge-pill" (click)="archiveSpecialization(spec.id)"><i class="far fa-calendar-times"></i></span>
+                                <span class="btn badge badge-success badge-pill" (click)="restoreSpecialization(spec.id)"><i class="far fa-arrow-alt-circle-left"></i></span>
                                 <span class="btn badge badge-info badge-pill ml-1" (click)="editSpecialization(spec.id)"><i class="fas fa-pen"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="setSpecializationToDelete(spec.id)" 
                                 data-toggle="modal" data-target="#deleteSpecializationConfirmationModal"><i class="fas fa-trash-alt"></i></span>

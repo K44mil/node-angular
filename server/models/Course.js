@@ -25,6 +25,11 @@ Course.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         field: 'is_visible'
+    },
+    isArchive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'is_archive'
     }
 }, {
     sequelize,

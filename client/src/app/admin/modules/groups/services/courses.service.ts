@@ -13,8 +13,8 @@ export class CoursesService {
         return this.http.get<any>(`${environment.apiUrl}/courses/${id}`);
     }
 
-    getCourses() {
-        return this.http.get<any>(`${environment.apiUrl}/courses`);
+    getCourses(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/courses${query}`);
     }
 
     createCourse(course: Course) {
@@ -27,5 +27,13 @@ export class CoursesService {
 
     deleteCourse(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/courses/${id}`);
+    }
+
+    archiveCourse(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/courses/${id}/archive`);
+    }
+
+    restoreCourse(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/courses/${id}/restore`);
     }
 }

@@ -21,7 +21,7 @@ export class SpecializationsListComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.specializationsService.getSpecializations()
+        this.specializationsService.getSpecializations('?isArchive=0')
             .pipe(first())
             .subscribe(
                 res => {
@@ -37,27 +37,49 @@ export class SpecializationsListComponent implements OnInit {
             )
     }
 
-    deleteSpecialization(id: string) {
-        this.specializationsService.deleteSpecialization(id)
-            .pipe(first())
-            .subscribe(
-                res => {
-                    this.alertService.success('Specialization has been deleted.', {
-                        autoClose: true
-                    });
-                    this.loadSpecializations();
-                },
-                err => {
-                    this.alertService.clear();
-                    this.alertService.error(err, {
-                        autoClose: true
-                    })
-                    window.scrollTo(0,0);
-                }
-            )
+    specializationToDeleteId: string;
+
+    setSpecializationToDelete(id: string) {
+        this.specializationToDeleteId = id;
+    }
+
+    deleteSpecialization() {
+        if (this.specializationToDeleteId)
+            this.specializationsService.deleteSpecialization(this.specializationToDeleteId)
+                .pipe(first())
+                .subscribe(
+                    res => {
+                        this.alertService.success('Specialization has been deleted.', {
+                            autoClose: true
+                        });
+                        this.loadSpecializations();
+                    },
+                    err => {
+                        this.alertService.clear();
+                        this.alertService.error(err, {
+                            autoClose: true
+                        })
+                        window.scrollTo(0,0);
+                    }
+                )
     }
 
     editSpecialization(id: string) {
         this.router.navigate([`/admin/groups/specializations/${id}/edit`]);
+    }
+
+    archiveSpecialization(id: string) {
+        this.specializationsService.archiveSpecialization(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadSpecializations()
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                    window.scrollTo(0, 0);
+                }
+            )
     }
 }

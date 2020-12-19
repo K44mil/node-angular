@@ -8,8 +8,8 @@ export class SubjectsService {
 
     constructor(private http: HttpClient) { }
 
-    getSubjects() {
-        return this.http.get<any>(`${environment.apiUrl}/subjects`);
+    getSubjects(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/subjects${query}`);
     }
 
     getSubject(id: string) {
@@ -26,5 +26,13 @@ export class SubjectsService {
 
     deleteSubject(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/subjects/${id}`);
+    }
+
+    archiveSubject(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/subjects/${id}/archive`);
+    }
+
+    restoreSubject(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/subjects/${id}/restore`);
     }
 }

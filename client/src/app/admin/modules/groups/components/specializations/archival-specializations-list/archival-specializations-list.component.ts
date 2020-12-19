@@ -2,30 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
-import { Course } from '../../../models';
+import { Specialization } from '../../../models';
 
-import { CoursesService } from '../../../services/courses.service'; 
+import { SpecializationsService } from '../../../services/specializations.service';
 
-@Component({ templateUrl: 'courses-list.component.html'})
-export class CoursesListComponent implements OnInit {
-    courses: Course[];
+@Component({ templateUrl: 'archival-specializations-list.component.html' })
+export class ArchivalSpecializationsListComponent implements OnInit {
+    specializations: Specialization[];
 
     constructor(
-        private coursesService: CoursesService,
+        private specializationsService: SpecializationsService,
         private alertService: AlertService,
         private router: Router
     ) { }
 
     ngOnInit() {
-        this.loadCourses();
+        this.loadSpecializations();
     }
 
-    loadCourses() {
-        this.coursesService.getCourses('?isArchive=0')
+    loadSpecializations() {
+        this.specializationsService.getSpecializations('?isArchive=1')
             .pipe(first())
             .subscribe(
                 res => {
-                    this.courses = res.data.courses;
+                    this.specializations = res.data.specializations;
                 },
                 err => {
                     this.alertService.clear();
@@ -37,23 +37,22 @@ export class CoursesListComponent implements OnInit {
             )
     }
 
-    courseToDeleteId: string;
+    specializationToDeleteId: string;
 
-    setCourseToDelete(id: string) {
-        this.courseToDeleteId = id;
+    setSpecializationToDelete(id: string) {
+        this.specializationToDeleteId = id;
     }
 
-    deleteCourse() {
-        if (this.courseToDeleteId)
-            this.coursesService.deleteCourse(this.courseToDeleteId)
+    deleteSpecialization() {
+        if (this.specializationToDeleteId)
+            this.specializationsService.deleteSpecialization(this.specializationToDeleteId)
                 .pipe(first())
                 .subscribe(
                     res => {
-                        this.alertService.clear();
-                        this.alertService.success('Course has been deleted.', {
+                        this.alertService.success('Specialization has been deleted.', {
                             autoClose: true
                         });
-                        this.loadCourses();
+                        this.loadSpecializations();
                     },
                     err => {
                         this.alertService.clear();
@@ -65,16 +64,16 @@ export class CoursesListComponent implements OnInit {
                 )
     }
 
-    editCourse(id: string) {
-        this.router.navigate([`/admin/groups/courses/${id}/edit`]);
+    editSpecialization(id: string) {
+        this.router.navigate([`/admin/groups/specializations/${id}/edit`]);
     }
 
-    archiveCourse(id: string) {
-        this.coursesService.archiveCourse(id)
+    restoreSpecialization(id: string) {
+        this.specializationsService.restoreSpecialization(id)
             .pipe(first())
             .subscribe(
                 res => {
-                    this.loadCourses();
+                    this.loadSpecializations();
                 },
                 err => {
                     this.alertService.clear();

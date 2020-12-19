@@ -8,6 +8,8 @@ const { getSpecialization } = require('../controllers/specializations/getSpecial
 const { getSpecializations } = require('../controllers/specializations/getSpecializations');
 const { getVisibleSpecializations } = require('../controllers/specializations/getVisibleSpecializations');
 const { updateSpecialization } = require('../controllers/specializations/updateSpecialization');
+const { archiveSpecialization } = require('../controllers/specializations/archiveSpecialization');
+const { restoreSpecialization } = require('../controllers/specializations/restoreSpecialization');
 
 // GET
 router.get('/visible', getVisibleSpecializations);
@@ -17,6 +19,8 @@ router.use(protect, authorize(Role.Admin));
 
 // GET
 router.get('/', getSpecializations);
+router.get('/:id/archive', archiveSpecialization);
+router.get('/:id/restore', restoreSpecialization);
 router.get('/:id', getSpecialization);
 
 // POST

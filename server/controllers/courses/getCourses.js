@@ -1,7 +1,7 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Course = require('../../models/Course');
-const Faculty = require('../../models/Faculty');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Get Courses
@@ -9,7 +9,14 @@ const Faculty = require('../../models/Faculty');
  * @access  Private/Admin
  */
 exports.getCourses = asyncHandler(async (req, res, next) => {
-    const courses = await Course.findAll({});
+    let options = {
+        where: {}
+    };
+    
+    const { isArchive } = req.query; 
+    if (isArchive) options.where.isArchive = { [Op.eq]: isArchive };
+
+    const courses = await Course.findAll(options);
 
     res.status(200).json({
         success: true,

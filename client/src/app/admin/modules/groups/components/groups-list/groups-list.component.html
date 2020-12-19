@@ -14,6 +14,7 @@
                     <a routerLink="/admin/groups/courses" class="dropdown-item">Courses</a>
                     <a routerLink="/admin/groups/specializations" class="dropdown-item">Specializations</a>
                     <a routerLink="/admin/groups/subjects" class="dropdown-item">Subjects</a>
+                    <a routerLink="/admin/groups/archive/courses" class="dropdown-item">Archive</a>
                 </div>
             </li>
         </ul>
@@ -188,35 +189,39 @@
                                     <option *ngFor="let sub of availableSubjects" value="{{ sub.id }}">{{ sub.name }}</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="">Studies Type</label>
-                                <select class="form-control" formControlName="type">
-                                    <option value=""></option>
-                                    <option value="D">Dzienne</option>
-                                    <option value="Z">Zaoczne</option>
-                                </select>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label for="">Studies Type</label>
+                                    <select class="form-control" formControlName="type">
+                                        <option value=""></option>
+                                        <option value="D">Dzienne</option>
+                                        <option value="Z">Zaoczne</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="">Group Level</label>
+                                    <select class="form-control" formControlName="level">
+                                        <option value=""></option>
+                                        <option value="I">Inż.</option>
+                                        <option value="M">Mgr</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Group Level</label>
-                                <select class="form-control" formControlName="level">
-                                    <option value=""></option>
-                                    <option value="I">Inż.</option>
-                                    <option value="M">Mgr</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Group Type</label>
-                                <select class="form-control" formControlName="groupType">
-                                    <option value=""></option>
-                                    <option value="lab">Laboratoryjna</option>
-                                    <option value="lec">Wykładowa</option>
-                                    <option value="exc">Ćwiczeniowa</option>
-                                    <option value="proj">Projektowa</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Group Number</label>
-                                <input type="number" class="form-control" formControlName="number" min="0" max="99" />
+                            <div class="form-row mt-3">
+                                <div class="col">
+                                    <label for="">Group Type</label>
+                                    <select class="form-control" formControlName="groupType">
+                                        <option value=""></option>
+                                        <option value="lab">Laboratoryjna</option>
+                                        <option value="lec">Wykładowa</option>
+                                        <option value="exc">Ćwiczeniowa</option>
+                                        <option value="proj">Projektowa</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="">Group Number</label>
+                                    <input type="number" class="form-control" formControlName="number" min="0" max="99" />
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">

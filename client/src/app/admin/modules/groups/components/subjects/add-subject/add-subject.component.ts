@@ -42,7 +42,7 @@ export class AddSubjectComponent implements OnInit {
     get f() { return this.addSubjectForm.controls; }
 
     loadCourses() {
-        this.coursesService.getCourses()
+        this.coursesService.getCourses('')
             .pipe(first())
             .subscribe(
                 res => {
@@ -58,7 +58,7 @@ export class AddSubjectComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.specializationsService.getSpecializations()
+        this.specializationsService.getSpecializations('')
         .pipe(first())
             .subscribe(
                 res => {

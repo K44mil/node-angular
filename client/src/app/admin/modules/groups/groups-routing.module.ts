@@ -18,7 +18,10 @@ import {
     AddSpecializationComponent,
     EditSpecializationComponent,
     AddSubjectComponent,
-    EditSubjectComponent
+    EditSubjectComponent,
+    ArchivalCoursesListComponent,
+    ArchivalSpecializationsListComponent,
+    ArchivalSubjectsListComponent
 } from './components';
 
 const routes: Routes = [
@@ -40,7 +43,11 @@ const routes: Routes = [
             { path: 'specializations/:id/edit', component: EditSpecializationComponent },
             { path: 'subjects', component: SubjectsListComponent },
             { path: 'subjects/add_subject', component: AddSubjectComponent },
-            { path: 'subjects/:id/edit', component: EditSubjectComponent }
+            { path: 'subjects/:id/edit', component: EditSubjectComponent },
+            // Archive
+            { path: 'archive/courses', component: ArchivalCoursesListComponent },
+            { path: 'archive/specializations', component: ArchivalSpecializationsListComponent },
+            { path: 'archive/subjects', component: ArchivalSubjectsListComponent }
         ]
     }
 ];

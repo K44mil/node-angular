@@ -6,8 +6,8 @@ import { Course } from '../../../models';
 
 import { CoursesService } from '../../../services/courses.service'; 
 
-@Component({ templateUrl: 'courses-list.component.html'})
-export class CoursesListComponent implements OnInit {
+@Component({ templateUrl: 'archival-courses-list.component.html'})
+export class ArchivalCoursesListComponent implements OnInit {
     courses: Course[];
 
     constructor(
@@ -21,7 +21,7 @@ export class CoursesListComponent implements OnInit {
     }
 
     loadCourses() {
-        this.coursesService.getCourses('?isArchive=0')
+        this.coursesService.getCourses('?isArchive=1')
             .pipe(first())
             .subscribe(
                 res => {
@@ -69,8 +69,8 @@ export class CoursesListComponent implements OnInit {
         this.router.navigate([`/admin/groups/courses/${id}/edit`]);
     }
 
-    archiveCourse(id: string) {
-        this.coursesService.archiveCourse(id)
+    restoreCourse(id: string) {
+        this.coursesService.restoreCourse(id)
             .pipe(first())
             .subscribe(
                 res => {

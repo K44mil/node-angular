@@ -5,8 +5,8 @@ import { first } from 'rxjs/operators';
 import { Subject } from '../../../models';
 import { SubjectsService } from '../../../services/subjects.service';
 
-@Component({ templateUrl: 'subjects-list.component.html' })
-export class SubjectsListComponent implements OnInit {
+@Component({ templateUrl: 'archival-subjects-list.component.html' })
+export class ArchivalSubjectsListComponent implements OnInit {
     subjects: Subject[];
 
     constructor(
@@ -20,7 +20,7 @@ export class SubjectsListComponent implements OnInit {
     }
 
     loadSubjects() {
-        this.subjectsService.getSubjects('?isArchive=0')
+        this.subjectsService.getSubjects('?isArchive=1')
         .pipe(first())
         .subscribe(
             res => {
@@ -67,12 +67,12 @@ export class SubjectsListComponent implements OnInit {
         this.router.navigate([`/admin/groups/subjects/${id}/edit`]);
     }
 
-    archiveSubject(id: string) {
-        this.subjectsService.archiveSubject(id)
+    restoreSubject(id: string) {
+        this.subjectsService.restoreSubject(id)
             .pipe(first())
             .subscribe(
                 res => {
-                    this.loadSubjects();
+                    this.loadSubjects()
                 },
                 err => {
                     this.alertService.clear();
