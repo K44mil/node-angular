@@ -22,6 +22,7 @@ const NewsAccess = require('../models/NewsAccess');
 const NewsAccessCourse = require('../models/relationsModels/NewsAccessCourse');
 const NewsAccessGroup = require('../models/relationsModels/NewsAccessGroup');
 const NewsAccessUser = require('../models/relationsModels/NewsAccessUser');
+const MarkDescription = require('../models/MarkDescription');
 
 const initSequelizeAssociations = () => {
 
@@ -129,6 +130,10 @@ const initSequelizeAssociations = () => {
     // NewsAccess >o---o< User
     NewsAccess.belongsToMany(User, { through: NewsAccessUser, foreignKey: 'newsAccessId', otherKey: 'userId' });
     User.belongsToMany(NewsAccess, { through: NewsAccessUser, foreignKey: 'userId', otherKey: 'newsAccessId' });
+
+    // Mark >o---|- MarkDescription
+    MarkDescription.hasMany(Mark, { foreignKey: 'markDescriptionId' });
+    Mark.belongsTo(MarkDescription, { foreignKey: 'markDescriptionId' });
 };
 
 module.exports = initSequelizeAssociations;

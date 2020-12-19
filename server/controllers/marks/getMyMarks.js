@@ -4,6 +4,7 @@ const Mark = require('../../models/Mark');
 const User = require('../../models/User');
 const { Op } = require('sequelize');
 const Group = require('../../models/Group');
+const MarkDescription = require('../../models/MarkDescription');
 
 /**
  * @desc    Get My Marks in group
@@ -33,7 +34,13 @@ exports.getMyMarks = asyncHandler(async (req, res, next) => {
             groupId: {
                 [Op.eq]: group.id
             }
-        }
+        },
+        include: [
+            {
+                model: MarkDescription,
+                attributes: ['text']
+            }
+        ]
     });
     
     res.status(200).json({

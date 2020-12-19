@@ -33,3 +33,8 @@ export * from './mark-details/mark-details.component';
 export * from './courses/archival-courses-list/archival-courses-list.component';
 export * from './specializations/archival-specializations-list/archival-specializations-list.component';
 export * from './subjects/archival-subjects-list/archival-subjects-list.component';
+
+// Mark Descrptions
+export * from './mark-descriptions/mark-descriptions-list/mark-descriptions-list.component';
+export * from './mark-descriptions/add-mark-description/add-mark-description.component';
+export * from './mark-descriptions/edit-mark-description/edit-mark-description.component';

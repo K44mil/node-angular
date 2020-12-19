@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
@@ -50,7 +50,8 @@ export class GroupAttendanceComponent implements OnInit {
         private route: ActivatedRoute,
         private alertService: AlertService,
         private groupsService: GroupsService,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -107,6 +108,7 @@ export class GroupAttendanceComponent implements OnInit {
                     this.addEventSubmitted = false;
                 },
                 err => {
+                    this.alertService.clear();
                     this.alertService.error(err, {
                         autoClose: true
                     });
@@ -116,6 +118,7 @@ export class GroupAttendanceComponent implements OnInit {
     }
 
     onEditEventFormSubmit() {
+        this.editEventSubmitted = true;
         if (this.editEventForm.invalid) return;
 
         this.editEventForm.patchValue({
@@ -126,8 +129,13 @@ export class GroupAttendanceComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
+                    this.alertService.clear();
+                    this.alertService.success('Event has been edited.', {
+                        autoClose: true
+                    });
                     this.loadEvents(this.groupId);
                     this.loadAttendance(this.groupId);
+                    this.editEventSubmitted = false;
                 },
                 err => {
                     this.alertService.error(err, {
@@ -180,7 +188,12 @@ export class GroupAttendanceComponent implements OnInit {
                     if (res.data.group) this.group = res.data.group;
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
+                    this.router.navigate(['/admin/groups']);
                 }
             );
     }
@@ -194,6 +207,7 @@ export class GroupAttendanceComponent implements OnInit {
                         this.events = res.data.events;
                 },
                 err => {
+                    this.alertService.clear();
                     this.alertService.error(err);
                 }
             );

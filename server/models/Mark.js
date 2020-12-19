@@ -2,6 +2,7 @@ const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
 const Group = require('./Group');
 const User = require('./User');
+const MarkDescription = require('./MarkDescription');
 
 class Mark extends Model {
 
@@ -17,9 +18,13 @@ Mark.init({
         type: DataTypes.STRING(3),
         allowNull: false
     },
-    description: {
-        type: DataTypes.STRING(63),
-        allowNull: false
+    markDescriptionId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+            model: MarkDescription,
+            key: 'id'
+        }
     },
     userId: {
         type: DataTypes.UUID,

@@ -1,0 +1,28 @@
+<div class="">
+    <div class="row">
+        <div class="col-8">
+            <a routerLink="/admin/groups/marks" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>         
+    <div class="row mt-3">
+        <div class="col-8">
+            <h5>Add New Mark Description</h5>
+            <hr style="width: 50%; margin-left: 0;">
+            <div class="col-4">
+                <form [formGroup]="addMarkDescriptionForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="">Text</label>
+                        <input formControlName="text" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && f.text.errors }" /> 
+                        <div *ngIf="submitted && f.text.errors" class="invalid-feedback">
+                            <div *ngIf="f.text.errors.required">Text is required.</div>
+                            <div *ngIf="f.text.errors.maxlength">Text cannot be longer than 50 characters.</div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-outline-dark" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>   

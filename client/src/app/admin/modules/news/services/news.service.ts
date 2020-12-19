@@ -12,8 +12,8 @@ export class NewsService {
         return this.http.post<any>(`${environment.apiUrl}/news`, formData);
     }
 
-    getNews() {
-        return this.http.get<any>(`${environment.apiUrl}/news`);
+    getNews(query: string) {
+        return this.http.get<any>(`${environment.apiUrl}/news${query}`);
     }
 
     changeVisibility(id: string) {

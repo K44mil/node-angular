@@ -109,9 +109,12 @@ export class EditGroupComponent implements OnInit {
                     this.groupLoaded = true;
                 },
                 err => {
+                    this.alertService.clear();
                     this.alertService.error(err, {
-                        autoClose: true
+                        autoClose: true,
+                        keepAfterRouteChange: true
                     });
+                    this.router.navigate(['/admin/groups']);
                 }
             )
     }

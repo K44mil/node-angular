@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
+import { MarksService } from '../../services/marks.service';
 
 @Component({
     templateUrl: 'group-marks.component.html',
@@ -33,12 +34,19 @@ export class GroupMarksComponent implements OnInit {
 
     editedMarkId: string;
 
+    markDescs: any[];
+
+    addMarkFormSubmitted: boolean = false;
+    editMarkFormSubmitted: boolean = false;
+
     constructor(
         private route: ActivatedRoute,
         private alertService: AlertService,
         private groupsService: GroupsService,
         private formBuilder: FormBuilder,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private marksService: MarksService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -48,21 +56,24 @@ export class GroupMarksComponent implements OnInit {
         this.addMarkForm = this.formBuilder.group({
             ids: ['', Validators.required],
             value: ['', Validators.required],
-            description: ['', Validators.required]
+            markDescriptionId: ['', Validators.required]
         });
 
         this.editMarkForm = this.formBuilder.group({
             id: [''],
             student: [{ value: '', disabled: true }],
             value: ['', Validators.required],
-            description: ['', Validators.required]
+            markDescriptionId: ['', Validators.required]
         });
+
+        this.loadMarkDescriptions();
     }
 
     get f() { return this.addMarkForm.controls; }
     get ef() { return this.editMarkForm.controls; }
 
     onSubmit() {
+        this.addMarkFormSubmitted = true;
         if (this.addMarkForm.invalid) return;
 
         this.groupsService.createMarks(this.groupId, this.addMarkForm.value)
@@ -71,14 +82,20 @@ export class GroupMarksComponent implements OnInit {
                 res => {
                     this.loadMarks(this.groupId);
                     this.addMarkForm.reset();
+                    this.addMarkFormSubmitted = false;
                 },
                 err => {
-
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
                 }
             )
     }
 
     onEditFormSubmit() {
+        this.editMarkFormSubmitted = true;
         if (this.editMarkForm.invalid) return;
 
         this.groupsService.updateMark(this.ef.id.value, this.editMarkForm.value)
@@ -93,6 +110,8 @@ export class GroupMarksComponent implements OnInit {
                     const editModalButton = document.getElementById('showEditMarkFormButton');
                     editModalButton.click();
                     this.editedMarkId = null;
+                    this.selectedMarkId = null;
+                    this.editMarkFormSubmitted = false;
                 },
                 err => {
                     this.alertService.clear();
@@ -113,6 +132,24 @@ export class GroupMarksComponent implements OnInit {
                     for (const m of this.members) {
                         if (m.User && m.User.Marks) m.User.Marks = m.User.Marks.filter(m => m.groupId === this.groupId);
                     }
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
+                    this.router.navigate(['/admin/groups']);
+                }
+            )
+    }
+
+    loadMarkDescriptions() {
+        this.marksService.getMarkDescriptions()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.markDescs = res.data.markDescriptions;
                 },
                 err => {
 
@@ -138,7 +175,7 @@ export class GroupMarksComponent implements OnInit {
                         id: mark.id,
                         student: `${mark.User.firstName} ${mark.User.lastName}`,
                         value: mark.value,
-                        description: mark.description
+                        markDescriptionId: mark.markDescriptionId
                     });
                     setTimeout(() => {
                         window.scrollTo(0, document.body.scrollHeight);

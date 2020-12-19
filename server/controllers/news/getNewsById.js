@@ -1,4 +1,5 @@
 const asyncHandler = require('../../middleware/asyncHandler');
+const ErrorResponse = require('../../utils/ErrorResponse');
 const News = require('../../models/News');
 const User = require('../../models/User');
 const NewsAccess = require('../../models/NewsAccess');
@@ -13,9 +14,6 @@ const Category = require('../../models/Category');
  * @access  Private/Admin
  */
 exports.getNewsById = asyncHandler(async (req, res, next) => {
-
-    console.log('elo');
-
     const news = await News.findByPk(req.params.id, {
         include: [
             {
@@ -38,6 +36,12 @@ exports.getNewsById = asyncHandler(async (req, res, next) => {
             }
         ]
     });
+
+    if (!news) {
+        return next(
+            new ErrorResponse('News does not exist.', 400)
+        )
+    }
 
     res.status(200).json({
         success: true,

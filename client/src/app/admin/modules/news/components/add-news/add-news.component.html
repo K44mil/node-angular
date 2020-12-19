@@ -15,11 +15,21 @@
                 </div>
                 <div class="form-gorup">
                     <label for="">Title</label>
-                    <input formControlName="title" type="text" class="form-control">
+                    <input formControlName="title" type="text" class="form-control"
+                    [ngClass]="{'is-invalid': submitted && f.title.errors }" />
+                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                      <div *ngIf="f.title.errors.required">Title is required.</div>
+                      <div *ngIf="f.title.errors.maxlength">Title cannot be longer than 100 characters.</div>
+                    </div>
                 </div>
                 <div class="form-gorup">
                     <label for="">Description</label>
-                    <textarea formControlName="description" type="text" class="form-control"></textarea>
+                    <textarea formControlName="description" type="text" class="form-control"
+                    [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                  </textarea>
+                  <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div>Description cannot be longer than 500 characters.</div>
+                  </div>
                 </div>
                 <label for="">Content</label>
                 <ckeditor formControlName="content" [config]="config"></ckeditor>

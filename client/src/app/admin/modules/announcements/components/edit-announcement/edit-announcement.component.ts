@@ -62,7 +62,12 @@ export class EditAnnouncementComponent implements OnInit {
                     this.announcementLoaded = true;
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
+                    this.router.navigate(['/admin/announcements']);
                 }
             )
     }

@@ -25,6 +25,8 @@ export class FilesFinderComponent implements OnInit, OnChanges {
     @Input() fileUnlinked: boolean;
     @Output() filesLinked: EventEmitter<File[]> = new EventEmitter<File[]>();
 
+    private query: string = '?';
+
     constructor(
         private formBuilder: FormBuilder,
         private modalService: ModalService,
@@ -32,15 +34,19 @@ export class FilesFinderComponent implements OnInit, OnChanges {
     ) { }
 
     ngOnInit() {
+        this.prepareQuery();
+        this.loadFiles(this.query);
+    }
+
+    get f() { return this.filterForm.controls; }
+
+    ngOnChanges() {
         this.filterForm = this.formBuilder.group({
             name: ['']
         });
 
-        this.loadFiles();
-    }
-
-    ngOnChanges() {
-        this.loadFiles();
+        this.prepareQuery();
+        this.loadFiles(this.query);
     }
 
     clearSelect() {
@@ -50,8 +56,8 @@ export class FilesFinderComponent implements OnInit, OnChanges {
         this.selectedItems = [];
     }
 
-    loadFiles() {
-        this.filesService.getFiles('')
+    loadFiles(query: string) {
+        this.filesService.getFiles(query)
             .pipe(first())
             .subscribe(
                 res => {
@@ -71,13 +77,37 @@ export class FilesFinderComponent implements OnInit, OnChanges {
             )
     }
 
+    // Query functions
+    clearQuery() {
+        this.clearSelect();
+        this.query = '?';
+    }
+
+    prepareQuery() {
+        this.clearQuery();
+        this.query += this.getFilterQuery();
+    }
+
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.name.value) query += `name=${this.f.name.value}`;
+
+        return query;
+    }
+
+    onFormInputsChange() {
+        this.prepareQuery();
+        this.loadFiles(this.query);
+    }
+
     linkFiles() {
         const files = this.files.filter(f => {
             if (this.selectedItems.includes(f.id)) return f;
         });
         this.filesLinked.emit(files);
-        this.clearSelect();
-        this.loadFiles();
+        this.prepareQuery();
+        this.loadFiles(this.query);
     }
 
     parseFileSize(size) {

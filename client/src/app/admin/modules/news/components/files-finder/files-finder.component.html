@@ -1,9 +1,9 @@
 <div class="row mt-2">
     <div class="col-12">
-        <form>
+        <form [formGroup]="filterForm">
             <div class="form-row">
                 <div class="col-6">
-                    <input type="text" class="form-control" placeholder="File Name...">
+                    <input type="text" formControlName="name" (input)="onFormInputsChange()" class="form-control" placeholder="File Name">
                 </div>
             </div>
         </form>

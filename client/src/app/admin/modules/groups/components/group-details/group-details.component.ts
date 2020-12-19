@@ -67,7 +67,7 @@ export class GroupDetailsComponent implements OnInit {
                     this.alertService.clear();
                     this.alertService.error(err, {
                         autoClose: true,
-                        keepAfterRouteChange: false
+                        keepAfterRouteChange: true
                     });
                     this.router.navigate(['/admin/groups']);
                 }

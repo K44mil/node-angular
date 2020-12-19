@@ -123,6 +123,8 @@ export class GroupsComponent implements OnInit {
             if (e.Presences[0].isConfirmed) confirmedPresence++;
         }
         if (this.events.length > 0)
-        this.attendance = String((Math.floor(confirmedPresence/this.events.length * 100)));
+            this.attendance = String((Math.floor(confirmedPresence/this.events.length * 100)));
+        else 
+            this.attendance = '0';
     }
 }

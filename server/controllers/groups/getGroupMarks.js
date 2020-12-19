@@ -3,7 +3,8 @@ const Mark = require('../../models/Mark');
 const User = require("../../models/User");
 const { Op } = require('sequelize');
 const UserGroup = require("../../models/relationsModels/UserGroup");
-const Sequelize = require('sequelize');
+const Group = require("../../models/Group");
+const ErrorResponse = require("../../utils/ErrorResponse");
 
 /**
  * @desc    Get group marks
@@ -11,10 +12,17 @@ const Sequelize = require('sequelize');
  * @access  Private/Admin
  */
 exports.getGroupMarks = asyncHandler(async (req, res, next) => {
+    const group = await Group.findByPk(req.params.id);
+    if (!group) {
+        return next(
+            new ErrorResponse('Group does not exist.', 400)
+        )
+    }
+
     const members = await UserGroup.findAll({
         where: {
             groupId: {
-                [Op.eq]: req.params.id
+                [Op.eq]: group.id
             },
             isConfirmed: {
                 [Op.eq]: 1

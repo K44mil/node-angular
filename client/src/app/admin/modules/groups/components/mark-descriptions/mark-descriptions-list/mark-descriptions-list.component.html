@@ -1,0 +1,50 @@
+<div class="">
+    <!-- ARROW BACK TO GROUP LIST -->
+    <div class="row ml-2">
+        <div class="col-8">
+            <a routerLink="/admin/groups" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>         
+    <div class="row mt-3">
+        <div class="col-2">
+            <a routerLink="/admin/groups/marks/add_mark_desc" class="btn btn-success">+ Add Description</a>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-4">
+            <div class="table-responsive">
+                <table class="table table-sm text-center">
+                    <thead class="thead-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">Text</th>
+                        <th scope="col"></th>
+                    </thead>
+                    <tbody *ngIf="markDescs">
+                        <tr *ngFor="let mD of markDescs; let i = index;">
+                            <td>{{ i+1 }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ mD.text }}">{{ mD.text }}</td>
+                            <td class="text-right">               
+                                <span class="btn badge badge-info badge-pill ml-1" (click)="editDescription(mD.id)"><i class="fas fa-pen"></i></span>
+                                <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteDescription(mD.id)"><i class="fas fa-trash-alt"></i></span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="markDescs.length === 0">
+                            <td colspan="4">No matching results.</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!markDescs">
+                        <tr>
+                            <td colspan="5">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border m-auto" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,9 @@
                         <span *ngIf="e.Presences[0].isConfirmed" class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
                         <span *ngIf="!e.Presences[0].isConfirmed && e.isOpen" class="btn badge badge-info badge-pill" (click)="confirmPresence(e.Presences[0].id)"><i class="fas fa-pen"></i></span>
                     </li>
+                    <li *ngIf="!events || events.length === 0" class="list-group-item text-center">
+                        No scheduled events for this group.
+                    </li>
                 </ul>
             </div>
         </div>
@@ -52,8 +55,14 @@
                       <tr *ngFor="let m of marks">
                         <td>{{ printDate(m.created_at) }}</td>
                         <td>{{ m.value }}</td>
-                        <td>{{ m.description }}</td>
+                        <td *ngIf="m.MarkDescription" >{{ m.MarkDescription.text }}</td>
+                        <td *ngIf="!m.MarkDescription" >-</td>
                       </tr>
+                    </tbody>
+                    <tbody *ngIf="!marks || marks.length === 0">
+                        <tr>
+                            <td colspan="3" class="text-center">You don't have any marks in this group.</td>
+                        </tr>
                     </tbody>
                   </table>
             </div>

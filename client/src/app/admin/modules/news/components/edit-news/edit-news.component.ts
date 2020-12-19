@@ -108,7 +108,12 @@ export class EditNewsComponent implements OnInit {
                     
                 },
                 err => {
-
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true,
+                        keepAfterRouteChange: true
+                    });
+                    this.router.navigate(['/admin/news']);
                 }
             )
     }

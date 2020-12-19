@@ -4,6 +4,7 @@ const { Op } = require('sequelize');
 const Mark = require('../../models/Mark');
 const Group = require('../../models/Group');
 const User = require('../../models/User');
+const MarkDescription = require('../../models/MarkDescription');
 
 /**
  * @desc    Create Marks
@@ -11,7 +12,7 @@ const User = require('../../models/User');
  * @access  Private/Admin
  */
 exports.createMarks = asyncHandler(async (req, res, next) => {
-    const { ids, value, description } = req.body;
+    const { ids, value, markDescriptionId } = req.body;
 
     const group = await Group.findByPk(req.params.id);
     if (!group) {
@@ -20,12 +21,19 @@ exports.createMarks = asyncHandler(async (req, res, next) => {
         )
     }
 
+    const markDesc = await MarkDescription.findByPk(markDescriptionId);
+    if (!markDesc) {
+        return next(
+            new ErrorResponse('Mark Description does not exist.', 400)
+        )
+    }
+
     for (const id of ids) {
         const user = await User.findByPk(id);
         if (user) {
             await Mark.create({
                 value,
-                description,
+                markDescriptionId: markDesc.id,
                 userId: user.id,
                 groupId: group.id
             });

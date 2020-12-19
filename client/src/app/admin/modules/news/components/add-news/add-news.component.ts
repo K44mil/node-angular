@@ -18,6 +18,8 @@ export class AddNewsComponent implements OnInit {
 
     fileUnlinked: boolean = false;
 
+    submitted: boolean = false;
+
     private access: any = {
         isOn: false,
         courses: [],
@@ -44,8 +46,8 @@ export class AddNewsComponent implements OnInit {
         this.addNewsForm = this.formBuilder.group({
             photo: [''],
             photoSource: [''],
-            title: ['', Validators.required],
-            description: ['', Validators.required],
+            title: ['', [Validators.required, Validators.maxLength(100)]],
+            description: ['', Validators.maxLength(512)],
             content: [''],
             categoriesIds: [''],
             // files
@@ -88,6 +90,7 @@ export class AddNewsComponent implements OnInit {
     get f() { return this.addNewsForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addNewsForm.invalid) return;
 
         if (this.f.isLoginProtected.value == '') {
@@ -142,6 +145,7 @@ export class AddNewsComponent implements OnInit {
                             autoClose: true
                         });
                         this.loading = false;
+                        this.submitted = false;
                         this.router.navigate(['/admin/news']);
                     }
                 },
@@ -150,6 +154,7 @@ export class AddNewsComponent implements OnInit {
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                    this.loading = false;
                     window.scrollTo(0, 0);
                 }
             )

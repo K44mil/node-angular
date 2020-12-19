@@ -32,7 +32,10 @@ import {
     MarkDetailsComponent,
     ArchivalCoursesListComponent,
     ArchivalSpecializationsListComponent,
-    ArchivalSubjectsListComponent
+    ArchivalSubjectsListComponent,
+    MarkDescriptionsListComponent,
+    AddMarkDescriptionComponent,
+    EditMarkDescriptionComponent
 
 } from './components';
 import { SharedModule } from '@app/shared/shared.module';
@@ -68,7 +71,10 @@ import { SharedModule } from '@app/shared/shared.module';
         MarkDetailsComponent,
         ArchivalCoursesListComponent,
         ArchivalSpecializationsListComponent,
-        ArchivalSubjectsListComponent
+        ArchivalSubjectsListComponent,
+        MarkDescriptionsListComponent,
+        AddMarkDescriptionComponent,
+        EditMarkDescriptionComponent
     ]
 })
 export class GroupsModule { }

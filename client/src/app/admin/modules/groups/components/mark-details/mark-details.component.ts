@@ -29,7 +29,7 @@ export class MarkDetailsComponent implements OnInit, OnChanges {
             this.groupsService.getMark(this.markId)
             .pipe(first())
             .subscribe(
-                res => {             
+                res => {
                     this.mark = res.data.mark;
                 },
                 err => {
