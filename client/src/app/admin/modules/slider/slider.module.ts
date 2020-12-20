@@ -5,6 +5,7 @@ import { SliderRoutingModule } from './slider-routing.module';
 
 import {
     AddSliderImageComponent,
+    EditSliderImageComponent,
     LayoutComponent,
     SliderImagesListComponent
 } from './components';
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     declarations: [
         LayoutComponent,
         SliderImagesListComponent,
-        AddSliderImageComponent
+        AddSliderImageComponent,
+        EditSliderImageComponent
     ]
 })
 export class SliderModule { }

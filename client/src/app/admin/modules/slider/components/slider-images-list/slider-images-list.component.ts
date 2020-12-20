@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
@@ -12,7 +13,8 @@ export class SliderImagesListComponent implements OnInit {
 
     constructor(
         private alertService: AlertService,
-        private sliderService: SliderService
+        private sliderService: SliderService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -53,6 +55,10 @@ export class SliderImagesListComponent implements OnInit {
                     });
                 }
             )
+    }
+
+    editSliderImage(id: string) {
+        this.router.navigate([`/admin/slider/edit_slider_image/${id}`]);
     }
 
     showImage(image) {

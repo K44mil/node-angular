@@ -131,6 +131,12 @@ export class AddNewsComponent implements OnInit {
         formData.append('files', JSON.stringify(filesIds));
 
         // Access object
+        if (this.f.accessOn.value == '') {
+            this.addNewsForm.patchValue({
+                accessOn: false
+            });
+        } 
+
         this.access.isOn = this.f.accessOn.value;
         formData.append('access', JSON.stringify(this.access));
 

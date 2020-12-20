@@ -9,6 +9,7 @@ import { AnnouncementsService } from '../../services/announcements.service';
 @Component({ templateUrl: 'add-announcement.component.html' })
 export class AddAnnouncementComponent implements OnInit {
     addAnnouncementForm: FormGroup;
+    submitted: boolean = false;
 
     constructor(
         private announcementsService: AnnouncementsService,
@@ -19,8 +20,8 @@ export class AddAnnouncementComponent implements OnInit {
 
     ngOnInit() {
         this.addAnnouncementForm = this.formBuilder.group({
-            title: ['', Validators.required],
-            content: ['', Validators.required],
+            title: ['', [Validators.required, Validators.maxLength(100)]],
+            content: ['', [Validators.required, Validators.maxLength(500)]],
             visibleFromDate: ['', Validators.required],
             visibleFromTime: ['', Validators.required],
             visibleFrom: [''],
@@ -34,6 +35,7 @@ export class AddAnnouncementComponent implements OnInit {
     get f() { return this.addAnnouncementForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addAnnouncementForm.invalid) return;
 
         if (this.f.isVisible.value == '') {
@@ -55,11 +57,15 @@ export class AddAnnouncementComponent implements OnInit {
                         keepAfterRouteChange: true,
                         autoClose: true
                     });
+                    this.submitted = false;
                     this.router.navigate(['/admin/announcements']);
                 }
             },
             err => {
-                this.alertService.error(err);
+                this.alertService.clear();
+                this.alertService.error(err, {
+                    autoClose: true
+                });
             })
     }
 }

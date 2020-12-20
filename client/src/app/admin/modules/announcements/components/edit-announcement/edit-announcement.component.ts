@@ -12,6 +12,7 @@ export class EditAnnouncementComponent implements OnInit {
     editAnnouncementForm: FormGroup;
     id: string;
     announcementLoaded: boolean = false;
+    submitted: boolean = false;
 
     constructor(
         private announcementsService: AnnouncementsService,
@@ -26,8 +27,8 @@ export class EditAnnouncementComponent implements OnInit {
         this.loadAnnouncement(this.id);
 
         this.editAnnouncementForm = this.formBuilder.group({
-            title: ['', Validators.required],
-            content: ['', Validators.required],
+            title: ['', [Validators.required, Validators.maxLength(100)]],
+            content: ['', [Validators.required, Validators.maxLength(500)]],
             visibleFromDate: ['', Validators.required],
             visibleFromTime: ['', Validators.required],
             visibleFrom: [''],
@@ -90,6 +91,7 @@ export class EditAnnouncementComponent implements OnInit {
     get f() { return this.editAnnouncementForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editAnnouncementForm.invalid) return;
 
         if (this.f.isVisible.value == '') {
@@ -111,12 +113,14 @@ export class EditAnnouncementComponent implements OnInit {
                         keepAfterRouteChange: true,
                         autoClose: true
                     });
+                    this.submitted = false;
                     // this.router.navigate(['/admin/announcements']);
                     window.scrollTo(0, 0);
                 }
             },
             err => {
-                this.alertService.error(err);
+                this.alertService.clear();
+                this.alertService.error(err, { autoClose: true });
             })
     }
 }

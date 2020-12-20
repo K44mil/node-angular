@@ -1,6 +1,7 @@
 const asyncHandler = require('../../middleware/asyncHandler');
 const News = require('../../models/News');
 const User = require('../../models/User');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Get all news
@@ -19,7 +20,10 @@ exports.getNews = asyncHandler(async (req, res, next) => {
         ]
     };
 
+    const { title } = req.query;
+
     // SELECT
+    if (title) options.where.title = { [Op.like]: `%${title}%` };
 
     // Pagination
     const page = parseInt(req.query.page, 10) || 1;
@@ -29,7 +33,6 @@ exports.getNews = asyncHandler(async (req, res, next) => {
 
     options.offset = startIndex;
     options.limit = limit;
-
 
     const news = await News.findAndCountAll(options);
 

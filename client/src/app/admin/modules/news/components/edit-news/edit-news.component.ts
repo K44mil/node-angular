@@ -129,10 +129,6 @@ export class EditNewsComponent implements OnInit {
 
     get f() { return this.editNewsForm.controls; }
 
-    testuj() {
-        console.log(this.f.categoriesIds.value);
-    }
-
     onSubmit() {
         if (this.editNewsForm.invalid) return;
 

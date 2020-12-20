@@ -56,6 +56,7 @@ export class NewsComponent implements OnInit {
                     this.news = res.data.news;
                     this.pagination = res.data.pagination;
                     this.totalPages = res.data.countPages;
+                    this.countTotal = res.data.count;
                 },
                 err => {
                     this.alertService.clear();
@@ -86,6 +87,7 @@ export class NewsComponent implements OnInit {
     }
 
     onFilterFormSubmit() {
+        this.currentPage = 1;
         this.prepareQuery();
         this.loadNews(this.query);
     }

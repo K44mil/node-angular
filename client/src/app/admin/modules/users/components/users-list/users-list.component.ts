@@ -115,6 +115,7 @@ export class UsersListComponent implements OnInit {
     }
 
     onFilterFormSubmit() {
+        this.currentPage = 1;
         this.prepareQuery();
         this.loadUsers(this.query);
     }

@@ -32,7 +32,8 @@
                 <!-- COUNT RECORDS -->
                 <div *ngIf="pagination" class="col-2 offset-2">
                     <button [ngClass]="{disabled: !pagination.prev }" class="btn btn-outline-dark" (click)="prevPage()"><</button>
-                    <span class="mx-2">{{ this.currentPage }} of {{ this.totalPages }}</span>
+                    <span *ngIf="totalPages > 0" class="mx-2">{{ this.currentPage }} of {{ this.totalPages }}</span>
+                    <span *ngIf="totalPages === 0" class="mx-2"></span>
                     <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">

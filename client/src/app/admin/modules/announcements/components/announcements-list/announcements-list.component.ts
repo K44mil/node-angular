@@ -49,21 +49,19 @@ export class AnnouncementsListComponent implements OnInit {
     }
 
     delete(id) {
-        if (confirm("Are you sure to delete this announcement?")) {
-            this.announcementsService.deleteAnnouncement(id)
-                .pipe(first())
-                .subscribe(res => {
-                    if (res.success == true) {
-                        this.alertService.success('Announcement deleted.', {
-                            autoClose: true
-                        });
-                        this.loadAnnouncements();
-                    }
-                },
-                err => {
-                    this.alertService.error(err);
-                });
-        }
+        this.announcementsService.deleteAnnouncement(id)
+            .pipe(first())
+            .subscribe(res => {
+                if (res.success == true) {
+                    this.alertService.success('Announcement deleted.', {
+                        autoClose: true
+                    });
+                    this.loadAnnouncements();
+                }
+            },
+            err => {
+                this.alertService.error(err);
+            });
     }
 
     edit(id) {

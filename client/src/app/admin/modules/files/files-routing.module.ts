@@ -3,14 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {
     LayoutComponent,
-    FilesListComponent
+    FilesListComponent,
+    BackupComponent
 } from './components';
 
 const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: '', component: FilesListComponent }
+            { path: '', component: FilesListComponent },
+            { path: 'backup', component: BackupComponent }
         ]
     }
 ];

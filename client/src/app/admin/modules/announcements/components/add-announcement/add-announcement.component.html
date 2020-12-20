@@ -12,25 +12,51 @@
             <form [formGroup]="addAnnouncementForm" (ngSubmit)="onSubmit()">
                 <div class="form-gorup">
                     <label for="">Title</label>
-                    <input formControlName="title" type="text" class="form-control">
+                    <input formControlName="title" type="text" class="form-control"
+                    [ngClass]="{'is-invalid': submitted && this.f.title.errors }"/>
+                    <div *ngIf="submitted && this.f.title.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.title.errors.required">Title is required.</div>
+                        <div *ngIf="this.f.title.errors.maxlenght">Title cannot be longer than 100 characters.</div>
+                    </div>
                 </div>
                 <div class="form-gorup">
                     <label for="">Text</label>
-                    <textarea formControlName="content" class="form-control" cols="30" rows="4"></textarea>
+                    <textarea formControlName="content" class="form-control" cols="30" rows="4"
+                    [ngClass]="{'is-invalid': submitted && this.f.content.errors }"></textarea>
+                    <div *ngIf="submitted && this.f.content.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.content.errors.required">Content is required.</div>
+                        <div *ngIf="this.f.content.errors.maxlenght">Content cannot be longer than 500 characters.</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="">Visible From</label>
-                    <input formControlName="visibleFromDate" class="form-control" type="date" name="" id="">
+                    <input formControlName="visibleFromDate" class="form-control" type="date"
+                    [ngClass]="{'is-invalid': submitted && this.f.visibleFromDate.errors }"/>
+                    <div *ngIf="submitted && this.f.visibleFromDate.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.visibleFromDate.errors.required">Visible From Date is required.</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input formControlName="visibleFromTime" class="form-control" type="time" name="" id="">
+                    <input formControlName="visibleFromTime" class="form-control" type="time"
+                    [ngClass]="{'is-invalid': submitted && this.f.visibleFromTime.errors }"/>
+                    <div *ngIf="submitted && this.f.visibleFromTime.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.visibleFromTime.errors.required">Visible From Time is required.</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="">Visible To</label>
-                    <input formControlName="visibleToDate" class="form-control" type="date" name="" id="">
+                    <input formControlName="visibleToDate" class="form-control" type="date"
+                    [ngClass]="{'is-invalid': submitted && this.f.visibleToDate.errors }"/>
+                    <div *ngIf="submitted && this.f.visibleToDate.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.visibleToDate.errors.required">Visible To Date is required.</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input formControlName="visibleToTime" class="form-control" type="time" name="" id="">
+                    <input formControlName="visibleToTime" class="form-control" type="time"
+                    [ngClass]="{'is-invalid': submitted && this.f.visibleToTime.errors }"/>
+                    <div *ngIf="submitted && this.f.visibleToTime.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.visibleToTime.errors.required">Visible To Time is required.</div>
+                    </div>
                 </div>
                 <div class="form-check">
                     <input formControlName="isVisible" type="checkbox" class="form-check-input">

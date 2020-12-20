@@ -260,4 +260,9 @@ export class FilesListComponent implements OnInit {
                 }
             )
     }
+
+    onFilterFormSubmit() {
+        this.prepareQuery();
+        this.loadFiles(this.query);
+    }
 }

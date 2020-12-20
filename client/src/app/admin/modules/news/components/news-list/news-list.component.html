@@ -12,7 +12,7 @@
     </div>
     <!-- NEWS TABLE MENU -->
     <div class="row mt-3">
-        <div class="col-8">
+        <div class="col-9">
             <div class="row">
                 <!-- Add news -->
                 <div class="col-2">
@@ -52,8 +52,8 @@
         </div>
     </div>
     <div class="row mt-1">
-        <div class="col-8">
-            <div>
+        <div class="col-9">
+            <div class="table-responsive">
                 <table class="table table-sm text-center">
                     <thead class="thead-dark">
                         <tr>
@@ -68,7 +68,7 @@
                     <tbody *ngIf="news">
                         <tr *ngFor="let n of news; let i = index">
                             <td>{{ i+1 }}</td>
-                            <td>{{ n.title }}</td>
+                            <td class="text-truncate" title="{{ n.title }}" style="max-width: 300px;">{{ n.title }}</td>
                             <td>{{ n.User.firstName }} {{ n.User.lastName }}</td>
                             <td>{{ printDate(n.created_at) }}</td>
                             <td colspan="3">
@@ -106,6 +106,20 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Title" formControlName="title">
+                        </div>
+                        <button class="btn btn-outline-dark form-control">
+                            Filter
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

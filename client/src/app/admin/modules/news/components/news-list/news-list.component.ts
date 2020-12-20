@@ -44,7 +44,7 @@ export class NewsListComponent implements OnInit {
 
         // Filter form
         this.filterForm = this.formBuilder.group({
-            name: ['']
+            title: ['']
         });
  
     }
@@ -64,6 +64,8 @@ export class NewsListComponent implements OnInit {
             });
     }
 
+    get f() { return this.filterForm.controls; }
+
     printDate(dateUTC) {
         const date = new Date(dateUTC);
         return date.toLocaleString('pl');
@@ -74,9 +76,17 @@ export class NewsListComponent implements OnInit {
         this.query = `?limit=${this.itemsPerPage}&page=${this.currentPage}`;
     }
 
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.title.value) query += `&title=${this.f.title.value}`;
+
+        return query;
+    }
+
     prepareQuery() {
         this.clearQuery();
-        // this.query += this.getFilterQuery();
+        this.query += this.getFilterQuery();
         // if (this.sort.property !== null && this.sort.order !== null)
         //     this.query += `&sort=${this.sort.property},${this.sort.order}`;
     }
@@ -165,5 +175,10 @@ export class NewsListComponent implements OnInit {
 
     editNews(id: string) {
         this.router.navigate([`/admin/news/edit_news/${id}`]);
+    }
+
+    onSubmit() {
+        this.prepareQuery();
+        this.loadNews(this.query);
     }
 }

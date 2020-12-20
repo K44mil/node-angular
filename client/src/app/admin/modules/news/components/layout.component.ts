@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     template: `
               <div class="row mt-3">
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <h3>News</h3>
                     <hr>
                 </div>

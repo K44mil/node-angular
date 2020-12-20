@@ -21,7 +21,7 @@
                     <tbody *ngIf="announcements">
                         <tr *ngFor="let announcement of announcements; let i = index">
                             <td>{{ i+1 }}</td>
-                            <td>{{ announcement.title }}</td>
+                            <td class="text-truncate" style="max-width: 300px;" title="{{ announcement.title }}">{{ announcement.title }}</td>
                             <td>{{ printDate(announcement.visibleFrom) }}</td>
                             <td>{{ printDate(announcement.visibleTo) }}</td>
                             <td>
