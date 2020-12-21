@@ -19,7 +19,15 @@
         </div>
     </div>
     <!-- CATEGORIES HERE -->
-
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="text-muted">Categories</div>
+            <div>
+                <button *ngFor="let c of categories" class="btn mr-1 mt-1 p-1"
+                [ngClass]="getCategoryButtonClass(c.id)" (click)="selectCategory(c.id)">{{ c.name }}</button>
+            </div>
+        </div>
+    </div>
     <!-- NEWS -->
     <div class="row">
         <div class="col-md-10 offset-md-1">

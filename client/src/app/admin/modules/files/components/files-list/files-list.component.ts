@@ -262,6 +262,7 @@ export class FilesListComponent implements OnInit {
     }
 
     onFilterFormSubmit() {
+        this.currentPage = 1;
         this.prepareQuery();
         this.loadFiles(this.query);
     }

@@ -89,6 +89,7 @@ export class GroupsListComponent implements OnInit {
     }
 
     onFilterFormSubmit() {
+        this.currentPage = 1;
         this.prepareQuery();
         this.loadGroups(this.query);
     }

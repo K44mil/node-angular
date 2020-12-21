@@ -178,6 +178,7 @@ export class NewsListComponent implements OnInit {
     }
 
     onSubmit() {
+        this.currentPage = 1;
         this.prepareQuery();
         this.loadNews(this.query);
     }

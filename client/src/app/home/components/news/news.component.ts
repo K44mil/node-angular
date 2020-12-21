@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { AlertService, AuthService } from '@app/shared/services';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Category } from '@app/admin/modules/news/models/Category';
 
 @Component({
     templateUrl: 'news.component.html',
@@ -21,6 +22,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class NewsComponent implements OnInit {
     public news: News[];
+    public categories: Category[];
 
     filterForm: FormGroup;
 
@@ -46,6 +48,7 @@ export class NewsComponent implements OnInit {
         });
 
         this.loadNews(this.query);
+        this.loadCategories();
     }
 
     loadNews(query: string) {
@@ -67,12 +70,44 @@ export class NewsComponent implements OnInit {
             )
     }
 
+    loadCategories() {
+        this.pageService.getCategories()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.categories = res.data.categories;
+                },
+                err => {
+
+                }
+            )
+    }
+
+    selectedCategoryId: string;
+
+    selectCategory(id: string) {
+        if (this.selectedCategoryId && this.selectedCategoryId === id)
+            this.selectedCategoryId = null;
+        else
+            this.selectedCategoryId = id;
+
+        this.prepareQuery();
+        this.loadNews(this.query);
+    }
+
+    getCategoryButtonClass(id: string) {
+        if (this.selectedCategoryId === id)
+            return 'btn-primary';
+        return 'btn-outline-primary';
+    }
+
     get f() { return this.filterForm.controls; }
 
     getFilterQuery() {
         let query = '';
 
         if (this.f.title.value) query += `&title=${this.f.title.value}`;
+        if (this.selectedCategoryId) query += `&categoryId=${this.selectedCategoryId}`;
     
         return query;
     }

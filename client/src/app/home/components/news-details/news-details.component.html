@@ -40,7 +40,12 @@
                                     </div>        
                                 </div>
                                 <div class="mt-3">
-                                    <textarea formControlName="content" class="form-control"></textarea>
+                                    <textarea formControlName="content" class="form-control"
+                                    [ngClass]="{'is-invalid': commentFormSubmitted && this.f.content.errors }"></textarea>
+                                    <div *ngIf="commentFormSubmitted && this.f.content.errors" class="invalid-feedback">
+                                        <div *ngIf="this.f.content.errors.required">Text is required.</div>
+                                        <div *ngIf="this.f.content.errors.maxlength">Comment cannot be longer than 500 characters.</div>
+                                    </div>
                                 </div>
                             </form>
                         </div>

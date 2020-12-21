@@ -20,4 +20,11 @@ export class SliderService {
         return this.http.post<any>(`${environment.apiUrl}/slider`, formData);
     }
 
+    getSliderImage(id: String) {
+        return this.http.get<any>(`${environment.apiUrl}/slider/${id}`);
+    }
+
+    updateSliderImage(id: string, formData: FormData) {
+        return this.http.put<any>(`${environment.apiUrl}/slider/${id}`, formData);
+    }
 }

@@ -23,7 +23,7 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
         include: []
     }
 
-    const { title } = req.query;
+    const { title, categoryId } = req.query;
     
     // SELECT
 
@@ -38,7 +38,11 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
 
     // INCLUDE
     options.include.push({ model: User, attributes: ['firstName', 'lastName'] });
-    options.include.push({ model: Category, attributes: ['name'] });
+    if (categoryId)
+        options.include.push({ model: Category, attributes: ['id', 'name'], where: { id: {[Op.eq]: categoryId} } });
+    else
+        options.include.push({ model: Category, attributes: ['id', 'name'] });
+
     // Include Access
     options.include.push({
         model: NewsAccess,

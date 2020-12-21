@@ -8,11 +8,12 @@ const { getCategories } = require('../controllers/categories/getCategories');
 const { deleteCategory } = require('../controllers/categories/deleteCategory');
 const { getCategory } = require('../controllers/categories/getCategory');
 
+router.get('/', getCategories);
+
 // Protected routes/Admin
 router.use(protect, authorize(Role.Admin));
 
 // GET
-router.get('/', getCategories);
 router.get('/:id', getCategory);
 
 // POST 

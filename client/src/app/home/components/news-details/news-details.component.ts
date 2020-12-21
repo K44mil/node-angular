@@ -36,6 +36,7 @@ export class NewsDetailsComponent implements OnInit {
     public comments: Comment[];
     public loggedUser: AuthUser;
     commentForm: FormGroup;
+    commentFormSubmitted: boolean = false;
 
     constructor(
         private pageService: PageService,
@@ -50,7 +51,7 @@ export class NewsDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.commentForm = this.formBuilder.group({
-            content: ['', Validators.required]
+            content: ['', [Validators.required, Validators.maxLength(500)]]
         });
 
         const slug = this.route.snapshot.paramMap.get('slug');
@@ -96,6 +97,7 @@ export class NewsDetailsComponent implements OnInit {
     get f() { return this.commentForm.controls; }
 
     onSubmit() {
+        this.commentFormSubmitted = true;
         if (this.commentForm.invalid) return;
 
         this.pageService.addComment(this.news.id, this.f.content.value)
@@ -103,6 +105,7 @@ export class NewsDetailsComponent implements OnInit {
             .subscribe(
                 res => {         
                     this.alertService.success('Comment has been added.', { autoClose: true });
+                    this.commentFormSubmitted = false;
                     // this.comments.reverse();
                     // this.comments.push(res.data.comment);
                     // this.comments.reverse();

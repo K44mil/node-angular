@@ -50,4 +50,8 @@ export class PageService {
     deleteComment(id) {
         return this.http.delete<any>(`${environment.apiUrl}/comments/${id}`);
     }
+
+    getCategories() {
+        return this.http.get<any>(`${environment.apiUrl}/categories`);
+    }
 } 

@@ -50,7 +50,7 @@ export class EditNewsComponent implements OnInit {
             photo: [''],
             photoSource: [''],
             title: ['', Validators.required],
-            description: ['', Validators.required],
+            description: [''],
             content: [''],
             categoriesIds: [''],
 

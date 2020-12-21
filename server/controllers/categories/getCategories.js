@@ -5,7 +5,7 @@ const Category = require('../../models/Category');
 /**
  * @desc    Get all Categories
  * @route   GET /api/v1/categories
- * @access  Private/Admin
+ * @access  Public
  */
 exports.getCategories = asyncHandler(async (req, res, next) => {
     const categories = await Category.findAll();
