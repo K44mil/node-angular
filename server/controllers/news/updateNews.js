@@ -28,7 +28,7 @@ exports.updateNews = asyncHandler(async (req, res, next) => {
     }
 
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected, categories, files } = req.body;
+         isCommentable, isLoginProtected, categories, files, photoSection, filesSection } = req.body;
     const authorId = req.user.id;
     let categoriesIds = [];
     if (categories) categoriesIds = categories.split(',');
@@ -205,6 +205,8 @@ exports.updateNews = asyncHandler(async (req, res, next) => {
     news.isCommentable = isCommentable;
     news.isLoginProtected = isLoginProtected;
     news.authorId = authorId;
+    news.imageSection = photoSection;
+    news.filesSection = filesSection;
     await news.save();
     
     res.status(200).json({

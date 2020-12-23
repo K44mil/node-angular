@@ -7,8 +7,14 @@ import { CategoriesService } from '../../services/categories.service';
 import { File } from '../../../files/models/File';
 import { AlertService } from '@app/shared/services';
 import { ModalService } from '@app/shared/services/modal.service';
+import { environment } from '@env/environment';
 
-@Component({ templateUrl: 'edit-news.component.html' })
+@Component({ 
+    templateUrl: 'edit-news.component.html',
+    styles: [`
+        .image-preview { width: 200px; height: 200px; }
+    `]
+})
 export class EditNewsComponent implements OnInit {
     editNewsForm: FormGroup;
     categories;
@@ -18,7 +24,9 @@ export class EditNewsComponent implements OnInit {
 
     fileUnlinked: boolean = false;
 
+    submitted: boolean = false;
     newsId: string;
+    newsImage: string = 'no-news-photo.jpg';
 
     private access: any = {
         isOn: false,
@@ -30,7 +38,8 @@ export class EditNewsComponent implements OnInit {
     initAccess: any;
 
     public config = {
-        removeButtons: 'Anchor,Image,Maximize,Scayt,About'
+        removeButtons: 'Anchor,Maximize,Scayt,About',
+        height: '550px'
     };
 
     constructor(
@@ -48,17 +57,18 @@ export class EditNewsComponent implements OnInit {
 
         this.editNewsForm = this.formBuilder.group({
             photo: [''],
-            photoSource: [''],
-            title: ['', Validators.required],
-            description: [''],
+            title: ['', [Validators.required, Validators.maxLength(100)]],
+            description: ['', Validators.maxLength(512)],
             content: [''],
             categoriesIds: [''],
-
-            // --
+            // Sections
+            photoSection: [''],
+            filesSection: [''],
+            accessOn: [''],
+            // Other Settings
             isLoginProtected: [''],
             isCommentable: [''],
-            isVisible: [''],
-            accessOn: ['']
+            isVisible: [true],
         });
 
         this.newsId = this.route.snapshot.paramMap.get('id');
@@ -101,11 +111,18 @@ export class EditNewsComponent implements OnInit {
                         isLoginProtected: news.isLoginProtected,
                         isCommentable: news.isCommentable,
                         isVisible: news.isVisible,
-                        accessOn: news.NewsAccess.isOn
+                        accessOn: news.NewsAccess.isOn,
+                        photoSection: news.imageSection,
+                        filesSection: news.filesSection
                     });
                     this.initAccess = news.NewsAccess;
                     this.files = news.Files;
+                    this.newsImage = news.image;
+                    this.photoUrl = `${environment.hostUrl}/uploads/news/${this.newsImage}`;
                     
+                    if (this.f.accessOn.value) this.accessSectionOn = true;
+                    if (this.f.photoSection.value) this.photoSectionOn = true;
+                    if (this.f.filesSection.value) this.filesSectionOn = true;
                 },
                 err => {
                     this.alertService.clear();
@@ -118,18 +135,10 @@ export class EditNewsComponent implements OnInit {
             )
     }
 
-    onPhotoFileChange(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.editNewsForm.patchValue({
-                photoSource: file
-            });
-        }
-    }
-
     get f() { return this.editNewsForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editNewsForm.invalid) return;
 
         if (this.f.isLoginProtected.value == '') {
@@ -151,7 +160,7 @@ export class EditNewsComponent implements OnInit {
         }        
 
         const formData = new FormData();
-        formData.append('photo', this.editNewsForm.get('photoSource').value);
+        formData.append('photo', this.editNewsForm.get('photo').value);
         formData.append('title', this.editNewsForm.get('title').value);
         formData.append('description', this.editNewsForm.get('description').value);
         formData.append('content', this.editNewsForm.get('content').value);
@@ -160,6 +169,18 @@ export class EditNewsComponent implements OnInit {
         formData.append('isCommentable', this.editNewsForm.get('isCommentable').value);
         formData.append('isVisible', this.editNewsForm.get('isVisible').value);
 
+         // Sections
+         if (this.f.photoSection.value == '')
+         this.editNewsForm.patchValue({
+             photoSection: false
+         });
+     formData.append('photoSection', this.editNewsForm.get('photoSection').value);
+     if (this.f.filesSection.value == '')
+         this.editNewsForm.patchValue({
+             filesSection: false
+         });
+     formData.append('filesSection', this.editNewsForm.get('filesSection').value);
+        
         // Files
         const filesIds = [];
         for (const file of this.files) {
@@ -170,6 +191,12 @@ export class EditNewsComponent implements OnInit {
         formData.append('files', JSON.stringify(filesIds));
 
         // Access object
+        if (this.f.accessOn.value == '') {
+            this.editNewsForm.patchValue({
+                accessOn: false
+            });
+        } 
+
         this.access.isOn = this.f.accessOn.value;
         formData.append('access', JSON.stringify(this.access));
 
@@ -184,6 +211,7 @@ export class EditNewsComponent implements OnInit {
                             autoClose: true
                         });
                         this.loading = false;
+                        this.submitted = false;
                         window.scrollTo(0, 0);
                     }
                 },
@@ -227,5 +255,56 @@ export class EditNewsComponent implements OnInit {
 
     onAccessChanged(event) {
         this.access = event;
+    }
+
+    public photoUrl: string = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+
+    showPreview(event) {
+        const file = (event.target as HTMLInputElement).files[0];
+        if (!file) {
+            this.photoUrl = `${environment.hostUrl}/uploads/news/${this.newsImage}`;
+            return;
+        }
+        this.editNewsForm.patchValue({
+            photo: file
+        });
+        this.editNewsForm.get('photo').updateValueAndValidity();
+
+        // Preview
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.photoUrl = reader.result as string;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    // INPUT CHANGES
+    photoSectionOn: boolean = false;
+    filesSectionOn: boolean = false;
+    accessSectionOn: boolean = false;
+
+    onPhotoSectionChange() {
+        if (this.f.photoSection.value)
+            this.photoSectionOn = true;
+        else this.photoSectionOn = false;
+    }
+
+    onFilesSectionChange() {
+        if (this.f.filesSection.value)
+            this.filesSectionOn = true;
+        else this.filesSectionOn = false
+    }
+
+    onAccessSectionChange() {
+        if (this.f.accessOn.value) {
+            this.accessSectionOn = true;
+            this.f.isLoginProtected.disable();
+            this.editNewsForm.patchValue({ isLoginProtected: true });
+        }
+        else {
+            this.accessSectionOn = false;
+            this.f.isLoginProtected.enable();
+            this.editNewsForm.patchValue({ isLoginProtected: false });
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { environment } from '@env/environment';
 import { News } from '@admin/modules/news/models/News';
@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 import { AlertService, AuthService } from '@app/shared/services';
 import { AuthUser, Role } from '@app/home/modules/account/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     templateUrl: 'news-details.component.html',
@@ -33,6 +34,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewsDetailsComponent implements OnInit {
     public news: News;
+    public newsContent: any;
     public comments: Comment[];
     public loggedUser: AuthUser;
     commentForm: FormGroup;
@@ -44,7 +46,8 @@ export class NewsDetailsComponent implements OnInit {
         private router: Router,
         private alertService: AlertService,
         private authService: AuthService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private sanitizer: DomSanitizer
     ) {
         this.loggedUser = this.authService.userValue;
     }
@@ -59,7 +62,8 @@ export class NewsDetailsComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    this.news = res.data.news
+                    this.news = res.data.news;
+                    this.newsContent = this.sanitizer.bypassSecurityTrustHtml(this.news.content);
                     this.loadComments(this.news.id);
                 },
                 err => {

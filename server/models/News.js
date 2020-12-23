@@ -53,6 +53,16 @@ News.init({
         defaultValue: false,
         field: 'is_login_protected'
     },
+    imageSection: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'image_section'
+    },
+    filesSection: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: 'files_section'
+    },
     authorId: {
         type: DataTypes.UUID,
         allowNull: false,

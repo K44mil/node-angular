@@ -71,6 +71,12 @@ exports.getNewsBySlug = asyncHandler(async (req, res, next) => {
             if (uG.Group && uG.Group.Course) userCoursesIds.push(uG.Group.Course.id);
         }
     }
+
+    if (!news.isVisible && (!user || (user && user.role !== Role.Admin))) {
+        return next(
+            new ErrorResponse('Not authorized', 400)
+        );
+    }
     
     if (news.isLoginProtected && !user) {
         return next(

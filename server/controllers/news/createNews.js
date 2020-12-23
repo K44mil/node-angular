@@ -21,7 +21,7 @@ const NewsAccessUser = require('../../models/relationsModels/NewsAccessUser');
  */
 exports.createNews = asyncHandler(async (req, res, next) => {
     const { title, description, content, isVisible,
-         isCommentable, isLoginProtected, categories, files } = req.body;
+         isCommentable, isLoginProtected, categories, files, photoSection, filesSection } = req.body;
     const authorId = req.user.id;
     let categoriesIds = [];
     if (categories) categoriesIds = categories.split(',');
@@ -42,7 +42,9 @@ exports.createNews = asyncHandler(async (req, res, next) => {
         isVisible,
         isCommentable,
         isLoginProtected,
-        authorId
+        authorId,
+        imageSection: photoSection,
+        filesSection
     });
     // Slugify title
     news.slug = slugify(news.title, { lower: true });
@@ -141,8 +143,6 @@ exports.createNews = asyncHandler(async (req, res, next) => {
             let coursesIds = courses || [];
             let groupsIds = groups || [];
             let usersIds = users || [];
-
-            console.log('git');
 
             // Courses allowed
             for (const id of coursesIds) {

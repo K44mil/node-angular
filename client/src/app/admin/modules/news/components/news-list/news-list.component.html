@@ -30,7 +30,7 @@
                     <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
-                    <div><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
+                    <div *ngIf="countTotal" ><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
                 </div>
                 <!-- ITEMS PER PAGE -->
                 <div class="col-2 ml-auto">
@@ -59,18 +59,28 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Creation Date</th>
+                            <th scope="col" class="sort-header" (click)="sortBy('title')">Title
+                                <i *ngIf="sort.property === 'title' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                                <i *ngIf="sort.property === 'title' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                            </th>
+                            <!-- <th scope="col">Author</th> -->
+                            <th scope="col">Categories</th>
+                            <th scope="col" class="sort-header" (click)="sortBy('created_at')">Creation Date
+                                <i *ngIf="sort.property === 'created_at' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                                <i *ngIf="sort.property === 'created_at' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                            </th>
                             <th scope="col" colspan="3">Status</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody *ngIf="news">
                         <tr *ngFor="let n of news; let i = index">
-                            <td>{{ i+1 }}</td>
+                            <td>{{ ((currentPage - 1) * itemsPerPage) + i + 1 }}</td>
                             <td class="text-truncate" title="{{ n.title }}" style="max-width: 300px;">{{ n.title }}</td>
-                            <td>{{ n.User.firstName }} {{ n.User.lastName }}</td>
+                            <!-- <td>{{ n.User.firstName }} {{ n.User.lastName }}</td> -->
+                            <td class="text-truncate" style="max-width: 300px;" title="{{ printCategoriesAsTitle(n.categories) }}">
+                                <span *ngFor="let c of n.categories; let i = index;"> {{ c.name }} <span *ngIf="i < n.categories.length-1">,</span></span>
+                            </td>
                             <td>{{ printDate(n.created_at) }}</td>
                             <td colspan="3">
                                 <!-- VISIBILITY -->
@@ -98,7 +108,7 @@
                     <tbody *ngIf="!news">
                         <tr>
                             <td colspan="10">
-                                <div class="d-flex justify-content-center">
+                                <div class="d-flex justify-content-center mt-4">
                                     <div class="spinner-border m-auto" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
@@ -116,9 +126,23 @@
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Title" formControlName="title">
                         </div>
-                        <button class="btn btn-outline-dark form-control">
-                            Filter
-                        </button>
+                        <div class="form-group">
+                            <label for="">Category</label>
+                            <select class="form-control" formControlName="categoryId">
+                                <option value=""></option>
+                                <option *ngFor="let c of categories" value="{{ c.id }}">{{ c.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-outline-dark form-control mt-3" type="submit">Filter</button>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-outline-secondary form-control mt-3" type="button" (click)="resetFilterForm()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

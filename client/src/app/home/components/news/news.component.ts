@@ -91,7 +91,9 @@ export class NewsComponent implements OnInit {
         else
             this.selectedCategoryId = id;
 
+        this.currentPage = 1;
         this.prepareQuery();
+        this.setNewsToNull();
         this.loadNews(this.query);
     }
 
@@ -124,6 +126,7 @@ export class NewsComponent implements OnInit {
     onFilterFormSubmit() {
         this.currentPage = 1;
         this.prepareQuery();
+        this.setNewsToNull();
         this.loadNews(this.query);
     }
 
@@ -131,6 +134,7 @@ export class NewsComponent implements OnInit {
         if (this.currentPage < this.totalPages) {
             this.currentPage += 1;
             this.prepareQuery();
+            this.setNewsToNull();
             this.loadNews(this.query);
         }
     }
@@ -139,6 +143,7 @@ export class NewsComponent implements OnInit {
         if (this.currentPage > 1) {
             this.currentPage -= 1;
             this.prepareQuery();
+            this.setNewsToNull();
             this.loadNews(this.query);
         }
     }
@@ -161,10 +166,7 @@ export class NewsComponent implements OnInit {
         return true;
     }
 
-    authorized(news) {
-        if (news.canOpen)
-            return true;
-        return false;
+    setNewsToNull() {
+        this.news = null;
     }
-
 }

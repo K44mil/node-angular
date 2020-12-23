@@ -59,31 +59,11 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    options.offset = startIndex;
-    options.limit = limit;
+    // options.offset = startIndex;
+    // options.limit = limit;
 
     options.distinct = true;
     const news = await News.findAndCountAll(options);
-
-    // Pagination results
-    const pagination = {};
-
-    if (endIndex < news.count) {
-        pagination.next = {
-            page: page + 1,
-            limit
-        }
-    }
-
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit
-        }
-    }
-
-    // Count pages
-    const countPages = Math.ceil(news.count / limit);
 
     // Access and comments
     const user = await getLoggedUser(req);
@@ -112,32 +92,71 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
             }
         });
 
+        newsJSON.categories = await Category.findAll({
+            include: [
+                {
+                    model: News,
+                    attributes: ['id'],
+                    where: { id: { [Op.eq]: n.id }}
+                }
+            ]
+        })
+        delete newsJSON.Categories;
+        
+        let isAuthorized = false;
+
         if(!newsJSON.NewsAccess.isOn)
-            newsJSON.canOpen = true;
+            isAuthorized = true;
         else {
-            newsJSON.canOpen = false;
+            isAuthorized = false;
             if (user) {
                 if (user.role === Role.Admin)
-                    newsJSON.canOpen = true;
+                    isAuthorized = true;
                 else {
                     for (const course of newsJSON.NewsAccess.Courses) {
-                        if (userCoursesIds.includes(course.id)) newsJSON.canOpen = true;
+                        if (userCoursesIds.includes(course.id)) isAuthorized = true;
                     }
                     
                     for (const group of newsJSON.NewsAccess.Groups) {
-                        if (userGroupsIds.includes(group.id)) newsJSON.canOpen = true;
+                        if (userGroupsIds.includes(group.id)) isAuthorized = true;
                     }
                         
                     for (const u of newsJSON.NewsAccess.Users)
-                        if (u.id === user.id) newsJSON.canOpen = true;
+                        if (u.id === user.id) isAuthorized = true;
                 }
             } 
         }
 
         delete newsJSON.NewsAccess;
 
-        returnNews.push(newsJSON)
+        if (isAuthorized) returnNews.push(newsJSON);
     }
+
+    const resultNews = [];
+    for (let i = 0; i < returnNews.length; i++) {
+        if (i >= startIndex && i < endIndex)
+            resultNews.push(returnNews[i]);
+    }
+
+    // Pagination results
+    const pagination = {};
+
+    if (endIndex < returnNews.length) {
+        pagination.next = {
+            page: page + 1,
+            limit
+        }
+    }
+
+    if (startIndex > 0) {
+        pagination.prev = {
+            page: page - 1,
+            limit
+        }
+    }
+
+    // Count pages
+    const countPages = Math.ceil(returnNews.length / limit);
 
     res.status(200).json({
         success: true,
@@ -145,7 +164,7 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
             count: news.count,
             countPages: countPages,
             pagination,
-            news: returnNews
+            news: resultNews
         }
     });
 });

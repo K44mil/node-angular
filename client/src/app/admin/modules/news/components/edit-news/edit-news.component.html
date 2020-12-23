@@ -1,117 +1,169 @@
 <div class="">
-    <div class="row">
-        <div class="col-8">
-            <a routerLink="/admin/news" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
-        </div>
-    </div>             
-    <div class="row mt-3">
-        <div class="col-6">
-            <h5>Add News</h5>
-            <hr>
-            <form [formGroup]="editNewsForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                  <label for="">Image</label>
-                  <input formControlName="photo" type="file" class="form-control-file" (change)="onPhotoFileChange($event)">
-                </div>
-                <div class="form-gorup">
-                    <label for="">Title</label>
-                    <input formControlName="title" type="text" class="form-control">
-                </div>
-                <div class="form-gorup">
-                    <label for="">Description</label>
-                    <textarea formControlName="description" type="text" class="form-control"></textarea>
-                </div>
-                <label for="">Content</label>
-                <ckeditor formControlName="content" [config]="config"></ckeditor>
-                <div *ngIf="categories" class="form-gorup">
-                    <label for="">Categories</label>
-                    <select multiple class="form-control" formControlName="categoriesIds">
-                        <option *ngFor="let cat of categories" value="{{ cat.id }}">{{ cat.name }}</option>
-                    </select>
-                </div>
-                <div class="form-group mt-1">
-                  <label for="">Files</label>
-                  <div class="row">
-                    <div class="col-6">
-                      <button type="button" class="btn btn-info" (click)="openModal('link-file-modal')"><i class="fas fa-link"></i>Link File</button>
-                    </div>
+  <div class="row">
+      <div class="col-8">
+          <a routerLink="/admin/news" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i></a>
+      </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-6">
+      <h5>Edit News</h5>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="editNewsForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group col-md-5">
+            <!-- TITLE AND DESC -->
+            <div class="form-gorup">
+              <label for="">Title</label>
+              <input formControlName="title" type="text" class="form-control"
+              [ngClass]="{'is-invalid': submitted && f.title.errors }" />
+              <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors.required">Title is required.</div>
+                <div *ngIf="f.title.errors.maxlength">Title cannot be longer than 100 characters.</div>
+              </div>
+            </div>
+            <div class="form-gorup">
+              <label for="">Description</label>
+              <textarea formControlName="description" type="text" class="form-control"
+              [ngClass]="{'is-invalid': submitted && f.description.errors }" style="min-height: 150px;">
+              </textarea>
+              <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div>Description cannot be longer than 500 characters.</div>
+              </div>
+            </div>
+
+            <!-- CATEGORIES -->
+            <div *ngIf="categories" class="form-gorup">
+              <label for="">Categories</label>
+              <select multiple class="form-control" formControlName="categoriesIds">
+                  <option *ngFor="let cat of categories" value="{{ cat.id }}">{{ cat.name }}</option>
+              </select>
+            </div>
+
+            <br>
+            <!-- PHOTO SECTION -->
+            <div class="form-group">
+              <input type="checkbox" formControlName="photoSection" (change)="onPhotoSectionChange()">
+              <label class="form-check-label ml-2">
+                Image Section
+              </label>
+              <div [ngClass]="{ 'd-none': !photoSectionOn }">
+                <!-- Image Preview -->
+                <div class="row">
+                  <div class="col-4">
+                    <img src="{{ photoUrl }}" alt="Image preview" class="image-preview">
                   </div>
-                  <div class="row mt-1">
-                    <div class="col-6">
-                      <table class="table table-sm">
-                        <thead class="thead-dark">
-                          <th scope="col">#</th>
-                          <th scope="col">File Name</th>
-                          <th scope="col"></th>
-                        </thead>
-                        <tbody *ngIf="files && files.length > 0">
-                          <tr *ngFor="let file of files; let i = index;"> 
-                            <td>{{ i+1 }}</td>
-                            <td>{{ file.name }}</td>
-                            <td class="text-right">
-                              <span class="btn badge badge-secondary badge-pill" (click)="unlinkFile(file.id)">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                              </span>
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody *ngIf="!files || files.length === 0">
-                          <tr class="text-center">
-                            <td colspan="3">No files linked.</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>          
-                </div>
-                <div class="form-group">
-                  <!-- <button type="button" class="btn btn-warning mb-1" data-toggle="modal" data-target="#newsAccessModal">Access settings</button> -->
-                  <button type="button" class="btn btn-warning mb-2" data-toggle="collapse" data-target="#accessSettingsCollapse">Access settings</button>
-                  <div class="collapse" id="accessSettingsCollapse">
-                    <news-access-settings [initAccess]="initAccess" (accessChanged)="onAccessChanged($event)"></news-access-settings>
-                    <div class="form-check">
-                      <input formControlName="accessOn" class="form-check-input" type="checkbox">
-                      <label class="form-check-label">
-                        Restrict access
-                      </label>
-                    </div>
+                  <div class="col-8">
+                    <input type="file" accept="image/*" (change)="showPreview($event)">
                   </div>
+                </div>   
+              </div>
+            </div>
+              
+            <!-- FILES SECTION -->
+            <div class="form-group">
+              <input type="checkbox" formControlName="filesSection" (change)="onFilesSectionChange()">
+              <label class="form-check-label ml-2">
+                Files Section
+              </label>
+              <div [ngClass]="{ 'd-none': !filesSectionOn }">
+                <div class="row">
+                  <div class="col-6">
+                    <button type="button" class="btn btn-info" (click)="openModal('link-file-modal')"><i class="fas fa-link"></i>Link File</button>
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-12">
+                    <table class="table table-sm">
+                      <thead class="thead-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">File Name</th>
+                        <th scope="col"></th>
+                      </thead>
+                      <tbody *ngIf="files && files.length > 0">
+                        <tr *ngFor="let file of files; let i = index;"> 
+                          <td>{{ i+1 }}</td>
+                          <td>{{ file.name }}</td>
+                          <td class="text-right">
+                            <span class="btn badge badge-secondary badge-pill" (click)="unlinkFile(file.id)">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="!files || files.length === 0">
+                        <tr class="text-center">
+                          <td colspan="3">No files linked.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- ACCESS SETTINGS -->
+            <div class="form-group">
+              <input type="checkbox" formControlName="accessOn" (change)="onAccessSectionChange()">
+              <label class="form-check-label ml-2">
+                Restrict access
+              </label>
+              <div [ngClass]="{'d-none': !accessSectionOn}">
+                <news-access-settings (accessChanged)="onAccessChanged($event)" [initAccess]="initAccess"></news-access-settings>
+              </div>
+            </div>
+
+            <!-- OTHER SETTINGS -->
+            <div class="form-group">
+              <p class="text-muted">Other settings</p>
+              <div class="form-group">
+                 <div class="form-check">
+                  <input formControlName="isLoginProtected" type="checkbox">
+                  <label class="form-check-label ml-1">
+                    Only for logged users
+                  </label>
                 </div>
                 <div class="form-check">
-                    <input formControlName="isLoginProtected" class="form-check-input" type="checkbox">
-                    <label class="form-check-label">
-                      Only for logged users
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input formControlName="isCommentable" class="form-check-input" type="checkbox">
-                    <label class="form-check-label">
-                      Comments
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input formControlName="isVisible" class="form-check-input" type="checkbox">
-                    <label class="form-check-label">
-                      Visibility
-                    </label>
-                  </div>
-                <button class="btn btn-outline-dark mt-2">
-                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                  Save
-                </button>
-            </form>
+                  <input formControlName="isCommentable" type="checkbox">
+                  <label class="form-check-label ml-1">
+                    Comments
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input formControlName="isVisible" type="checkbox">
+                  <label class="form-check-label ml-1">
+                    Visibility
+                  </label>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline-dark mt-2">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              Save
+            </button>
+          </div>
+          <!-- CONTENT -->
+          <div class="form-group col-md-7">
+            <label for="">Content</label>
+            <ckeditor formControlName="content" [config]="config"></ckeditor>
+          </div>
         </div>
+      </form>
     </div>
+  </div> 
 </div>
 
 <!-- LINK FILE MODAL -->
 <box-modal id="link-file-modal" [bodyClasses]="getLinkFileModalClasses()">
-  <div class="row">
-      <div class="ml-auto mr-3 mt-2">
-          <i class="fas fa-times" (click)="closeModal('link-file-modal')" style="cursor: pointer;"></i>
-      </div>
-  </div>
-  <div>
-    <files-finder (filesLinked)="onFilesLinked($event)" [newsFiles]="files"></files-finder>
-  </div>
+<div class="row">
+    <div class="ml-auto mr-3 mt-2">
+        <i class="fas fa-times" (click)="closeModal('link-file-modal')" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div>
+  <files-finder (filesLinked)="onFilesLinked($event)" [newsFiles]="files"></files-finder>
+</div>
 </box-modal>

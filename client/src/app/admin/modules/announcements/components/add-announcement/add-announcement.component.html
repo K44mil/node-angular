@@ -56,6 +56,7 @@
                     [ngClass]="{'is-invalid': submitted && this.f.visibleToTime.errors }"/>
                     <div *ngIf="submitted && this.f.visibleToTime.errors" class="invalid-feedback">
                         <div *ngIf="this.f.visibleToTime.errors.required">Visible To Time is required.</div>
+                        <div *ngIf="this.f.visibleToTime.errors.dateInvalid">Date To cannot be greater than Date From.</div>
                     </div>
                 </div>
                 <div class="form-check">

@@ -1,6 +1,6 @@
 <div class="col-lg-12 col-xl-6 offset-xl-3 mt-5">
     <div *ngIf="news" class="card">
-        <img src="{{ getNewsPhotoUrl(news) }}" alt="" class="card-img">
+        <img *ngIf="news.imageSection" src="{{ getNewsPhotoUrl(news) }}" alt="" class="card-img">
         <div class="card-body">
             <div class="card-title">
                 <div class="float-right">
@@ -13,10 +13,11 @@
                 <small class="">
                     <i class="fa fa-user-o"></i> {{ news.User.firstName }} {{ news.User.lastName }}
                 </small>
-                <div class="content" [innerHtml]="news.content">
+                <div class="content" [innerHtml]="newsContent">
+                    
                 </div>
                 <!-- FILES HERE -->
-                <div>
+                <div *ngIf="news.filesSection">
                     <h5 class="text-muted">Files</h5>    
                     <hr>
                     <p *ngFor="let file of news.Files"><a class="file" (click)="downloadFile(file.id, file.name, file.type)">{{ file.name }}</a></p>

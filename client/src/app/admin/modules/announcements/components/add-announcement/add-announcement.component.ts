@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
-
+import { AnnouncementValidator } from '../../validators/AnnouncementValidator';
 import { AnnouncementsService } from '../../services/announcements.service'; 
 
 @Component({ templateUrl: 'add-announcement.component.html' })
@@ -29,6 +29,8 @@ export class AddAnnouncementComponent implements OnInit {
             visibleToTime: ['', Validators.required],
             visibleTo: [''],
             isVisible: ['']
+        }, {
+            validator: AnnouncementValidator('visibleFromDate', 'visibleFromTime', 'visibleToDate', 'visibleToTime')
         });
     }
 

@@ -7,8 +7,15 @@ import { NewsService } from '../../services/news.service';
 import { CategoriesService } from '../../services/categories.service';
 import { ModalService } from '@app/shared/services/modal.service';
 import { File } from '../../../files/models/File';
+import { environment } from '@env/environment';
+import { formatDate } from '@angular/common';
 
-@Component({ templateUrl: 'add-news.component.html' })
+@Component({
+    templateUrl: 'add-news.component.html',
+    styles: [`
+        .image-preview { width: 200px; height: 200px; }
+    `]
+})
 export class AddNewsComponent implements OnInit {
     addNewsForm: FormGroup;
     categories;
@@ -28,7 +35,8 @@ export class AddNewsComponent implements OnInit {
     };
 
     public config = {
-        removeButtons: 'Anchor,Image,Maximize,Scayt,About'
+        removeButtons: 'Anchor,Maximize,Scayt,About',
+        height: '550px'
     };
 
     constructor(
@@ -45,19 +53,18 @@ export class AddNewsComponent implements OnInit {
 
         this.addNewsForm = this.formBuilder.group({
             photo: [''],
-            photoSource: [''],
             title: ['', [Validators.required, Validators.maxLength(100)]],
             description: ['', Validators.maxLength(512)],
             content: [''],
             categoriesIds: [''],
-            // files
-            files: [''],
-            filesSource: [''],
-            // --
+            // Sections
+            photoSection: [''],
+            filesSection: [''],
+            accessOn: [''],
+            // Other Settings
             isLoginProtected: [''],
             isCommentable: [''],
-            isVisible: [''],
-            accessOn: ['']
+            isVisible: [true],
         });
     }
 
@@ -76,15 +83,6 @@ export class AddNewsComponent implements OnInit {
                     });
                 }
             )
-    }
-
-    onPhotoFileChange(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.addNewsForm.patchValue({
-                photoSource: file
-            });
-        }
     }
 
     get f() { return this.addNewsForm.controls; }
@@ -112,7 +110,7 @@ export class AddNewsComponent implements OnInit {
         }        
 
         const formData = new FormData();
-        formData.append('photo', this.addNewsForm.get('photoSource').value);
+        formData.append('photo', this.addNewsForm.get('photo').value);
         formData.append('title', this.addNewsForm.get('title').value);
         formData.append('description', this.addNewsForm.get('description').value);
         formData.append('content', this.addNewsForm.get('content').value);
@@ -120,6 +118,18 @@ export class AddNewsComponent implements OnInit {
         formData.append('isLoginProtected', this.addNewsForm.get('isLoginProtected').value);
         formData.append('isCommentable', this.addNewsForm.get('isCommentable').value);
         formData.append('isVisible', this.addNewsForm.get('isVisible').value);
+
+        // Sections
+        if (this.f.photoSection.value == '')
+            this.addNewsForm.patchValue({
+                photoSection: false
+            });
+        formData.append('photoSection', this.addNewsForm.get('photoSection').value);
+        if (this.f.filesSection.value == '')
+            this.addNewsForm.patchValue({
+                filesSection: false
+            });
+        formData.append('filesSection', this.addNewsForm.get('filesSection').value);
 
         // Files
         const filesIds = [];
@@ -196,5 +206,56 @@ export class AddNewsComponent implements OnInit {
 
     onAccessChanged(event) {
         this.access = event;
+    }
+
+    public photoUrl: string = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+
+    showPreview(event) {
+        const file = (event.target as HTMLInputElement).files[0];
+        if (!file) {
+            this.photoUrl = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+            return;
+        }
+        this.addNewsForm.patchValue({
+            photo: file
+        });
+        this.addNewsForm.get('photo').updateValueAndValidity();
+
+        // Preview
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.photoUrl = reader.result as string;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    // INPUT CHANGES
+    photoSectionOn: boolean = false;
+    filesSectionOn: boolean = false;
+    accessSectionOn: boolean = false;
+
+    onPhotoSectionChange() {
+        if (this.f.photoSection.value)
+            this.photoSectionOn = true;
+        else this.photoSectionOn = false;
+    }
+
+    onFilesSectionChange() {
+        if (this.f.filesSection.value)
+            this.filesSectionOn = true;
+        else this.filesSectionOn = false
+    }
+
+    onAccessSectionChange() {
+        if (this.f.accessOn.value) {
+            this.accessSectionOn = true;
+            this.f.isLoginProtected.disable();
+            this.addNewsForm.patchValue({ isLoginProtected: true });
+        }
+        else {
+            this.accessSectionOn = false;
+            this.f.isLoginProtected.enable();
+            this.addNewsForm.patchValue({ isLoginProtected: false });
+        }
     }
 }
