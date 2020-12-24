@@ -34,7 +34,10 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
                 where: { isConfirmed: { [Op.eq]: 1 }, groupId: { [Op.eq]: group.id }}
             }
         ],
-        order: [['lastName', 'ASC']]
+        order: [
+            ['lastName', 'ASC'],
+            ['firstName', 'ASC']
+        ]
     });
 
     let table = `
@@ -59,7 +62,7 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
             table += `<td class="mark">${mark.value}</td>`;
         }
 
-        table += `<td class="marks-avg">${getMarksAvg(m.marks)}</td>`
+        if (m.marks.length > 0) table += `<td class="marks-avg">${getMarksAvg(m.marks)}</td>`
 
         table += `</tr>`;
     }

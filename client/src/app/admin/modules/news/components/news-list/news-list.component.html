@@ -30,7 +30,7 @@
                     <button [ngClass]="{disabled: !pagination.next }" class="btn btn-outline-dark" (click)="nextPage()">></button>
                 </div>
                 <div class="col-2 d-flex justify-content-center align-items-center">
-                    <div *ngIf="countTotal" ><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
+                    <div ><span style="font-weight: 700;">{{ this.countTotal }}</span> records found.</div>
                 </div>
                 <!-- ITEMS PER PAGE -->
                 <div class="col-2 ml-auto">

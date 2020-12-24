@@ -26,9 +26,12 @@ exports.createAboutPage = asyncHandler(async (req, res, next) => {
         )
     }
 
+    const count = await AboutPage.count();
+
     page = await AboutPage.create({
         title,
-        content
+        content,
+        priority: count+1
     });
     
     res.status(200).json({

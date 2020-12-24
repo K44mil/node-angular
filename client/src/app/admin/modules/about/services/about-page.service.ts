@@ -19,4 +19,12 @@ export class AboutPageService {
     createAboutPage(body: any) {
         return this.http.post<any>(`${environment.apiUrl}/about`, body);
     }
+
+    increaseAboutPagePriority(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/about/${id}/increase_priority`);
+    }
+
+    decreaseAboutPagePriority(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/about/${id}/decrease_priority`);
+    }
 }

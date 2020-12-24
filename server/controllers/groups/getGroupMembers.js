@@ -22,6 +22,10 @@ exports.getGroupMembers = asyncHandler(async (req, res, next) => {
             model: User,
             attributes: ['firstName', 'lastName', 'albumNumber']
         },
+        order: [
+            [User, 'lastName', 'ASC'],
+            [User, 'firstName', 'ASC']
+        ]
     });
 
     res.status(200).json({

@@ -7,7 +7,7 @@ const AboutPage = require('../../models/AboutPage');
  * @access  Public
  */
 exports.getAboutPages = asyncHandler(async (req, res, next) => {
-    const pages = await AboutPage.find();
+    const pages = await AboutPage.find({}).sort({ priority: 1 });
 
     res.status(200).json({
         success: true,

@@ -11,6 +11,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Page Title</th>
+                        <th scope="col" class="text-center">Priority</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -18,6 +19,10 @@
                     <tr *ngFor="let page of pages; let i = index">
                         <td>{{ i+1 }}</td>
                         <td>{{ page.title }}</td>
+                        <td class="text-center">
+                            <span *ngIf="i !== 0" class="btn badge badge-success badge-pill" (click)="increasePriority(page._id)"><i class="fas fa-angle-up"></i></span>
+                            <span *ngIf="i < pages.length-1" class="btn badge badge-danger badge-pill ml-1" (click)="decreasePriority(page._id)"><i class="fas fa-angle-down"></i></span>
+                        </td>
                         <td class="text-right">
                             <span class="badge badge-info badge-pill ml-1"><i class="fas fa-pen"></i></span>
                             <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteAboutPage(page._id)"><i class="fas fa-trash-alt"></i></span>

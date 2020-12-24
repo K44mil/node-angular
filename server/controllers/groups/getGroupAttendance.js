@@ -52,7 +52,8 @@ exports.getGroupAttendance = asyncHandler(async (req, res, next) => {
             ]
         },
         order: [
-            [User, 'lastName', 'ASC']
+            [User, 'lastName', 'ASC'],
+            [User, 'firstName', 'ASC']
         ]
     });
 

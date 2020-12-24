@@ -56,4 +56,32 @@ export class AboutPagesListComponent implements OnInit {
                 }
             )
     }
+
+    increasePriority(id: string) {
+        this.aboutPageService.increaseAboutPagePriority(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadAboutPages();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            )
+    }
+
+    decreasePriority(id: string) {
+        this.aboutPageService.decreaseAboutPagePriority(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadAboutPages();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            )
+    }
 }

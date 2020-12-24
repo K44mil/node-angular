@@ -7,6 +7,9 @@ const AboutPageSchema = new mongoose.Schema({
     },
     content: {
         type: String
+    },
+    priority: {
+        type: Number
     }
 });
 

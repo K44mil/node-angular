@@ -17,13 +17,13 @@ exports.uploadFile = asyncHandler(async (req, res, next) => {
 
     const file = req.files.file;
 
-    const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
+    // const allowedExtensions = new String(process.env.ALLOWED_FILE_EXTENSIONS).split(',');
     fileExt = path.parse(file.name).ext;
-    if (!allowedExtensions.includes(fileExt)) {
-        return next(
-            new ErrorResponse('This file extension is not allowed.', 400)
-        )
-    }
+    // if (!allowedExtensions.includes(fileExt)) {
+    //     return next(
+    //         new ErrorResponse('This file extension is not allowed.', 400)
+    //     )
+    // }
 
     if (file.size > process.env.MAX_FILE_UPLOAD) {
         return next(

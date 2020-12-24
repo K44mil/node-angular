@@ -109,6 +109,10 @@
     <h5 class="mt-5">Attendance</h5>
     <hr style="width: 50%; margin-left: 0;">
     <div class="ml-3 mb-3">
+        <button class="btn mb-2" [ngClass]="{'btn-outline-dark': !editAttendanceMode, 'btn-outline-success': editAttendanceMode }" (click)="editAttendanceModeOnOff()">
+            <span *ngIf="editAttendanceMode">Edit Mode: ON</span>
+            <span *ngIf="!editAttendanceMode">Edit Mode: OFF</span>
+        </button>
         <table *ngIf="events" class="attendance-table">
             <thead>
                 <tr>
@@ -139,10 +143,6 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn mt-2" [ngClass]="{'btn-outline-dark': !editAttendanceMode, 'btn-outline-success': editAttendanceMode }" (click)="editAttendanceModeOnOff()">
-            <span *ngIf="editAttendanceMode">Edit Mode: ON</span>
-            <span *ngIf="!editAttendanceMode">Edit Mode: OFF</span>
-        </button>
     </div>
 </div>
 
@@ -156,10 +156,5 @@
         <div class="col-12">
             <presence-details [presenceId]="selectedPresenceId"></presence-details>
         </div>
-        <!-- Presence:
-        Event: Laboratory 1
-        Student: Jan Kowalski
-        Confirmed By: Jan Kowalski
-        Confirmed At: 10-11-2020 15:12 -->
     </div>
 </box-modal>

@@ -51,7 +51,10 @@ exports.getGroupMarks = asyncHandler(async (req, res, next) => {
                 where: { isConfirmed: { [Op.eq]: 1 }, groupId: { [Op.eq]: group.id }}
             }
         ],
-        order: [['lastName', 'ASC']]
+        order: [
+            ['lastName', 'ASC'],
+            ['firstName', 'ASC']
+        ]
     });
 
     const members = []
