@@ -22,7 +22,95 @@
     <!-- GROUP Marks -->
     <h5 class="mt-5">Marks</h5>
     <hr style="width: 50%; margin-left: 0;">
-    <div class="ml-3">
+    <div *ngIf="members" class="ml-3">
+        <button class="btn btn-outline-dark mt-2 mb-3" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
+        <button class="btn btn-outline-dark mt-2 mb-3 ml-2" (click)="getReport()">
+            <span *ngIf="reportLoading" class="spinner-border spinner-border-sm mr-1"></span>
+            Get Report
+        </button>
+        <div class="col-6" id="collapseMarksForms">
+            <!-- ADD MARK FORM -->
+            <div class="col-6 collapse mb-3" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
+                <h6 class="mt-2">Add Mark</h6>
+                <form [formGroup]="addMarkForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="">Students</label>
+                        <select multiple class="form-control" formControlName="ids"
+                        [ngClass]="{'is-invalid': addMarkFormSubmitted && f.ids.errors }">
+                            <option *ngFor="let m of members" value="{{ m.id }}">{{ m.firstName }} {{ m.lastName }} {{ m.albumNumber }}</option>
+                        </select>
+                        <div *ngIf="addMarkFormSubmitted && f.ids.errors" class="invalid-feedback">
+                            <div *ngIf="f.ids.errors.required">At least one student is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mark</label>
+                        <select class="form-control" formControlName="value"
+                        [ngClass]="{'is-invalid': addMarkFormSubmitted && f.value.errors }">
+                            <option value="2.0">2.0</option>
+                            <option value="3.0">3.0</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4.0">4.0</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5.0">5.0</option>
+                        </select>
+                        <div *ngIf="addMarkFormSubmitted && f.value.errors" class="invalid-feedback">
+                            <div *ngIf="f.value.errors.required">Value id required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <select class="form-control" formControlName="markDescriptionId"
+                        [ngClass]="{'is-invalid': addMarkFormSubmitted && f.markDescriptionId.errors }">
+                            <option value=""></option>
+                            <option *ngFor="let mD of markDescs" value="{{ mD.id }}">{{ mD.text }}</option>
+                        </select>
+                        <div *ngIf="addMarkFormSubmitted && f.markDescriptionId.errors" class="invalid-feedback">
+                            <div *ngIf="f.markDescriptionId.errors.required">Description id required.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-dark">Save</button>
+                </form>
+            </div>
+            <!-- EDIT MARK FORM -->
+            <button class="d-none" id="showEditMarkFormButton" data-toggle="collapse" data-target="#collapseEditMarkForm"></button>
+            <div class="col-6 collapse mb-3" id="collapseEditMarkForm" data-parent="#collapseMarksForms">
+                <h6 class="mt-2">Edit Mark</h6>
+                <form [formGroup]="editMarkForm" (ngSubmit)="onEditFormSubmit()">
+                    <div class="form-group">
+                        <label for="">Student</label>
+                        <input type="text" formControlName="student" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mark</label>
+                        <select class="form-control" formControlName="value"
+                        [ngClass]="{'is-invalid': editMarkFormSubmitted && ef.value.errors }">
+                            <option value="2.0">2.0</option>
+                            <option value="3.0">3.0</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4.0">4.0</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5.0">5.0</option>
+                        </select>
+                        <div *ngIf="editMarkFormSubmitted && ef.value.errors" class="invalid-feedback">
+                            <div *ngIf="ef.value.errors.required">Value id required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <select class="form-control" formControlName="markDescriptionId"
+                        [ngClass]="{'is-invalid': editMarkFormSubmitted && ef.markDescriptionId.errors }">
+                            <option value=""></option>
+                            <option *ngFor="let mD of markDescs" value="{{ mD.id }}">{{ mD.text }}</option>
+                        </select>
+                        <div *ngIf="editMarkFormSubmitted && ef.markDescriptionId.errors" class="invalid-feedback">
+                            <div *ngIf="ef.markDescriptionId.errors.required">Description id required.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-dark">Save</button>
+                </form>
+            </div>
+        </div>
         <table class="marks-table">
             <thead>
                 <tr>
@@ -33,96 +121,25 @@
             <tbody>
                 <tr *ngFor="let m of members; let i = index;">
                     <td>{{ i+1 }}</td>
-                    <td>{{ m.User.firstName }} {{ m.User.lastName }}</td>
-                    <td>{{ m.User.albumNumber }}</td>
-                    <td *ngFor="let mark of m.User.Marks" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
-                    <td *ngIf="m.User.Marks.length !== 0" class="bg-info text-white">{{ calculateAverage(m.User.Marks) }}</td>
+                    <td class="d-flex justify-content-between">
+                        <span>{{ m.firstName }} {{ m.lastName }}</span>
+                        <span *ngIf="!m.note" class="btn badge badge-success badge-pill" (click)="selectNoteUser(m)" data-toggle="modal" data-target="#addNoteModal">
+                             + <i class="fas fa-sticky-note"></i>
+                        </span>
+                        <span *ngIf="m.note" class="btn badge badge-info badge-pill" (click)="editNote(m)" data-toggle="modal" data-target="#editNoteModal"><i class="fas fa-sticky-note"></i></span>
+                    </td>
+                    <td>{{ m.albumNumber }}</td>
+                    <td *ngFor="let mark of m.marks" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
+                    <td *ngIf="m.marks.length !== 0" class="bg-info text-white">{{ calculateAverage(m.marks) }}</td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-outline-dark mt-2 mb-3" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
     </div>
-    <div class="col-6" id="collapseMarksForms">
-        <!-- ADD MARK FORM -->
-        <div class="col-6 collapse mb-3" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
-            <h6 class="mt-2">Add Mark</h6>
-            <form [formGroup]="addMarkForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="">Students</label>
-                    <select multiple class="form-control" formControlName="ids"
-                    [ngClass]="{'is-invalid': addMarkFormSubmitted && f.ids.errors }">
-                        <option *ngFor="let m of members" value="{{ m.User.id }}">{{ m.User.firstName }} {{ m.User.lastName }} {{ m.User.albumNumber }}</option>
-                    </select>
-                    <div *ngIf="addMarkFormSubmitted && f.ids.errors" class="invalid-feedback">
-                        <div *ngIf="f.ids.errors.required">At least one student is required.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Mark</label>
-                    <select class="form-control" formControlName="value"
-                    [ngClass]="{'is-invalid': addMarkFormSubmitted && f.value.errors }">
-                        <option value="2.0">2.0</option>
-                        <option value="3.0">3.0</option>
-                        <option value="3.5">3.5</option>
-                        <option value="4.0">4.0</option>
-                        <option value="4.5">4.5</option>
-                        <option value="5.0">5.0</option>
-                    </select>
-                    <div *ngIf="addMarkFormSubmitted && f.value.errors" class="invalid-feedback">
-                        <div *ngIf="f.value.errors.required">Value id required.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Description</label>
-                    <select class="form-control" formControlName="markDescriptionId"
-                    [ngClass]="{'is-invalid': addMarkFormSubmitted && f.markDescriptionId.errors }">
-                        <option value=""></option>
-                        <option *ngFor="let mD of markDescs" value="{{ mD.id }}">{{ mD.text }}</option>
-                    </select>
-                    <div *ngIf="addMarkFormSubmitted && f.markDescriptionId.errors" class="invalid-feedback">
-                        <div *ngIf="f.markDescriptionId.errors.required">Description id required.</div>
-                    </div>
-                </div>
-                <button class="btn btn-outline-dark">Save</button>
-            </form>
-        </div>
-        <!-- EDIT MARK FORM -->
-        <button class="d-none" id="showEditMarkFormButton" data-toggle="collapse" data-target="#collapseEditMarkForm"></button>
-        <div class="col-6 collapse mb-3" id="collapseEditMarkForm" data-parent="#collapseMarksForms">
-            <h6 class="mt-2">Edit Mark</h6>
-            <form [formGroup]="editMarkForm" (ngSubmit)="onEditFormSubmit()">
-                <div class="form-group">
-                    <label for="">Student</label>
-                    <input type="text" formControlName="student" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Mark</label>
-                    <select class="form-control" formControlName="value"
-                    [ngClass]="{'is-invalid': editMarkFormSubmitted && ef.value.errors }">
-                        <option value="2.0">2.0</option>
-                        <option value="3.0">3.0</option>
-                        <option value="3.5">3.5</option>
-                        <option value="4.0">4.0</option>
-                        <option value="4.5">4.5</option>
-                        <option value="5.0">5.0</option>
-                    </select>
-                    <div *ngIf="editMarkFormSubmitted && ef.value.errors" class="invalid-feedback">
-                        <div *ngIf="ef.value.errors.required">Value id required.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Description</label>
-                    <select class="form-control" formControlName="markDescriptionId"
-                    [ngClass]="{'is-invalid': editMarkFormSubmitted && ef.markDescriptionId.errors }">
-                        <option value=""></option>
-                        <option *ngFor="let mD of markDescs" value="{{ mD.id }}">{{ mD.text }}</option>
-                    </select>
-                    <div *ngIf="editMarkFormSubmitted && ef.markDescriptionId.errors" class="invalid-feedback">
-                        <div *ngIf="ef.markDescriptionId.errors.required">Description id required.</div>
-                    </div>
-                </div>
-                <button class="btn btn-outline-dark">Save</button>
-            </form>
+    <div *ngIf="!members" class="col-md-6 mt-5">
+        <div class="d-flex justify-content-center mt-4">
+            <div class="spinner-border m-auto" style="width: 6rem; height: 6rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </div>
 </div>
@@ -139,3 +156,67 @@
         </div>
     </div>
 </box-modal>
+
+<!-- Add Note Modal -->
+<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addNoteModalLabel">Student Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="addNoteForm" (ngSubmit)="onAddNoteFormSubmit()">
+            <div class="modal-body">
+                <label *ngIf="selectedNoteUser">Student: 
+                    <span class="font-weight-bold">{{ selectedNoteUser.firstName }} {{ selectedNoteUser.lastName }}</span>
+                </label>
+                <div class="form-group">
+                    <textarea cols="30" rows="10" class="form-control" formControlName="text"
+                    [ngClass]="{'is-invalid': addNoteFormSubmitted && this.nf.text.errors}"></textarea>
+                    <div *ngIf="addNoteFormSubmitted && this.nf.text.errors" class="invalid-feedback">
+                        <div *ngIf="this.nf.text.errors.maxlength">Text cannot be longer than 500 characters.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCloseAddNoteModal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Edit Note Modal -->
+<div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editNoteModalLabel">Student Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="editNoteForm" (ngSubmit)="onEditNoteFormSubmit()">
+            <div class="modal-body">
+                <label *ngIf="selectedNoteUser">Student: 
+                    <span class="font-weight-bold">{{ selectedNoteUser.firstName }} {{ selectedNoteUser.lastName }}</span>
+                </label>
+                <div class="form-group">
+                    <textarea cols="30" rows="10" class="form-control" formControlName="text"
+                    [ngClass]="{'is-invalid': editNoteFormSubmitted && this.enf.text.errors }"></textarea>
+                    <div *ngIf="editNoteFormSubmitted && this.enf.text.errors" class="invalid-feedback">
+                        <div *ngIf="this.enf.text.errors.maxlength">Text cannot be longer than 500 characters.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button *ngIf="selectedNoteUser && selectedNoteUser.note" type="button" class="btn btn-danger" (click)="deleteNote(selectedNoteUser.note.id)">DELETE</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCloseEditNoteForm">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

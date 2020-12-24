@@ -30,6 +30,7 @@ const { restoreManyGroups } = require('../controllers/groups/restoreManyGroups')
 const { getMyAdditionRequests } = require('../controllers/groups/getMyAdditionRequest');
 const { sendAdditionRequest } = require('../controllers/groups/sendAdditionRequest');
 const { cancelAdditionRequest } = require('../controllers/groups/cancelAdditionRequest');
+const { getGroupMarksReport } = require('../controllers/groups/getGroupMarksReport');
 
 router.get('/open', getOpenGroups);
 router.get('/my_groups/:id/details', protect, getMyGroupDetails);
@@ -47,6 +48,7 @@ router.get('/', getGroups);
 router.get('/request/:id/accept', acceptAdditionRequest);
 router.get('/request/:id/reject', rejectAdditionRequest);
 router.get('/members/:id/remove', removeUserFromGroup);
+router.get('/:id/marks_report', getGroupMarksReport);
 router.get('/:id/requests', getGroupAdditionRequests);
 router.get('/:id/attendance', getGroupAttendance);
 router.get('/:id/members', getGroupMembers);

@@ -11,6 +11,10 @@ export class GroupsService {
         private http: HttpClient
     ) { }
 
+    getGroupMarksReport(id: string): any {
+        return this.http.get(`${environment.apiUrl}/groups/${id}/marks_report`, { responseType: 'blob' });
+    }
+
     getGroups(query: string) {
         return this.http.get<any>(`${environment.apiUrl}/groups${query}`);
     }

@@ -6,6 +6,7 @@ import { ModalService } from '@app/shared/services/modal.service';
 import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
 import { MarksService } from '../../services/marks.service';
+import { NotesService } from '../../services/notes.service';
 
 @Component({
     templateUrl: 'group-marks.component.html',
@@ -39,6 +40,14 @@ export class GroupMarksComponent implements OnInit {
     addMarkFormSubmitted: boolean = false;
     editMarkFormSubmitted: boolean = false;
 
+    addNoteForm: FormGroup;
+    editNoteForm: FormGroup;
+
+    addNoteFormSubmitted: boolean = false;
+    editNoteFormSubmitted: boolean = false;
+
+    reportLoading: boolean = false;
+
     constructor(
         private route: ActivatedRoute,
         private alertService: AlertService,
@@ -46,7 +55,8 @@ export class GroupMarksComponent implements OnInit {
         private formBuilder: FormBuilder,
         private modalService: ModalService,
         private marksService: MarksService,
-        private router: Router
+        private router: Router,
+        private notesService: NotesService
     ) { }
 
     ngOnInit() {
@@ -66,11 +76,21 @@ export class GroupMarksComponent implements OnInit {
             markDescriptionId: ['', Validators.required]
         });
 
+        this.addNoteForm = this.formBuilder.group({
+            text: ['', Validators.maxLength(500)]
+        });
+
+        this.editNoteForm = this.formBuilder.group({
+            text: ['', Validators.maxLength(500)]
+        });
+
         this.loadMarkDescriptions();
     }
 
     get f() { return this.addMarkForm.controls; }
     get ef() { return this.editMarkForm.controls; }
+    get nf() { return this.addNoteForm.controls; }
+    get enf() { return this.editNoteForm.controls; }
 
     onSubmit() {
         this.addMarkFormSubmitted = true;
@@ -129,9 +149,9 @@ export class GroupMarksComponent implements OnInit {
             .subscribe(
                 res => {
                     this.members = res.data.members;
-                    for (const m of this.members) {
-                        if (m.User && m.User.Marks) m.User.Marks = m.User.Marks.filter(m => m.groupId === this.groupId);
-                    }
+                    // for (const m of this.members) {
+                    //     if (m.User && m.User.Marks) m.User.Marks = m.User.Marks.filter(m => m.groupId === this.groupId);
+                    // }
                 },
                 err => {
                     this.alertService.clear();
@@ -177,9 +197,7 @@ export class GroupMarksComponent implements OnInit {
                         value: mark.value,
                         markDescriptionId: mark.markDescriptionId
                     });
-                    setTimeout(() => {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }, 300);
+                    window.scrollTo(0, 0);
                 },
                 err => {
 
@@ -223,5 +241,108 @@ export class GroupMarksComponent implements OnInit {
         
         this.selectedMarkId = id;
         this.openModal('mark-modal');
+    }
+
+    // NOTE
+    selectedNoteUser: any;
+    selectNoteUser(m) {
+        this.selectedNoteUser = m;
+    }
+
+    editNote(m) {
+        this.selectedNoteUser = m;
+        this.editNoteForm.patchValue({
+            text: m.note.text
+        });
+    }
+
+    onAddNoteFormSubmit() {
+        this.addNoteFormSubmitted = true;
+        if (this.addNoteForm.invalid) return;
+
+        const body = {
+            text: this.nf.text.value,
+            userId: this.selectedNoteUser.id,
+            groupId: this.groupId
+        };
+
+        this.notesService.createNote(body)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.selectedNoteUser.note = res.data.studentNote;
+                    const btnClose = document.getElementById('btnCloseAddNoteModal');
+                    this.selectedNoteUser = null;
+                    btnClose.click();
+                    this.addNoteFormSubmitted = false;
+                },
+                err => {
+                    console.log(err);
+                }
+            )
+    }
+
+    onEditNoteFormSubmit() {
+        this.editNoteFormSubmitted = true;
+        if (this.editNoteForm.invalid) return;
+
+        const body = {
+            text: this.editNoteForm.controls.text.value
+        };
+
+        this.notesService.updateNote(this.selectedNoteUser.note.id, body)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.selectedNoteUser.note = res.data.studentNote;
+                    const btnClose = document.getElementById('btnCloseEditNoteForm');
+                    this.selectedNoteUser = null;
+                    btnClose.click();
+                    this.editNoteFormSubmitted = false;
+                },
+                err => {
+
+                }
+            )
+    }
+
+    deleteNote(id: string) {
+        this.notesService.deleteNote(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.selectedNoteUser.note = null;
+                    const btnClose = document.getElementById('btnCloseEditNoteForm');
+                    this.selectedNoteUser = null;
+                    btnClose.click(); 
+                },
+                err => {
+
+                }
+            )
+    }
+
+    getReport() {
+        this.reportLoading = true;
+        this.groupsService.getGroupMarksReport(this.groupId)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    let blob: any = new Blob([res], { type: `application/pdf` });
+                    let url = window.URL.createObjectURL(blob);
+                    let anchor = document.createElement('a');
+                    anchor.download = 'report.pdf';
+                    anchor.href = url;
+                    anchor.click();
+                    this.reportLoading = false
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, {
+                        autoClose: true
+                    });
+                    window.scrollTo(0,0);
+                }
+            )
     }
 }
