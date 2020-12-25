@@ -11,6 +11,14 @@ export class AboutPageService {
     getAboutPages() {
         return this.http.get<any>(`${environment.apiUrl}/about`);
     }
+    
+    getAboutPage(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/about/${id}`);
+    }
+
+    updateAboutPage(id: string, body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/about/${id}`, body);
+    }
 
     deleteAboutPage(id: string) {
         return this.http.delete<any>(`${environment.apiUrl}/about/${id}`);

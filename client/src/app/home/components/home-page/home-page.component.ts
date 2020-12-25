@@ -32,7 +32,7 @@ export class HomePageComponent implements OnInit {
     }
 
     loadLatestNews() {
-        this.pageService.getNews('?limit=3')
+        this.pageService.getNews('?limit=6')
         .pipe(first())
         .subscribe(res => {
             this.news = res.data.news;

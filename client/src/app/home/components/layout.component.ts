@@ -17,7 +17,7 @@ import { Title } from '@angular/platform-browser';
                             <div *ngIf="!cookiesAccepted" class="footer">
                                 <div class="text-center">
                                     This site is using cookies.
-                                    <button class="btn btn-success p-1" (click)="acceptCookies()">Close</button>
+                                    <button class="btn badge badge-pil btn-outline-secondary p-1" (click)="acceptCookies()">Close</button>
                                 </div>
                             </div>
                         `,
@@ -28,8 +28,8 @@ import { Title } from '@angular/platform-browser';
                             .footer {
                                 height: 40px;
                                 margin-top: 20px;
-                                background-color: #303030;
-                                color: #fff;
+                                background-color: #EBEBEB;
+                                color: #303030;
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;

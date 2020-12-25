@@ -9,9 +9,11 @@ import { AboutPageService } from '../../services/about-page.service';
 @Component({ templateUrl: 'add-about-page.component.html' })
 export class AddAboutPageComponent implements OnInit {
     addAboutPageForm: FormGroup;
+    submitted: boolean = false;
 
     public config = {
-        removeButtons: 'Anchor,Image,Maximize,Scayt,About'
+        removeButtons: 'Anchor,Maximize,Scayt,About',
+        height: '400px'
     };
 
     constructor(
@@ -23,7 +25,7 @@ export class AddAboutPageComponent implements OnInit {
 
     ngOnInit() {
         this.addAboutPageForm = this.formBuilder.group({
-            title: ['', Validators.required],
+            title: ['', [Validators.required, Validators.maxLength(50)]],
             content: ['']
         });
     }
@@ -31,6 +33,7 @@ export class AddAboutPageComponent implements OnInit {
     get f() { return this.addAboutPageForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addAboutPageForm.invalid) return;
 
         this.aboutPageService.createAboutPage(this.addAboutPageForm.value)
@@ -42,6 +45,7 @@ export class AddAboutPageComponent implements OnInit {
                         autoClose: true,
                         keepAfterRouteChange: true
                     });
+                    this.submitted = false;
                     this.router.navigate(['/admin/about']);
                 },
                 err => {

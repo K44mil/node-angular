@@ -7,7 +7,8 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import {
     LayoutComponent,
     AboutPagesListComponent,
-    AddAboutPageComponent
+    AddAboutPageComponent,
+    EditAboutPageComponent
 } from './components';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     declarations: [
         LayoutComponent,
         AboutPagesListComponent,
-        AddAboutPageComponent
+        AddAboutPageComponent,
+        EditAboutPageComponent
     ]
 })
 export class AboutModule { }

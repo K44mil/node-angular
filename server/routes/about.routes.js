@@ -8,6 +8,7 @@ const { createAboutPage } = require('../controllers/about/createAboutPage');
 const { getAboutPage } = require('../controllers/about/getAboutPage');
 const { increasePriority } = require('../controllers/about/increasePriority');
 const { decreasePriority } = require('../controllers/about/decreasePriority');
+const { updateAboutPage } = require('../controllers/about/updateAboutPage');
 
 // GET
 router.get('/', getAboutPages);
@@ -21,5 +22,7 @@ router.post('/', protect, authorize(Role.Admin), createAboutPage);
 router.get('/:id/increase_priority', protect, authorize(Role.Admin), increasePriority);
 router.get('/:id/decrease_priority', protect, authorize(Role.Admin), decreasePriority);
 router.get('/:id', protect, authorize(Role.Admin), getAboutPage);
+
+router.put('/:id', protect, authorize(Role.Admin), updateAboutPage);
 
 module.exports = router;

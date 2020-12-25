@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 
@@ -14,7 +15,8 @@ export class AboutPagesListComponent implements OnInit {
 
     constructor(
         private aboutPageService: AboutPageService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -58,6 +60,7 @@ export class AboutPagesListComponent implements OnInit {
     }
 
     increasePriority(id: string) {
+        this.pages = null;
         this.aboutPageService.increaseAboutPagePriority(id)
             .pipe(first())
             .subscribe(
@@ -72,6 +75,7 @@ export class AboutPagesListComponent implements OnInit {
     }
 
     decreasePriority(id: string) {
+        this.pages = null;
         this.aboutPageService.decreaseAboutPagePriority(id)
             .pipe(first())
             .subscribe(
@@ -83,5 +87,9 @@ export class AboutPagesListComponent implements OnInit {
                     this.alertService.error(err, { autoClose: true });
                 }
             )
+    }
+
+    editAboutPage(id: string) {
+        this.router.navigate([`/admin/about/edit_about_page/${id}`]);
     }
 }

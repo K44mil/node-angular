@@ -40,7 +40,7 @@ exports.confirmPresence = asyncHandler(async (req, res, next) => {
 
     await presence.update({
         isConfirmed: true,
-        updatedBy: `${user.firstName} ${user.lastName}`
+        confirmedBy: user.id
     });
 
     res.status(200).json({

@@ -34,9 +34,13 @@ Presence.init({
             key: 'id'
         }
     },
-    updatedBy: {
-        type: DataTypes.STRING(100),
-        allowNull: true
+    confirmedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+            model: User,
+            key: 'id'
+        }
     }
 }, {
     sequelize,

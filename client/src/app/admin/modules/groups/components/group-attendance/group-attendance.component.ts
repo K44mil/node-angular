@@ -219,13 +219,6 @@ export class GroupAttendanceComponent implements OnInit {
             .subscribe(
                 res => {
                     const members = res.data.members;
-                    for (const m of members) {
-                        m.User.Presences.sort((a, b) => {
-                            if (a.eventDate < b.eventDate) return -1;
-                            if (a.eventDate > b.eventDate) return 1;
-                            return 0;
-                        });
-                    }
                     this.attendance = members;
                 },
                 err => {

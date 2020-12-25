@@ -2,11 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
+import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
 
 import { SliderService } from '../../services/slider.service';
 
-@Component({ templateUrl: 'add-slider-image.component.html' })
+@Component({
+    templateUrl: 'add-slider-image.component.html',
+    styles: [`
+        .image-preview { width: 200px; height: 200px; }
+    `]
+})
 export class AddSliderImageComponent implements OnInit {
     addSliderImageForm: FormGroup;
     loading: boolean = false;
@@ -29,15 +35,6 @@ export class AddSliderImageComponent implements OnInit {
 
     get f() { return this.addSliderImageForm.controls; }
 
-    onPhotoFileChange(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.addSliderImageForm.patchValue({
-                photoSource: file
-            });
-        }
-    }
-
     onSubmit() {
         if (this.addSliderImageForm.invalid) return;
 
@@ -50,7 +47,7 @@ export class AddSliderImageComponent implements OnInit {
         this.loading = true;
 
         const formData = new FormData();
-        formData.append('photo', this.addSliderImageForm.get('photoSource').value);
+        formData.append('photo', this.addSliderImageForm.get('photo').value);
         formData.append('title', this.addSliderImageForm.get('title').value);
         formData.append('isVisible', this.addSliderImageForm.get('isVisible').value);
 
@@ -72,5 +69,25 @@ export class AddSliderImageComponent implements OnInit {
                     });
                 }
             )
+    }
+
+    photoUrl = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+    showPreview(event) {
+        const file = (event.target as HTMLInputElement).files[0];
+        if (!file) {
+            this.photoUrl = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+            return;
+        }
+        this.addSliderImageForm.patchValue({
+            photo: file
+        });
+        this.addSliderImageForm.get('photo').updateValueAndValidity();
+
+        // Preview
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.photoUrl = reader.result as string;
+        }
+        reader.readAsDataURL(file);
     }
 }

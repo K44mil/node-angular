@@ -39,7 +39,7 @@
                 </li>
                 <!-- REGISTER -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/register_student" class="btn btn-warning btn-auth">Sign up</a>
+                    <a routerLink="/account/register_student" class="btn btn-light btn-auth" style="color: #003C82 !important;">Sign up</a>
                 </li>
                 <!-- USER AVATAR -->
                 <li *ngIf="loggedUser" class="nav-item mx-1 avatar d-none d-lg-block">
@@ -53,15 +53,15 @@
                 </li> -->
                 <!-- ADMIN PANEL -->
                 <li *ngIf="loggedUser && isAdmin()" class="nav-item mx-1">
-                    <a routerLink="/admin/users" class="btn btn-outline-primary btn-auth">Admin Panel</a>
+                    <a routerLink="/admin/users" class="btn btn-outline-warning btn-auth">Admin Panel</a>
                 </li>
                 <!-- USER PROFILE -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/my_profile/general" class="btn btn-outline-info btn-auth btn-profile">My Profile</a>
+                    <a routerLink="/account/my_profile/general" class="btn btn-outline-warning btn-auth btn-profile">My Profile</a>
                 </li>
                 <!-- LOGOUT -->
                 <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <button (click)="logout()" class="btn btn-outline-light btn-auth">Sign out</button>
+                    <button (click)="logout()" class="btn btn-light btn-auth" style="color: #003C82 !important;">Sign out</button>
                 </li>
             </ul>
         </div>  

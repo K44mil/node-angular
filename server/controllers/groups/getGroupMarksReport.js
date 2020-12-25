@@ -151,7 +151,7 @@ function printStudiesType(type) {
 
 function printGroupType(type) {
     if (type === 'lab') return 'Laboratory';
-    if (type === 'exec') return 'Exercise';
+    if (type === 'exc') return 'Exercise';
     if (type === 'lec') return 'Lecture';
     if (type === 'proj') return 'Project';
 }

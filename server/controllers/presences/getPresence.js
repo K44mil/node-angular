@@ -13,10 +13,17 @@ exports.getPresence = asyncHandler(async (req, res, next) => {
     const presence = await Presence.findByPk(req.params.id, {
         include: [
             {
-                model: Event
+                model: Event,
+                attributes: ['name']
             },
             {
                 model: User,
+                as: 'user',
+                attributes: ['firstName', 'lastName']
+            },
+            {
+                model: User,
+                as: 'confirmed',
                 attributes: ['firstName', 'lastName']
             }
         ]

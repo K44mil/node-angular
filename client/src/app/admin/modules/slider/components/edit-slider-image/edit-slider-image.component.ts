@@ -2,14 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
+import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
 import { SliderService } from '../../services/slider.service';
 
-@Component({ templateUrl: 'edit-slider-image.component.html' })
+@Component({
+    templateUrl: 'edit-slider-image.component.html',
+    styles: [`
+        .image-preview { width: 200px; height: 200px; }
+    `]
+})
 export class EditSliderImageComponent implements OnInit {
     editSliderImageForm: FormGroup;
     loading: boolean = false;
     editedSliderImageId: string;
+    sliderImageName: string = 'no-photo.jpg';;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -22,7 +29,6 @@ export class EditSliderImageComponent implements OnInit {
     ngOnInit() {
         this.editSliderImageForm = this.formBuilder.group({
             photo: [''],
-            photoSource: [''],
             title: ['', Validators.required],
             isVisible: ['']
         });
@@ -42,6 +48,8 @@ export class EditSliderImageComponent implements OnInit {
                     this.editSliderImageForm.patchValue({
                         title: sliderImage.title
                     });
+                    this.sliderImageName = sliderImage.image;
+                    this.photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
                 },
                 err => {
                     this.alertService.clear();
@@ -52,15 +60,6 @@ export class EditSliderImageComponent implements OnInit {
                     this.router.navigate(['/admin/slider']);
                 }
             )
-    }
-
-    onPhotoFileChange(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.editSliderImageForm.patchValue({
-                photoSource: file
-            });
-        }
     }
 
     onSubmit() {
@@ -75,7 +74,7 @@ export class EditSliderImageComponent implements OnInit {
         this.loading = true;
 
         const formData = new FormData();
-        formData.append('photo', this.editSliderImageForm.get('photoSource').value);
+        formData.append('photo', this.editSliderImageForm.get('photo').value);
         formData.append('title', this.editSliderImageForm.get('title').value);
         formData.append('isVisible', this.editSliderImageForm.get('isVisible').value);
 
@@ -97,5 +96,25 @@ export class EditSliderImageComponent implements OnInit {
                     this.loading = false;
                 }
             )
+    }
+
+    photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
+    showPreview(event) {
+        const file = (event.target as HTMLInputElement).files[0];
+        if (!file) {
+            this.photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
+            return;
+        }
+        this.editSliderImageForm.patchValue({
+            photo: file
+        });
+        this.editSliderImageForm.get('photo').updateValueAndValidity();
+
+        // Preview
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.photoUrl = reader.result as string;
+        }
+        reader.readAsDataURL(file);
     }
 }

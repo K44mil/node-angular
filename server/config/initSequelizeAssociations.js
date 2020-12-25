@@ -100,8 +100,12 @@ const initSequelizeAssociations = () => {
     Event.belongsTo(Group, { foreignKey: 'groupId' });
 
     // User -|---o< Presence
-    User.hasMany(Presence, { foreignKey: 'userId' });
-    Presence.belongsTo(User, { foreignKey: 'userId' });
+    User.hasMany(Presence, { foreignKey: 'userId', as: 'user' });
+    Presence.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+    // Presence Confirmed By
+    User.hasMany(Presence, { foreignKey: 'confirmedBy', as: 'confirmed' });
+    Presence.belongsTo(User, { foreignKey: 'confirmedBy', as: 'confirmed' });
 
     // Event -|---o< Presence
     Event.hasMany(Presence, { foreignKey: 'eventId'} );

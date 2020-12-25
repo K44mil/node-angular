@@ -62,7 +62,8 @@ exports.createEvent = asyncHandler(async (req, res, next) => {
     members.forEach(async m => {
         await Presence.create({
             userId: m.userId,
-            eventId: event.id
+            eventId: event.id,
+            confirmedBy: null
         });
     });
 

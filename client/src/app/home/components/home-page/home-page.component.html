@@ -1,33 +1,9 @@
 <div class="col-10 offset-1 mt-4">
-    <!-- <div class="row">
-      <div class="col-6">
-        <h4>Latest News</h4>
-        <hr class="ml-0" style="width: 75%;">
-      </div>
-    </div> -->
     <div class="row">
       <!-- NEWS -->
-      <div class="col-sm-12 col-md-6 mt-3 mt-sm-3 mt-md-0 p-0">
+      <!-- <div class="col-sm-12 col-md-6 mt-3 mt-sm-3 mt-md-0 p-0">
         <h5>Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h5> 
         <hr>
-        <!-- ONE NEWS -->
-          <!-- <div *ngFor="let singleNews of news; let i = index" class="card">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="{{ getNewsPhotoUrl(singleNews) }}" class="card-img" style="width: 150px; height: 150px;" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body p-0 pl-3 pt-2">
-                  <h5 class="card-title">{{ singleNews.title }}</h5>
-                  <p class="card-text">{{ singleNews.description }}</p>
-                  <p class="card-text">
-                    <small class="text-muted">{{ printDate(singleNews.created_at) }}</small>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div> -->
         <div class="row">
           <div *ngFor="let singleNews of news; let i = index;" class="col-md-4">
             <div class="card">
@@ -44,7 +20,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- END OF NEWS -->
         <!-- SLIDER -->
         <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
@@ -73,32 +49,33 @@
             </div>
         </div>
         <!-- END OF SLIDER -->
+        <!-- TEACHERs INFO -->
+        <div class="col-sm-12 col-md-6" style="border: 1px solid black;">
+          <h3 class="text-center">General Info</h3>
+        </div>
+        <!-- END OF TEACHERs INFO -->
     </div>
     <!-- RECOMMENDATIONS -->
     <div class="row mt-5">
       <div class="col-12">
-        <h4 class="text-center">Recommendations</h4>
-        <hr>
+        <h4 class="text-center">Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h4>
+        <hr style="width: 75%;">
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
-      </div>
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
-      </div>
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
-      </div>
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
-      </div>
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
-      </div>
-      <div class="col-md-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, a!
+      <div *ngFor="let singleNews of news; let i = index;" class="col-md-2">
+        <div class="card">
+          <img *ngIf="singleNews.imageSection" class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
+          <div class="card-body">
+            <h5 class="card-title">{{ singleNews.title }}</h5>
+            <small class="text-muted cat">
+              <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
+            </small>
+            <p class="card-text">{{ singleNews.description }}</p>
+            <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>
+            <span *ngIf="!canActivate(singleNews)" class="badge badge-warning ml-1 lock-icon" title="Login required."><i class="fas fa-lock" ></i></span>
+          </div>
+        </div>
       </div>
     </div>
 </div>

@@ -131,10 +131,10 @@
                 <!-- Single member -->
                 <tr *ngFor="let a of attendance; let i = index;">
                     <td>{{ i+1 }}.</td>
-                    <td>{{ a.User.firstName }} {{ a.User.lastName }}</td>
-                    <td>{{ a.User.albumNumber }}</td>
+                    <td>{{ a.firstName }} {{ a.lastName }}</td>
+                    <td>{{ a.albumNumber }}</td>
                     <!-- NG FOR OF EVENTS -->
-                    <td *ngFor="let p of a.User.Presences">
+                    <td *ngFor="let p of a.presences">
                         <span *ngIf="!editAttendanceMode && p.isConfirmed" class="badge badge-primary badge-pill text-primary" style="cursor: pointer;" (click)="showPresenceDetails(p.id)">&nbsp;</span>
                         <span *ngIf="editAttendanceMode && p.isConfirmed" class="badge badge-success badge-pill text-primary" style="cursor: pointer;" (click)="setUserAbsent(p.id)">&nbsp;</span>
                         <span *ngIf="editAttendanceMode && !p.isConfirmed" class="badge badge-secondary badge-pill text-primary" style="cursor: pointer;" (click)="setUserPresent(p.id)">&nbsp;</span>

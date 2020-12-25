@@ -26,7 +26,7 @@ exports.setUserAbsent = asyncHandler(async (req, res, next) => {
 
     await presence.update({
         isConfirmed: false,
-        updatedBy: `${req.user.firstName} ${req.user.lastName}`
+        confirmedBy: req.user.id
     });
 
     res.status(200).json({
