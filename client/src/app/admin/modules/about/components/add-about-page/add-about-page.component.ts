@@ -26,6 +26,7 @@ export class AddAboutPageComponent implements OnInit {
     ngOnInit() {
         this.addAboutPageForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.maxLength(50)]],
+            priority: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             content: ['']
         });
     }

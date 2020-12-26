@@ -62,7 +62,10 @@ exports.getNewsBySlug = asyncHandler(async (req, res, next) => {
     let userCoursesIds;
     let userGroupsIds;
 
-    if (user) userGroups = await UserGroup.findAll({ where: { userId: { [Op.eq]: user.id }}, include: { model: Group, include: [Course]}});
+    if (user) userGroups = await UserGroup.findAll({
+        where: { userId: { [Op.eq]: user.id }, isConfirmed: { [Op.eq]: 1 } },
+        include: { model: Group, include: [Course]}
+    });
     if (userGroups) {
         userCoursesIds = [];
         userGroupsIds = [];

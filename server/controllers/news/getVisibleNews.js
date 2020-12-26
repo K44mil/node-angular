@@ -10,6 +10,7 @@ const Course = require('../../models/Course');
 const Group = require('../../models/Group');
 const UserGroup = require('../../models/relationsModels/UserGroup');
 const Role = require('../../models/Role');
+const ErrorResponse = require('../../utils/ErrorResponse');
 
 /**
  * @desc    Get all visible news
@@ -20,7 +21,8 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     let options = {
         where: { },
         order: [],
-        include: []
+        include: [],
+        attributes: ['id', 'title', 'slug', 'description', 'created_at', 'updated_at', 'isLoginProtected']
     }
 
     const { title, categoryId } = req.query;
@@ -30,8 +32,6 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     // Where
     if (title) options.where.title = { [Op.like]: `%${title}%` };
     options.where.isVisible = { [Op.eq]: 1 };
-    
-    // test where
 
     // Order
     options.order.push(['created_at', 'DESC']);
@@ -67,11 +67,19 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
 
     // Access and comments
     const user = await getLoggedUser(req);
+    if (user && (user.isBlocked || !user.isVerified)) {
+        return next(
+            new ErrorResponse('Not authorized.', 401)
+        );
+    }
     let userGroups;
     let userCoursesIds;
     let userGroupsIds;
 
-    if (user) userGroups = await UserGroup.findAll({ where: { userId: { [Op.eq]: user.id }}, include: { model: Group, include: [Course]}});
+    if (user) userGroups = await UserGroup.findAll({
+        where: { userId: { [Op.eq]: user.id }, isConfirmed: { [Op.eq]: 1 } },
+        include: { model: Group, include: [Course]}
+    });
     if (userGroups) {
         userCoursesIds = [];
         userGroupsIds = [];
@@ -161,7 +169,7 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
-            count: news.count,
+            count: returnNews.length,
             countPages: countPages,
             pagination,
             news: resultNews

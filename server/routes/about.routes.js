@@ -19,8 +19,8 @@ router.delete('/:id', protect, authorize(Role.Admin), deleteAboutPage);
 // POST
 router.post('/', protect, authorize(Role.Admin), createAboutPage);
 
-router.get('/:id/increase_priority', protect, authorize(Role.Admin), increasePriority);
-router.get('/:id/decrease_priority', protect, authorize(Role.Admin), decreasePriority);
+// router.get('/:id/increase_priority', protect, authorize(Role.Admin), increasePriority);
+// router.get('/:id/decrease_priority', protect, authorize(Role.Admin), decreasePriority);
 router.get('/:id', protect, authorize(Role.Admin), getAboutPage);
 
 router.put('/:id', protect, authorize(Role.Admin), updateAboutPage);

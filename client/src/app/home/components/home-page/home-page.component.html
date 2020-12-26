@@ -1,27 +1,14 @@
 <div class="col-10 offset-1 mt-4">
-    <div class="row">
-      <!-- NEWS -->
-      <!-- <div class="col-sm-12 col-md-6 mt-3 mt-sm-3 mt-md-0 p-0">
-        <h5>Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h5> 
-        <hr>
-        <div class="row">
-          <div *ngFor="let singleNews of news; let i = index;" class="col-md-4">
-            <div class="card">
-              <img class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
-              <div class="card-body">
-                <h5 class="card-title">{{ singleNews.title }}</h5>
-                <small class="text-muted cat">
-                  <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
-                </small>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>
-                <span *ngIf="!canActivate(singleNews)" class="badge badge-warning ml-1 lock-icon" title="Login required."><i class="fas fa-lock" ></i></span>
-              </div>
-            </div>
+    <div *ngIf="loading" class="row mt-5">
+      <div class="col-12 mt-5">
+        <div class="d-flex justify-content-center mt-5">
+          <div class="spinner-border m-auto" style="width: 10rem; height: 10rem;" role="status">
+              <span class="sr-only">Loading...</span>
           </div>
         </div>
-      </div> -->
-      <!-- END OF NEWS -->
+      </div>
+    </div>
+    <div *ngIf="!loading" class="row">
         <!-- SLIDER -->
         <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
             <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" >
@@ -30,9 +17,9 @@
                   <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                   <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 </ol> -->
-                <div class="carousel-inner" >
+                <div class="carousel-inner">
                   <div *ngFor="let slide of slider; let i = index;" class="carousel-item active" [ngClass]="{'active': i === 0 }">
-                    <img style="width: 400px; height: 400px;" class="d-block w-100" src="{{ getSlideUrl(slide.image) }}" alt="{{ slide.title }}">
+                    <img style="height: 430px;" class="w-100" src="{{ getSlideUrl(slide.image) }}" alt="{{ slide.title }}">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{ slide.title }}</h5>
                     </div>
@@ -50,29 +37,88 @@
         </div>
         <!-- END OF SLIDER -->
         <!-- TEACHERs INFO -->
-        <div class="col-sm-12 col-md-6" style="border: 1px solid black;">
-          <h3 class="text-center">General Info</h3>
+        <div class="col-sm-12 col-md-6">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card" style="height: 100%;">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    PhD Tomasz Rak - Contact 
+                  </h5>
+                  <table class="table table-sm">
+                    <tr class="table-light">
+                      <th scope="row">Consultations</th><td>pon-pt 16:00</td>
+                    </tr>
+                    <tr class="table-light">
+                      <th scope="row">Phone</th><td>+48 000 000 000</td>
+                    </tr>
+                    <tr class="table-light">
+                      <th scope="row">Email</th><td>email@email.pl</td>
+                    </tr>
+                    <tr class="table-light">
+                      <th scope="row">Room</th><td>D000</td>
+                    </tr>
+                  </table>
+                  <p class="card-text">
+                    Please reserve a visit by e-mail. I get more e-mails than I can handle, so don't be offended if I don't reply.
+                  </p>
+                  <!-- Some Links -->
+                  <table class="table table-sm text-center">
+                    <tr class="table-light">
+                      <td><a href="">orcid.org</a></td>
+                    </tr>
+                    <tr class="table-light">
+                      <td><a href="">nauka-polska.pl</a></td>
+                    </tr>
+                    <tr class="table-light">
+                      <td><a href="">PGP</a></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card" style="height: 100%;">
+                <div class="card-body">
+                  <h5 class="card-title">Rzeszow University of Technology</h5>
+                  <div class="img">
+                    <img src="../../../../assets//logo_prz.png" style="height: 150px; width: 150px;">
+                  </div>
+                  <ul style="list-style: none;" class="font-weight-bold mt-3">
+                    <li class="my-2"><a href="">Department of Computer and Control Engineering</a></li>
+                    <li class="my-2"><a href="">Faculty of Electrical and Computer Engineering</a></li>
+                    <li class="my-2"><a href="">Rzeszow University of Technology</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- END OF TEACHERs INFO -->
     </div>
-    <!-- RECOMMENDATIONS -->
-    <div class="row mt-5">
+    <!-- LATEST NEWS -->
+    <div *ngIf="!loading" class="row mt-5">
       <div class="col-12">
         <h4 class="text-center">Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h4>
         <hr style="width: 75%;">
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="!loading" class="row">
       <div *ngFor="let singleNews of news; let i = index;" class="col-md-2">
-        <div class="card">
+        <div class="card" style="height: 100%;">
           <img *ngIf="singleNews.imageSection" class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
           <div class="card-body">
             <h5 class="card-title">{{ singleNews.title }}</h5>
+            <div class="categories">
+              <span *ngFor="let category of singleNews.categories" class="badge badge-primary mr-1 p-1">{{ category.name }}</span>
+            </div>
             <small class="text-muted cat">
               <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
             </small>
             <p class="card-text">{{ singleNews.description }}</p>
-            <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info">Read More</a>
+              <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info ">
+                Read More
+              </a>
             <span *ngIf="!canActivate(singleNews)" class="badge badge-warning ml-1 lock-icon" title="Login required."><i class="fas fa-lock" ></i></span>
           </div>
         </div>

@@ -28,6 +28,9 @@ exports.getMyGroupDetails = asyncHandler(async (req, res, next) => {
             },
             userId: {
                 [Op.eq]: user.id
+            },
+            isConfirmed: {
+                [Op.eq]: 1
             }
         }
     });

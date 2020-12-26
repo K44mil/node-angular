@@ -109,6 +109,7 @@ export class NewsComponent implements OnInit {
         let query = '';
 
         if (this.f.title.value) query += `&title=${this.f.title.value}`;
+        console.log(query);
         if (this.selectedCategoryId) query += `&categoryId=${this.selectedCategoryId}`;
     
         return query;

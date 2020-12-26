@@ -28,6 +28,7 @@ export class EditAboutPageComponent implements OnInit {
     ngOnInit() {
         this.editAboutPageForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.maxLength(50)]],
+            priority: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             content: ['']
         });
 
@@ -44,6 +45,7 @@ export class EditAboutPageComponent implements OnInit {
                 res => {
                     this.editAboutPageForm.patchValue({
                         title: res.data.page.title,
+                        priority: res.data.page.priority,
                         content: res.data.page.content
                     })
                 },

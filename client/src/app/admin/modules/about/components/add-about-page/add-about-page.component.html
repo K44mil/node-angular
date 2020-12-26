@@ -9,13 +9,29 @@
             <h5>Add About Page</h5>
             <hr>
             <form [formGroup]="addAboutPageForm" (ngSubmit)="onSubmit()">
-                <div class="form-gorup">
-                    <label for="">Title</label>
-                    <input formControlName="title" type="text" class="form-control"
-                    [ngClass]="{'is-invalid': submitted && this.f.title.errors }" />
-                    <div *ngIf="submitted && this.f.title.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.title.errors.required">Title is required.</div>
-                        <div *ngIf="this.f.title.errors.maxlength">Title cannot be longer than 50 characters.</div>
+                <div class="form-row">
+                    <div class="col-10">
+                        <div class="form-gorup">
+                            <label for="">Title</label>
+                            <input formControlName="title" type="text" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.title.errors }" />
+                            <div *ngIf="submitted && this.f.title.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.title.errors.required">Title is required.</div>
+                                <div *ngIf="this.f.title.errors.maxlength">Title cannot be longer than 50 characters.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="">Priority</label>
+                            <input formControlName="priority" type="number" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.priority.errors }"/>
+                            <div *ngIf="submitted && this.f.priority.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.priority.errors.required">Priority is required.</div>
+                                <div *ngIf="this.f.priority.errors.min">Minimum allowed value is 0.</div>
+                                <div *ngIf="this.f.priority.errors.max">Maximum allowed value is 99.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <label for="">Content</label>

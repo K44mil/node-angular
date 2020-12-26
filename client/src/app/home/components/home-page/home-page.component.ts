@@ -18,6 +18,8 @@ import { first } from 'rxjs/operators';
 export class HomePageComponent implements OnInit {
     public news: News[];
     public slider;
+    loading: boolean = true;
+    itemsLoaded: number = 0;
 
     constructor(
         private pageService: PageService,
@@ -36,6 +38,8 @@ export class HomePageComponent implements OnInit {
         .pipe(first())
         .subscribe(res => {
             this.news = res.data.news;
+            this.itemsLoaded++;
+            if (this.itemsLoaded === 2) this.loading = false;
         });
     }
 
@@ -45,6 +49,8 @@ export class HomePageComponent implements OnInit {
             .subscribe(
                 res => {
                     this.slider = res.data.slider;
+                    this.itemsLoaded++;
+                    if (this.itemsLoaded === 2) this.loading = false;
                 },
                 err => {
                     
@@ -70,6 +76,8 @@ export class HomePageComponent implements OnInit {
     }
 
     canActivate(news) {
+        console.log(news);
+        console.log(this.authService.userValue);
         if (news.isLoginProtected && !this.authService.userValue) return false;
         return true;
     }
