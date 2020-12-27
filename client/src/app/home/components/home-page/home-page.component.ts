@@ -13,11 +13,21 @@ import { first } from 'rxjs/operators';
             font-size: 1rem;
             cursor: mark;
         }
+
+        @media(max-width: 768px) {
+            .news {
+                margin-top: 10px;
+            }
+            .info {
+                margin-top: 10px;
+            }
+        }
     `]
 })
 export class HomePageComponent implements OnInit {
     public news: News[];
     public slider;
+    public contact: any;
     loading: boolean = true;
     itemsLoaded: number = 0;
 
@@ -31,6 +41,7 @@ export class HomePageComponent implements OnInit {
     ngOnInit() {
         this.loadLatestNews();
         this.loadSlider();
+        this.loadContact();
     }
 
     loadLatestNews() {
@@ -39,7 +50,7 @@ export class HomePageComponent implements OnInit {
         .subscribe(res => {
             this.news = res.data.news;
             this.itemsLoaded++;
-            if (this.itemsLoaded === 2) this.loading = false;
+            if (this.itemsLoaded === 3) this.loading = false;
         });
     }
 
@@ -50,10 +61,25 @@ export class HomePageComponent implements OnInit {
                 res => {
                     this.slider = res.data.slider;
                     this.itemsLoaded++;
-                    if (this.itemsLoaded === 2) this.loading = false;
+                    if (this.itemsLoaded === 3) this.loading = false;
                 },
                 err => {
                     
+                }
+            )
+    }
+
+    loadContact() {
+        this.pageService.getContact()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.contact = res.data.contact;
+                    this.itemsLoaded++;
+                    if (this.itemsLoaded === 3) this.loading = false;
+                },
+                err => {
+
                 }
             )
     }
@@ -70,15 +96,18 @@ export class HomePageComponent implements OnInit {
         return `/news/${news.slug}`;
     }
 
-    printDate(dateUTC) {
-        const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
-    }
-
     canActivate(news) {
-        console.log(news);
-        console.log(this.authService.userValue);
         if (news.isLoginProtected && !this.authService.userValue) return false;
         return true;
+    }
+
+    printDate(dateUTC) {
+        return new Date(dateUTC).toLocaleString('pl', {
+            hour: 'numeric',
+            minute: 'numeric',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { ContactService } from '../../services/contact.service';
@@ -9,6 +9,9 @@ import { ContactService } from '../../services/contact.service';
 })
 export class EditContactComponent implements OnInit {
     editContactForm: FormGroup;
+
+    contactLinks: any[];
+    addContactLinkForm: FormGroup;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -25,7 +28,14 @@ export class EditContactComponent implements OnInit {
             room: [''],
             email: [''],
             phone: [''],
-            webPage: ['']
+            webPage: [''],
+            consultations: [''],
+            shortInformation: ['']
+        });
+
+        this.addContactLinkForm = this.formBuilder.group({
+            caption: ['', Validators.required],
+            href: ['', Validators.required]
         });
 
         this.loadContact();
@@ -45,8 +55,11 @@ export class EditContactComponent implements OnInit {
                         room: contact.room,
                         email: contact.email,
                         phone: contact.phone,
-                        webPage: contact.webPage
+                        webPage: contact.webPage,
+                        consultations: contact.consultations,
+                        shortInformation: contact.shortInformation
                     });
+                    this.contactLinks = contact.contactLinks;
                 },
                 err => {
                     this.alertService.clear();
@@ -74,6 +87,36 @@ export class EditContactComponent implements OnInit {
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                }
+            )
+    }
+
+    onAddContactLinkSubmit() {
+        if (this.addContactLinkForm.invalid) return;
+
+        this.contactService.addContactLink(this.addContactLinkForm.value)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadContact();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            )
+    }
+
+    deleteLink(id: string) {
+        this.contactService.deleteContactLink(id)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadContact();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             )
     }

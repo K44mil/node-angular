@@ -16,4 +16,11 @@ export class ContactService {
         return this.http.put<any>(`${environment.apiUrl}/contact`, body);
     }
 
+    addContactLink(body: any) {
+        return this.http.post<any>(`${environment.apiUrl}/contact/links`, body);
+    }
+
+    deleteContactLink(id: string) {
+        return this.http.delete<any>(`${environment.apiUrl}/contact/links/${id}`);
+    }
 }

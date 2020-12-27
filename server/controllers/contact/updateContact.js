@@ -16,7 +16,9 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
         room,
         email,
         phone,
-        webPage
+        webPage,
+        consultations,
+        shortInformation
     } = req.body;
     let contact = await Contact.findOne();
 
@@ -29,7 +31,9 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
             room,
             email,
             phone,
-            webPage
+            webPage,
+            consultations,
+            shortInformation
         });
     } else {
         contact = await Contact.findByIdAndUpdate(contact._id, req.body, {

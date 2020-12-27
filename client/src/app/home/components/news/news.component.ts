@@ -158,8 +158,13 @@ export class NewsComponent implements OnInit {
     }
 
     printDate(dateUTC) {
-        const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return new Date(dateUTC).toLocaleString('pl', {
+            hour: 'numeric',
+            minute: 'numeric',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
     }
 
     canActivate(news) {

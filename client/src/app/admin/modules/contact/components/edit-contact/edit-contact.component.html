@@ -1,45 +1,125 @@
-<div class="">           
+<div class="">
+    <!-- CONTACT MENU -->
+    <div class="row ml-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" routerLink="/admin/users">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/users/inactive" >University</a>
+            </li>
+        </ul>
+    </div>           
     <div class="row mt-3">
-        <div class="col-3">
+        <div class="col-9">
             <h5>Edit Contact Info</h5>
             <hr>
             <form [formGroup]="editContactForm" (ngSubmit)="onSubmit()">
                 <h6>Address</h6>
-                <div class="form-group">
-                    <label for="">Country</label>
-                    <input type="text" formControlName="country" class="form-control"/>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="">Country</label>
+                        <input type="text" formControlName="country" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <label for="">City</label>
+                        <input type="text" formControlName="city" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <label for="">Street</label>
+                        <input type="text" formControlName="street" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">City</label>
-                    <input type="text" formControlName="city" class="form-control"/>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="">ZIP Code</label>
+                        <input type="text" formControlName="postalCode" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <label for="">Room</label>
+                        <input type="text" formControlName="room" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">Street</label>
-                    <input type="text" formControlName="street" class="form-control"/>
+                
+               
+                <h6 class="mt-2">Contact</h6>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="">Email</label>
+                        <input type="text" formControlName="email" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <label for="">Phone</label>
+                        <input type="text" formControlName="phone" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <label for="">Web Page</label>
+                        <input type="text" formControlName="webPage" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">ZIP Code</label>
-                    <input type="text" formControlName="postalCode" class="form-control"/>
+                
+                <h6 class="mt-2">Other Info</h6>
+                <div class="form-row">
+                    <div class="col-4">
+                        <label for="">Consultations</label>
+                        <input type="text" formControlName="consultations" class="form-control"/>
+                        <label for="">Short Information</label>
+                        <textarea type="text" formControlName="shortInformation" class="form-control" rows="5"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">Room</label>
-                    <input type="text" formControlName="room" class="form-control"/>
-                </div>
-                <h6>Contact</h6>
-                <div class="form-group">
-                    <label for="">Email</label>
-                    <input type="text" formControlName="email" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Phone</label>
-                    <input type="text" formControlName="phone" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Web Page</label>
-                    <input type="text" formControlName="webPage" class="form-control"/>
-                </div>
+                
                 <button class="btn btn-outline-dark mt-2">Save</button>
             </form>
+            <!-- Contact Links -->
+            <h6 class="mt-2">Contact Links</h6>
+            <div class="row">
+                <div class="col-2">
+                    <button class="btn btn-success" data-toggle="collapse" data-target="#addContactLinkCollapse">
+                        + Add Link
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-3">
+                    <div class="collapse" id="addContactLinkCollapse">
+                        <form [formGroup]="addContactLinkForm" (ngSubmit)="onAddContactLinkSubmit()">
+                            <div class="form-group">
+                                <label for="">Caption</label>
+                                <input type="text" class="form-control" formControlName="caption">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Href</label>
+                                <input type="text" class="form-control" formControlName="href">
+                            </div>
+                            <button class="btn btn-outline-dark">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-6">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="thead-dark">
+                                <th scope="col">#</th>
+                                <th scope="col">Caption</th>
+                                <th scope="col">Href</th>
+                                <th scope="col"></th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let l of contactLinks; let i = index;">
+                                    <td>{{ i+1 }}</td>
+                                    <td class="text-truncate" style="max-width: 200px;" title="{{ l.caption }}">{{ l.caption }}</td>
+                                    <td class="text-truncate" style="max-width: 200px;" title="{{ l.href }}">{{ l.href }}</td>
+                                    <td class="text-right">
+                                        <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteLink(l._id)"><i class="fas fa-trash-alt"></i></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>   

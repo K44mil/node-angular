@@ -156,7 +156,7 @@ export class AuthService {
         this.clearSessionStorage();
         this.clearLocalStorage();
         this.userSubject.next(null);
-        this.router.navigate(['/']);
+        this.router.navigate(['/']);      
         setTimeout(() => {
             this.alertService.info('You have been log out.', {
                 autoClose: true,

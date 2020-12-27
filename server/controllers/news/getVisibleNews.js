@@ -22,7 +22,7 @@ exports.getVisibleNews = asyncHandler(async (req, res, next) => {
         where: { },
         order: [],
         include: [],
-        attributes: ['id', 'title', 'slug', 'description', 'created_at', 'updated_at', 'isLoginProtected']
+        attributes: ['id', 'title', 'slug', 'description', 'created_at', 'updated_at', 'isLoginProtected', 'imageSection', 'image']
     }
 
     const { title, categoryId } = req.query;

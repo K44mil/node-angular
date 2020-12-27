@@ -30,6 +30,7 @@ import { first } from 'rxjs/operators';
 })
 export class ContactPageComponent implements OnInit {
     contact;
+    loading: boolean = true;
 
     constructor(
         private pageService: PageService
@@ -45,6 +46,7 @@ export class ContactPageComponent implements OnInit {
             .subscribe(
                 res => {
                     if (res.data.contact) this.contact = res.data.contact;
+                    this.loading = false;
                 },
                 err => {
                     

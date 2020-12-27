@@ -13,9 +13,12 @@
         <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
             <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" >
                 <!-- <ol class="carousel-indicators">
-                  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                  <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
                   <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                   <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol> -->
+                <!-- <ol class="carousel-indicators">
+                  <li *ngFor="let slide of slider; let i = index;" data-target="#carouselExampleIndicators" data-slide-to="0"></li>
                 </ol> -->
                 <div class="carousel-inner">
                   <div *ngFor="let slide of slider; let i = index;" class="carousel-item active" [ngClass]="{'active': i === 0 }">
@@ -39,50 +42,53 @@
         <!-- TEACHERs INFO -->
         <div class="col-sm-12 col-md-6">
           <div class="row">
-            <div class="col-md-6">
-              <div class="card" style="height: 100%;">
+            <div *ngIf="contact" class="col-md-6">
+              <div class="card info" style="height: 430px; overflow: auto;">
                 <div class="card-body">
-                  <h5 class="card-title">
-                    PhD Tomasz Rak - Contact 
+                  <h5 class="card-title text-center">
+                    Contact 
                   </h5>
-                  <table class="table table-sm">
-                    <tr class="table-light">
-                      <th scope="row">Consultations</th><td>pon-pt 16:00</td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">Phone</th><td>+48 000 000 000</td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">Email</th><td>email@email.pl</td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">Room</th><td>D000</td>
-                    </tr>
-                  </table>
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <tr class="table-light">
+                        <th scope="row">Consultations</th><td>{{ contact.consultations }}</td>
+                      </tr>
+                      <tr class="table-light">
+                        <th scope="row">Room</th><td>{{ contact.room }}</td>
+                      </tr>
+                      <tr class="table-light">
+                        <th scope="row">Phone</th><td>{{ contact.phone }}</td>
+                      </tr>
+                      <tr class="table-light">
+                        <th scope="row">Email</th><td>{{ contact.email }}</td>
+                      </tr>
+                    </table>
+                  </div>
                   <p class="card-text">
-                    Please reserve a visit by e-mail. I get more e-mails than I can handle, so don't be offended if I don't reply.
+                    {{ contact.shortInformation }}
+                    <!-- Please reserve a visit by e-mail. I get more e-mails than I can handle, so don't be offended if I don't reply. -->
                   </p>
                   <!-- Some Links -->
-                  <table class="table table-sm text-center">
-                    <tr class="table-light">
-                      <td><a href="">orcid.org</a></td>
+                  <table *ngIf="contact.contactLinks" class="table table-sm text-center">
+                    <tr *ngFor="let l of contact.contactLinks" class="table-light">
+                      <td><a href="{{ l.href }}" target="_blank">{{ l.caption }}</a></td>
                     </tr>
-                    <tr class="table-light">
+                    <!-- <tr class="table-light">
                       <td><a href="">nauka-polska.pl</a></td>
                     </tr>
                     <tr class="table-light">
                       <td><a href="">PGP</a></td>
-                    </tr>
+                    </tr> -->
                   </table>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
-              <div class="card" style="height: 100%;">
+              <div class="card info" style="height: 430px; overflow: auto;">
                 <div class="card-body">
-                  <h5 class="card-title">Rzeszow University of Technology</h5>
+                  <h5 class="card-title text-center">University</h5>
                   <div class="img">
-                    <img src="../../../../assets//logo_prz.png" style="height: 150px; width: 150px;">
+                    <img class="d-block m-auto" src="../../../../assets/prz.jpg" style="height: 150px; width: 150px;">
                   </div>
                   <ul style="list-style: none;" class="font-weight-bold mt-3">
                     <li class="my-2"><a href="">Department of Computer and Control Engineering</a></li>
@@ -104,7 +110,7 @@
       </div>
     </div>
     <div *ngIf="!loading" class="row">
-      <div *ngFor="let singleNews of news; let i = index;" class="col-md-2">
+      <div *ngFor="let singleNews of news; let i = index;" class="col-md-2 news">
         <div class="card" style="height: 100%;">
           <img *ngIf="singleNews.imageSection" class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
           <div class="card-body">
@@ -120,6 +126,11 @@
                 Read More
               </a>
             <span *ngIf="!canActivate(singleNews)" class="badge badge-warning ml-1 lock-icon" title="Login required."><i class="fas fa-lock" ></i></span>
+          </div>
+          <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
+            <div class="data">
+                {{ printDate(singleNews.updated_at)}}
+            </div>
           </div>
         </div>
       </div>
