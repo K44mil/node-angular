@@ -1,4 +1,5 @@
 import { AfterViewChecked, AfterViewInit, Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthUser } from '@app/home/modules/account/models';
 import { PageService } from '@app/home/services';
@@ -26,8 +27,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     constructor(
         private authService: AuthService,
-        private pageService: PageService
-    ) { }
+        private pageService: PageService,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('PhD Tomasz Rak - Profile');
+    }
 
     ngOnInit() {
         this.loggedUser = this.authService.userValue;

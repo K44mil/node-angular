@@ -27,7 +27,7 @@ export class AboutPageComponent implements OnInit {
         private pageService: PageService,
         private titleService: Title
     ) {
-        this.titleService.setTitle('PhD Tomasz Rak - About Page');
+        this.titleService.setTitle('PhD Tomasz Rak - About');
     }
 
     ngOnInit() {

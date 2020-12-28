@@ -6,6 +6,7 @@ import { AuthService, AlertService } from '@shared/services';
 import { first } from 'rxjs/operators';
 
 import { PasswordConfirmValidator } from '../../validators/PasswordConfirmValidator';
+import { Title } from '@angular/platform-browser';
 
 @Component({ templateUrl: 'register-student.component.html' })
 export class RegisterStudentComponent implements OnInit {
@@ -18,8 +19,11 @@ export class RegisterStudentComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private alertService: AlertService
-    ) { }
+        private alertService: AlertService,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('PhD Tomasz Rak - Register Student');
+    }
 
     ngOnInit() {
         this.registrationForm = this.formBuilder.group({

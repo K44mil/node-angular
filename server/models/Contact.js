@@ -9,14 +9,14 @@ const Link = new mongoose.Schema({
     }
 });
 
-const SocialMediaLink = new mongoose.Schema({
-    image: {
-        type: String
-    },
-    href: {
-        type: String
-    }
-});
+// const SocialMediaLink = new mongoose.Schema({
+//     image: {
+//         type: String
+//     },
+//     href: {
+//         type: String
+//     }
+// });
 
 const Contact = new mongoose.Schema({
     country: {
@@ -50,19 +50,22 @@ const Contact = new mongoose.Schema({
         type: String
     },
     contactLinks: [Link],
-    universityHP: { // University on HomePage
+    university: { // University on HomePage
         image: {
             type: String
         },
+        name: { type: String },
+        faculty: { type: String },
+        department: { type: String },
         universityLinks: [Link]
     },
-    universityCP: { // University on ContactPage
-        image: {
-            type: String
-        },
-        universityLinks: [Link]
-    },
-    socialMedia: [SocialMediaLink]
+    // universityCP: { // University on ContactPage
+    //     image: {
+    //         type: String
+    //     },
+    //     universityLinks: [Link]
+    // },
+    // socialMedia: [SocialMediaLink]
 });
 
 module.exports = mongoose.model('Contact', Contact);

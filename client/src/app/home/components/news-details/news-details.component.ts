@@ -9,7 +9,7 @@ import { first } from 'rxjs/operators';
 import { AlertService, AuthService } from '@app/shared/services';
 import { AuthUser, Role } from '@app/home/modules/account/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: 'news-details.component.html',
@@ -47,9 +47,11 @@ export class NewsDetailsComponent implements OnInit {
         private alertService: AlertService,
         private authService: AuthService,
         private formBuilder: FormBuilder,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        private titleService: Title
     ) {
         this.loggedUser = this.authService.userValue;
+        this.titleService.setTitle('PhD Tomasz Rak - News');
     }
 
     ngOnInit() {

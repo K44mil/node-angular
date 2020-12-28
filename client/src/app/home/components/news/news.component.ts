@@ -7,6 +7,7 @@ import { environment } from '@env/environment';
 import { AlertService, AuthService } from '@app/shared/services';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Category } from '@app/admin/modules/news/models/Category';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: 'news.component.html',
@@ -39,8 +40,11 @@ export class NewsComponent implements OnInit {
         private pageService: PageService,
         private authService: AuthService,
         private formBuilder: FormBuilder,
-        private alertService: AlertService
-    ) { }
+        private alertService: AlertService,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('PhD Tomasz Rak - News');
+    }
 
     ngOnInit() {
         this.filterForm = this.formBuilder.group({

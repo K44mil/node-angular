@@ -87,13 +87,11 @@
               <div class="card info" style="height: 430px; overflow: auto;">
                 <div class="card-body">
                   <h5 class="card-title text-center">University</h5>
-                  <div class="img">
-                    <img class="d-block m-auto" src="../../../../assets/prz.jpg" style="height: 150px; width: 150px;">
+                  <div *ngIf="contact.university.image" class="img">
+                    <img class="d-block m-auto" src="{{ getUniversityPhotoUrl() }}" style="height: 150px; width: 150px;">
                   </div>
-                  <ul style="list-style: none;" class="font-weight-bold mt-3">
-                    <li class="my-2"><a href="">Department of Computer and Control Engineering</a></li>
-                    <li class="my-2"><a href="">Faculty of Electrical and Computer Engineering</a></li>
-                    <li class="my-2"><a href="">Rzeszow University of Technology</a></li>
+                  <ul *ngIf="contact && contact.university && contact.university.universityLinks" style="list-style: none;" class="font-weight-bold mt-3">
+                    <li *ngFor="let l of contact.university.universityLinks" class="my-2"><a href="{{ l.href }}">{{ l.caption }}</a></li>
                   </ul>
                 </div>
               </div>

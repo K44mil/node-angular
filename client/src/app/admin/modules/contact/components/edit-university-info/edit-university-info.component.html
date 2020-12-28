@@ -1,0 +1,104 @@
+<div class="">
+    <!-- CONTACT MENU -->
+    <div class="row ml-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/contact">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" routerLink="/admin/contact/university" >University</a>
+            </li>
+        </ul>
+    </div>      
+    <div class="row mt-3">
+        <div class="col-9">
+            <h5>Edit University Info</h5>
+            <hr>
+            <form [formGroup]="editUniversityForm" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <div class="col-6">
+                        <label for="">Image</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="{{ photoUrl }}" alt="Image preview" class="image-preview">
+                              </div>
+                              <div class="col-md-8">
+                                <input type="file" accept="image/*" (change)="showPreview($event)">
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <div class="col-6">
+                        <label for="">University</label>
+                        <input type="text" class="form-control" formControlName="name">
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <div class="col-6">
+                        <label for="">Faculty</label>
+                        <input type="text" class="form-control" formControlName="faculty">
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <div class="col-6">
+                        <label for="">Department</label>
+                        <input type="text" class="form-control" formControlName="department">
+                    </div>
+                </div>
+                <button class="btn btn-outline-dark my-1">Save</button>
+            </form>
+        </div>
+        
+    </div>
+     <!-- Contact Links -->
+     <h6 class="mt-2">University Links</h6>
+     <div class="row">
+         <div class="col-2">
+             <button class="btn btn-success" data-toggle="collapse" data-target="#addContactLinkCollapse">
+                 + Add Link
+             </button>
+         </div>
+     </div>
+     <div class="row mt-1">
+         <div class="col-3">
+             <div class="collapse" id="addContactLinkCollapse">
+                 <form [formGroup]="addUniversityLinkForm" (ngSubmit)="onAddUniversityLinkSubmit()">
+                     <div class="form-group">
+                         <label for="">Caption</label>
+                         <input type="text" class="form-control" formControlName="caption">
+                     </div>
+                     <div class="form-group">
+                         <label for="">Href</label>
+                         <input type="text" class="form-control" formControlName="href">
+                     </div>
+                     <button class="btn btn-outline-dark">Save</button>
+                 </form>
+             </div>
+         </div>
+     </div>
+     <div class="row mt-1">
+         <div class="col-6">
+             <div class="table-responsive">
+                 <table class="table table-sm">
+                     <thead class="thead-dark">
+                         <th scope="col">#</th>
+                         <th scope="col">Caption</th>
+                         <th scope="col">Href</th>
+                         <th scope="col"></th>
+                     </thead>
+                     <tbody>
+                         <tr *ngFor="let l of universityLinks; let i = index;">
+                             <td>{{ i+1 }}</td>
+                             <td class="text-truncate" style="max-width: 200px;" title="{{ l.caption }}">{{ l.caption }}</td>
+                             <td class="text-truncate" style="max-width: 200px;" title="{{ l.href }}">{{ l.href }}</td>
+                             <td class="text-right">
+                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteLink(l._id)"><i class="fas fa-trash-alt"></i></span>
+                             </td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+</div>   

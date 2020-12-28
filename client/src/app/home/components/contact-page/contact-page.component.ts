@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { PageService } from '@app/home/services';
+import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -33,8 +35,11 @@ export class ContactPageComponent implements OnInit {
     loading: boolean = true;
 
     constructor(
-        private pageService: PageService
-    ) { }
+        private pageService: PageService,
+        private titleService: Title
+    ) {
+        this.titleService.setTitle('PhD Tomasz Rak - Contact');
+    }
 
     ngOnInit() {
         this.loadContact();
@@ -52,5 +57,11 @@ export class ContactPageComponent implements OnInit {
                     
                 }
             )
+    }
+
+    getUniversityPhotoUrl() {
+        if (this.contact && this.contact.university)
+            return `${environment.hostUrl}/uploads/${this.contact.university.image}`;
+        return '';
     }
 }

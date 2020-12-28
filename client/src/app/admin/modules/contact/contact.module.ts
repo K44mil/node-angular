@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import {
     EditContactComponent,
+    EditUniversityInfoComponent,
     LayoutComponent
 } from './components';
 
@@ -19,7 +20,8 @@ import { ContactRoutingModule } from './contact-routing.module';
     ],
     declarations: [
         LayoutComponent,
-        EditContactComponent
+        EditContactComponent,
+        EditUniversityInfoComponent
     ]
 })
 export class ContactModule { }

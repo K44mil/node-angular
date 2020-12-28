@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthService, AlertService } from '@shared/services';
+import { Title } from '@angular/platform-browser';
 
 @Component({ templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -17,9 +18,11 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authService: AuthService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private titleService: Title
     ) { 
         if (this.authService.userValue) this.router.navigate(['/']);
+        this.titleService.setTitle('PhD Tomasz Rak - Login');
     }
 
     ngOnInit() {

@@ -3,14 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {
     LayoutComponent,
-    EditContactComponent
+    EditContactComponent,
+    EditUniversityInfoComponent
 } from './components';
 
 const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: '', component: EditContactComponent }
+            { path: '', component: EditContactComponent },
+            { path: 'university', component: EditUniversityInfoComponent }
         ]
     }
 ];

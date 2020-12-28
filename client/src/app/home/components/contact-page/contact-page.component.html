@@ -7,13 +7,16 @@
         <div class="row">
             <div class="col-12 col-lg-4">
                 <div class="div">
-                    <img src="../../../../assets/prz.jpg" style="width: 200px; height: 200px">
+                    <img *ngIf="contact.university && contact.university.image" src="{{ getUniversityPhotoUrl() }}" style="width: 200px; height: 200px">
                 </div>
             </div>
             <div class="col-12 col-lg-8">
-                <h4><a href="https://w.prz.edu.pl/">Politechnika Rzeszowska Im. Ignacego Łukasiewicza (Rzeszow University of Technology)</a></h4>
+                <!-- <h4><a href="https://w.prz.edu.pl/">Politechnika Rzeszowska Im. Ignacego Łukasiewicza (Rzeszow University of Technology)</a></h4>
                 <h6><a href="https://weii.prz.edu.pl/">Wydział Elektrotechniki i Informatyki (Faculty of Electrical and Computer Engineering)</a></h6>
-                <h6><a href="https://kia.prz.edu.pl/">Katedra Automatyki i Informatyki (Department of Computer and Control Engineering)</a></h6>
+                <h6><a href="https://kia.prz.edu.pl/">Katedra Automatyki i Informatyki (Department of Computer and Control Engineering)</a></h6> -->
+                <h4 *ngIf="contact.university && contact.university.name">{{ contact.university.name }}</h4>
+                <h6 *ngIf="contact.university && contact.university.faculty">{{ contact.university.faculty }}</h6>
+                <h6 *ngIf="contact.university && contact.university.department">{{ contact.university.department }}</h6>
             </div>
         </div>
         <div class="row mt-2">
@@ -68,7 +71,7 @@
                 </table>
             </div>
         </div>
-        <div class="mt-4">
+        <!-- <div class="mt-4">
             <div class="row">
                 <div class="col-12">
                     <h5 style="text-align: center;">Social Media</h5>
@@ -89,7 +92,7 @@
                     <a href="https://nauka-polska.pl/#/profile/scientist?id=210124&_k=68zp46"><img class="img-social d-block" src="../../../../assets/opi.jpeg"></a>
                 </div>
             </div> 
-        </div>   
+        </div>    -->
     </div>
 </div>
 

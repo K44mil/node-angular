@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { News } from '@app/admin/modules/news/models/News';
 import { PageService } from '@app/home/services';
 import { AuthService } from '@app/shared/services';
@@ -33,9 +34,10 @@ export class HomePageComponent implements OnInit {
 
     constructor(
         private pageService: PageService,
-        private authService: AuthService
+        private authService: AuthService,
+        private titleService: Title
     ) {
-        
+        this.titleService.setTitle('PhD Tomasz Rak - Home Page');
     }
 
     ngOnInit() {
@@ -109,5 +111,11 @@ export class HomePageComponent implements OnInit {
             month: '2-digit',
             year: 'numeric'
         });
+    }
+
+    getUniversityPhotoUrl() {
+        if (this.contact && this.contact.university)
+            return `${environment.hostUrl}/uploads/${this.contact.university.image}`;
+        return '';
     }
 }
