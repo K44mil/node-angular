@@ -9,7 +9,7 @@ const User = require('../../models/User');
  * @access  Public
  */
 exports.login = asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, remember } = req.body;
 
     if (!email || !password) {
         return next(
@@ -52,11 +52,23 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     const token = user.getSignedJwtToken();
 
-    res.status(200).json({
+    // Send cookie with token
+    const options = {
+        httpOnly: true,
+    };
+
+    // Remember option
+    const days = 365;
+    if (remember && remember === true)
+        options.expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+
+    if (process.env.NODE_ENV === 'production')
+        options.secure = true;
+
+    res.status(200).cookie('token', token, options).json({
         success: true,
         data: {
-            user,
-            token
+            user
         }
     });
 });

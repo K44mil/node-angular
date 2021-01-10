@@ -165,8 +165,6 @@ exports.updateNews = asyncHandler(async (req, res, next) => {
             let groupsIds = groups || [];
             let usersIds = users || [];
 
-            console.log('git');
-
             // Courses allowed
             for (const id of coursesIds) {
                 await NewsAccessCourse.create({

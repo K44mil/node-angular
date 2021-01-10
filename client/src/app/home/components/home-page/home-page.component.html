@@ -102,8 +102,17 @@
     </div>
     <!-- LATEST NEWS -->
     <div *ngIf="!loading" class="row mt-5">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <!-- <h4 class="text-center">Latest News</h4> -->
+        <!-- <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a> -->
+        <div class="div">
+          <h4>Latest News <small><a routerLink="/news">more <i class="far fa-arrow-alt-circle-right"></i></a></small></h4>
+          
+        </div>   
+      </div>
+    </div>
+    <div *ngIf="!loading" class="row">
       <div class="col-12">
-        <h4 class="text-center">Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h4>
         <hr style="width: 75%;">
       </div>
     </div>

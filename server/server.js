@@ -15,6 +15,7 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const errorHandler = require('./middleware/errorHandler');
 const fileupload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 
 // Connect to MongoDB
 connectMongoDB();
@@ -48,6 +49,9 @@ const app = express();
 // Body parser
 app.use(express.json());
 
+// Cookie parser
+app.use(cookieParser());
+
 // File uploading
 app.use(fileupload());
 
@@ -72,7 +76,10 @@ app.use(limiter);
 app.use(hpp());
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4200',
+    credentials: true
+}));
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));

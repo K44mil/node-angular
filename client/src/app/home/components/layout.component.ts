@@ -11,7 +11,7 @@ import { Title } from '@angular/platform-browser';
                             </div>
                             <div *ngIf="cookiesAccepted" class="footer">
                                 <div class="text-center">
-                                    Footer
+                                    &copy; {{ getCurrentYear() }}
                                 </div>
                             </div>
                             <div *ngIf="!cookiesAccepted" class="footer">
@@ -46,6 +46,10 @@ export class LayoutComponent {
 
     acceptCookies() {
         this.cookiesAccepted = true;
+    }
+
+    getCurrentYear() {
+        return new Date().getFullYear();
     }
 
 }

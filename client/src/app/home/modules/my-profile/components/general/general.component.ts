@@ -96,7 +96,7 @@ export class GeneralComponent implements OnInit {
                     this.user = res.data.user;
                     const prevAvatar = this.authService.userValue.avatar;
                     this.authService.userValue.avatar = res.data.user.avatar;
-                    this.authService.saveUserValue();
+                    // this.authService.saveUserValue();
                     this.changeAvatarFormLoading = false;
                     this.changeAvatarForm.reset();
                     if (!prevAvatar) window.location.reload();
@@ -124,7 +124,7 @@ export class GeneralComponent implements OnInit {
                     const prevAvatar = this.authService.userValue.avatar;
                     this.authService.userValue.firstName = this.user.firstName;
                     this.authService.userValue.lastName = this.user.lastName;
-                    this.authService.saveUserValue();
+                    // this.authService.saveUserValue();
                     this.editDataFormSubmitted = false;
                     if (!prevAvatar) window.location.reload();
                 },

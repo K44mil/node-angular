@@ -17,7 +17,7 @@ export class EditUniversityInfoComponent implements OnInit {
     editUniversityForm: FormGroup;
     universityLinks: any[];
     photoUrl: string = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
-
+    addLinkSubmitted: boolean = false;
     constructor(
         private contactService: ContactService,
         private alertService: AlertService,
@@ -35,12 +35,14 @@ export class EditUniversityInfoComponent implements OnInit {
         });
 
         this.addUniversityLinkForm = this.formBuilder.group({
-            caption: ['', Validators.required],
-            href: ['', Validators.required]
+            caption: ['', [Validators.required, Validators.maxLength(100)]],
+            href: ['', [Validators.required, Validators.pattern(/^(http|https):\/\//)]]
         });
 
         this.loadContact();
     }
+
+    get aL() { return this.addUniversityLinkForm.controls; }
 
     loadContact() {
         this.contactService.getContact()
@@ -112,6 +114,7 @@ export class EditUniversityInfoComponent implements OnInit {
     }
 
     onAddUniversityLinkSubmit() {
+        this.addLinkSubmitted = true;
         if (this.addUniversityLinkForm.invalid) return;
 
         this.contactService.addUniversityLink(this.addUniversityLinkForm.value)
@@ -119,6 +122,7 @@ export class EditUniversityInfoComponent implements OnInit {
             .subscribe(
                 res => {
                     this.loadContact();
+                    this.addLinkSubmitted = false;
                 },
                 err => {
                     this.alertService.clear();

@@ -47,8 +47,8 @@ export class AddAnnouncementComponent implements OnInit {
         }
 
         this.addAnnouncementForm.patchValue({
-            visibleFrom: `${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
-            visibleTo: `${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
+            visibleFrom: `${new Date(`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`).toISOString()}`,//`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
+            visibleTo:  `${new Date(`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`).toISOString()}`//`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
         });
 
         this.announcementsService.createAnnouncement(this.addAnnouncementForm.value)

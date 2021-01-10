@@ -29,7 +29,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
     if (!user) {
         return next(
-            new ErrorResponse(`Invalid token.`, 400)
+            new ErrorResponse(`Invalid reset token.`, 400)
         );
     }
 
@@ -56,7 +56,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
-            message: 'Password reset correctly'
+            message: 'Password has been changed.'
         }
     });
 });

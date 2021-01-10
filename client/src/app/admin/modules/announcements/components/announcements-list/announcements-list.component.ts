@@ -53,7 +53,8 @@ export class AnnouncementsListComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 if (res.success == true) {
-                    this.alertService.success('Announcement deleted.', {
+                    this.alertService.clear();
+                    this.alertService.success('Announcement has been deleted.', {
                         autoClose: true
                     });
                     this.loadAnnouncements();

@@ -6,11 +6,17 @@ const User = require('../models/User');
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
     let token;
-    const authHeader = req.headers.authorization;
 
-    if (authHeader && authHeader.startsWith('Bearer')) {
-        token = authHeader.split(' ')[1];
-    }
+    // Token from Headers
+    // const authHeader = req.headers.authorization;
+
+    // if (authHeader && authHeader.startsWith('Bearer')) {
+    //     token = authHeader.split(' ')[1];
+    // }
+    
+    // Token from Cookies
+    if (req.cookies.token)
+        token = req.cookies.token;
 
     if (!token) {
         return next(
@@ -63,11 +69,17 @@ exports.authorize = (...roles) => {
 // Check if user is logged in
 exports.getLoggedUser = asyncHandler(async (req) => {
     let token;
-    const authHeader = req.headers.authorization;
+    
+    // Token from Headers 
+    // const authHeader = req.headers.authorization;
 
-    if (authHeader && authHeader.startsWith('Bearer')) {
-        token = authHeader.split(' ')[1];
-    }
+    // if (authHeader && authHeader.startsWith('Bearer')) {
+    //     token = authHeader.split(' ')[1];
+    // }
+
+    // Token from Cookies
+    if (req.cookies.token)
+        token = req.cookies.token;
 
     if (!token) return null;
 

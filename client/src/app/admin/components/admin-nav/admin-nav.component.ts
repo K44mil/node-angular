@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService, AlertService } from '@shared/services';
 import { AuthUser, Role } from '@home/modules/account/models';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'admin-nav',
@@ -22,10 +23,9 @@ export class AdminNavComponent implements OnInit {
     }
 
     logout() {
-        this.authService.logout();
-        this.alertService.info('Logout successful.', {
-            autoClose: true
-        });
+        this.authService.logout()
+            .pipe(first())
+            .subscribe();
     }
     
 }

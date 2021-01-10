@@ -277,7 +277,7 @@ export class GroupMarksComponent implements OnInit {
                     this.addNoteFormSubmitted = false;
                 },
                 err => {
-                    console.log(err);
+                    // console.log(err);
                 }
             )
     }

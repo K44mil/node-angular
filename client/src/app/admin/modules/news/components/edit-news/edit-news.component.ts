@@ -174,12 +174,12 @@ export class EditNewsComponent implements OnInit {
          this.editNewsForm.patchValue({
              photoSection: false
          });
-     formData.append('photoSection', this.editNewsForm.get('photoSection').value);
-     if (this.f.filesSection.value == '')
-         this.editNewsForm.patchValue({
-             filesSection: false
-         });
-     formData.append('filesSection', this.editNewsForm.get('filesSection').value);
+        formData.append('photoSection', this.editNewsForm.get('photoSection').value);
+        if (this.f.filesSection.value == '')
+            this.editNewsForm.patchValue({
+                filesSection: false
+            });
+        formData.append('filesSection', this.editNewsForm.get('filesSection').value);
         
         // Files
         const filesIds = [];
@@ -220,6 +220,7 @@ export class EditNewsComponent implements OnInit {
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                    this.loading = false;
                     window.scrollTo(0, 0);
                 }
             )

@@ -13,6 +13,9 @@ export class EditContactComponent implements OnInit {
     contactLinks: any[];
     addContactLinkForm: FormGroup;
 
+    submitted: boolean = false;
+    addLinkSubmitted: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private contactService: ContactService,
@@ -21,25 +24,28 @@ export class EditContactComponent implements OnInit {
 
     ngOnInit() {
         this.editContactForm = this.formBuilder.group({
-            country: [''],
-            city: [''],
-            street: [''],
-            postalCode: [''],
-            room: [''],
-            email: [''],
-            phone: [''],
-            webPage: [''],
-            consultations: [''],
-            shortInformation: ['']
+            country: ['', Validators.maxLength(50)],
+            city: ['', Validators.maxLength(50)],
+            street: ['', Validators.maxLength(50)],
+            postalCode: ['', Validators.pattern(/[0-9]{2}-[0-9]{3}/)],
+            room: ['', Validators.maxLength(10)],
+            email: ['', Validators.email],
+            phone: ['', Validators.maxLength(20)],
+            webPage: ['', Validators.pattern(/^(http|https):\/\//)],
+            consultations: ['', Validators.maxLength(50)],
+            shortInformation: ['', Validators.maxLength(200)],
         });
 
         this.addContactLinkForm = this.formBuilder.group({
-            caption: ['', Validators.required],
-            href: ['', Validators.required]
+            caption: ['', [Validators.required, Validators.maxLength(100)]],
+            href: ['', [Validators.required, Validators.pattern(/^(http|https):\/\//)]]
         });
 
         this.loadContact();
     }
+
+    get f() { return this.editContactForm.controls; }
+    get aL() { return this.addContactLinkForm.controls; }
 
     loadContact() {
         this.contactService.getContact()
@@ -71,6 +77,7 @@ export class EditContactComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editContactForm.invalid) return;
 
         this.contactService.updateContact(this.editContactForm.value)
@@ -81,6 +88,7 @@ export class EditContactComponent implements OnInit {
                     this.alertService.success('Contact Info has been updated.', {
                         autoClose: true
                     });
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();
@@ -92,6 +100,7 @@ export class EditContactComponent implements OnInit {
     }
 
     onAddContactLinkSubmit() {
+        this.addLinkSubmitted = true;
         if (this.addContactLinkForm.invalid) return;
 
         this.contactService.addContactLink(this.addContactLinkForm.value)
@@ -99,6 +108,7 @@ export class EditContactComponent implements OnInit {
             .subscribe(
                 res => {
                     this.loadContact();
+                    this.addLinkSubmitted = false;
                 },
                 err => {
                     this.alertService.clear();

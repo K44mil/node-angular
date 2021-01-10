@@ -45,6 +45,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         const order = req.query.sort.split(',');
         if (!order.includes('ASC') && !order.includes('DESC')) order[1] = 'ASC';
         options.order.push(order);
+    } else {
+        options.order.push(['email', 'ASC']);
     }
 
     // Pagination

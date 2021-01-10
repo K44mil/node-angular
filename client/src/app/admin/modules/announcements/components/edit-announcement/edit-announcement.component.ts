@@ -57,7 +57,7 @@ export class EditAnnouncementComponent implements OnInit {
                             content: announcement.content,
                             visibleFromDate: this.parseDate(announcement.visibleFromDate),
                             visibleFromTime: announcement.visibleFromTime,
-                            visibleToDate: this.parseDate(announcement.visibleFromDate),
+                            visibleToDate: this.parseDate(announcement.visibleToDate),
                             visibleToTime: announcement.visibleToTime,
                             isVisible: announcement.isVisible
                         });
@@ -103,8 +103,8 @@ export class EditAnnouncementComponent implements OnInit {
         }
 
         this.editAnnouncementForm.patchValue({
-            visibleFrom: `${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
-            visibleTo: `${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
+            visibleFrom: `${new Date(`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`).toISOString()}`,//`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
+            visibleTo:  `${new Date(`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`).toISOString()}`//`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
         });
 
         this.announcementsService.updateAnnouncement(this.id, this.editAnnouncementForm.value)

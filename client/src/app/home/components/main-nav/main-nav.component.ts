@@ -4,6 +4,7 @@ import { AuthService, AlertService } from '@shared/services';
 import { AuthUser, Role } from '@home/modules/account/models';
 
 import { environment } from '@env/environment';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'main-nav',
@@ -25,7 +26,17 @@ export class MainNavComponent implements OnInit {
     }
 
     logout() {
-        this.authService.logout();
+        this.authService.logout()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    // this.alertService.clear();
+                    // this.alertService.info('You have been logout.');
+                },
+                err => {
+
+                }
+            )
     }
 
     isAdmin() {
