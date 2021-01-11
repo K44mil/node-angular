@@ -113,6 +113,7 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
     `;
 
     let options = {
+        format: "A4",
         border: {
             top: "0.2in",            // default is 0, units: mm, cm, in, px
             right: "0.5in",

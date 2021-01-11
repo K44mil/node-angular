@@ -45,7 +45,7 @@ export class AnnouncementsComponent implements OnInit {
 
     autoCloseAnnouncement(id) {
         const btn = document.getElementById(`closeButton${id}`);
-        btn.click();
+        if (btn) btn.click();
     }
 
     generateButtonId(id) {

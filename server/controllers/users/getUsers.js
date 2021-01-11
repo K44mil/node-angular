@@ -69,11 +69,11 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 
     // Get user in group
     if (groupId) {
-        options.include.push({ model: UserGroup, where: { groupId: { [Op.eq]: groupId}, isConfirmed: { [Op.eq]: 1 } }});
+        options.include.push({ model: UserGroup, where: { groupId: { [Op.eq]: `${groupId}` }, isConfirmed: { [Op.eq]: 1 } }});
     }
-        
+
     const users = await User.findAndCountAll(options);
-    
+
     // Pagination results
     const pagination = {};
 

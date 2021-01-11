@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 
 import { AnnouncementValidator } from '../../validators/AnnouncementValidator';
 import { AnnouncementsService } from '../../services/announcements.service'; 
+import { ThemePalette } from '@angular/material/core';
 
 @Component({ templateUrl: 'edit-announcement.component.html' })
 export class EditAnnouncementComponent implements OnInit {
@@ -13,6 +14,27 @@ export class EditAnnouncementComponent implements OnInit {
     id: string;
     announcementLoaded: boolean = false;
     submitted: boolean = false;
+
+    @ViewChild('pickerFrom') pickerFrom: any;
+    @ViewChild('pickerTo') pickerTo: any;
+
+    // Datepicker
+    public date: Date;
+    public disabled = false;
+    public showSpinners = true;
+    public showSeconds = false;
+    public touchUi = false;
+    public enableMeridian = false;
+    public minDate: Date;
+    public maxDate: Date;
+    public stepHour = 1;
+    public stepMinute = 1;
+    public stepSecond = 1;
+    public color: ThemePalette = 'primary';
+
+    public stepHours = [1, 2, 3, 4, 5];
+    public stepMinutes = [1, 5, 10, 15, 20, 25];
+    public stepSeconds = [1, 5, 10, 15, 20, 25];
 
     constructor(
         private announcementsService: AnnouncementsService,
@@ -29,15 +51,11 @@ export class EditAnnouncementComponent implements OnInit {
         this.editAnnouncementForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.maxLength(100)]],
             content: ['', [Validators.required, Validators.maxLength(500)]],
-            visibleFromDate: ['', Validators.required],
-            visibleFromTime: ['', Validators.required],
-            visibleFrom: [''],
-            visibleToDate: ['', Validators.required],
-            visibleToTime: ['', Validators.required],
-            visibleTo: [''],
+            visibleFrom: ['', Validators.required],
+            visibleTo: ['', Validators.required],
             isVisible: ['']
         }, {
-            validator: AnnouncementValidator('visibleFromDate', 'visibleFromTime', 'visibleToDate', 'visibleToTime')
+            // validator: AnnouncementValidator('visibleFromDate', 'visibleFromTime', 'visibleToDate', 'visibleToTime')
         });
     }
 
@@ -55,10 +73,8 @@ export class EditAnnouncementComponent implements OnInit {
                         this.editAnnouncementForm.patchValue({
                             title: announcement.title,
                             content: announcement.content,
-                            visibleFromDate: this.parseDate(announcement.visibleFromDate),
-                            visibleFromTime: announcement.visibleFromTime,
-                            visibleToDate: this.parseDate(announcement.visibleToDate),
-                            visibleToTime: announcement.visibleToTime,
+                            visibleFrom: announcement.visibleFrom,
+                            visibleTo: announcement.visibleTo,
                             isVisible: announcement.isVisible
                         });
                     }
@@ -101,11 +117,6 @@ export class EditAnnouncementComponent implements OnInit {
                 isVisible: false
             });
         }
-
-        this.editAnnouncementForm.patchValue({
-            visibleFrom: `${new Date(`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`).toISOString()}`,//`${this.f.visibleFromDate.value} ${this.f.visibleFromTime.value}`,
-            visibleTo:  `${new Date(`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`).toISOString()}`//`${this.f.visibleToDate.value} ${this.f.visibleToTime.value}`
-        });
 
         this.announcementsService.updateAnnouncement(this.id, this.editAnnouncementForm.value)
             .pipe(first())

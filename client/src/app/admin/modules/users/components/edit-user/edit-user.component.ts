@@ -27,8 +27,8 @@ export class EditUserComponent implements OnInit {
             password: ['', [Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)]],
             confirmPassword: ['', ],
             role: ['', Validators.required],
-            firstName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
-            lastName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
+            firstName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
+            lastName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
             albumNumber: ['']
         }, {
             validators: [

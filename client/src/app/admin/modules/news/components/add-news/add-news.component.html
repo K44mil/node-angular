@@ -109,7 +109,7 @@
               <div class="form-group">
                 <input type="checkbox" formControlName="accessOn" (change)="onAccessSectionChange()">
                 <label class="form-check-label ml-2">
-                  Restrict access
+                  Access To:
                 </label>
                 <div [ngClass]="{'d-none': !accessSectionOn}">
                   <news-access-settings (accessChanged)="onAccessChanged($event)"></news-access-settings>

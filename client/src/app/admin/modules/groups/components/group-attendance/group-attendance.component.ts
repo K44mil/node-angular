@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { GroupsService } from '../../services/groups.service';
 import { Event } from '../../models/Event';
 import { ModalService } from '@app/shared/services/modal.service';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
     templateUrl: 'group-attendance.component.html',
@@ -45,6 +46,27 @@ export class GroupAttendanceComponent implements OnInit {
     addEventSubmitted: boolean = false;
     editEventSubmitted: boolean = false;
 
+    @ViewChild('pickerAddEvent') pickerAdd: any;
+    @ViewChild('pickerEditEvent') pickerEdit: any;
+
+    // Datepicker
+    public date: Date;
+    public disabled = false;
+    public showSpinners = true;
+    public showSeconds = false;
+    public touchUi = false;
+    public enableMeridian = false;
+    public minDate: Date;
+    public maxDate: Date;
+    public stepHour = 1;
+    public stepMinute = 1;
+    public stepSecond = 1;
+    public color: ThemePalette = 'primary';
+
+    public stepHours = [1, 2, 3, 4, 5];
+    public stepMinutes = [1, 5, 10, 15, 20, 25];
+    public stepSeconds = [1, 5, 10, 15, 20, 25];
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -63,18 +85,14 @@ export class GroupAttendanceComponent implements OnInit {
         // EVENT FORM INIT
         this.eventForm = this.formBuilder.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
-            dateDate: ['', Validators.required],
-            dateTime: ['', Validators.required],
-            date: [''],
+            date: ['', Validators.required],
             groupId: ['']
         });
 
         // EDIT EVENT FORM INIT
         this.editEventForm = this.formBuilder.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
-            dateDate: ['', Validators.required],
-            dateTime: ['', Validators.required],
-            date: [''],
+            date: ['', Validators.required],
             groupId: ['']
         });
     }
@@ -94,10 +112,7 @@ export class GroupAttendanceComponent implements OnInit {
         this.addEventSubmitted = true;
         if (this.eventForm.invalid) return;
 
-        this.eventForm.patchValue({
-            date: `${this.f.dateDate.value} ${this.f.dateTime.value}`,
-            groupId: this.groupId
-        });
+        this.eventForm.patchValue({ groupId: this.groupId });
 
         this.groupsService.createEvent(this.eventForm.value)
             .pipe(first())
@@ -120,10 +135,6 @@ export class GroupAttendanceComponent implements OnInit {
     onEditEventFormSubmit() {
         this.editEventSubmitted = true;
         if (this.editEventForm.invalid) return;
-
-        this.editEventForm.patchValue({
-            date: `${this.ef.dateDate.value} ${this.ef.dateTime.value}`,
-        });
 
         this.groupsService.updateEvent(this.editedEventId, this.editEventForm.value)
             .pipe(first())
@@ -154,13 +165,13 @@ export class GroupAttendanceComponent implements OnInit {
         else if (this.editedEventId == event.id) { this.editedEventId = null; button.click(); }
         else if (this.editedEventId != event.id) this.editedEventId = event.id;
 
-        event.dateDate = this.parseDateToLocale(event.date).split(', ')[0];
-        event.dateTime = this.parseDateToLocale(event.date).split(', ')[1];
+        // event.dateDate = this.parseDateToLocale(event.date).split(', ')[0];
+        // event.dateTime = this.parseDateToLocale(event.date).split(', ')[1];
+        event.date = event.date;
         
         this.editEventForm.patchValue({
             name: event.name,
-            dateDate: this.parseDate(event.dateDate),
-            dateTime: event.dateTime,
+            date: event.date,
             groupId: event.groupId
         });
     }

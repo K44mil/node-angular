@@ -60,17 +60,22 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="">Event Date</label>
-                    <input type="date" formControlName="dateDate" class="form-control"
-                    [ngClass]="{'is-invalid': addEventSubmitted && f.dateDate.errors }" />
-                    <div *ngIf="addEventSubmitted && f.dateDate.errors" class="invalid-feedback">
-                        <div *ngIf="f.dateDate.errors.required">Date is required.</div>
-                    </div>
-                    <input type="time" formControlName="dateTime" class="form-control mt-1"
-                    [ngClass]="{'is-invalid': addEventSubmitted && f.dateTime.errors }" />
-                    <div *ngIf="addEventSubmitted && f.dateTime.errors" class="invalid-feedback">
-                        <div *ngIf="f.dateTime.errors.required">Time is required.</div>
-                    </div>
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="pickerAdd" 
+                                        placeholder="Event Date" 
+                                        formControlName="date"
+                                        [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerAdd">
+                        </mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #pickerAdd 
+                          [showSpinners]="showSpinners" 
+                          [showSeconds]="showSeconds"
+                          [stepHour]="stepHour" [stepMinute]="stepMinute" 
+                          [stepSecond]="stepSecond"
+                          [touchUi]="touchUi"
+                          [color]="color">
+                        </ngx-mat-datetime-picker>
+                      </mat-form-field>
                 </div>
                 <button class="btn btn-outline-dark">Save</button>
             </form>
@@ -89,17 +94,22 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="">Event Date</label>
-                    <input type="date" formControlName="dateDate" class="form-control"
-                    [ngClass]="{'is-invalid': editEventSubmitted && ef.dateDate.errors }" />
-                    <div *ngIf="editEventSubmitted && ef.dateDate.errors" class="invalid-feedback">
-                        <div *ngIf="ef.dateDate.errors.required">Date is required.</div>
-                    </div>
-                    <input type="time" formControlName="dateTime" class="form-control mt-1"
-                    [ngClass]="{'is-invalid': editEventSubmitted && ef.dateTime.errors }" />
-                    <div *ngIf="editEventSubmitted && ef.dateTime.errors" class="invalid-feedback">
-                        <div *ngIf="ef.dateTime.errors.required">Time is required.</div>
-                    </div>
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="pickerEdit" 
+                                        placeholder="Event Date" 
+                                        formControlName="date"
+                                        [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerEdit">
+                        </mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #pickerEdit 
+                          [showSpinners]="showSpinners" 
+                          [showSeconds]="showSeconds"
+                          [stepHour]="stepHour" [stepMinute]="stepMinute" 
+                          [stepSecond]="stepSecond"
+                          [touchUi]="touchUi"
+                          [color]="color">
+                        </ngx-mat-datetime-picker>
+                      </mat-form-field>
                 </div>
                 <button class="btn btn-outline-dark">Save</button>
             </form>

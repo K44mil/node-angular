@@ -39,12 +39,12 @@ exports.validateUser = (user) => {
     // @@@ Validate Password
     // Required:
     if (!user.password || user.password === '')
-        return validationError('Password is required.');
-    
+    return validationError('Password is required.');
+
     // Pattern:
     if (!user.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/))
         return validationError('The password must be at least 8 characters long and maximum 16 characters long, contains upper and lower case letters, a number and a special character.');
-    
+
     // @@@ Validate Confirm Password
     // Required:
     if (!user.confirmPassword || user.confirmPassword === '')
