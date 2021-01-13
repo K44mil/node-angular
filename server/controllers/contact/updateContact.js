@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 
 /**
  * @desc    Update Contact Info
@@ -20,10 +20,10 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
         consultations,
         shortInformation
     } = req.body;
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     if (!contact) {
-        contact = await Contact.create({
+        contact = await GeneralInfo.create({
             country,
             city,
             street,
@@ -36,7 +36,7 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
             shortInformation
         });
     } else {
-        contact = await Contact.findByIdAndUpdate(contact._id, req.body, {
+        contact = await GeneralInfo.findByIdAndUpdate(contact._id, req.body, {
             new: true,
             runValidators: true
         });

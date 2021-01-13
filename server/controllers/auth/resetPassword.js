@@ -29,23 +29,29 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
     if (!user) {
         return next(
-            new ErrorResponse(`Invalid reset token.`, 400)
+            new ErrorResponse(`Invalid reset password token.`, 400)
         );
     }
 
     const { password, confirmPassword } = req.body;
 
-    if (!password || !confirmPassword) {
-        return next(
-            new ErrorResponse(`All fields are required.`, 400)
-        );
-    }
+    // @@@ Validate Password
+    // Required:
+    if (!password || password === '')
+    return next(new ErrorRespone('Password is required.'), 400);
 
-    if (password !== confirmPassword) {
-        return next(
-            new ErrorResponse(`Passwords must be identical.`, 400)
-        );
-    }
+    // Pattern:
+    if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/))
+        return next(new ErrorRespone('The password must be at least 8 characters long and maximum 16 characters long, contains upper and lower case letters, a number and a special character.'), 400);
+
+    // @@@ Validate Confirm Password
+    // Required:
+    if (!confirmPassword || confirmPassword === '')
+        return next(new ErrorRespone('Confirm Password is required.'), 400);
+
+    // Pattern:
+    if (password !== confirmPassword)
+        return next(new ErrorRespone('Passwords must be the same.'), 400);
 
     user.password = password;
     user.resetPasswordToken = null;
@@ -59,4 +65,15 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
             message: 'Password has been changed.'
         }
     });
+
+    try {
+        const html = `<p>Your password has been changed.</p>`;
+        await sendEmail({
+            email: user.email,
+            subject: 'Password changed.',
+            html: html
+        });
+    } catch (err) {
+
+    }
 });

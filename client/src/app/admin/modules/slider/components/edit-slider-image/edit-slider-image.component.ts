@@ -17,6 +17,7 @@ export class EditSliderImageComponent implements OnInit {
     loading: boolean = false;
     editedSliderImageId: string;
     sliderImageName: string = 'no-photo.jpg';;
+    submitted: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -29,7 +30,9 @@ export class EditSliderImageComponent implements OnInit {
     ngOnInit() {
         this.editSliderImageForm = this.formBuilder.group({
             photo: [''],
-            title: ['', Validators.required],
+            photoSource: [''],
+            caption: ['', Validators.maxLength(50)],
+            secondCaption: ['', Validators.maxLength(50)],
             isVisible: ['']
         });
 
@@ -46,7 +49,8 @@ export class EditSliderImageComponent implements OnInit {
                 res => {
                     const sliderImage = res.data.sliderImage;
                     this.editSliderImageForm.patchValue({
-                        title: sliderImage.title
+                        caption: sliderImage.caption,
+                        secondCaption: sliderImage.secondCaption
                     });
                     this.sliderImageName = sliderImage.image;
                     this.photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
@@ -63,6 +67,7 @@ export class EditSliderImageComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editSliderImageForm.invalid) return;
 
         if (this.f.isVisible.value == '') {
@@ -75,7 +80,8 @@ export class EditSliderImageComponent implements OnInit {
 
         const formData = new FormData();
         formData.append('photo', this.editSliderImageForm.get('photo').value);
-        formData.append('title', this.editSliderImageForm.get('title').value);
+        formData.append('caption', this.editSliderImageForm.get('caption').value);
+        formData.append('secondCaption', this.editSliderImageForm.get('secondCaption').value);
         formData.append('isVisible', this.editSliderImageForm.get('isVisible').value);
 
         this.sliderService.updateSliderImage(this.editedSliderImageId, formData)
@@ -87,6 +93,7 @@ export class EditSliderImageComponent implements OnInit {
                         autoClose: true
                     });
                     this.loading = false;
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();
@@ -94,6 +101,7 @@ export class EditSliderImageComponent implements OnInit {
                         autoClose: true
                     });
                     this.loading = false;
+                    this.submitted = false;
                 }
             )
     }

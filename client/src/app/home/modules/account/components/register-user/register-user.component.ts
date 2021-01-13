@@ -7,15 +7,17 @@ import { AuthService, AlertService } from '@shared/services';
 
 import { PasswordConfirmValidator } from '../../validators/PasswordConfirmValidator';
 import { Title } from '@angular/platform-browser';
+import { ContactService } from '@app/admin/modules/contact/services/contact.service';
 
 @Component({ templateUrl: 'register-user.component.html' })
 export class RegisterUserComponent implements OnInit {
     registrationForm: FormGroup;
     loading = false;
     submitted = false;
+    termsText: string = '';
 
     constructor(
-        private route: ActivatedRoute,
+        private contactService: ContactService,
         private router: Router,
         private formBuilder: FormBuilder,
         private authService: AuthService,
@@ -37,6 +39,8 @@ export class RegisterUserComponent implements OnInit {
         },{
             validator: PasswordConfirmValidator('password', 'confirmPassword')
         });
+
+        this.getTermsText();
     }
 
     get f() { return this.registrationForm.controls; }
@@ -70,5 +74,20 @@ export class RegisterUserComponent implements OnInit {
                     this.loading = false;
                 }
             );
+    }
+
+    getTermsText() {
+        this.contactService.getContact()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.data && res.data.contact && res.data.contact.termsText)
+                        this.termsText = res.data.contact.termsText;
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            )
     }
 }

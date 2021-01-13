@@ -19,6 +19,7 @@ export class EditNewsComponent implements OnInit {
     editNewsForm: FormGroup;
     categories;
     loading: boolean = false;
+    newsLoaded: boolean = false;
 
     files: File[] = [];
 
@@ -59,7 +60,7 @@ export class EditNewsComponent implements OnInit {
             photo: [''],
             title: ['', [Validators.required, Validators.maxLength(100)]],
             description: ['', Validators.maxLength(512)],
-            content: [''],
+            content: ['', Validators.maxLength(1000000)],
             categoriesIds: [''],
             // Sections
             photoSection: [''],
@@ -123,6 +124,12 @@ export class EditNewsComponent implements OnInit {
                     if (this.f.accessOn.value) this.accessSectionOn = true;
                     if (this.f.photoSection.value) this.photoSectionOn = true;
                     if (this.f.filesSection.value) this.filesSectionOn = true;
+
+                    // disable for logged users field
+                    if (news.NewsAccess && news.NewsAccess.isOn === true)
+                        this.f.isLoginProtected.disable();
+
+                    this.newsLoaded = true;
                 },
                 err => {
                     this.alertService.clear();

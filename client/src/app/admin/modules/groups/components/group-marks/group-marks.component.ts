@@ -341,8 +341,18 @@ export class GroupMarksComponent implements OnInit {
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                    this.reportLoading = false
                     window.scrollTo(0,0);
                 }
             )
+    }
+
+    printMarkTable(members) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.innerText = "Test";
+        tr.appendChild(td);
+
+        return tr;
     }
 }

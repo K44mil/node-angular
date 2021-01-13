@@ -39,13 +39,13 @@ export class GroupDetailsComponent implements OnInit {
 
     // Format Functions
     printGroupLevel(level) {
-        if (level == 'I') return 'first-degree';
-        if (level == 'M') return 'second-degree';
+        if (level == 'I') return 'First-degree';
+        if (level == 'M') return 'Second-degree';
     }
 
     printStudiesType(type) {
-        if (type == 'D') return 'full-time';
-        if (type == 'Z') return 'part-time';
+        if (type == 'D') return 'Full-time';
+        if (type == 'Z') return 'Part-time';
     }
 
     printGroupType(type) {

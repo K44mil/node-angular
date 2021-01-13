@@ -49,7 +49,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
         res.status(200).json({
             success: true,
             data: {
-                message: `Email was sent. Please check your mailbox.`
+                message: `Email has been sent. Please check your mailbox.`
             }
         });
     } catch (err) {

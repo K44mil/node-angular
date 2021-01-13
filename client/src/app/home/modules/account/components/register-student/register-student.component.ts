@@ -7,15 +7,17 @@ import { first } from 'rxjs/operators';
 
 import { PasswordConfirmValidator } from '../../validators/PasswordConfirmValidator';
 import { Title } from '@angular/platform-browser';
+import { ContactService } from '@app/admin/modules/contact/services/contact.service';
 
 @Component({ templateUrl: 'register-student.component.html' })
 export class RegisterStudentComponent implements OnInit {
     registrationForm: FormGroup;
     loading = false;
     submitted = false;
+    termsText: string = '';
 
     constructor(
-        private route: ActivatedRoute,
+        private contactService: ContactService,
         private router: Router,
         private formBuilder: FormBuilder,
         private authService: AuthService,
@@ -39,6 +41,8 @@ export class RegisterStudentComponent implements OnInit {
         }, {
             validator: PasswordConfirmValidator('password', 'confirmPassword')
         });
+
+        this.getTermsText();
     }
 
     get f() { return this.registrationForm.controls }
@@ -79,5 +83,20 @@ export class RegisterStudentComponent implements OnInit {
         this.registrationForm.patchValue({
             groupId: event
         });
+    }
+
+    getTermsText() {
+        this.contactService.getContact()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.data && res.data.contact && res.data.contact.termsText)
+                        this.termsText = res.data.contact.termsText;
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            )
     }
 }

@@ -57,9 +57,13 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
         m.marks = await Mark.findAll({ where: { userId: { [Op.eq]: u.id }, groupId: { [Op.eq]: group.id }}, order: [['created_at', 'DESC']] });
 
         table += `<tr><td>${i++}</td><td>${u.firstName} ${u.lastName}</td><td>${u.albumNumber}</td>`;
-
+        let j = 1;
         for (const mark of m.marks) {
             table += `<td class="mark">${mark.value}</td>`;
+            if (j % 10 === 0) 
+                table += `</tr><tr><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td>`
+            
+            j++;
         }
 
         if (m.marks.length > 0) table += `<td class="marks-avg">${getMarksAvg(m.marks)}</td>`

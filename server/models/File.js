@@ -1,5 +1,5 @@
 const { sequelize } = require('../config/db');
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, BIGINT } = require('sequelize');
 const News = require('./News');
 
 class File extends Model {
@@ -23,7 +23,7 @@ File.init({
         field: 'type'
     },
     size: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false,
         field: 'size'
     },

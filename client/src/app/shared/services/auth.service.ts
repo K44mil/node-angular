@@ -100,6 +100,10 @@ export class AuthService {
         return this.http.put<any>(`${environment.apiUrl}/auth/change_password`, body);
     }
 
+    public deleteAvatar() {
+        return this.http.get<any>(`${environment.apiUrl}/auth/delete_avatar`);
+    }
+
     public logout() {
         return this.http.get<any>(`${environment.apiUrl}/auth/logout`)
             .pipe(map(res => {

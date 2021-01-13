@@ -37,15 +37,13 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
         data: {}
     });
 
-    const message = `Administrator has just blocked your account.`;
+    const message = `<p>Your account has been blocked by the Administrator.`;
 
     try {
         await sendEmail({
             email: user.email,
             subject: 'Account blocked.',
-            message
+            html: message
         }); 
-    } catch (err) {
-        console.log(err);
-    }
+    } catch (err) { }
 });

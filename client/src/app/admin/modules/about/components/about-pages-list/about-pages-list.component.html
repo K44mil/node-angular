@@ -18,11 +18,9 @@
                 <tbody *ngIf="pages">
                     <tr *ngFor="let page of pages; let i = index">
                         <td>{{ i+1 }}</td>
-                        <td>{{ page.title }}</td>
+                        <td class="text-truncate" style="max-width: 200px;" title="{{ page.title }}">{{ page.title }}</td>
                         <td class="text-center">
                             <span class="badge badge-primary badge-pill">{{ page.priority }}</span>
-                            <!-- <span *ngIf="i !== 0" class="btn badge badge-success badge-pill" (click)="increasePriority(page._id)"><i class="fas fa-angle-up"></i></span> -->
-                            <!-- <span *ngIf="i < pages.length-1" class="btn badge badge-danger badge-pill ml-1" (click)="decreasePriority(page._id)"><i class="fas fa-angle-down"></i></span> -->
                         </td>
                         <td class="text-right">
                             <span class="btn badge badge-info badge-pill ml-1" (click)="editAboutPage(page._id)"><i class="fas fa-pen"></i></span>

@@ -3,10 +3,10 @@
         <div class="col-md-2" >
             <div class="nav flex-column nav-pills">
                 <a *ngFor="let page of pages; let i = index" class="nav-link"
-                     [ngClass]="{ 'active': i === 0 }" data-toggle="pill" (click)="setCurrentPage(page)">{{ page.title }}</a>
-              </div>
+                        [ngClass]="{ 'active': i === 0 }" data-toggle="pill" (click)="setCurrentPage(page)">{{ page.title }}</a>
+                </div>
         </div> 
-        <div *ngIf="currentPage" class="col-md-10">
+        <div *ngIf="currentPage" class="col-md-10" style="max-width: 100vw;">
             <div>
                 <h3>{{ currentPage.title }}</h3>
                 <hr>
@@ -24,4 +24,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>    

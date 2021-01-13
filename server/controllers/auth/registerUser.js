@@ -61,21 +61,14 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         data: { }
     });
 
-    const message = `Your account was created.
-        It has to be verified by the administrator.`;
+    const message = `<p>Your account was created.
+        It has to be verified by the administrator.</p>`;
 
     try {
         await sendEmail({
             email: user.email,
             subject: 'Registration',
-            message
+            html: message
         });
-        
-    } catch (err) {
-        console.log(err);
-
-        return next(
-            new ErrorResponse(`Email could not be sent`, 500)
-        );
-    }
+    } catch (err) { }
 });

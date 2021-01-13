@@ -2,11 +2,16 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async options => {
     const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
+        // host: process.env.SMTP_HOST,
+        // port: process.env.SMTP_PORT,
+        // auth: {
+        //     user: process.env.SMTP_USER,
+        //     pass: process.env.SMTP_PASSWORD
+        // }
+        service: 'gmail',
         auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASSWORD
+            user: 'kdinztest@gmail.com',
+            pass: '4Bf9b7.ed1kdinz'
         }
     });
 
@@ -18,9 +23,7 @@ const sendEmail = async options => {
         html: options.html
     };
 
-    const info = await transporter.sendMail(message);
-
-    console.log('Message sent: %s', info.messageId);
+    await transporter.sendMail(message);
 };
 
 module.exports = sendEmail;

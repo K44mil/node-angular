@@ -64,9 +64,18 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <!-- <th scope="col">News Title</th> -->
-                            <th scope="col">File Name</th>
-                            <th scope="col">File Size</th>
+                            <th scope="col" class="sort-header" (click)="sortBy('name')">File Name
+                                <i *ngIf="sort.property === 'name' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                                <i *ngIf="sort.property === 'name' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                            </th>
+                            <th scope="col" class="sort-header" (click)="sortBy('size')">File Size
+                                <i *ngIf="sort.property === 'size' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                                <i *ngIf="sort.property === 'size' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                            </th>
+                            <th scope="col" class="sort-header" (click)="sortBy('created_at')">Uploaded at
+                                <i *ngIf="sort.property === 'created_at' && sort.order === 'ASC'" class="fas fa-arrow-up"></i>
+                                <i *ngIf="sort.property === 'created_at' && sort.order === 'DESC'" class="fas fa-arrow-down"></i>
+                            </th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -75,7 +84,8 @@
                             <td>{{ (itemsPerPage * (currentPage-1)) + i+1 }}</td>
                             <!-- <td>{{ f.News.title }}</td> -->
                             <td class="text-truncate" style="max-width: 300px;" title="{{ f.name }}">{{ f.name }}</td>
-                            <td>{{ parseFileSize(f.size) }}</td>                        
+                            <td>{{ parseFileSize(f.size) }}</td>   
+                            <td>{{ printDate(f.created_at) }}</td>                     
                             <td class="text-right">
                                 <span class="btn badge badge-secondary badge-pill" (click)="downloadFile(f.id, f.name, f.type)"><i class="fa fa-download" aria-hidden="true"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteFile(f.id)"><i class="fas fa-trash-alt"></i></span>

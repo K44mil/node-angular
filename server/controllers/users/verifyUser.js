@@ -31,16 +31,14 @@ exports.verifyUser = asyncHandler(async (req, res, next) => {
             id: user.id
         }
     });
-
-    const message = `Admin has just verified your account.`;
+    
+    const html = `<p>Your account has been activated.</p>`;
 
     try {
         await sendEmail({
             email: user.email,
-            subject: 'Account verified.',
-            message
+            subject: 'Account activated.',
+            html: html
         });
-    } catch (err) {
-        console.log(err);
-    }
+    } catch (err) { }
 });

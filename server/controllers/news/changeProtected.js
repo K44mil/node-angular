@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const News = require('../../models/News');
+const NewsAccess = require('../../models/NewsAccess');
 
 /**
  * @desc    Change news protected
@@ -8,7 +9,7 @@ const News = require('../../models/News');
  * @access  Private/Admin
  */
 exports.changeProtected = asyncHandler(async (req, res, next) => {
-    let news = await News.findByPk(req.params.id);
+    let news = await News.findByPk(req.params.id, { include: NewsAccess });
 
     if (!news) {
         return next(
@@ -17,6 +18,8 @@ exports.changeProtected = asyncHandler(async (req, res, next) => {
     }
 
     if (news.isLoginProtected == true) {
+        if (news.NewsAccess && news.NewsAccess.isOn === true)
+            return next(new ErrorResponse('This news has restricted access. It cannot be visible by not logged users.', 400));
         news = await news.update({
             isLoginProtected: false
         });

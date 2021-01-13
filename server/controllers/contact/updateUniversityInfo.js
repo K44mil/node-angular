@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 const path = require('path');
 
 /**
@@ -15,10 +15,10 @@ exports.updateUniversityInfo = asyncHandler(async (req, res, next) => {
         department
     } = req.body;
 
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     if (!contact) {
-        contact = await Contact.create();
+        contact = await GeneralInfo.create();
     }
 
     if (name)

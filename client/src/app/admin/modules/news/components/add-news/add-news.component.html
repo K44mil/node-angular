@@ -148,7 +148,11 @@
             <!-- CONTENT -->
             <div class="form-group col-md-7">
               <label for="">Content</label>
-              <ckeditor formControlName="content" [config]="config"></ckeditor>
+              <ckeditor formControlName="content" [config]="config"
+              [ngClass]="{'is-invalid': submitted && this.f.content.errors }"></ckeditor>
+              <div *ngIf="submitted && this.f.content.errors" class="invalid-feedback">
+                <div *ngIf="this.f.content.errors.maxlength">Content cannot be longer than 1 000 000 characters.</div>
+              </div>
             </div>
           </div>
         </form>

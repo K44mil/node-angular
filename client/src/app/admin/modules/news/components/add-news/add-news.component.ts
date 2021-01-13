@@ -8,7 +8,6 @@ import { CategoriesService } from '../../services/categories.service';
 import { ModalService } from '@app/shared/services/modal.service';
 import { File } from '../../../files/models/File';
 import { environment } from '@env/environment';
-import { formatDate } from '@angular/common';
 
 @Component({
     templateUrl: 'add-news.component.html',
@@ -55,7 +54,7 @@ export class AddNewsComponent implements OnInit {
             photo: [''],
             title: ['', [Validators.required, Validators.maxLength(100)]],
             description: ['', Validators.maxLength(512)],
-            content: [''],
+            content: ['', Validators.maxLength(1000000)],
             categoriesIds: [''],
             // Sections
             photoSection: [''],

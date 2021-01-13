@@ -9,11 +9,11 @@ const path = require('path');
  * @access  Private/Admin
  */
 exports.addSliderImage = asyncHandler(async (req, res, next) => {
-    const { title, isVisible } = req.body;
+    const { caption, secondCaption, isVisible } = req.body;
 
     const sliderImage = await SliderImage.create({
-        title,
-        isVisible
+        caption,
+        secondCaption
     });
 
     if (req.files && req.files.photo) {

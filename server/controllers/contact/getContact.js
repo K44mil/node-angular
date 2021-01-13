@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 
 /**
  * @desc    Get Contact Info
@@ -8,7 +8,7 @@ const Contact = require('../../models/Contact');
  * @access  Public
  */
 exports.getContact = asyncHandler(async (req, res, next) => {
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     res.status(200).json({
         success: true,

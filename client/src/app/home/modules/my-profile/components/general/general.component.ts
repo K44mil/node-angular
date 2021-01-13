@@ -53,8 +53,9 @@ export class GeneralComponent implements OnInit {
 
         // EDIT USER DATA FORM
         this.editUserDataForm = this.formBuilder.group({
-            firstName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
-            lastName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]]
+            // firstName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
+            // lastName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]]
+            email: ['', [Validators.required, Validators.email]]
         });
     }
 
@@ -133,6 +134,20 @@ export class GeneralComponent implements OnInit {
                         autoClose: true
                     });
                     window.scrollTo(0,0);
+                }
+            )
+    }
+
+    deleteAvatar() {
+        this.authService.deleteAvatar()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    window.location.reload();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             )
     }

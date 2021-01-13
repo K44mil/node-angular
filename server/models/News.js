@@ -29,7 +29,7 @@ News.init({
         field: 'description'
     },
     content: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT({ length: 'long' }),
         allowNull: true,
         field: 'content'
     },

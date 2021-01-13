@@ -111,7 +111,7 @@
                 </form>
             </div>
         </div>
-        <table class="marks-table">
+        <table class="marks-table mb-5">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -121,15 +121,23 @@
             <tbody>
                 <tr *ngFor="let m of members; let i = index;">
                     <td>{{ i+1 }}</td>
-                    <td class="d-flex justify-content-between">
-                        <span>{{ m.firstName }} {{ m.lastName }}</span>
-                        <span *ngIf="!m.note" class="btn badge badge-success badge-pill ml-2" (click)="selectNoteUser(m)" data-toggle="modal" data-target="#addNoteModal">
-                             + <i class="fas fa-sticky-note"></i>
-                        </span>
-                        <span *ngIf="m.note" class="btn badge badge-info badge-pill ml-2" (click)="editNote(m)" data-toggle="modal" data-target="#editNoteModal"><i class="fas fa-sticky-note"></i></span>
+                    <td>
+                        <div class="d-inline">
+                            <span>{{ m.firstName }} {{ m.lastName }}</span>
+                        </div>
+                        <div class="d-inline" style="float: right;">
+                            <span *ngIf="!m.note" class="btn badge badge-success badge-pill ml-2" (click)="selectNoteUser(m)" data-toggle="modal" data-target="#addNoteModal">
+                                + <i class="fas fa-sticky-note"></i>
+                           </span>
+                           <span *ngIf="m.note" class="btn badge badge-info badge-pill ml-2" (click)="editNote(m)" data-toggle="modal" data-target="#editNoteModal"><i class="fas fa-sticky-note"></i></span>
+                        </div>
+                        <span style="clear: both;"></span> 
                     </td>
                     <td>{{ m.albumNumber }}</td>
-                    <td *ngFor="let mark of m.marks" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
+                    <span *ngFor="let mark of m.marks; let i = index;">
+                        <td  class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
+                        <br *ngIf="i > 0 && i % 14 === 0">
+                    </span>
                     <td *ngIf="m.marks.length !== 0" class="bg-info text-white">{{ calculateAverage(m.marks) }}</td>
                 </tr>
             </tbody>

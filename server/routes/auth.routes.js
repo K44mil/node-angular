@@ -13,6 +13,7 @@ const { changeAvatar } = require('../controllers/auth/changeAvatar');
 const { isAdmin } = require('../controllers/auth/isAdmin');
 const { updateMe } = require('../controllers/auth/updateMe');
 const { logout } = require('../controllers/auth/logout');
+const { deleteAvatar } = require('../controllers/auth/deleteAvatar');
 
 // POST
 router.post('/register_user', registerUser);
@@ -23,6 +24,7 @@ router.post('/forgot_password', forgotPassword);
 // GET
 router.get('/me', getMe);
 router.get('/logout', logout);
+router.get('/delete_avatar', protect, deleteAvatar);
 
 // PUT
 router.put('/change_password', protect, changePassword);

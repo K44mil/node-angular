@@ -5,6 +5,7 @@ const { deleteContactLink } = require('../controllers/contact/deleteContactLink'
 const { deleteUniversityLink } = require('../controllers/contact/deleteUniversityLink');
 const { getContact } = require('../controllers/contact/getContact');
 const { updateContact } = require('../controllers/contact/updateContact');
+const { updateTerms } = require('../controllers/contact/updateTerms');
 const { updateUniversityInfo } = require('../controllers/contact/updateUniversityInfo');
 const router = express.Router();
 const { protect, authorize } = require('../middleware/auth');
@@ -12,6 +13,7 @@ const Role = require('../models/Role');
 
 router.put('/', protect, authorize(Role.Admin), updateContact);
 router.put('/university', protect, authorize(Role.Admin), updateUniversityInfo);
+router.put('/terms', protect, authorize(Role.Admin), updateTerms);
 
 router.get('/', getContact);
 

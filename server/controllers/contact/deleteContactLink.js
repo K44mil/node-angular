@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 
 /**
  * @desc    Delete Contact Link
@@ -8,7 +8,7 @@ const Contact = require('../../models/Contact');
  * @access  Private/Admin
  */
 exports.deleteContactLink = asyncHandler(async (req, res, next) => {
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     if (contact.contactLinks)
         contact.contactLinks = contact.contactLinks.filter(l => l.id !== req.params.id);

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthService, AlertService } from '@shared/services';
+import { PasswordConfirmValidator } from '../../validators/PasswordConfirmValidator';
 
 @Component({ templateUrl: 'reset-password.component.html' })
 export class ResetPasswordComponent implements OnInit {
@@ -26,8 +27,10 @@ export class ResetPasswordComponent implements OnInit {
     ngOnInit() {
         this.resetToken = this.route.snapshot.paramMap.get('resetToken');
         this.resetPasswordForm = this.formBuilder.group({
-            password: ['', Validators.required],
-            confirmPassword: ['', Validators.required]
+            password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)]],
+            confirmPassword: ['', Validators.required],
+        }, {
+            validator: PasswordConfirmValidator('password', 'confirmPassword')
         });
     }
 
@@ -43,14 +46,17 @@ export class ResetPasswordComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
+                    this.alertService.clear();
+                    this.alertService.success(res.data.message, { autoClose: true });
                     this.loading = false;
+                    this.submitted = false;
                     this.resetPasswordForm.reset();
-                    this.alertService.success(res.data.message);
-
                 },
                 err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                     this.loading = false;
-                    this.alertService.error(err);
+                    this.submitted = false;
                 }
             );
     }

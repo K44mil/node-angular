@@ -92,7 +92,13 @@ export class NewsListComponent implements OnInit {
 
     printDate(dateUTC) {
         const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return date.toLocaleString('pl', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
     }
 
     clearQuery() {
@@ -149,7 +155,8 @@ export class NewsListComponent implements OnInit {
                     this.loadNews(this.query);
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             );
     }
@@ -162,7 +169,8 @@ export class NewsListComponent implements OnInit {
                     this.loadNews(this.query);
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             );
     }
@@ -175,7 +183,8 @@ export class NewsListComponent implements OnInit {
                     this.loadNews(this.query);
                 },
                 err => {
-                    this.alertService.error(err);
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             );
     }
