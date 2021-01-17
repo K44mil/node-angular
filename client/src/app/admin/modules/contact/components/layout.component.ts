@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     template: `
               <div class="row mt-3">
                 <div class="col-md-9">
-                    <h3>Contact</h3>
+                    <h3>General</h3>
                     <hr>
                 </div>
               </div>

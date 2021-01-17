@@ -3,6 +3,7 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const File = require('../../models/File');
 const path = require('path');
 const fs = require('fs');
+const Backup = require('../../models/Backup');
 
 /**
  * @desc    Delete File
@@ -17,8 +18,11 @@ exports.deleteFile = asyncHandler(async (req, res, next) => {
         )
     }
 
-    const filePath = path.join(path.resolve(__dirname, '../..'), file.path);
-    fs.unlinkSync(filePath);
+    const backup = await Backup.findOne();
+    if (!backup.files.includes(file.id)) {
+        const filePath = path.join(path.resolve(__dirname, '../..'), file.path);
+        fs.unlinkSync(filePath);
+    }
     await file.destroy();
 
     res.status(200).json({

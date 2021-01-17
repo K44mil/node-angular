@@ -23,6 +23,25 @@ import { NotesService } from '../../services/notes.service';
                 .marks-table th {
                     text-align: center;
                 }
+
+                .add-mark-table {
+                    border-collapse: collapse;
+                }
+
+                .add-mark-table th, .add-mark-table td {
+                    border: 1px solid #ddd;
+                    padding: 5px;
+                }
+
+                .add-mark-table tr:hover {
+                    background-color: #338DF5;
+                    color: #fff;
+                }
+
+                .add-mark-table .mark-td:hover {
+                    background-color: #0A6CDE;
+                    cursor: pointer;
+                }
             `]
 })
 export class GroupMarksComponent implements OnInit {
@@ -31,6 +50,7 @@ export class GroupMarksComponent implements OnInit {
     selectedMarkId: string;
 
     addMarkForm: FormGroup;
+    addMarkForm2: FormGroup;
     editMarkForm: FormGroup;
 
     editedMarkId: string;
@@ -47,6 +67,9 @@ export class GroupMarksComponent implements OnInit {
     editNoteFormSubmitted: boolean = false;
 
     reportLoading: boolean = false;
+
+    // Test adding mark method
+    markValues = ['2.0', '3.0', '3.5', '4.0', '4.5', '5.0'];
 
     constructor(
         private route: ActivatedRoute,
@@ -66,6 +89,12 @@ export class GroupMarksComponent implements OnInit {
         this.addMarkForm = this.formBuilder.group({
             ids: ['', Validators.required],
             value: ['', Validators.required],
+            final: [''],
+            markDescriptionId: ['', Validators.required]
+        });
+
+        this.addMarkForm2 = this.formBuilder.group({
+            final: [''],
             markDescriptionId: ['', Validators.required]
         });
 
@@ -73,6 +102,7 @@ export class GroupMarksComponent implements OnInit {
             id: [''],
             student: [{ value: '', disabled: true }],
             value: ['', Validators.required],
+            final: [''],
             markDescriptionId: ['', Validators.required]
         });
 
@@ -92,8 +122,43 @@ export class GroupMarksComponent implements OnInit {
     get nf() { return this.addNoteForm.controls; }
     get enf() { return this.editNoteForm.controls; }
 
+    get f2() { return this.addMarkForm2.controls; }
+
+    addMarkDescriptionVisible = true;
+
+    onAddMarkFinalChange() {
+        if (this.f.final.value)
+            this.addMarkDescriptionVisible = false;
+        else this.addMarkDescriptionVisible = true;
+
+        console.log(this.addMarkDescriptionVisible);
+    }
+
+    editMarkDescriptionVisible = true;
+
+    onEditMarkFinalChange() {
+        if (this.ef.final.value)
+            this.editMarkDescriptionVisible = false;
+        else this.editMarkDescriptionVisible = true;
+    }
+
+    addMark2DescriptionVisible = true;
+
+    onAddMark2FinalChange() {
+        if (this.f2.final.value)
+            this.addMark2DescriptionVisible = false;
+        else this.addMark2DescriptionVisible = true;
+    }
+
     onSubmit() {
         this.addMarkFormSubmitted = true;
+
+        if (this.f.final.value === '')
+            this.addMarkForm.patchValue({ final: false });
+
+        if (this.f.final.value === true)
+            this.addMarkForm.patchValue({ markDescriptionId: '1' });
+
         if (this.addMarkForm.invalid) return;
 
         this.groupsService.createMarks(this.groupId, this.addMarkForm.value)
@@ -102,6 +167,7 @@ export class GroupMarksComponent implements OnInit {
                 res => {
                     this.loadMarks(this.groupId);
                     this.addMarkForm.reset();
+                    this.addMarkDescriptionVisible = true;
                     this.addMarkFormSubmitted = false;
                 },
                 err => {
@@ -116,6 +182,13 @@ export class GroupMarksComponent implements OnInit {
 
     onEditFormSubmit() {
         this.editMarkFormSubmitted = true;
+
+        if (this.ef.final.value === '')
+            this.editMarkForm.patchValue({ final: false });
+
+        if (this.ef.final.value === true)
+            this.editMarkForm.patchValue({ markDescriptionId: '1' });
+
         if (this.editMarkForm.invalid) return;
 
         this.groupsService.updateMark(this.ef.id.value, this.editMarkForm.value)
@@ -132,6 +205,7 @@ export class GroupMarksComponent implements OnInit {
                     this.editedMarkId = null;
                     this.selectedMarkId = null;
                     this.editMarkFormSubmitted = false;
+                    this.editMarkDescriptionVisible = true;
                 },
                 err => {
                     this.alertService.clear();
@@ -194,9 +268,16 @@ export class GroupMarksComponent implements OnInit {
                     this.editMarkForm.patchValue({
                         id: mark.id,
                         student: `${mark.User.firstName} ${mark.User.lastName}`,
+                        final: mark.final,
                         value: mark.value,
                         markDescriptionId: mark.markDescriptionId
                     });
+                    if (this.ef.final.value) {
+                        this.editMarkDescriptionVisible = false;
+                        this.editMarkForm.patchValue({ markDescriptionId: null });
+                    } else 
+                        this.editMarkDescriptionVisible = true;
+                        
                     window.scrollTo(0, 0);
                 },
                 err => {
@@ -208,8 +289,10 @@ export class GroupMarksComponent implements OnInit {
     calculateAverage(marks) {
         let sum = 0, count = 0;
         for (const m of marks) {
-            sum += Number(m.value);
-            count++;
+            if (!m.final) {
+                sum += Number(m.value);
+                count++;
+            }
         }
 
         return (sum/count).toFixed(2);
@@ -275,6 +358,7 @@ export class GroupMarksComponent implements OnInit {
                     this.selectedNoteUser = null;
                     btnClose.click();
                     this.addNoteFormSubmitted = false;
+                    this.addNoteForm.reset();
                 },
                 err => {
                     // console.log(err);
@@ -299,6 +383,7 @@ export class GroupMarksComponent implements OnInit {
                     this.selectedNoteUser = null;
                     btnClose.click();
                     this.editNoteFormSubmitted = false;
+                    this.editNoteForm.reset();
                 },
                 err => {
 
@@ -354,5 +439,66 @@ export class GroupMarksComponent implements OnInit {
         tr.appendChild(td);
 
         return tr;
+    }
+
+    getFinalMark(marks) {
+        for (const m of marks)
+            if (m.final) return m;
+        return '';
+    }
+
+    hasFinalMark(marks) {
+        for (const m of marks)
+            if (m.final) return true;
+        return false;
+    }
+
+    getNotFinalMarks(marks) {
+        const notFinalMarks = [];
+        for (const m of marks)
+            if (!m.final) notFinalMarks.push(m);
+        return notFinalMarks;
+    }
+
+    marksLengthWithoutFinal(marks) {
+        const notFinalMarks = [];
+        for (const m of marks)
+            if (!m.final) notFinalMarks.push(m);
+        return notFinalMarks.length;
+    }
+
+    addMarkForm2Submitted: boolean = false;
+
+    addMark(id: string, value: string) {
+        this.addMarkForm2Submitted = true;
+
+        if (this.f2.final.value === '')
+            this.addMarkForm2.patchValue({ final: false });
+
+        if (this.f2.final.value === true)
+            this.addMarkForm2.patchValue({ markDescriptionId: '1' });
+
+        if (this.addMarkForm2.invalid) return;
+
+        const reqBody = {
+            id: id,
+            value: value,
+            markDescriptionId: this.f2.markDescriptionId.value,
+            final: this.f2.final.value
+        };
+
+        this.marksService.createMark(this.groupId, reqBody)
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.loadMarks(this.groupId);
+                    this.addMarkForm2Submitted = false;
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                    this.addMarkForm2Submitted = false;
+                }
+            )
     }
 }

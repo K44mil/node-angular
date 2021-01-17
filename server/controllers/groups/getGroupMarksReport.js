@@ -46,6 +46,7 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
                 <tr>
                     <th>#</th>
                     <th colspan="2">Student</th>
+                    <th>Final Mark</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,19 +55,25 @@ exports.getGroupMarksReport = asyncHandler(async (req, res, next) => {
     let i = 1;
     for (const u of users) {
         const m = u.toJSON();
-        m.marks = await Mark.findAll({ where: { userId: { [Op.eq]: u.id }, groupId: { [Op.eq]: group.id }}, order: [['created_at', 'DESC']] });
-
+        // m.marks = await Mark.findAll({ where: { userId: { [Op.eq]: u.id }, groupId: { [Op.eq]: group.id }, final: { [Op.eq]: 1 }}, order: [['created_at', 'DESC']] });
+        finalMark = await Mark.findOne({ where: { userId: { [Op.eq]: u.id }, groupId: { [Op.eq]: group.id }, final: { [Op.eq]: 1 }}, order: [['created_at', 'DESC']] });
         table += `<tr><td>${i++}</td><td>${u.firstName} ${u.lastName}</td><td>${u.albumNumber}</td>`;
-        let j = 1;
-        for (const mark of m.marks) {
-            table += `<td class="mark">${mark.value}</td>`;
-            if (j % 10 === 0) 
-                table += `</tr><tr><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td>`
+        // Only finals
+        if (finalMark)
+            table += `<td style="text-align: center;">${finalMark.value}</td>`;
+        else
+        table += `<td style="text-align: center;"></td>`;
+        
+        // let j = 1;
+        // for (const mark of m.marks) {
+        //     table += `<td class="mark">${mark.value}</td>`;
+        //     if (j % 10 === 0) 
+        //         table += `</tr><tr><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td>`
             
-            j++;
-        }
+        //     j++;
+        // }
 
-        if (m.marks.length > 0) table += `<td class="marks-avg">${getMarksAvg(m.marks)}</td>`
+        // if (m.marks.length > 0) table += `<td class="marks-avg">${getMarksAvg(m.marks)}</td>`
 
         table += `</tr>`;
     }

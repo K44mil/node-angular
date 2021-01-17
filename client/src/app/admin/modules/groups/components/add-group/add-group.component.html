@@ -8,7 +8,7 @@
         <div class="col-8">
             <h5>Create New Group</h5>
             <hr style="width: 50%; margin-left: 0;">
-            <form *ngIf="countLoaded == 6" [formGroup]="newGroupForm" (ngSubmit)="onSubmit()">
+            <form *ngIf="countLoaded == 3" [formGroup]="newGroupForm" (ngSubmit)="onSubmit()">
                 <!-- <div class="form-group">
                     <label for="">University</label>
                     <select formControlName="universityId" class="form-control">
@@ -90,7 +90,7 @@
                             <label for="">Academic Year</label>
                             <div class="row">
                                 <div class="col-8">
-                                    <input formControlName="academicYear" type="text" maxlength="9" class="form-control"
+                                    <input formControlName="academicYear" type="text" class="form-control"
                                     [ngClass]="{'is-invalid': submitted && this.f.academicYear.errors }">
                                     <div *ngIf="submitted && this.f.academicYear.errors" class="invalid-feedback">
                                         <div *ngIf="this.f.academicYear.errors.required">Academic Year is required.</div>

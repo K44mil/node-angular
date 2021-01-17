@@ -11,6 +11,7 @@ const announcementsModule = () => import('./modules/announcements/announcements.
 const filesModule = () => import('./modules/files/files.module').then(x => x.FilesModule);
 const contactModule = () => import('./modules/contact/contact.module').then(x => x.ContactModule);
 const sliderModule = () => import('./modules/slider/slider.module').then(x => x.SliderModule);
+const backupModule = () => import('./modules/backup/backup.module').then(x => x.BackupModule);
 
 const routes: Routes = [
     {
@@ -23,7 +24,8 @@ const routes: Routes = [
             { path: 'files', loadChildren: filesModule },
             { path: 'announcements', loadChildren: announcementsModule },
             { path: 'contact', loadChildren: contactModule },
-            { path: 'slider', loadChildren: sliderModule }
+            { path: 'slider', loadChildren: sliderModule },
+            { path: 'backup', loadChildren: backupModule }
         ]
     }
 ];

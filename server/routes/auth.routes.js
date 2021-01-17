@@ -15,10 +15,17 @@ const { updateMe } = require('../controllers/auth/updateMe');
 const { logout } = require('../controllers/auth/logout');
 const { deleteAvatar } = require('../controllers/auth/deleteAvatar');
 
+const rateLimit = require('express-rate-limit');
+
+const loginLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000,
+    max: 300
+});
+
 // POST
 router.post('/register_user', registerUser);
 router.post('/register_student', registerStudent);
-router.post('/login', login);
+router.post('/login', loginLimiter ,login);
 router.post('/forgot_password', forgotPassword);
 
 // GET

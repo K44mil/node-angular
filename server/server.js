@@ -42,6 +42,7 @@ const presencesRoutes = require('./routes/presences.routes');
 const marksRoutes = require('./routes/marks.routes');
 const sliderRoutes = require('./routes/slider.routes');
 const notesRoutes = require('./routes/notes.routes');
+const backupRoutes = require('./routes/backup.routes');
 
 // App init
 const app = express();
@@ -68,7 +69,7 @@ app.use(helmet());
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 mins
-    max: 1000
+    max: 10000
 });
 app.use(limiter);
 
@@ -132,6 +133,7 @@ app.use('/api/v1/presences', presencesRoutes);
 app.use('/api/v1/marks', marksRoutes);
 app.use('/api/v1/slider', sliderRoutes);
 app.use('/api/v1/notes', notesRoutes);
+app.use('/api/v1/backup', backupRoutes);
 
 // Set error handler
 app.use(errorHandler);

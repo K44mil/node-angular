@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterContentChecked, Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { News } from '@app/admin/modules/news/models/News';
 import { PageService } from '@app/home/services';
@@ -15,17 +16,32 @@ import { first } from 'rxjs/operators';
             cursor: mark;
         }
 
-        @media(max-width: 768px) {
+        @media(max-width: 1200px) {
             .news {
                 margin-top: 10px;
             }
+        }
+
+        @media(max-width: 992px) {
             .info {
                 margin-top: 10px;
+            }
+            .uni-img {
+                margin-top: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 60px;
+                height: 120px;
+            }
+            .uni-links {
+                text-align: center;
+                margin: 0;
+                padding: 0;
             }
         }
     `]
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, AfterContentChecked {
     public news: News[];
     public slider;
     public contact: any;
@@ -35,7 +51,9 @@ export class HomePageComponent implements OnInit {
     constructor(
         private pageService: PageService,
         private authService: AuthService,
-        private titleService: Title
+        private titleService: Title,
+        private renderer2: Renderer2,
+        @Inject(DOCUMENT) private _document
     ) {
         this.titleService.setTitle('PhD Tomasz Rak - Home Page');
     }
@@ -44,6 +62,18 @@ export class HomePageComponent implements OnInit {
         this.loadLatestNews();
         this.loadSlider();
         this.loadContact();
+    }
+
+    ngAfterContentChecked() {
+        const badge = document.getElementById('badgeCont733');
+        if (badge) {
+            const script = this.renderer2.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://publons.com/mashlets?el=badgeCont733&rid=G-1895-2012"';
+            script.text = '';
+            const badge = document.getElementById('badgeCont733');
+            badge.appendChild(script);
+        }
     }
 
     loadLatestNews() {
@@ -117,5 +147,11 @@ export class HomePageComponent implements OnInit {
         if (this.contact && this.contact.university)
             return `${environment.hostUrl}/uploads/${this.contact.university.image}`;
         return '';
+    }
+
+    truncateNewsDescription(desc: string) {
+        if (desc && desc.length > 50)
+            return `${desc.substring(0, 50)}...`;
+        return desc;
     }
 }

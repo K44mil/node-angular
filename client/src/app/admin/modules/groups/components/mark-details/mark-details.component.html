@@ -10,8 +10,9 @@
                 </tr>
                 <tr>
                     <th scope="row">Description</th>
-                    <td *ngIf="mark.MarkDescription">{{ mark.MarkDescription.text }}</td>
-                    <td *ngIf="!mark.MarkDescription">-</td>
+                    <td *ngIf="!mark.final && mark.MarkDescription">{{ mark.MarkDescription.text }}</td>
+                    <td *ngIf="!mark.final && !mark.MarkDescription">-</td>
+                    <td *ngIf="mark.final">Final</td>
                 </tr>
                 <tr>
                     <th scope="row">Student</th>

@@ -69,11 +69,7 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="">Email</label>
-                        <input type="text" formControlName="email" class="form-control"
-                        [ngClass]="{'is-invalid': submitted && this.f.email.errors }"/>
-                        <div *ngIf="submitted && this.f.email.errors" class="invalid-feedback">
-                            <div *ngIf="this.f.email.errors.email">Please provide valid email.</div>
-                        </div>
+                        <input type="text" formControlName="email" class="form-control" >
                     </div>
                     <div class="col">
                         <label for="">Phone</label>
@@ -106,7 +102,7 @@
                         <textarea type="text" formControlName="shortInformation" class="form-control" rows="5"
                         [ngClass]="{'is-invalid': submitted && this.f.shortInformation.errors }"></textarea>
                         <div *ngIf="submitted && this.f.shortInformation.errors" class="invalid-feedback">
-                            <div *ngIf="this.f.shortInformation.errors.maxlength">Short Information cannot be longer than 200 characters.</div>
+                            <div *ngIf="this.f.shortInformation.errors.maxlength">Short Information cannot be longer than 500 characters.</div>
                         </div>
                     </div>
                 </div>

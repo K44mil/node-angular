@@ -58,7 +58,6 @@ export class EditTermsComponent implements OnInit {
                 res => {
                     this.alertService.clear();
                     this.alertService.success('Registration terms text has been updated.', { autoClose: true });
-                    console.log(res.data);
                     this.submitted = false;
                 },
                 err => {

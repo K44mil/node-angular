@@ -6,6 +6,7 @@ import { File } from '../../models/File';
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { environment } from '@env/environment';
 
 @Component({
     templateUrl: 'files-list.component.html',
@@ -296,4 +297,11 @@ export class FilesListComponent implements OnInit {
         this.prepareQuery();
         this.loadFiles(this.query);
     }
+
+    showLink(path: string) {
+        path = path.replace(/\/public/, '');
+        this.link = `${environment.hostUrl}${path}`;
+    }
+
+    link: string = '';
 }

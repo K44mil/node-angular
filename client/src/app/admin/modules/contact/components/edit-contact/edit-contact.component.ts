@@ -29,11 +29,11 @@ export class EditContactComponent implements OnInit {
             street: ['', Validators.maxLength(50)],
             postalCode: ['', Validators.pattern(/[0-9]{2}-[0-9]{3}/)],
             room: ['', Validators.maxLength(10)],
-            email: ['', Validators.email],
+            email: [''],
             phone: ['', Validators.maxLength(20)],
             webPage: ['', Validators.pattern(/^(http|https):\/\//)],
             consultations: ['', Validators.maxLength(50)],
-            shortInformation: ['', Validators.maxLength(200)],
+            shortInformation: ['', Validators.maxLength(500)],
         });
 
         this.addContactLinkForm = this.formBuilder.group({

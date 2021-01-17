@@ -11,6 +11,9 @@ import {
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CoursesService } from '../../services/courses.service';
+import { SpecializationsService } from '../../services/specializations.service';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
     templateUrl: 'edit-group.component.html'
@@ -32,6 +35,9 @@ export class EditGroupComponent implements OnInit {
     editGroupForm: FormGroup;
 
     constructor(
+        private coursesService: CoursesService,
+        private specializationsService: SpecializationsService,
+        private subjectsService: SubjectsService,
         private groupsService: GroupsService,
         private alertService: AlertService,
         private formBuilder: FormBuilder,
@@ -46,7 +52,7 @@ export class EditGroupComponent implements OnInit {
             subjectId: ['', Validators.required],
             level: ['', Validators.required],
             type: ['', Validators.required],
-            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/g)]],
+            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/)]],
             groupType: ['', Validators.required],
             number: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             isOpen: ['']
@@ -120,7 +126,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadCourses() {
-        this.groupsService.getVisibleCourses()
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(res => {                
                 if (res.data.courses)
@@ -134,7 +140,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.groupsService.getVisibleSpecializations()
+        this.specializationsService.getSpecializations('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.specializations)
@@ -150,7 +156,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadSubjects() {
-        this.groupsService.getVisibleSubjects()
+        this.subjectsService.getSubjects('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.subjects)

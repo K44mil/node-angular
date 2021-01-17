@@ -33,7 +33,7 @@
                 <button class="btn btn-outline-danger form-control" type="button" data-toggle="modal" data-target="#deleteAvatarConfirmationModal" >Delete Avatar</button>
             </div>
             <div class="col-md-12 col-lg-4 mt-1">
-                <button class="btn btn-outline-dark form-control" type="button" data-toggle="collapse" data-target="#collapseEditDataForm">Change Email</button>
+                <button class="btn btn-outline-dark form-control" type="button" data-toggle="collapse" data-target="#collapseEditDataForm">Edit Data</button>
             </div>
         </div>
         <div class="mt-5" id="collapseForms">
@@ -56,7 +56,7 @@
                 <!-- EDIT DATA FORM -->
                 <form [formGroup]="editUserDataForm" (ngSubmit)="onSubmitEditUserDataForm()">
                     <div class="col-md-12 mt-3">
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input formControlName="firstName" type="text" class="form-control"
                             [ngClass]="{ 'is-invalid': editDataFormSubmitted && f.firstName.errors }" />
@@ -73,7 +73,7 @@
                                 <div *ngIf="f.lastName.errors.pattern">Last Name cannot contains any special characters or digits.</div>
                                 <div *ngIf="f.lastName.errors.maxlength">Last Name cannot be longer than 30 characters.</div>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="form-group">
                             <label for="firstName">Email</label>
                             <input formControlName="email" type="text" class="form-control"

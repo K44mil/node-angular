@@ -1,6 +1,8 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Specialization = require('../../models/Specialization');
+const Subject = require('../../models/Subject');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Archive Specialization
@@ -18,6 +20,12 @@ exports.archiveSpecialization = asyncHandler(async (req, res, next) => {
 
     specialization.isArchive = true;
     await specialization.save();
+
+    // Archive all subjects
+    await Subject.update(
+        { isArchive: true },
+        { where: { specializationId: { [Op.eq]: specialization.id }}}
+    );
 
     res.status(200).json({
         success: true,

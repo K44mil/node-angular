@@ -5,7 +5,6 @@ import { SharedModule } from '@shared/shared.module';
 import { FilesRoutingModule } from './files-routing.module';
 
 import {
-    BackupComponent,
     FilesListComponent,
     LayoutComponent
 } from './components';
@@ -21,8 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ],
     declarations: [
         LayoutComponent,
-        FilesListComponent,
-        BackupComponent
+        FilesListComponent
     ]
 })
 export class FilesModule { }

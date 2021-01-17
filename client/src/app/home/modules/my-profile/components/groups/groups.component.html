@@ -53,10 +53,11 @@
                     </thead>
                     <tbody *ngIf="marks">
                       <tr *ngFor="let m of marks">
-                        <td>{{ printDate(m.created_at) }}</td>
-                        <td>{{ m.value }}</td>
-                        <td *ngIf="m.MarkDescription" >{{ m.MarkDescription.text }}</td>
-                        <td *ngIf="!m.MarkDescription" >-</td>
+                        <td [ngClass]="{'bg-danger': m.final }">{{ printDate(m.created_at) }}</td>
+                        <td [ngClass]="{'bg-danger': m.final }">{{ m.value }}</td>
+                        <td *ngIf="!m.final && m.MarkDescription" >{{ m.MarkDescription.text }}</td>
+                        <td *ngIf="!m.final && !m.MarkDescription" >-</td>
+                        <td class="bg-danger" *ngIf="m.final">Final</td>
                       </tr>
                     </tbody>
                     <tbody *ngIf="!marks || marks.length === 0">

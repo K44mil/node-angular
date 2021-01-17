@@ -8,13 +8,15 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: 'about-page.component.html',
-    styles: [`a.nav-link {
+    styles: [`
+            a.nav-link {
                 cursor: pointer;
                 color: #303030;
             }
             .active {
                 background: #303030 !important;
             }
+            
     `]
 })
 export class AboutPageComponent implements OnInit {

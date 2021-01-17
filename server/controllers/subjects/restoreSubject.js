@@ -1,6 +1,7 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Subject = require('../../models/Subject');
+const Specialization = require('../../models/Specialization');
 
 /**
  * @desc    Restore Subject
@@ -15,6 +16,9 @@ exports.restoreSubject = asyncHandler(async (req, res, next) => {
             new ErrorResponse(`Cannot find Subject with ID '${req.params.id}'.`, 400)
         );
     }
+    const specialization = await Specialization.findByPk(subject.specializationId);
+    if (specialization && specialization.isArchive)
+        return next(new ErrorResponse(`Cannot restore this subject until specialization ${specialization.name} is archival.`, 400));
 
     subject.isArchive = false;
     await subject.save();

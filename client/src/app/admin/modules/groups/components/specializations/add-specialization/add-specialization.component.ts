@@ -36,7 +36,7 @@ export class AddSpecializationComponent implements OnInit {
     get f() { return this.addSpecializationForm.controls; }
 
     loadCourses() {
-        this.coursesService.getCourses('')
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(
                 res => {

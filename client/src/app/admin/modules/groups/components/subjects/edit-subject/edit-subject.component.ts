@@ -46,7 +46,7 @@ export class EditSubjectComponent implements OnInit {
     get f() { return this.editSubjectForm.controls; }
 
     loadCourses() {
-        this.coursesService.getCourses('')
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(
                 res => {
@@ -62,7 +62,7 @@ export class EditSubjectComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.specializationsService.getSpecializations('')
+        this.specializationsService.getSpecializations('?isArchive=0')
         .pipe(first())
             .subscribe(
                 res => {

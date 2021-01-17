@@ -24,7 +24,7 @@ export class AnnouncementsComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 let announcements = res.data.announcements;
-                let seconds = 2;
+                let seconds = 10;
                 for (const a of announcements) {
                     if (!_a.includes(a._id)) this.announcements.push(a);
                     setTimeout(() => {
