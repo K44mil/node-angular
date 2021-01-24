@@ -34,6 +34,7 @@ export class EditContactComponent implements OnInit {
             webPage: ['', Validators.pattern(/^(http|https):\/\//)],
             consultations: ['', Validators.maxLength(50)],
             shortInformation: ['', Validators.maxLength(500)],
+            calendarUrl: ['', Validators.pattern(/^(http|https):\/\//)]
         });
 
         this.addContactLinkForm = this.formBuilder.group({
@@ -63,7 +64,8 @@ export class EditContactComponent implements OnInit {
                         phone: contact.phone,
                         webPage: contact.webPage,
                         consultations: contact.consultations,
-                        shortInformation: contact.shortInformation
+                        shortInformation: contact.shortInformation,
+                        calendarUrl: contact.calendarUrl
                     });
                     this.contactLinks = contact.contactLinks;
                 },

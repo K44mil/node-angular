@@ -21,6 +21,7 @@ exports.archiveManyGroups = asyncHandler(async (req, res, next) => {
         const group = await Group.findByPk(id);
         if (group) {
             group.isArchive = true;
+            group.isOpen = false;
             await group.save();
             countArchived++;
         }

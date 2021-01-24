@@ -90,7 +90,7 @@ exports.updateGroup = asyncHandler(async (req, res, next) => {
         }
     });
 
-    if (group) {
+    if (group && group.id !== groupToUpdate.id) {
         return next(
             new ErrorResponse('This group already exists.', 400)
         );

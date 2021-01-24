@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser';
                             </div>
                             <div *ngIf="!cookiesAccepted" class="footer">
                                 <div class="text-center">
-                                    This site is using cookies.
+                                    By using this site you agree to use cookies in accordance with your current browser settings, which you may change at any time.
                                     <button class="btn badge badge-pil btn-outline-secondary p-1" (click)="acceptCookies()">Close</button>
                                 </div>
                             </div>

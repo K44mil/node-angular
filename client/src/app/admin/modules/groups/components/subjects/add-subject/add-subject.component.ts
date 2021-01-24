@@ -74,6 +74,10 @@ export class AddSubjectComponent implements OnInit {
     }
 
     onCourseSelectChange(e) {
+        this.addSubjectForm.patchValue({
+            specializationId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === e.target.value);
     }
 

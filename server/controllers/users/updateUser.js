@@ -57,13 +57,13 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     }
 
      // First Name & Last Name validation
-     if (firstName.length > 30 || !firstName.match(/^[a-zA-Z]+$/)) {
+     if (firstName.length > 30 || !firstName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)) {
         return next(
             new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
         )
     }
 
-    if (lastName.length > 30 || !lastName.match(/^[a-zA-Z]+$/)) {
+    if (lastName.length > 30 || !lastName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)) {
         return next(
             new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
         )

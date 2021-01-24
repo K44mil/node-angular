@@ -88,7 +88,8 @@
                             <td>{{ printDate(f.created_at) }}</td>                     
                             <td class="text-right">
                                 
-                                <span class="btn badge badge-primary badge-pill" (click)="showLink(f.path)" data-toggle="modal" data-target="#linkModal"><i class="fas fa-link"></i></span>
+                                <!-- <span class="btn badge badge-primary badge-pill" (click)="showLink(f.path)" data-toggle="modal" data-target="#linkModal"><i class="fas fa-link"></i></span> -->
+                                <span class="btn badge badge-primary badge-pill" ngxClipboard [cbContent]="formatPath(f.path)"><i class="fas fa-link"></i></span>
                                 <span class="btn badge badge-secondary badge-pill ml-1" (click)="downloadFile(f.id, f.name, f.type)"><i class="fa fa-download" aria-hidden="true"></i></span>
                                 <span class="btn badge badge-danger badge-pill ml-1" (click)="deleteFile(f.id)"><i class="fas fa-trash-alt"></i></span>
                             </td>                     

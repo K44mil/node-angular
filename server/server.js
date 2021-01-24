@@ -16,6 +16,8 @@ const hpp = require('hpp');
 const errorHandler = require('./middleware/errorHandler');
 const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const cookie = require('cookie');
 
 // Connect to MongoDB
 connectMongoDB();
@@ -78,7 +80,12 @@ app.use(hpp());
 
 // Enable CORS
 app.use(cors({
-    origin: 'http://localhost:4200',
+    // origin: 'http://localhost:4200',
+    // origin: 'http://localhost:3001',
+    origin: [
+        'http://localhost:4200',
+        'http://localhost:3001'
+    ],
     credentials: true
 }));
 
@@ -138,9 +145,115 @@ app.use('/api/v1/backup', backupRoutes);
 // Set error handler
 app.use(errorHandler);
 
+
+const Session = require('./models/Session');
+const GeneralInfo = require('./models/GeneralInfo');
+const httpServer = http.Server(app);
+const io = require('socket.io')(httpServer, { cors: { origin: 'http://localhost:4200', credentials: true }});
+
+io.on('connection', (socket) => {
+
+    const address = socket.handshake.address;
+
+    Session.findOne({ address: address }, (err, session) => {
+        if (session) {
+            session.countSockets++;
+            session.save();
+        } else {
+            Session.create({ address: address });
+
+            GeneralInfo.findOne({ }, (err, general) => {
+                if (general) {
+                    general.online++;
+                    general.save({}, () => {
+                        io.emit('countOnline', { online: general.online });
+                    });
+                }
+            });
+        }
+    });
+
+    // try {
+    //     await Session.findOne({ address: address });
+    //     if (session) {
+    //         session.countSockets += 1;
+    //         await session.save();
+    //     } else {
+    //         await Session.create({
+    //             address: address
+    //         });
+
+    //         const general = await GeneralInfo.findOne();
+    //         if (general) {
+    //             if (general.online) general.online++;
+    //             else general.online = 1;
+    //             await general.save();
+
+    //             io.emit('countOnline', { online: general.online });
+    //         }
+    //     }
+    // } catch (err) { }
+
+    // let c = socket.handshake.headers.cookie;
+    // c = cookie.parse(c);
+
+    // try {
+    //     const session = await Session.findOne({ sessionId: c.session });
+    //     console.log(session);
+    //     if (session) {
+    //         if (session.socket === '') await session.updateOne({ socket: socket.id });
+    //         else 
+    //             await Session.create({ sessionId: c.session, socket: socket.id })
+    //     }   
+    // } catch (err) { }
+
+    socket.on('disconnect', () => {
+        Session.findOne({ address: address }, (err, session) => {
+            if (session) {
+                session.countSockets--;
+                if (session.countSockets < 1) {
+                    session.deleteOne();
+                    GeneralInfo.findOne({ }, (err, general) => {
+                        if (general) {
+                            if (general.online > 0) general.online--;
+                            general.save({}, () => {
+                                io.emit('countOnline', { online: general.online });
+                            });
+                        }
+                    });
+                } else {
+                    session.save();
+                }    
+            }
+        });
+        // try {
+        //     const session = await Session.findOne({ socket: socket.id });
+        //     session.deleteOne();
+        // } catch (err) { }
+        // try {
+        //     const session = await Session.findOne({ address: address });
+        //     if (session) {
+        //         session.countSockets -= 1;
+
+        //         if (session.countSockets < 1) {
+        //             await session.deleteOne();
+
+        //             const general = await GeneralInfo.findOne();
+        //             if (general) {
+        //                 if (general.online) general.online--;
+        //                 else general.online = 1;
+        //                 general.save();
+        //                 io.emit('countOnline', { online: general.online });
+        //             }
+        //         }
+        //     }
+        // } catch (err) { }
+    });
+});
+
 // App starts listening
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
+const server = httpServer.listen(PORT, () => {
     console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}.`);
 });
 

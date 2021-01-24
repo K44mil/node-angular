@@ -16,7 +16,7 @@ exports.validateUser = (user) => {
         return validationError('First Name is required.');
     
     // Pattern:
-    if (!user.firstName.match(/^[a-zA-Z]+$/))
+    if (!user.firstName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/))
         return validationError('First Name cannot contains any special characters or digits.');
 
     // Length:
@@ -29,7 +29,7 @@ exports.validateUser = (user) => {
         return validationError('Last Name is required.');
     
     // Pattern:
-    if (!user.lastName.match(/^[a-zA-Z]+$/))
+    if (!user.lastName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/))
         return validationError('Last Name cannot contains any special characters or digits.');
 
     // Length:

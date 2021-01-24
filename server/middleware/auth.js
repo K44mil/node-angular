@@ -24,7 +24,13 @@ exports.protect = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let decoded;
+    try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+        return next(new ErrorResponse('Invalid token.', 401));
+    }
+
     if (!decoded) {
         return next(
             new ErrorResponse('Not authorized.', 401)

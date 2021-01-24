@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
 import { FilesRoutingModule } from './files-routing.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import {
     FilesListComponent,
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         SharedModule,
         FilesRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ClipboardModule
     ],
     declarations: [
         LayoutComponent,

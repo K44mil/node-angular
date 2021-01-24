@@ -11,29 +11,29 @@
     <div *ngIf="!loading" class="row">
         <!-- TEACHERs INFO -->
         <div class="col-sm-12 col-md-6">
-          <div class="card info">
+          <div class="card info" style="height: 100%;">
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-12 col-xl-4 col-lg-5">
                   <p><span><i class="far fa-eye"></i></span> {{ contact.consultations }}</p>
                   <p><span><i class="far fa-building"></i></span> {{ contact.room }}</p>
                   <p><span><i class="fas fa-phone"></i></span> {{ contact.phone }}</p>
                   <p><span><i class="far fa-envelope"></i></span> {{ contact.email }}</p>
-                  <div>
-                    <small><i class="far fa-user"></i> Online: <span class="font-weight-bold">0</span></small>
-                    <br>
-                    <small><i class="far fa-clock"></i> Total visits: <span class="font-weight-bold">0</span></small>
-                  </div>
-                  <div>
-                    <span id="badgeCont733"></span>
-                  </div>
-                </div>
-                <div class="col-lg-6">
                   <p class="card-text" *ngIf="contact && contact.shortInformation">
                     {{ contact.shortInformation }}
                   </p> 
+                </div>
+                <div class="col-md-12 col-xl-8 col-lg-7">
+                  <div>
+                    <span id="badgeCont733"></span>
+                  </div>
+                  <div>
+                    <small><i class="far fa-user"></i> Online: <span class="font-weight-bold">{{ contact.online }}</span></small>
+                    <br>
+                    <small><i class="far fa-clock"></i> Total visits: <span class="font-weight-bold">{{ contact.totalViews }}</span></small>
+                  </div>
                    <!-- Some Links -->
-                  <table *ngIf="contact && contact.contactLinks" class="table table-sm text-center">
+                  <table *ngIf="contact && contact.contactLinks" class="table table-sm">
                     <tr *ngFor="let l of contact.contactLinks" class="table-light">
                       <td><a href="{{ l.href }}" target="_blank">{{ l.caption }}</a></td>
                     </tr>
@@ -42,33 +42,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="row">
-            <div *ngIf="contact" class="col-lg-6 mb-md-1">
-              <div class="card info">
-                <div class="card-body">
-                  <p><span><i class="far fa-eye"></i></span> {{ contact.consultations }}</p>
-                  <p><span><i class="far fa-building"></i></span> {{ contact.room }}</p>
-                  <p><span><i class="fas fa-phone"></i></span> {{ contact.phone }}</p>
-                  <p><span><i class="far fa-envelope"></i></span> {{ contact.email }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card info">
-                <div class="card-body">
-                  <p class="card-text" *ngIf="contact && contact.shortInformation">
-                    {{ contact.shortInformation }}
-                  </p> -->
-                   <!-- Some Links -->
-                   <!-- <table *ngIf="contact && contact.contactLinks" class="table table-sm text-center">
-                    <tr *ngFor="let l of contact.contactLinks" class="table-light">
-                      <td><a href="{{ l.href }}" target="_blank">{{ l.caption }}</a></td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
         <!-- END OF TEACHERs INFO -->
          <!-- SLIDER -->
@@ -78,11 +51,15 @@
               <div class="row">
                 <div class="col-sm-12 col-lg-2 col-xl-1">
                   <div *ngIf="contact && contact.university && contact.university.image" class="uni-img">
-                    <img src="{{ getUniversityPhotoUrl() }}" style="height: 120px; width: 60px;">
+                    <img src="{{ getUniversityPhotoUrl() }}" style="height: 100px;">
                   </div>
                 </div>
                 <div class="col-sm-12 col-lg-10 col-xl-11">
-                  <div *ngFor="let l of contact.university.universityLinks" style="font-size: 12px;" class="uni-links ml-xl-3"><a  href="{{ l.href }}">{{ l.caption }}</a><br></div>
+                  <div *ngFor="let l of contact.university.universityLinks" style="font-size: 12px;" class="uni-links" ><a  href="{{ l.href }}">{{ l.caption }}</a><br></div>
+                  <div class="text-md-center text-lg-left">
+                    <div style="font-size: 12px;" class="font-weight-bold uni-links">{{ contact.university.addressLine1 }}</div>
+                    <div style="font-size: 12px;" class="font-weight-bold uni-links">{{ contact.university.addressLine2 }}</div>
+                  </div>
                 </div>
               </div>  
             </div>
@@ -114,7 +91,7 @@
       <!-- END OF SLIDER -->
     </div>
     <!-- LATEST NEWS -->
-    <div *ngIf="!loading" class="row mt-5">
+    <div *ngIf="!loading" class="row mt-2">
       <div class="col-12 d-md-flex d-block justify-content-center align-items-center">
         <!-- <h4 class="text-center">Latest News</h4> -->
         <!-- <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a> -->
@@ -129,8 +106,8 @@
       </div>
     </div>
     <div *ngIf="!loading" class="row">
-      <div *ngFor="let singleNews of news; let i = index;" class="col-sm-12 col-md-6 col-lg-4 col-xl-2 news" style="height: 300px; overflow: auto;">
-        <div class="card" style="min-height: 300px;">
+      <div *ngFor="let singleNews of news; let i = index;" class="col-sm-12 col-md-6 col-lg-4 col-xl-2 news" style="height: 350px; overflow: auto;">
+        <div class="card" style="min-height: 350px;">
           <img *ngIf="singleNews.imageSection" class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
           <div class="card-body">
             <h6 class="card-title">{{ singleNews.title }}</h6>

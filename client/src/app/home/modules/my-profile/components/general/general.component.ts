@@ -46,8 +46,8 @@ export class GeneralComponent implements OnInit {
 
         // EDIT USER DATA FORM
         this.editUserDataForm = this.formBuilder.group({
-            firstName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
-            lastName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
+            firstName: ['', [Validators.maxLength(30), Validators.pattern(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)]],
+            lastName: ['', [Validators.maxLength(30), Validators.pattern(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)]],
             email: ['', Validators.email]
         });
 

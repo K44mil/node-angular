@@ -48,23 +48,16 @@ export class AddGroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // this.loadUniversities();
-        // this.loadFaculties();
-        // this.loadDepartments();
         this.loadCourses();
         this.loadSpecializations();
         this.loadSubjects();
 
         this.newGroupForm = this.formBuilder.group({
-            // universityId: ['', Validators.required],
-            // facultyId: ['', Validators.required],
-            // departmentId: ['', Validators.required],
             courseId: ['', Validators.required],
             specializationId: ['', Validators.required],
             subjectId: ['', Validators.required],
             level: ['', Validators.required],
             type: ['', Validators.required],
-            // semester: ['', Validators.required],
             academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/)]],
             groupType: ['', Validators.required],
             number: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
@@ -168,10 +161,19 @@ export class AddGroupComponent implements OnInit {
     onCourseSelectChange(e) {
         this.availableSubjects = [];
 
+        this.newGroupForm.patchValue({
+            specializationId: null,
+            subjectId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === e.target.value);
     }
 
     onSpecializationSelectChange(e) {
+        this.newGroupForm.patchValue({
+            subjectId: null
+        });
+
         this.availableSubjects = this.subjects.filter(sub => sub.specializationId === e.target.value);
     }
 }

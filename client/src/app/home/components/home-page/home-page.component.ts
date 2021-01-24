@@ -1,11 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterContentChecked, Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentChecked, Component, Inject, OnChanges, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { News } from '@app/admin/modules/news/models/News';
 import { PageService } from '@app/home/services';
 import { AuthService } from '@app/shared/services';
 import { environment } from '@env/environment';
 import { first } from 'rxjs/operators';
+import { SocketService } from '../../services/socket.service';
+// import { io } from 'socket.io-client';
 
 @Component({
     templateUrl: 'home-page.component.html',
@@ -22,6 +24,12 @@ import { first } from 'rxjs/operators';
             }
         }
 
+        @media(min-width: 1200px) {
+            .uni-links {
+                margin-left: 10px;
+            }
+        }
+
         @media(max-width: 992px) {
             .info {
                 margin-top: 10px;
@@ -30,8 +38,8 @@ import { first } from 'rxjs/operators';
                 margin-top: 10px;
                 margin-left: auto;
                 margin-right: auto;
-                width: 60px;
-                height: 120px;
+                width: 55px;
+                height: 100px;
             }
             .uni-links {
                 text-align: center;
@@ -41,28 +49,44 @@ import { first } from 'rxjs/operators';
         }
     `]
 })
-export class HomePageComponent implements OnInit, AfterContentChecked {
+export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges {
     public news: News[];
     public slider;
     public contact: any;
     loading: boolean = true;
     itemsLoaded: number = 0;
 
+    // socket connection
+    // private socket;
+
     constructor(
         private pageService: PageService,
         private authService: AuthService,
         private titleService: Title,
         private renderer2: Renderer2,
-        @Inject(DOCUMENT) private _document
+        @Inject(DOCUMENT) private _document,
+        private socketService: SocketService
     ) {
         this.titleService.setTitle('PhD Tomasz Rak - Home Page');
     }
 
     ngOnInit() {
+        // this.socket = io(environment.hostUrl, { withCredentials: true });  
+
+        this.socketService.socket.on('countOnline', (res) => {
+            this.contact.online = res.online;
+        });
+
         this.loadLatestNews();
         this.loadSlider();
         this.loadContact();
+
+        this.pageService.loggedOut.subscribe(value => {
+            if (value) this.loadLatestNews();
+        });
     }
+
+    ngOnChanges() { }
 
     ngAfterContentChecked() {
         const badge = document.getElementById('badgeCont733');

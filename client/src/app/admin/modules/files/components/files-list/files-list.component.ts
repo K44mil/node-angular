@@ -298,10 +298,14 @@ export class FilesListComponent implements OnInit {
         this.loadFiles(this.query);
     }
 
+    link: string;
     showLink(path: string) {
-        path = path.replace(/\/public/, '');
-        this.link = `${environment.hostUrl}${path}`;
+        // path = path.replace(/\/public/, '');
+        // this.link = `${environment.hostUrl}${path}`;
     }
 
-    link: string = '';
+    formatPath(path: string) {
+        path = path.replace(/\/public/, '');
+        return `${environment.hostUrl}${path}`;
+    }
 }

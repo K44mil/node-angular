@@ -40,6 +40,9 @@ const GeneralInfo = new mongoose.Schema({
     shortInformation: {
         type: String
     },
+    calendarUrl: {
+        type: String
+    },
     contactLinks: [Link],
     university: { // University on HomePage
         image: {
@@ -48,10 +51,18 @@ const GeneralInfo = new mongoose.Schema({
         name: { type: String },
         faculty: { type: String },
         department: { type: String },
+        addressLine1: { type: String },
+        addressLine2: { type: String },
         universityLinks: [Link]
     },
     termsText: {
         type: String
+    },
+    online: {
+        type: Number
+    },
+    totalViews: {
+        type: Number
     }
 });
 

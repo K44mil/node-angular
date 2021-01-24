@@ -34,6 +34,8 @@ export class EditGroupComponent implements OnInit {
 
     editGroupForm: FormGroup;
 
+    submitted: boolean = false;
+
     constructor(
         private coursesService: CoursesService,
         private specializationsService: SpecializationsService,
@@ -68,6 +70,7 @@ export class EditGroupComponent implements OnInit {
     get f() { return this.editGroupForm.controls; } 
 
     onSubmit() {
+        this.submitted = true;
         if (this.editGroupForm.invalid) return;
 
         if (this.f.isOpen.value == '') {
@@ -82,10 +85,13 @@ export class EditGroupComponent implements OnInit {
                 this.alertService.success('Group has been successfully edited.', {
                     autoClose: true
                 });
+                this.submitted = false;
             },
             err => {
-                this.alertService.error(err);
+                this.alertService.clear();
+                this.alertService.error(err, { autoClose: true });
                 window.scrollTo(0,0);
+                this.submitted = false;
             });
     }
 
@@ -188,10 +194,19 @@ export class EditGroupComponent implements OnInit {
     onCourseSelectChange() {
         this.availableSubjects = [];
 
+        this.editGroupForm.patchValue({
+            specializationId: null,
+            subjectId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === this.f.courseId.value);
     }
 
     onSpecializationSelectChange() {
+        this.editGroupForm.patchValue({
+            subjectId: null
+        });
+        
         this.availableSubjects = this.subjects.filter(sub => sub.specializationId === this.f.specializationId.value);
     }
 }
