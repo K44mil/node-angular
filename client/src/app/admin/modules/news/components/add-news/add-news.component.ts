@@ -207,12 +207,12 @@ export class AddNewsComponent implements OnInit {
         this.access = event;
     }
 
-    public photoUrl: string = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+    public photoUrl: string = `${environment.serverUrl}/uploads/news/no-news-photo.jpg`;
 
     showPreview(event) {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) {
-            this.photoUrl = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+            this.photoUrl = `${environment.serverUrl}/uploads/news/no-news-photo.jpg`;
             return;
         }
         this.addNewsForm.patchValue({

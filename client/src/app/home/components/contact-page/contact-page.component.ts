@@ -61,7 +61,7 @@ export class ContactPageComponent implements OnInit {
 
     getUniversityPhotoUrl() {
         if (this.contact && this.contact.university)
-            return `${environment.hostUrl}/uploads/${this.contact.university.image}`;
+            return `${environment.serverUrl}/uploads/${this.contact.university.image}`;
         return '';
     }
 }

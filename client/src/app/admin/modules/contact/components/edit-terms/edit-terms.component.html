@@ -19,11 +19,6 @@
             <hr>
             <form [formGroup]="termsForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <!-- <textarea formControlName="text" cols="30" rows="10" class="form-control"
-                    [ngClass]="{'is-invalid': submitted && this.f.text.errors }"></textarea>
-                    <div *ngIf="submitted && this.f.text.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.text.errors.maxlength">Text cannot be longer than 5000 characters.</div>
-                    </div> -->
                     <ckeditor formControlName="text" [config]="config"
                     [ngClass]="{'is-invalid': submitted && this.f.text.errors }"></ckeditor>
                     <div *ngIf="submitted && this.f.text.errors" class="invalid-feedback">

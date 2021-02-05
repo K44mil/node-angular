@@ -9,6 +9,7 @@ export class PageService {
 
     profilePage = new Subject<string>();
     loggedOut = new Subject<boolean>();
+    online = new Subject<Number>();
 
     constructor(private http: HttpClient) { }
 

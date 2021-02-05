@@ -53,7 +53,7 @@ export class EditSliderImageComponent implements OnInit {
                         secondCaption: sliderImage.secondCaption
                     });
                     this.sliderImageName = sliderImage.image;
-                    this.photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
+                    this.photoUrl = `${environment.serverUrl}/uploads/slider/${this.sliderImageName}`;
                 },
                 err => {
                     this.alertService.clear();
@@ -106,11 +106,11 @@ export class EditSliderImageComponent implements OnInit {
             )
     }
 
-    photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
+    photoUrl = `${environment.serverUrl}/uploads/slider/${this.sliderImageName}`;
     showPreview(event) {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) {
-            this.photoUrl = `${environment.hostUrl}/uploads/slider/${this.sliderImageName}`;
+            this.photoUrl = `${environment.serverUrl}/uploads/slider/${this.sliderImageName}`;
             return;
         }
         this.editSliderImageForm.patchValue({

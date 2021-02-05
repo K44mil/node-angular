@@ -119,7 +119,7 @@ export class EditNewsComponent implements OnInit {
                     this.initAccess = news.NewsAccess;
                     this.files = news.Files;
                     this.newsImage = news.image;
-                    this.photoUrl = `${environment.hostUrl}/uploads/news/${this.newsImage}`;
+                    this.photoUrl = `${environment.serverUrl}/uploads/news/${this.newsImage}`;
                     
                     if (this.f.accessOn.value) this.accessSectionOn = true;
                     if (this.f.photoSection.value) this.photoSectionOn = true;
@@ -265,12 +265,12 @@ export class EditNewsComponent implements OnInit {
         this.access = event;
     }
 
-    public photoUrl: string = `${environment.hostUrl}/uploads/news/no-news-photo.jpg`;
+    public photoUrl: string = `${environment.serverUrl}/uploads/news/no-news-photo.jpg`;
 
     showPreview(event) {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) {
-            this.photoUrl = `${environment.hostUrl}/uploads/news/${this.newsImage}`;
+            this.photoUrl = `${environment.serverUrl}/uploads/news/${this.newsImage}`;
             return;
         }
         this.editNewsForm.patchValue({

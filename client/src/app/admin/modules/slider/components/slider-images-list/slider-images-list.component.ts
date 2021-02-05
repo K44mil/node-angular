@@ -69,6 +69,6 @@ export class SliderImagesListComponent implements OnInit {
     }
 
     getSelectedImageUrl() {
-        return `${environment.hostUrl}/uploads/slider/${this.selectedImage.image}`;
+        return `${environment.serverUrl}/uploads/slider/${this.selectedImage.image}`;
     }
 }

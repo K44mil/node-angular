@@ -52,7 +52,7 @@ export class MainNavComponent implements OnInit {
 
     getPhotoUrl() {
         if (this.loggedUser && this.loggedUser.avatar)
-            return `${environment.hostUrl}/uploads/avatars/${this.loggedUser.avatar}`;
+            return `${environment.serverUrl}/uploads/avatars/${this.loggedUser.avatar}`;
         return null;
     }
 }

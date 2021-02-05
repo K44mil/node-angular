@@ -86,7 +86,7 @@ export class GeneralComponent implements OnInit {
 
     getPhotoUrl() {
         if (this.user && this.user.avatar)
-            return `${environment.hostUrl}/uploads/avatars/${this.loggedUser.avatar}`;
+            return `${environment.serverUrl}/uploads/avatars/${this.loggedUser.avatar}`;
         return null;
     }
 

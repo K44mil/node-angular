@@ -8,9 +8,6 @@ const { sequelize } = require('./config/db');
 
 // Load models
 const User = require('./models/User');
-const University = require('./models/University');
-const Faculty = require('./models/Faculty');
-const Department = require('./models/Department');
 const Specialization = require('./models/Specialization');
 const Course = require('./models/Course');
 const Subject = require('./models/Subject');
@@ -40,21 +37,6 @@ const users = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
 );
 
-// UNIVERSITIES
-const universities = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/universities.json`, 'utf-8')
-);
-
-// FACULTIES
-const faculties = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/faculties.json`, 'utf-8')
-);
-
-// DEPARTMENTS
-const departments = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/departments.json`, 'utf-8')
-);
-
 // SPECIALIZATIONS
 const specializations = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/specializations.json`, 'utf-8')
@@ -81,11 +63,8 @@ const categories = JSON.parse(
 const importData = async () => {
     try {
         await User.bulkCreate(users);
-        await University.bulkCreate(universities);
-        await Faculty.bulkCreate(faculties);
         await Course.bulkCreate(courses);
         await Category.bulkCreate(categories);
-        await Department.bulkCreate(departments);
         await Specialization.bulkCreate(specializations);
         await Subject.bulkCreate(subjects);
         console.log('Data imported...');
@@ -105,18 +84,9 @@ const deleteData = async () => {
         await Course.destroy({
             where: {},
         });
-        await Faculty.destroy({
-            where: {},
-        });
-        await University.destroy({
-            where: {},
-        });
         await Category.destroy({
             where: {},
         }); 
-        await Department.destroy({
-            where: {},
-        });
         await Specialization.destroy({
             where: {},
         });

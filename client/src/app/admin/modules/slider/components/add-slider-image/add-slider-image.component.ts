@@ -78,11 +78,11 @@ export class AddSliderImageComponent implements OnInit {
             )
     }
 
-    photoUrl = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+    photoUrl = `${environment.serverUrl}/uploads/slider/no-photo.jpg`;
     showPreview(event) {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) {
-            this.photoUrl = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+            this.photoUrl = `${environment.serverUrl}/uploads/slider/no-photo.jpg`;
             return;
         }
         this.addSliderImageForm.patchValue({

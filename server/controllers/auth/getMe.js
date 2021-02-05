@@ -1,7 +1,6 @@
 const asyncHandler = require('../../middleware/asyncHandler');
 const { getLoggedUser } = require('../../middleware/auth');
 const ErrorResponse = require('../../utils/ErrorResponse');
-const Session = require('../../models/Session');
 const GeneralInfo = require('../../models/GeneralInfo');
 
 /**
@@ -13,7 +12,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     const user = await getLoggedUser(req);
 
     if (!req.cookies.session) {
-        res.cookie('session', `session_id_test`);
+        res.cookie('session', `${Math.round(Math.random() * 100000)}`);
 
         // Total Visits
         const general = await GeneralInfo.findOne();

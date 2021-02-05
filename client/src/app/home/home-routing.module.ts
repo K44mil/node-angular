@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@app/utils';
 
 import { 
     LayoutComponent,
@@ -25,7 +26,7 @@ const routes: Routes = [
             { path: 'news/:slug', component: NewsDetailsComponent },
             { path: 'contact', component: ContactPageComponent },
             { path: 'research', component: ResearchPageComponent },
-            { path: 'calendar', component: CalendarPageComponent }
+            { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuard] }
         ]
     }
 ];

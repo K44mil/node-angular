@@ -154,7 +154,7 @@ export class NewsComponent implements OnInit {
     }
 
     getNewsPhotoUrl(news) {
-        return `${environment.hostUrl}/uploads/news/${news.image}`;
+        return `${environment.serverUrl}/uploads/news/${news.image}`;
     }
 
     getNewsLink(news) {

@@ -34,6 +34,7 @@ export class EditContactComponent implements OnInit {
             webPage: ['', Validators.pattern(/^(http|https):\/\//)],
             consultations: ['', Validators.maxLength(50)],
             shortInformation: ['', Validators.maxLength(500)],
+            secondInformation: ['', Validators.maxLength(500)],
             calendarUrl: ['', Validators.pattern(/^(http|https):\/\//)]
         });
 
@@ -53,21 +54,24 @@ export class EditContactComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    const contact = res.data.contact;
-                    this.editContactForm.patchValue({
-                        country: contact.country,
-                        city: contact.city,
-                        street: contact.street,
-                        postalCode: contact.postalCode,
-                        room: contact.room,
-                        email: contact.email,
-                        phone: contact.phone,
-                        webPage: contact.webPage,
-                        consultations: contact.consultations,
-                        shortInformation: contact.shortInformation,
-                        calendarUrl: contact.calendarUrl
-                    });
-                    this.contactLinks = contact.contactLinks;
+                    if (res.data && res.data.contact) {
+                        const contact = res.data.contact;
+                        this.editContactForm.patchValue({
+                            country: contact.country || '',
+                            city: contact.city || '',
+                            street: contact.street || '',
+                            postalCode: contact.postalCode || '',
+                            room: contact.room || '',
+                            email: contact.email || '',
+                            phone: contact.phone || '',
+                            webPage: contact.webPage || '',
+                            consultations: contact.consultations || '',
+                            shortInformation: contact.shortInformation || '',
+                            secondInformation: contact.secondInformation || '',
+                            calendarUrl: contact.calendarUrl || ''
+                        });
+                        this.contactLinks = contact.contactLinks;
+                    }
                 },
                 err => {
                     this.alertService.clear();

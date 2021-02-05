@@ -6,9 +6,6 @@ const File = require('../models/File');
 const Comment = require('../models/Comment');
 const UserGroup = require('../models/relationsModels/UserGroup');
 const NewsFile = require('../models/relationsModels/NewsFile');
-// const University = require('../models/University');
-// const Faculty = require('../models/Faculty');
-// const Department = require('../models/Department');
 const Specialization = require('../models/Specialization');
 const Course = require('../models/Course');
 const Subject = require('../models/Subject');
@@ -36,10 +33,6 @@ const initSequelizeAssociations = () => {
     // News >o---o< Category
     News.belongsToMany(Category, { through: NewsCategory, foreignKey: 'newsId', otherKey: 'categoryId' });
     Category.belongsToMany(News, { through: NewsCategory, foreignKey: 'categoryId', otherKey: 'newsId' });
-    
-    // News -|---o< File
-    // News.hasMany(File, { foreignKey: 'newsId' } );
-    // File.belongsTo(News, { foreignKey: 'newsId' });
 
     // News >o---o< File
     News.belongsToMany(File, { through: NewsFile, foreignKey: 'newsId', otherKey: 'fileId' });
@@ -62,18 +55,6 @@ const initSequelizeAssociations = () => {
     // Specialization -|---o< Subject
     Specialization.hasMany(Subject, { foreignKey: 'specializationId' });
     Subject.belongsTo(Specialization, { foreignKey: 'specializationId' });
-
-    // University -|---o< Group
-    // University.hasMany(Group, { foreignKey: 'universityId'} );
-    // Group.belongsTo(University, { foreignKey: 'universityId'} )
-
-    // Faculty -|---o< Group
-    // Faculty.hasMany(Group, { foreignKey: 'facultyId' });
-    // Group.belongsTo(Faculty, { foreignKey: 'facultyId' });
-
-    // Department -|---o< Group
-    // Department.hasMany(Group, { foreignKey: 'departmentId' });
-    // Group.belongsTo(Department, { foreignKey: 'departmentId' });
 
     // Specialization -|---o< Group
     Specialization.hasMany(Group, { foreignKey: 'specializationId' });
@@ -121,8 +102,6 @@ const initSequelizeAssociations = () => {
     Mark.belongsTo(Group, { foreignKey: 'groupId' });
 
     // News -|---|- NewsAccess
-    // NewsAccess.hasOne(News, { foreignKey: 'newsId' });
-    // News.belongsTo(NewsAccess);
     News.hasOne(NewsAccess, { foreignKey: 'newsId' });
     NewsAccess.belongsTo(News, { foreignKey: 'newsId' });
 
@@ -147,8 +126,7 @@ const initSequelizeAssociations = () => {
     StudentNote.belongsTo(Group, { foreignKey: 'groupId' });
     // StudentNote >o---|- User
     User.hasMany(StudentNote, { foreignKey: 'userId' });
-    StudentNote.belongsTo(User, { foreignKey: 'userId' });
-    
+    StudentNote.belongsTo(User, { foreignKey: 'userId' }); 
 };
 
 module.exports = initSequelizeAssociations;

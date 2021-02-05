@@ -9,6 +9,6 @@ export class SocketService {
     public socket;
 
     constructor() {
-        this.socket = io(environment.hostUrl, { withCredentials: true });
+        this.socket = io(environment.serverUrl, { withCredentials: true });
     }
 } 

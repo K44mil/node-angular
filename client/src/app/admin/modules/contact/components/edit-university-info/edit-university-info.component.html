@@ -34,19 +34,31 @@
                 <div class="form-row mt-1">
                     <div class="col-6">
                         <label for="">University</label>
-                        <input type="text" class="form-control" formControlName="name">
+                        <input type="text" class="form-control" formControlName="name"
+                        [ngClass]="{'is-invalid': submitted && this.f.name.errors }">
+                        <div *ngIf="submitted && this.f.name.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.name.errors.maxlength">University name cannot be longer than 100 characters.</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row mt-1">
                     <div class="col-6">
                         <label for="">Faculty</label>
-                        <input type="text" class="form-control" formControlName="faculty">
+                        <input type="text" class="form-control" formControlName="faculty"
+                        [ngClass]="{'is-invalid': submitted && this.f.faculty.errors }">
+                        <div *ngIf="submitted && this.f.faculty.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.faculty.errors.maxlength">Faculty name cannot be longer than 100 characters.</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row mt-1">
                     <div class="col-6">
                         <label for="">Department</label>
-                        <input type="text" class="form-control" formControlName="department">
+                        <input type="text" class="form-control" formControlName="department"
+                        [ngClass]="{'is-invalid': submitted && this.f.department.errors }">
+                        <div *ngIf="submitted && this.f.department.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.department.errors.maxlength">Department name cannot be longer than 100 characters.</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row mt-1">
@@ -84,6 +96,7 @@
                          <input type="text" class="form-control" formControlName="caption"
                          [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.caption.errors }"/>
                         <div *ngIf="addLinkSubmitted && this.aL.caption.errors" class="invalid-feedback">
+                            <div *ngIf="this.aL.caption.errors.required">Caption is required.</div>
                             <div *ngIf="this.aL.caption.errors.maxlength">Caption cannot be longer than 100 characters.</div>
                         </div>
                      </div>
@@ -92,6 +105,7 @@
                          <input type="text" class="form-control" formControlName="href"
                          [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.href.errors }"/>
                         <div *ngIf="addLinkSubmitted && this.aL.href.errors" class="invalid-feedback">
+                            <div *ngIf="this.aL.href.errors.required">Href is required.</div>
                             <div *ngIf="this.aL.href.errors.pattern">Href must starts with http:// or https://.</div>
                         </div>
                      </div>

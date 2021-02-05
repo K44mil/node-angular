@@ -39,7 +39,8 @@ export class EditTermsComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    this.termsForm.patchValue({ text: res.data.contact.termsText })
+                    if (res.data && res.data.contact)
+                        this.termsForm.patchValue({ text: res.data.contact.termsText })
                 },
                 err => {
                     this.alertService.clear();

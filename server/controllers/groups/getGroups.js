@@ -82,6 +82,8 @@ exports.getGroups = asyncHandler(async (req, res, next) => {
                     options.order.push(sort);
                     break;
             }
+    } else {
+        options.order.push(['created_at', 'DESC']);
     }
 
     // Pagination

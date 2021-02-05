@@ -1,10 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterContentChecked, Component, Inject, OnChanges, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentChecked, Component, Inject, OnChanges, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { News } from '@app/admin/modules/news/models/News';
 import { PageService } from '@app/home/services';
 import { AuthService } from '@app/shared/services';
 import { environment } from '@env/environment';
+import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { SocketService } from '../../services/socket.service';
 // import { io } from 'socket.io-client';
@@ -46,10 +47,13 @@ import { SocketService } from '../../services/socket.service';
                 margin: 0;
                 padding: 0;
             }
+            .counters {
+                display: none;
+            }
         }
     `]
 })
-export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges {
+export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges, OnDestroy {
     public news: News[];
     public slider;
     public contact: any;
@@ -59,31 +63,41 @@ export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges
     // socket connection
     // private socket;
 
+    loggedSub: Subscription;
+    onlineSub: Subscription;
+
     constructor(
         private pageService: PageService,
         private authService: AuthService,
         private titleService: Title,
         private renderer2: Renderer2,
         @Inject(DOCUMENT) private _document,
-        private socketService: SocketService
+        // private socketService: SocketService
     ) {
         this.titleService.setTitle('PhD Tomasz Rak - Home Page');
     }
 
     ngOnInit() {
-        // this.socket = io(environment.hostUrl, { withCredentials: true });  
-
-        this.socketService.socket.on('countOnline', (res) => {
-            this.contact.online = res.online;
-        });
+        // this.socketService.socket.on('countOnline', (res) => {
+        //     this.contact.online = res.online;
+        // });
 
         this.loadLatestNews();
         this.loadSlider();
         this.loadContact();
 
-        this.pageService.loggedOut.subscribe(value => {
+        this.onlineSub = this.pageService.online.subscribe(value => {
+            if (value)  this.contact.online = value;
+        });
+
+        this.loggedSub = this.pageService.loggedOut.subscribe(value => {
             if (value) this.loadLatestNews();
         });
+    }
+
+    ngOnDestroy() {
+        this.loggedSub.unsubscribe();
+        this.onlineSub.unsubscribe();
     }
 
     ngOnChanges() { }
@@ -141,11 +155,11 @@ export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges
     }
 
     getSlideUrl(image) {
-        return `${environment.hostUrl}/uploads/slider/${image}`;
+        return `${environment.serverUrl}/uploads/slider/${image}`;
     }
 
     getNewsPhotoUrl(news) {
-        return `${environment.hostUrl}/uploads/news/${news.image}`;
+        return `${environment.serverUrl}/uploads/news/${news.image}`;
     }
 
     getNewsLink(news) {
@@ -169,7 +183,7 @@ export class HomePageComponent implements OnInit, AfterContentChecked, OnChanges
 
     getUniversityPhotoUrl() {
         if (this.contact && this.contact.university)
-            return `${environment.hostUrl}/uploads/${this.contact.university.image}`;
+            return `${environment.serverUrl}/uploads/${this.contact.university.image}`;
         return '';
     }
 

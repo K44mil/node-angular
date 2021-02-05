@@ -40,6 +40,9 @@ const GeneralInfo = new mongoose.Schema({
     shortInformation: {
         type: String
     },
+    secondInformation: {
+        type: String
+    },
     calendarUrl: {
         type: String
     },
@@ -59,10 +62,12 @@ const GeneralInfo = new mongoose.Schema({
         type: String
     },
     online: {
-        type: Number
+        type: Number,
+        default: 0
     },
     totalViews: {
-        type: Number
+        type: Number,
+        default: 0
     }
 });
 

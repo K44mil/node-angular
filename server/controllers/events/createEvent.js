@@ -14,50 +14,38 @@ const { Op } = require('sequelize');
 exports.createEvent = asyncHandler(async (req, res, next) => {
     const { name, date, groupId } = req.body;
     
-    if (!name || !date) {
+    if (!name || name === '' || !date || date === '')
         return next(
             new ErrorResponse('Event name and date are required.', 400)
         );
-    }
 
-    console.log(groupId);
+    if (name.length > 50)
+            return next(new ErrorResponse('Event name cannot be longer than 50 characters.', 400));
 
     const group = await Group.findByPk(groupId);
-    if (!group) {
+    if (!group)
         return next(
-            new ErrorResponse('Group does not exist', 400)
+            new ErrorResponse('Group does not exist.', 400)
         );
-    }
 
     let event = await Event.findOne({
         where: {
-            groupId: {
-                [Op.eq]: group.id
-            },
-            date: {
-                [Op.eq]: date
-            }
+            groupId: { [Op.eq]: group.id },
+            date: { [Op.eq]: date }
         }
     });
 
-    if (event) {
+    if (event)
         return next(
             new ErrorResponse('Event with this date already exists.', 400)
         );
-    }
 
-    event = await Event.create({
-        name,
-        date,
-        groupId
-    });
+    event = await Event.create({ name, date, groupId });
 
-    // TODO: Create presence for event
     const members = await UserGroup.findAll({
         where: {
-            groupId: {
-                [Op.eq]: group.id
-            }
+            groupId: { [Op.eq]: group.id },
+            isConfirmed: { [Op.eq]: 1 }
         }
     });
 
@@ -71,8 +59,6 @@ exports.createEvent = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: {
-            event
-        }
+        data: { event }
     });
 });

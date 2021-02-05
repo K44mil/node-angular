@@ -88,7 +88,7 @@ export class NewsDetailsComponent implements OnInit {
     }
 
     getNewsPhotoUrl(news) {
-        return `${environment.hostUrl}/uploads/news/${news.image}`;
+        return `${environment.serverUrl}/uploads/news/${news.image}`;
     }
 
     printDate(dateUTC) {
@@ -140,7 +140,7 @@ export class NewsDetailsComponent implements OnInit {
 
     getPhotoUrl(avatar: any) {
         if (avatar)
-            return `${ environment.hostUrl }/uploads/avatars/${avatar}`;
+            return `${ environment.serverUrl }/uploads/avatars/${avatar}`;
         return null;
     }
 

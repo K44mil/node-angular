@@ -16,7 +16,8 @@ export class EditUniversityInfoComponent implements OnInit {
     addUniversityLinkForm: FormGroup;
     editUniversityForm: FormGroup;
     universityLinks: any[];
-    photoUrl: string = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+    photoUrl: string = `${environment.serverUrl}/uploads/slider/no-photo.jpg`;
+    submitted: boolean = false;
     addLinkSubmitted: boolean = false;
     constructor(
         private contactService: ContactService,
@@ -29,11 +30,11 @@ export class EditUniversityInfoComponent implements OnInit {
     ngOnInit() {
         this.editUniversityForm = this.formBuilder.group({
             photo: [''],
-            name: [''],
-            faculty: [''],
-            department: [''],
-            addressLine1: [''],
-            addressLine2: ['']
+            name: ['', Validators.maxLength(100)],
+            faculty: ['', Validators.maxLength(100)],
+            department: ['', Validators.maxLength(100)],
+            addressLine1: ['', Validators.maxLength(30)],
+            addressLine2: ['', Validators.maxLength(30)]
         });
 
         this.addUniversityLinkForm = this.formBuilder.group({
@@ -44,6 +45,7 @@ export class EditUniversityInfoComponent implements OnInit {
         this.loadContact();
     }
 
+    get f() { return this.editUniversityForm.controls; }
     get aL() { return this.addUniversityLinkForm.controls; }
 
     loadContact() {
@@ -51,19 +53,21 @@ export class EditUniversityInfoComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    this.contact = res.data.contact;
-                    if (this.contact.university) {
-                        this.editUniversityForm.patchValue({
-                            name: this.contact.university.name || '',
-                            faculty: this.contact.university.faculty || '',
-                            department: this.contact.university.department || '',
-                            addressLine1: this.contact.university.addressLine1 || '',
-                            addressLine2: this.contact.university.addressLine2 || '',
-                        });
-                        if (this.contact.university.image) {
-                            this.photoUrl = `${environment.hostUrl}/uploads/${this.contact.university.image}`;
+                    if (res.data && res.data.contact) {
+                        this.contact = res.data.contact;
+                        if (this.contact.university) {
+                            this.editUniversityForm.patchValue({
+                                name: this.contact.university.name || '',
+                                faculty: this.contact.university.faculty || '',
+                                department: this.contact.university.department || '',
+                                addressLine1: this.contact.university.addressLine1 || '',
+                                addressLine2: this.contact.university.addressLine2 || '',
+                            });
+                            if (this.contact.university.image) {
+                                this.photoUrl = `${environment.serverUrl}/uploads/${this.contact.university.image}`;
+                            }
+                            this.universityLinks = this.contact.university.universityLinks || [];
                         }
-                        this.universityLinks = this.contact.university.universityLinks || [];
                     }
                 },
                 err => {
@@ -78,7 +82,7 @@ export class EditUniversityInfoComponent implements OnInit {
     showPreview(event) {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) {
-            this.photoUrl = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
+            this.photoUrl = `${environment.serverUrl}/uploads/slider/no-photo.jpg`;
             return;
         }
         this.editUniversityForm.patchValue({
@@ -95,6 +99,7 @@ export class EditUniversityInfoComponent implements OnInit {
     }
 
     onSubmit() {
+        this.submitted = true;
         if (this.editUniversityForm.invalid) return;
 
         const formData = new FormData();
@@ -111,10 +116,12 @@ export class EditUniversityInfoComponent implements OnInit {
                 res => {
                     this.alertService.clear();
                     this.alertService.success('University Info has been edited.', { autoClose: true });
+                    this.submitted = false;
                 },
                 err => {
                     this.alertService.clear();
                     this.alertService.error(err, { autoClose: true });
+                    this.submitted = false;
                 }
             ) 
     }

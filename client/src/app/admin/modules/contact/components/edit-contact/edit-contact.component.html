@@ -23,9 +23,9 @@
                     <div class="col">
                         <label for="">Country</label>
                         <input type="text" formControlName="country" class="form-control"
-                        [ngClass]="{'is-invalid': submitted && this.f.country.errors }"/>
-                        <div *ngIf="submitted && this.f.country.errors" class="invalid-feedback">
-                            <div *ngIf="this.f.country.errors.maxlength">Country cannot be longer than 50 characters.</div>
+                        [ngClass]="{'is-invalid': submitted && this.f.country?.errors }"/>
+                        <div *ngIf="submitted && this.f.country?.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.country?.errors?.maxlength">Country cannot be longer than 50 characters.</div>
                         </div>
                     </div>
                     <div class="col">
@@ -105,15 +105,21 @@
                             <div *ngIf="submitted && this.f.shortInformation.errors" class="invalid-feedback">
                                 <div *ngIf="this.f.shortInformation.errors.maxlength">Short Information cannot be longer than 500 characters.</div>
                             </div>
+                            <label for="">Second Information</label>
+                            <textarea type="text" formControlName="secondInformation" class="form-control" rows="5"
+                            [ngClass]="{'is-invalid': submitted && this.f.secondInformation.errors }"></textarea>
+                            <div *ngIf="submitted && this.f.secondInformation.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.secondInformation.errors.maxlength">Information cannot be longer than 500 characters.</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-8">
                         <div class="form-group">
                             <label for="">Calendar URL</label>
                             <input type="text" formControlName="calendarUrl" class="form-control"
-                            [ngClass]="{'is-invalid': submitted && this.f.calendar.errors }">
-                            <div *ngIf="submitted && this.f.calendar.errors" class="invalid-feedback">
-                                <div *ngIf="this.f.calendar.errors.pattern">Calendar URL must starts with http:// or https://</div>
+                            [ngClass]="{'is-invalid': submitted && this.f.calendarUrl.errors }">
+                            <div *ngIf="submitted && this.f.calendarUrl.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.calendarUrl.errors.pattern">Calendar URL must starts with http:// or https://</div>
                             </div>
                         </div>
                     </div>
@@ -139,6 +145,7 @@
                                 <input type="text" class="form-control" formControlName="caption"
                                 [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.caption.errors }"/>
                                 <div *ngIf="addLinkSubmitted && this.aL.caption.errors" class="invalid-feedback">
+                                    <div *ngIf="this.aL.caption.errors.required">Caption is required.</div>
                                     <div *ngIf="this.aL.caption.errors.maxlength">Caption cannot be longer than 100 characters.</div>
                                 </div>
                             </div>
@@ -147,6 +154,7 @@
                                 <input type="text" class="form-control" formControlName="href"
                                 [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.href.errors }"/>
                                 <div *ngIf="addLinkSubmitted && this.aL.href.errors" class="invalid-feedback">
+                                    <div *ngIf="this.aL.href.errors.required">Href is required.</div>
                                     <div *ngIf="this.aL.href.errors.pattern">Href must starts with http:// or https://.</div>
                                 </div>
                             </div>

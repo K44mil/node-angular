@@ -1,11 +1,8 @@
 const { sequelize } = require('../config/db');
 const { Model, DataTypes } = require('sequelize');
-const University = require('./University');
-const Faculty = require('./Faculty');
 const Specialization = require('./Specialization');
 const Subject = require('./Subject');
 const Course = require('./Course');
-const Department = require('./Department');
 
 class Group extends Model {
 

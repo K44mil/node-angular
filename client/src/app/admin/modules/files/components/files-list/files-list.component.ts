@@ -299,13 +299,10 @@ export class FilesListComponent implements OnInit {
     }
 
     link: string;
-    showLink(path: string) {
-        // path = path.replace(/\/public/, '');
-        // this.link = `${environment.hostUrl}${path}`;
-    }
+    showLink(path: string) { }
 
     formatPath(path: string) {
         path = path.replace(/\/public/, '');
-        return `${environment.hostUrl}${path}`;
+        return `${environment.serverUrl}${path}`;
     }
 }

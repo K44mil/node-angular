@@ -19,6 +19,7 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
         webPage,
         consultations,
         shortInformation,
+        secondInformation,
         calendar
     } = req.body;
     let contact = await GeneralInfo.findOne();
@@ -35,6 +36,7 @@ exports.updateContact = asyncHandler(async (req, res, next) => {
             webPage,
             consultations,
             shortInformation,
+            secondInformation,
             calendar
         });
     } else {

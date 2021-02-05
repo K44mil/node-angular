@@ -25,7 +25,8 @@ export class CalendarPageComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    this.calendarURL = res.data.contact.calendarUrl;
+                    if (res.data && res.data.contact)
+                        this.calendarURL = res.data.contact.calendarUrl;
                 },
                 err => {
                     this.alertService.clear();
