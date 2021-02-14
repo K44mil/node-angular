@@ -14,29 +14,17 @@ exports.confirmPresence = asyncHandler(async (req, res, next) => {
     const user = req.user;
 
     if (!presence) {
-        return next(
-            new ErrorResponse('Cannot confirm this presence.', 400)
-        );
-    }
+        return next(new ErrorResponse('Cannot confirm this presence.', 400));
 
-    if (user.id != presence.userId) {
-        return next(
-            new ErrorResponse('Cannot confirm this presence.', 400)
-        );
-    }
+    if (user.id != presence.userId)
+        return next(new ErrorResponse('Cannot confirm this presence.', 400));
 
     const event = await Event.findByPk(presence.eventId);
     if (!event) {
-        return next(
-            new ErrorResponse('Cannot confirm this presence.', 400)
-        );
-    }
+        return next(new ErrorResponse('Cannot confirm this presence.', 400));
 
-    if (!event.isOpen) {
-        return next(
-            new ErrorResponse('Cannot confirm this presence.', 400)
-        );
-    }
+    if (!event.isOpen)
+        return next(new ErrorResponse('Cannot confirm this presence.', 400));
 
     await presence.update({
         isConfirmed: true,
@@ -45,8 +33,6 @@ exports.confirmPresence = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: {
-            presence
-        }
+        data: { presence }
     });
 });
