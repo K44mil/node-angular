@@ -17,7 +17,7 @@ export class EditUniversityInfoComponent implements OnInit {
     editUniversityForm: FormGroup;
     universityLinks: any[];
     photoUrl: string = `${environment.hostUrl}/uploads/slider/no-photo.jpg`;
-
+    addLinkSubmitted: boolean = false;
     constructor(
         private contactService: ContactService,
         private alertService: AlertService,
@@ -31,16 +31,20 @@ export class EditUniversityInfoComponent implements OnInit {
             photo: [''],
             name: [''],
             faculty: [''],
-            department: ['']
+            department: [''],
+            addressLine1: [''],
+            addressLine2: ['']
         });
 
         this.addUniversityLinkForm = this.formBuilder.group({
-            caption: ['', Validators.required],
-            href: ['', Validators.required]
+            caption: ['', [Validators.required, Validators.maxLength(100)]],
+            href: ['', [Validators.required, Validators.pattern(/^(http|https):\/\//)]]
         });
 
         this.loadContact();
     }
+
+    get aL() { return this.addUniversityLinkForm.controls; }
 
     loadContact() {
         this.contactService.getContact()
@@ -52,7 +56,9 @@ export class EditUniversityInfoComponent implements OnInit {
                         this.editUniversityForm.patchValue({
                             name: this.contact.university.name || '',
                             faculty: this.contact.university.faculty || '',
-                            department: this.contact.university.department || ''
+                            department: this.contact.university.department || '',
+                            addressLine1: this.contact.university.addressLine1 || '',
+                            addressLine2: this.contact.university.addressLine2 || '',
                         });
                         if (this.contact.university.image) {
                             this.photoUrl = `${environment.hostUrl}/uploads/${this.contact.university.image}`;
@@ -96,6 +102,8 @@ export class EditUniversityInfoComponent implements OnInit {
         formData.append('name', this.editUniversityForm.get('name').value);
         formData.append('faculty', this.editUniversityForm.get('faculty').value);
         formData.append('department', this.editUniversityForm.get('department').value);
+        formData.append('addressLine1', this.editUniversityForm.get('addressLine1').value);
+        formData.append('addressLine2', this.editUniversityForm.get('addressLine2').value);
 
         this.contactService.updateUniversityInfo(formData)
             .pipe(first())
@@ -112,6 +120,7 @@ export class EditUniversityInfoComponent implements OnInit {
     }
 
     onAddUniversityLinkSubmit() {
+        this.addLinkSubmitted = true;
         if (this.addUniversityLinkForm.invalid) return;
 
         this.contactService.addUniversityLink(this.addUniversityLinkForm.value)
@@ -119,6 +128,7 @@ export class EditUniversityInfoComponent implements OnInit {
             .subscribe(
                 res => {
                     this.loadContact();
+                    this.addLinkSubmitted = false;
                 },
                 err => {
                     this.alertService.clear();

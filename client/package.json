@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/datetime-picker": "^4.0.5",
+    "@angular-material-components/datetime-picker": "^4.0.7",
     "@angular/animations": "~10.0.4",
     "@angular/cdk": "^10.2.6",
     "@angular/common": "~10.0.4",
@@ -28,8 +28,10 @@
     "jquery": "^3.5.1",
     "jw-angular-pagination": "^1.2.0",
     "jw-paginate": "^1.0.4",
+    "ngx-clipboard": "^14.0.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.5",
+    "socket.io-client": "^3.1.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

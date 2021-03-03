@@ -10,11 +10,16 @@ const Announcement = require('../../models/Announcement');
 exports.createAnnouncement = asyncHandler(async (req, res, next) => {
     const { title, content, visibleFrom, visibleTo, isVisible } = req.body;
 
-    if (!title || !content) {
+    if (!title || !content)
         return next(
             new ErrorResponse('Announcement title and content are required.', 400)
         );
-    }
+    
+
+    if (new Date(visibleFrom) > new Date(visibleTo))
+        return next(
+            new ErrorResponse('Visible From Date cannot be greater than Visible To Date.', 400)
+        );
 
     const announcement = await Announcement.create({
         title,

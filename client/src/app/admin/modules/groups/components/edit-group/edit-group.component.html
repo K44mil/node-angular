@@ -13,46 +13,71 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="">Course</label>
-                            <select formControlName="courseId" class="form-control" (change)="onCourseSelectChange()">
+                            <select formControlName="courseId" class="form-control" (change)="onCourseSelectChange()"
+                            [ngClass]="{'is-invalid': submitted && this.f.courseId.errors }">
                                 <option value=""></option>
                                 <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.name }}</option>
                             </select>
+                            <div *ngIf="submitted && this.f.courseId.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.courseId.errors.required">Course is required.</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Specialization</label>
-                            <select formControlName="specializationId" class="form-control" (change)="onSpecializationSelectChange()">
+                            <select formControlName="specializationId" class="form-control" (change)="onSpecializationSelectChange()"
+                            [ngClass]="{'is-invalid': submitted && this.f.specializationId.errors }">
                                 <option value=""></option>
                                 <option *ngFor="let spec of availableSpecializations" value="{{ spec.id }}">{{ spec.name }}</option>
                             </select>
+                            <div *ngIf="submitted && this.f.specializationId.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.specializationId.errors.required">Specialization is required.</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Subject</label>
-                            <select formControlName="subjectId" class="form-control">
+                            <select formControlName="subjectId" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.subjectId.errors }">
                                 <option value=""></option>
                                 <option *ngFor="let sub of availableSubjects" value="{{ sub.id }}">{{ sub.name }}</option>
                             </select>
+                            <div *ngIf="submitted && this.f.subjectId.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.subjectId.errors.required">Subject is required.</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Level</label>
-                            <select formControlName="level" class="form-control">
+                            <select formControlName="level" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.level.errors }">
                                 <option value="I">inż</option>
                                 <option value="M">mgr</option>
                             </select>
+                            <div *ngIf="submitted && this.f.level.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.level.errors.required">Level is required.</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="">Type</label>
-                            <select formControlName="type" class="form-control">
+                            <select formControlName="type" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.type.errors }">
                                 <option value="D">Dzienne</option>
                                 <option value="Z">Zaoczne</option>
                             </select>
+                            <div *ngIf="submitted && this.f.type.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.type.errors.required">Type is required.</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Academic Year</label>
                             <div class="row">
                                 <div class="col-8">
-                                    <input formControlName="academicYear" type="text" maxlength="9" class="form-control">
+                                    <input formControlName="academicYear" type="text" class="form-control"
+                                    [ngClass]="{'is-invalid': submitted && this.f.academicYear.errors }">
+                                    <div *ngIf="submitted && this.f.academicYear.errors" class="invalid-feedback">
+                                        <div *ngIf="this.f.academicYear.errors.required">Academic Year is required.</div>
+                                        <div *ngIf="this.f.academicYear.errors.pattern">Allowed format: YYYY/YYYY.</div>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <button type="button" class="btn btn-outline-secondary form-control" (click)="setActualAcademicYear()">This Year</button>
@@ -62,16 +87,26 @@
                        
                         <div class="form-group">
                             <label for="">Group Type</label>
-                            <select formControlName="groupType" class="form-control">
+                            <select formControlName="groupType" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.groupType.errors }">
                                 <option value="lab">Laboratory</option>
                                 <option value="lec">Lecture</option>
                                 <option value="exc">Exercise</option>
                                 <option value="proj">Project</option>
                             </select>
+                            <div *ngIf="submitted && this.f.groupType.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.groupType.errors.required">Group Type is required.</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Number</label>
-                            <input formControlName="number" type="number" min="0" max="99" class="form-control">
+                            <input formControlName="number" type="number" min="0" max="99" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.number.errors }" />
+                            <div *ngIf="submitted && this.f.number.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.number.errors.required">Group Number is required.</div>
+                                <div *ngIf="this.f.number.errors.min">Minimum allowed value is 0.</div>
+                                <div *ngIf="this.f.number.errors.max">Maxiumum allowed value is 99.</div>
+                            </div>
                         </div>
                     </div>
                 </div>

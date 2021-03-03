@@ -27,4 +27,8 @@ export class MarksService {
         return this.http.put<any>(`${environment.apiUrl}/marks/descriptions/${id}`, body);
     }
 
+    createMark(id: string, body: any) {
+        return this.http.post<any>(`${environment.apiUrl}/marks/group/${id}/add_mark`, body);
+    }
+
 }

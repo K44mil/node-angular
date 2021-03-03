@@ -2,6 +2,7 @@ const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const SliderImage = require('../../models/SliderImage');
 const path = require('path');
+const fs = require('fs');
 
 /**
  * @desc    Update slider image
@@ -16,10 +17,11 @@ exports.updateSliderImage = asyncHandler(async (req, res, next) => {
         )
     } 
     
-    const { title, isVisible } = req.body;
+    const { caption, secondCaption } = req.body;
 
-    if (title) sliderImage.title = title;
-    if (isVisible) sliderImage.isVisible = isVisible;
+    if (caption) sliderImage.caption = caption;
+    if (secondCaption) sliderImage.secondCaption = secondCaption;
+    // if (isVisible) sliderImage.isVisible = isVisible;
 
     if (req.files && req.files.photo) {
         const file = req.files.photo;
@@ -37,6 +39,9 @@ exports.updateSliderImage = asyncHandler(async (req, res, next) => {
             );
         }
 
+        // Remove old file
+        await fs.unlink(`./public/uploads/slider/${sliderImage.image}`, () => {});
+
         file.name = `slider_${sliderImage.id}${path.parse(file.name).ext}`;
 
         file.mv(`./public/uploads/slider/${file.name}`, async err => {
@@ -45,6 +50,7 @@ exports.updateSliderImage = asyncHandler(async (req, res, next) => {
                 return next(new ErrorResponse(`File upload error`, 500));
             }
         });
+
         sliderImage.image = file.name;
     }
 

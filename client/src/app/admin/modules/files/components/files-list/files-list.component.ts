@@ -6,8 +6,14 @@ import { File } from '../../models/File';
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { environment } from '@env/environment';
 
-@Component({ templateUrl: 'files-list.component.html' })
+@Component({
+    templateUrl: 'files-list.component.html',
+    styles: [`
+        .sort-header { cursor: pointer; }
+    `]
+})
 export class FilesListComponent implements OnInit {
     files: File[];
     uploadFileForm: FormGroup;
@@ -265,5 +271,41 @@ export class FilesListComponent implements OnInit {
         this.currentPage = 1;
         this.prepareQuery();
         this.loadFiles(this.query);
+    }
+
+    printDate(dateUTC) {
+        return new Date(dateUTC).toLocaleString("pl", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+        })
+    }
+
+    sortBy(property: string) {
+        if (this.sort.property === property) {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = property;
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadFiles(this.query);
+    }
+
+    link: string;
+    showLink(path: string) {
+        // path = path.replace(/\/public/, '');
+        // this.link = `${environment.hostUrl}${path}`;
+    }
+
+    formatPath(path: string) {
+        path = path.replace(/\/public/, '');
+        return `${environment.hostUrl}${path}`;
     }
 }

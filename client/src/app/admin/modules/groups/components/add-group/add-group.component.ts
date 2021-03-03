@@ -13,6 +13,9 @@ import {
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoursesService } from '../../services/courses.service';
+import { SpecializationsService } from '../../services/specializations.service';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
     templateUrl: 'add-group.component.html'
@@ -35,6 +38,9 @@ export class AddGroupComponent implements OnInit {
     newGroupForm: FormGroup;
 
     constructor(
+        private coursesService: CoursesService,
+        private specializationsService: SpecializationsService,
+        private subjectsService: SubjectsService,
         private groupsService: GroupsService,
         private alertService: AlertService,
         private formBuilder: FormBuilder,
@@ -42,24 +48,17 @@ export class AddGroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loadUniversities();
-        this.loadFaculties();
-        this.loadDepartments();
         this.loadCourses();
         this.loadSpecializations();
         this.loadSubjects();
 
         this.newGroupForm = this.formBuilder.group({
-            // universityId: ['', Validators.required],
-            // facultyId: ['', Validators.required],
-            // departmentId: ['', Validators.required],
             courseId: ['', Validators.required],
             specializationId: ['', Validators.required],
             subjectId: ['', Validators.required],
             level: ['', Validators.required],
             type: ['', Validators.required],
-            // semester: ['', Validators.required],
-            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/g)]],
+            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/)]],
             groupType: ['', Validators.required],
             number: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             isOpen: ['']
@@ -104,47 +103,8 @@ export class AddGroupComponent implements OnInit {
             });
     }
 
-    loadUniversities() {
-        this.groupsService.getVisibleUniversities()
-            .pipe(first())
-            .subscribe(res => {
-                if (res.data.universities)
-                    this.universities = res.data.universities;
-                this.countLoaded++;         
-            },
-            err => {
-                this.alertService.error(err);
-            });
-    }
-
-    loadFaculties() {
-        this.groupsService.getVisibleFaculties()
-            .pipe(first())
-            .subscribe(res => {
-                if (res.data.faculties)
-                    this.faculties = res.data.faculties;  
-                this.countLoaded++;         
-            },
-            err => {
-                this.alertService.error(err);
-            });
-    }
-
-    loadDepartments() {
-        this.groupsService.getVisibleDepartments()
-            .pipe(first())
-            .subscribe(res => {
-                if (res.data.departments)
-                    this.departments = res.data.departments;
-                this.countLoaded++;           
-            },
-            err => {
-                this.alertService.error(err);
-            });
-    }
-
     loadCourses() {
-        this.groupsService.getVisibleCourses()
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(res => {                
                 if (res.data.courses)
@@ -157,7 +117,7 @@ export class AddGroupComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.groupsService.getVisibleSpecializations()
+        this.specializationsService.getSpecializations('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.specializations)
@@ -170,7 +130,7 @@ export class AddGroupComponent implements OnInit {
     }
 
     loadSubjects() {
-        this.groupsService.getVisibleSubjects()
+        this.subjectsService.getSubjects('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.subjects)
@@ -201,10 +161,19 @@ export class AddGroupComponent implements OnInit {
     onCourseSelectChange(e) {
         this.availableSubjects = [];
 
+        this.newGroupForm.patchValue({
+            specializationId: null,
+            subjectId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === e.target.value);
     }
 
     onSpecializationSelectChange(e) {
+        this.newGroupForm.patchValue({
+            subjectId: null
+        });
+
         this.availableSubjects = this.subjects.filter(sub => sub.specializationId === e.target.value);
     }
 }

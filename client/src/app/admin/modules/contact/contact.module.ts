@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { CKEditorModule } from 'ckeditor4-angular';
+
 import {
     EditContactComponent,
+    EditTermsComponent,
     EditUniversityInfoComponent,
     LayoutComponent
 } from './components';
@@ -16,12 +19,14 @@ import { ContactRoutingModule } from './contact-routing.module';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        ContactRoutingModule
+        ContactRoutingModule,
+        CKEditorModule
     ],
     declarations: [
         LayoutComponent,
         EditContactComponent,
-        EditUniversityInfoComponent
+        EditUniversityInfoComponent,
+        EditTermsComponent
     ]
 })
 export class ContactModule { }

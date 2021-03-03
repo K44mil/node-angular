@@ -1,0 +1,10 @@
+<div class="col-md-10 offset-md-1 mt-4">
+    <div class="col-md-8 offset-md-2">
+        <h3>Calendar</h3>
+        <hr>
+    </div>
+
+    <div *ngIf="calendarURL" class="col-lg-8 offset-lg-2">
+        <iframe [src]="parseCalendarUrl()" style="width: 100%; height: 700px;" frameborder="0"></iframe>
+    </div>
+</div>

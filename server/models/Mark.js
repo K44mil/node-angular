@@ -26,6 +26,11 @@ Mark.init({
             key: 'id'
         }
     },
+    final: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
     userId: {
         type: DataTypes.UUID,
         allowNull: false,

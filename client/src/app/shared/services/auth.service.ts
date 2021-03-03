@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { AuthUser, RegisterStudentRequest, RegisterUserRequest } from '@home/modules/account/models';
-import { CryptService } from '@shared/services/crypt.service';
 import { AlertService } from './alert.service';
 
 @Injectable({ providedIn: 'root' })
@@ -19,51 +18,10 @@ export class AuthService {
     constructor(
         private router: Router,
         private http: HttpClient,
-        private cryptService: CryptService,
         private alertService: AlertService
     ) {
-        let user = this.loadUserValueFromLocalStorage();
-        if (!user) user = this.loadUserValueFromSessionStorage();
-
-        if (!user) {
-            this.clearSessionStorage();
-            this.clearLocalStorage();
-        }
-
-        this.userSubject = new BehaviorSubject<AuthUser>(user);
+        this.userSubject = new BehaviorSubject<AuthUser>(null);
         this.user = this.userSubject.asObservable();
-    }
-
-    private loadUserValueFromLocalStorage(): AuthUser {
-        let user: AuthUser = null;
-        let userString = this.cryptService.decrypt(localStorage.getItem('_u'));
-        try {
-            user = JSON.parse(userString);
-        } catch (err) { }
-        return user;
-    }
-
-    private loadUserValueFromSessionStorage(): AuthUser {
-        let user: AuthUser = null;
-        let userString = this.cryptService.decrypt(sessionStorage.getItem('_u'));
-        try {
-            user = JSON.parse(userString);
-        } catch (err) { }
-        return user;
-    }
-
-    private saveUserValueToLocalStorage(): void {
-        const encryptedUserString = this.cryptService.encrypt(JSON.stringify(this.userValue));
-        localStorage.setItem('_u', encryptedUserString);
-    }
-
-    private saveUserValueToSessionStorage(): void {
-        const encryptedUserString = this.cryptService.encrypt(JSON.stringify(this.userValue));
-        sessionStorage.setItem('_u', encryptedUserString);
-    }
-
-    public saveUserValue(): void {
-        this.saveUserValueToLocalStorage();
     }
 
     public get userValue(): AuthUser {
@@ -82,39 +40,37 @@ export class AuthService {
         return this.http.post<any>(`${environment.apiUrl}/auth/register_student`, registerStudentRequest);
     }
 
-    public loginAndRemember(email, password) {
-        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
+    public login(email, password, remember) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password, remember })
             .pipe(map(res => {
-                if (res.data && res.data.user && res.data.token) {
+                if (res.data && res.data.user) {
+                    const resUser = res.data.user;
                     const user: AuthUser = {
-                        id: res.data.user.id,
-                        firstName: res.data.user.firstName,
-                        lastName: res.data.user.lastName,
-                        avatar: res.data.user.avatar,
-                        role: res.data.user.role,
-                        token: res.data.token
+                        id: resUser.id,
+                        firstName: resUser.firstName,
+                        lastName: resUser.lastName,
+                        avatar: resUser.avatar,
+                        role: resUser.role
                     };
                     this.userSubject.next(user);
-                    this.saveUserValueToLocalStorage();
                     return user;
                 }
             }));
     }
 
-    public login(email, password) {
-        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
+    public isLogged() {
+        return this.http.get<any>(`${environment.apiUrl}/auth/me`)
             .pipe(map(res => {
-                if (res.data && res.data.user && res.data.token) {
+                if (res.data && res.data.user) {
+                    const resUser = res.data.user;
                     const user: AuthUser = {
-                        id: res.data.user.id,
-                        firstName: res.data.user.firstName,
-                        lastName: res.data.user.lastName,
-                        avatar: res.data.user.avatar,
-                        role: res.data.user.role,
-                        token: res.data.token
+                        id: resUser.id,
+                        firstName: resUser.firstName,
+                        lastName: resUser.lastName,
+                        avatar: resUser.avatar,
+                        role: resUser.role
                     };
                     this.userSubject.next(user);
-                    this.saveUserValueToSessionStorage();
                     return user;
                 }
             }));
@@ -144,24 +100,19 @@ export class AuthService {
         return this.http.put<any>(`${environment.apiUrl}/auth/change_password`, body);
     }
 
-    private clearLocalStorage(): void {
-        localStorage.removeItem('_u');
-    }
-
-    private clearSessionStorage(): void {
-        sessionStorage.removeItem('_u');
+    public deleteAvatar() {
+        return this.http.get<any>(`${environment.apiUrl}/auth/delete_avatar`);
     }
 
     public logout() {
-        this.clearSessionStorage();
-        this.clearLocalStorage();
-        this.userSubject.next(null);
-        this.router.navigate(['/']);      
-        setTimeout(() => {
-            this.alertService.info('You have been log out.', {
-                autoClose: true,
-                keepAfterRouteChange: true
-            });
-        }, 100);
+        return this.http.get<any>(`${environment.apiUrl}/auth/logout`)
+            .pipe(map(res => {
+                this.router.navigate(['/']);
+                this.userSubject.next(null);
+                setTimeout(() => {
+                    this.alertService.clear();
+                    this.alertService.info('You have been logged out.', { autoClose: true });
+                }, 100);    
+            }));
     }
 }

@@ -11,6 +11,9 @@ import {
 import { AlertService } from '@app/shared/services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CoursesService } from '../../services/courses.service';
+import { SpecializationsService } from '../../services/specializations.service';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
     templateUrl: 'edit-group.component.html'
@@ -31,7 +34,12 @@ export class EditGroupComponent implements OnInit {
 
     editGroupForm: FormGroup;
 
+    submitted: boolean = false;
+
     constructor(
+        private coursesService: CoursesService,
+        private specializationsService: SpecializationsService,
+        private subjectsService: SubjectsService,
         private groupsService: GroupsService,
         private alertService: AlertService,
         private formBuilder: FormBuilder,
@@ -46,7 +54,7 @@ export class EditGroupComponent implements OnInit {
             subjectId: ['', Validators.required],
             level: ['', Validators.required],
             type: ['', Validators.required],
-            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/g)]],
+            academicYear: ['', [Validators.required, Validators.pattern(/^\d{4}[/]\d{4}$/)]],
             groupType: ['', Validators.required],
             number: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             isOpen: ['']
@@ -62,6 +70,7 @@ export class EditGroupComponent implements OnInit {
     get f() { return this.editGroupForm.controls; } 
 
     onSubmit() {
+        this.submitted = true;
         if (this.editGroupForm.invalid) return;
 
         if (this.f.isOpen.value == '') {
@@ -76,10 +85,13 @@ export class EditGroupComponent implements OnInit {
                 this.alertService.success('Group has been successfully edited.', {
                     autoClose: true
                 });
+                this.submitted = false;
             },
             err => {
-                this.alertService.error(err);
+                this.alertService.clear();
+                this.alertService.error(err, { autoClose: true });
                 window.scrollTo(0,0);
+                this.submitted = false;
             });
     }
 
@@ -120,7 +132,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadCourses() {
-        this.groupsService.getVisibleCourses()
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(res => {                
                 if (res.data.courses)
@@ -134,7 +146,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.groupsService.getVisibleSpecializations()
+        this.specializationsService.getSpecializations('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.specializations)
@@ -150,7 +162,7 @@ export class EditGroupComponent implements OnInit {
     }
 
     loadSubjects() {
-        this.groupsService.getVisibleSubjects()
+        this.subjectsService.getSubjects('?isArchive=0')
             .pipe(first())
             .subscribe(res => {
                 if (res.data.subjects)
@@ -182,10 +194,19 @@ export class EditGroupComponent implements OnInit {
     onCourseSelectChange() {
         this.availableSubjects = [];
 
+        this.editGroupForm.patchValue({
+            specializationId: null,
+            subjectId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === this.f.courseId.value);
     }
 
     onSpecializationSelectChange() {
+        this.editGroupForm.patchValue({
+            subjectId: null
+        });
+        
         this.availableSubjects = this.subjects.filter(sub => sub.specializationId === this.f.specializationId.value);
     }
 }

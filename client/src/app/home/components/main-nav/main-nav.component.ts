@@ -4,6 +4,8 @@ import { AuthService, AlertService } from '@shared/services';
 import { AuthUser, Role } from '@home/modules/account/models';
 
 import { environment } from '@env/environment';
+import { first } from 'rxjs/operators';
+import { PageService } from '@app/home/services';
 
 @Component({
     selector: 'main-nav',
@@ -16,7 +18,7 @@ export class MainNavComponent implements OnInit {
     
     constructor(
         private authService: AuthService,
-        private alertService: AlertService
+        private pageService: PageService
     ) { }
 
     ngOnInit() {
@@ -25,7 +27,16 @@ export class MainNavComponent implements OnInit {
     }
 
     logout() {
-        this.authService.logout();
+        this.authService.logout()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.pageService.loggedOut.next(true);
+                },
+                err => {
+
+                }
+            )
     }
 
     isAdmin() {

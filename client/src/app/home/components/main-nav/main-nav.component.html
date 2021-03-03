@@ -2,11 +2,11 @@
     <!-- MAIN NAVBAR -->
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <!-- NAVBAR BRAND -->
-        <a class="navbar-brand p-2 border rounded d-none d-md-block" routerLink="/">
+        <a class="navbar-brand p-2 rounded d-none d-md-block" routerLink="/">
             PhD Tomasz Rak
         </a>
-        <a class="navbar-brand p-2 border rounded d-md-none" routerLink="/">
-            PhD T. Rak
+        <a class="navbar-brand p-2 rounded d-md-none" routerLink="/">
+            PhD Tomasz Rak
         </a>
         <!-- TOGGLE BUTTON -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" >
@@ -27,19 +27,19 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/about">About</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" routerLink="/research">Research</a>
-                </li> -->
+                <li class="nav-item" *ngIf="loggedUser">
+                    <a class="nav-link calendar" routerLink="/calendar">Calendar</a>
+                </li>
             </ul>
             <!-- RIGHT SIDE  -->
             <ul class="navbar-nav ml-auto">         
                 <!-- LOGIN -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/login" class="btn btn-outline-light btn-auth">Sign in</a>
+                    <a routerLink="/account/login" class="btn btn-light btn-auth" style="color: #003C82 !important;">Sign in</a>
                 </li>
                 <!-- REGISTER -->
                 <li *ngIf="!loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/register_student" class="btn btn-light btn-auth" style="color: #003C82 !important;">Sign up</a>
+                    <a routerLink="/account/register_student" class="btn btn-outline-light btn-auth btn-sign-up">Sign up</a>
                 </li>
                 <!-- USER AVATAR -->
                 <li *ngIf="loggedUser" class="nav-item mx-1 avatar d-none d-lg-block">
@@ -47,10 +47,6 @@
                         <avatar-photo class="main-panel-avatar" [name]="getUserName()" [photoUrl]="getPhotoUrl()"></avatar-photo>
                     </a>
                 </li>
-                <!-- USER INFO -->
-                <!-- <li *ngIf="loggedUser" class="nav-item mx-1">
-                    <a routerLink="/account/my_profile/general" class="nav-link text-white">{{ loggedUser.firstName }} {{ loggedUser.lastName }}</a>
-                </li> -->
                 <!-- ADMIN PANEL -->
                 <li *ngIf="loggedUser && isAdmin()" class="nav-item mx-1">
                     <a routerLink="/admin/users" class="btn btn-outline-warning btn-auth">Admin Panel</a>

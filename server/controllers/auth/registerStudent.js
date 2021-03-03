@@ -6,6 +6,7 @@ const User = require('../../models/User');
 const Group = require('../../models/Group');
 const Role = require('../../models/Role');
 const UserGroup = require('../../models/relationsModels/UserGroup');
+const { validateUser } = require('../../utils/validators');
 
 /**
  * @desc    Register student
@@ -13,61 +14,25 @@ const UserGroup = require('../../models/relationsModels/UserGroup');
  * @access  Public
  */
 exports.registerStudent = asyncHandler(async (req, res, next) => {
-    const {
-        email,
-        password,
-        confirmPassword,
-        acceptTerms,
-        firstName,
-        lastName,
-        albumNumber,
-        groupId
-    } = req.body;
+    const { email, password, confirmPassword, acceptTerms, firstName, lastName, albumNumber,
+            groupId } = req.body;
 
-    if (!email || !password || !confirmPassword
-        || !acceptTerms || !firstName || !lastName || !albumNumber) {
-        return next(
-            new ErrorResponse(`All fields are required.`, 400)
-        );
-    }
+    const userForValidation = {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        firstName: firstName,
+        lastName: lastName,
+        role: Role.Student,
+        albumNumber: albumNumber
+    };
 
-    // PASSWORD VALIDATION
-    if (password !== confirmPassword) {
-        return next(
-            new ErrorResponse(`Passwords must be the same.`, 400)
-        );
-    }
+    const validation = validateUser(userForValidation);
+    if (validation.success === false)
+        return next(new ErrorResponse(validation.message));
 
-    if (password.length < 8 || password.length > 16) {
-        return next(
-            new ErrorResponse(`Password length must be between 8 and 16 characters.`, 400)
-        );
-    }
-
-    if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$/)) {
-        return next(
-            new ErrorResponse(`The password must contain upper and lower case letters, a number and a special character.`, 400)
-        );
-    }
-
-    if (acceptTerms !== true) {
-        return next(
-            new ErrorResponse(`You must accept Terms and Conditions.`, 400)
-        );
-    }
-
-    // First Name & Last Name validation
-    if (firstName.length > 30 || !firstName.match(/([a-zA-Z])$/)) {
-        return next(
-            new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
-        )
-    }
-
-    if (lastName.length > 30 || !lastName.match(/([a-zA-Z])$/)) {
-        return next(
-            new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
-        )
-    }
+    if (!acceptTerms || acceptTerms !== true)
+        return next(new ErrorResponse('You have to accept the terms.'));
 
     // Check if user exists
     let user = await User.findOne({
@@ -147,20 +112,14 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
         data: { }
     });
 
-    const message = `Your account was created.
-        It has to be verified by the administrator.`;
+    const message = `<p>Your account was created.
+        It has to be verified by the administrator.</p>`;
 
     try {
         await sendEmail({
             email: user.email,
             subject: 'Registration',
-            message
+            html: message
         });
-    } catch (err) {
-        console.log(err);
-
-        return next(
-            new ErrorResponse(`Email could not be sent`, 500)
-        );
-    }
+    } catch (err) { }
 });

@@ -40,7 +40,8 @@ exports.getMyMarks = asyncHandler(async (req, res, next) => {
                 model: MarkDescription,
                 attributes: ['text']
             }
-        ]
+        ],
+        order: [['updated_at', 'DESC']]
     });
     
     res.status(200).json({

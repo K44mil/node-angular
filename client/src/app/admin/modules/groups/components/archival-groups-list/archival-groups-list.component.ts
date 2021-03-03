@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Course, Group, Specialization, Subject } from '../../models';
@@ -25,7 +26,7 @@ export class ArchivalGroupsListComponent implements OnInit {
 
     // Items per page
     itemsPerPageControl: FormControl;
-    itemsPerPage: number = 10;
+    itemsPerPage: number = 25;
 
     // Filter Form
     filterForm: FormGroup;
@@ -54,7 +55,8 @@ export class ArchivalGroupsListComponent implements OnInit {
     constructor(
         private groupsService: GroupsService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -108,6 +110,10 @@ export class ArchivalGroupsListComponent implements OnInit {
             err => {
                 this.alertService.error(err);
             })
+    }
+
+    editGroup(id: string) {
+        this.router.navigate([`/admin/groups/${id}/edit`]);
     }
 
     loadCourses() {

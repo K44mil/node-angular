@@ -16,6 +16,7 @@ import { SliderService } from '../../services/slider.service';
 export class AddSliderImageComponent implements OnInit {
     addSliderImageForm: FormGroup;
     loading: boolean = false;
+    submitted: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -28,7 +29,8 @@ export class AddSliderImageComponent implements OnInit {
         this.addSliderImageForm = this.formBuilder.group({
             photo: ['', Validators.required],
             photoSource: [''],
-            title: ['', Validators.required],
+            caption: ['', Validators.maxLength(50)],
+            secondCaption: ['', Validators.maxLength(50)],
             isVisible: ['']
         });
     }
@@ -36,6 +38,7 @@ export class AddSliderImageComponent implements OnInit {
     get f() { return this.addSliderImageForm.controls; }
 
     onSubmit() {
+        this.submitted = true;
         if (this.addSliderImageForm.invalid) return;
 
         if (this.f.isVisible.value == '') {
@@ -48,7 +51,8 @@ export class AddSliderImageComponent implements OnInit {
 
         const formData = new FormData();
         formData.append('photo', this.addSliderImageForm.get('photo').value);
-        formData.append('title', this.addSliderImageForm.get('title').value);
+        formData.append('caption', this.addSliderImageForm.get('caption').value);
+        formData.append('secondCaption', this.addSliderImageForm.get('secondCaption').value);
         formData.append('isVisible', this.addSliderImageForm.get('isVisible').value);
 
         this.sliderService.addSliderImage(formData)
@@ -60,6 +64,7 @@ export class AddSliderImageComponent implements OnInit {
                         autoClose: true
                     });
                     this.loading = false;
+                    this.submitted = false;
                     this.router.navigate(['/admin/slider']);
                 },
                 err => {
@@ -67,6 +72,8 @@ export class AddSliderImageComponent implements OnInit {
                     this.alertService.error(err, {
                         autoClose: true
                     });
+                    this.loading = false;
+                    this.submitted = false;
                 }
             )
     }

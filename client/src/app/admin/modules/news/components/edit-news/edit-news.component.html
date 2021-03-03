@@ -10,7 +10,7 @@
       <hr>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="newsLoaded">
     <div class="col-12">
       <form [formGroup]="editNewsForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
@@ -109,7 +109,7 @@
             <div class="form-group">
               <input type="checkbox" formControlName="accessOn" (change)="onAccessSectionChange()">
               <label class="form-check-label ml-2">
-                Restrict access
+                Access To:
               </label>
               <div [ngClass]="{'d-none': !accessSectionOn}">
                 <news-access-settings (accessChanged)="onAccessChanged($event)" [initAccess]="initAccess"></news-access-settings>
@@ -148,7 +148,11 @@
           <!-- CONTENT -->
           <div class="form-group col-md-7">
             <label for="">Content</label>
-            <ckeditor formControlName="content" [config]="config"></ckeditor>
+            <ckeditor formControlName="content" [config]="config"
+            [ngClass]="{'is-invalid': submitted && this.f.content.errors }"></ckeditor>
+            <div *ngIf="submitted && this.f.content.errors" class="invalid-feedback">
+              <div *ngIf="this.f.content.errors.maxlength">Content cannot be longer than 1 000 000 characters.</div>
+            </div>
           </div>
         </div>
       </form>

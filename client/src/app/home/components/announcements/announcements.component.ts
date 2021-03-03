@@ -24,18 +24,31 @@ export class AnnouncementsComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 let announcements = res.data.announcements;
+                let seconds = 10;
                 for (const a of announcements) {
                     if (!_a.includes(a._id)) this.announcements.push(a);
+                    setTimeout(() => {
+                        this.autoCloseAnnouncement(a._id);
+                    }, (seconds++) * 1000);
                 }
             });
     }
 
-    announcementClosed(id) {
+    closeAnnouncement(id) {
         let _a = JSON.parse(sessionStorage.getItem('_a'));
         if (!Array.isArray(_a))
             _a = [];
 
         _a.push(id);
         sessionStorage.setItem('_a', JSON.stringify(_a));
+    }
+
+    autoCloseAnnouncement(id) {
+        const btn = document.getElementById(`closeButton${id}`);
+        if (btn) btn.click();
+    }
+
+    generateButtonId(id) {
+        return `closeButton${id}`;
     }
 }

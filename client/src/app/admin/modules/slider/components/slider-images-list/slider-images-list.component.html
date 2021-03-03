@@ -5,21 +5,23 @@
       </div>
   </div>
    <div class="row mt-1">
-       <div class="col-4">
+       <div class="col-5">
            <div>
                <table class="table table-sm text-center">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Slider Title</th>
-                            <th scope="col">Slider Image</th>
+                            <th scope="col">Caption</th>
+                            <th scope="col">Second Caption</th>
+                            <th scope="col">Image</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody *ngIf="sliderImages">
                         <tr *ngFor="let img of sliderImages; let i = index;">
                             <td>{{ i+1 }}</td>
-                            <td>{{ img.title }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ img.caption }}">{{ img.caption }}</td>
+                            <td class="text-truncate" style="max-width: 200px;" title="{{ img.secondCaption }}">{{ img.secondCaption }}</td>
                             <td>
                                 <span class="btn badge badge-info badge-pill p-1" (click)="showImage(img)">SHOW</span>
                             </td>

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.loading = true;
     
         if (this.f.remember.value === true) {
-            this.authService.loginAndRemember(this.f.email.value, this.f.password.value)
+            this.authService.login(this.f.email.value, this.f.password.value, true)
             .pipe(first())
             .subscribe(
                 data => {
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
                 }
             );
         } else {
-            this.authService.login(this.f.email.value, this.f.password.value)
+            this.authService.login(this.f.email.value, this.f.password.value, false)
             .pipe(first())
             .subscribe(
                 data => {

@@ -9,12 +9,17 @@ const Announcement = require('../../models/Announcement');
  */
 exports.updateAnnouncement = asyncHandler(async (req, res, next) => {
     let announcement = await Announcement.findById(req.params.id);
-
+    const { visibleFrom, visibleTo } = req.body;
     if (!announcement) {
         return next(
             new ErrorResponse(`Announcement with id '${req.params.id}' does not exist.`, 400)
         );
     }
+
+    if (new Date(visibleFrom) > new Date(visibleTo))
+        return next(
+            new ErrorResponse('Visible From Date cannot be greater than Visible To Date.', 400)
+        );
 
     announcement = await Announcement.findByIdAndUpdate(req.params.id, req.body, {
         new: true,

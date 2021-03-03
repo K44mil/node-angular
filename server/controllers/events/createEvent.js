@@ -20,6 +20,8 @@ exports.createEvent = asyncHandler(async (req, res, next) => {
         );
     }
 
+    console.log(groupId);
+
     const group = await Group.findByPk(groupId);
     if (!group) {
         return next(

@@ -42,10 +42,13 @@ export class AnnouncementsListComponent implements OnInit {
     }
 
     printDate(dateUTC) {
-        if (dateUTC === null || dateUTC === undefined || dateUTC === '')
-            return '';
-        const date = new Date(dateUTC);
-        return date.toLocaleString('pl');
+        return new Date(dateUTC).toLocaleString('pl', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
     }
 
     delete(id) {
@@ -53,7 +56,8 @@ export class AnnouncementsListComponent implements OnInit {
             .pipe(first())
             .subscribe(res => {
                 if (res.success == true) {
-                    this.alertService.success('Announcement deleted.', {
+                    this.alertService.clear();
+                    this.alertService.success('Announcement has been deleted.', {
                         autoClose: true
                     });
                     this.loadAnnouncements();

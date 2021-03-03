@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import {
     LayoutComponent,
     MainNavComponent,
@@ -13,7 +14,8 @@ import {
     AnnouncementsComponent,
     ContactPageComponent,
     ResearchPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    CalendarPageComponent
 } from './components';
 
 @NgModule({
@@ -33,7 +35,8 @@ import {
         AnnouncementsComponent,
         ContactPageComponent,
         ResearchPageComponent,
-        HomePageComponent
+        HomePageComponent,
+        CalendarPageComponent
     ],
     exports: [AvatarPhotoComponent]
 })

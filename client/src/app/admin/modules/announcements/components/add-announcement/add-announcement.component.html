@@ -28,36 +28,43 @@
                         <div *ngIf="this.f.content.errors.maxlenght">Content cannot be longer than 500 characters.</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="">Visible From</label>
-                    <input formControlName="visibleFromDate" class="form-control" type="date"
-                    [ngClass]="{'is-invalid': submitted && this.f.visibleFromDate.errors }"/>
-                    <div *ngIf="submitted && this.f.visibleFromDate.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.visibleFromDate.errors.required">Visible From Date is required.</div>
-                    </div>
+                <!-- Visible From -->
+                <div class="form-group mt-2">
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="pickerFrom" 
+                                        placeholder="Visible From" 
+                                        formControlName="visibleFrom"
+                                        [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerFrom">
+                        </mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #pickerFrom 
+                          [showSpinners]="showSpinners" 
+                          [showSeconds]="showSeconds"
+                          [stepHour]="stepHour" [stepMinute]="stepMinute" 
+                          [stepSecond]="stepSecond"
+                          [touchUi]="touchUi"
+                          [color]="color">
+                        </ngx-mat-datetime-picker>
+                      </mat-form-field>
                 </div>
+                <!-- Visible To -->
                 <div class="form-group">
-                    <input formControlName="visibleFromTime" class="form-control" type="time"
-                    [ngClass]="{'is-invalid': submitted && this.f.visibleFromTime.errors }"/>
-                    <div *ngIf="submitted && this.f.visibleFromTime.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.visibleFromTime.errors.required">Visible From Time is required.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Visible To</label>
-                    <input formControlName="visibleToDate" class="form-control" type="date"
-                    [ngClass]="{'is-invalid': submitted && this.f.visibleToDate.errors }"/>
-                    <div *ngIf="submitted && this.f.visibleToDate.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.visibleToDate.errors.required">Visible To Date is required.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input formControlName="visibleToTime" class="form-control" type="time"
-                    [ngClass]="{'is-invalid': submitted && this.f.visibleToTime.errors }"/>
-                    <div *ngIf="submitted && this.f.visibleToTime.errors" class="invalid-feedback">
-                        <div *ngIf="this.f.visibleToTime.errors.required">Visible To Time is required.</div>
-                        <div *ngIf="this.f.visibleToTime.errors.dateInvalid">Date To cannot be greater than Date From.</div>
-                    </div>
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="pickerTo" 
+                                        placeholder="Visible To"
+                                        formControlName="visibleTo"
+                                        [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerTo">
+                        </mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #pickerTo
+                          [showSpinners]="showSpinners" 
+                          [showSeconds]="showSeconds"
+                          [stepHour]="stepHour" [stepMinute]="stepMinute" 
+                          [stepSecond]="stepSecond"
+                          [touchUi]="touchUi"
+                          [color]="color">
+                        </ngx-mat-datetime-picker>
+                      </mat-form-field>
                 </div>
                 <div class="form-check">
                     <input formControlName="isVisible" type="checkbox" class="form-check-input">

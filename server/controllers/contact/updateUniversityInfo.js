@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 const path = require('path');
 
 /**
@@ -12,14 +12,19 @@ exports.updateUniversityInfo = asyncHandler(async (req, res, next) => {
     const {
         name,
         faculty,
-        department
+        department,
+        addressLine1,
+        addressLine2
     } = req.body;
 
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     if (!contact) {
-        contact = await Contact.create();
+        contact = await GeneralInfo.create();
     }
+
+    console.log('---------------------------------------------------');
+    console.log(addressLine1);
 
     if (name)
         contact.university.name = name;
@@ -27,6 +32,10 @@ exports.updateUniversityInfo = asyncHandler(async (req, res, next) => {
         contact.university.faculty = faculty;
     if (department)
         contact.university.department = department;
+    if (addressLine1)
+        contact.university.addressLine1 = addressLine1;
+    if (addressLine2)
+        contact.university.addressLine2 = addressLine2;
 
     if (req.files && req.files.photo) {
         const file = req.files.photo;

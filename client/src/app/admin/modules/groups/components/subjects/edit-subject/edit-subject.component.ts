@@ -46,11 +46,12 @@ export class EditSubjectComponent implements OnInit {
     get f() { return this.editSubjectForm.controls; }
 
     loadCourses() {
-        this.coursesService.getCourses('')
+        this.coursesService.getCourses('?isArchive=0')
             .pipe(first())
             .subscribe(
                 res => {
                     this.courses = res.data.courses;
+                    this.initAvailableSpecializations();
                 },
                 err => {
                     this.alertService.clear();
@@ -62,12 +63,12 @@ export class EditSubjectComponent implements OnInit {
     }
 
     loadSpecializations() {
-        this.specializationsService.getSpecializations('')
+        this.specializationsService.getSpecializations('?isArchive=0')
         .pipe(first())
             .subscribe(
                 res => {
                     this.specializations = res.data.specializations;
-                    this.onCourseSelectChange();
+                    this.initAvailableSpecializations();
                 },
                 err => {
                     this.alertService.clear();
@@ -104,7 +105,15 @@ export class EditSubjectComponent implements OnInit {
             )
     }
 
+    initAvailableSpecializations() {
+        this.availableSpecializations = this.specializations.filter(spec => spec.courseId === this.f.courseId.value);
+    }
+
     onCourseSelectChange() {
+        this.editSubjectForm.patchValue({
+            specializationId: null
+        });
+
         this.availableSpecializations = this.specializations.filter(spec => spec.courseId === this.f.courseId.value);
     }
 

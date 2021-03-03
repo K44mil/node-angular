@@ -54,6 +54,8 @@ export class NewsAccessSettings implements OnInit, OnChanges {
             this.courses = this.initAccess.Courses;
             this.groups = this.initAccess.Groups;
             this.users = this.initAccess.Users;
+
+            this.accessChanged.emit(this.access);
         }
     }
 

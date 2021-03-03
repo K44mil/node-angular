@@ -1,6 +1,9 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
 const Course = require('../../models/Course');
+const Specialization = require('../../models/Specialization');
+const Subject = require('../../models/Subject');
+const { Op } = require('sequelize');
 
 /**
  * @desc    Archive Course
@@ -18,6 +21,20 @@ exports.archiveCourse = asyncHandler(async (req, res, next) => {
 
     course.isArchive = true;
     await course.save();
+
+    // Archive all specializations
+    const specializations = await Specialization.findAll(
+        { where: { courseId: { [Op.eq]: course.id }} }
+    );
+    for (const spec of specializations) {
+        // Archive all subjects
+        spec.isArchive = true;
+        await spec.save();
+        await Subject.update(
+            { isArchive: true },
+            { where: { specializationId: { [Op.eq]: spec.id }} }
+        );
+    }
 
     res.status(200).json({
         success: true,

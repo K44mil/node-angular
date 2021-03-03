@@ -30,15 +30,13 @@ exports.unblockUser = asyncHandler(async (req, res, next) => {
         data: {}
     });
 
-    const message = `Administrator has just unblocked your account.`;
+    const message = `<p>Your account has been unblocked by the Administrator.`;
 
     try {
         await sendEmail({
             email: user.email,
             subject: 'Account unblocked.',
-            message
-        });
-    } catch (err) {
-        console.log(err);
-    }
+            html: message
+        }); 
+    } catch (err) { }
 });

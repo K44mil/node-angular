@@ -17,6 +17,8 @@ exports.unblockManyUsers = asyncHandler(async (req, res, next) => {
         )
     }
 
+    // For send email
+    const emails = [];
     let countUnblocked = 0;
     for (const id of ids) {
         const user = await User.findByPk(id);
@@ -24,6 +26,8 @@ exports.unblockManyUsers = asyncHandler(async (req, res, next) => {
             user.isBlocked = false;
             await user.save();
             countUnblocked++;
+            // For send email
+            emails.push(user.email);
         }
     }
 
@@ -33,4 +37,16 @@ exports.unblockManyUsers = asyncHandler(async (req, res, next) => {
             msg: `${countUnblocked} of ${ids.length} users have been successfully unblocked.`
         }
     });
+
+    const html = `<p>Your account has been unblocked by the Administrator.</p>`;
+
+    for (const email of emails) {
+        try {
+            await sendEmail({
+                email: email,
+                subject: 'Account unblocked.',
+                html: html
+            });
+        } catch (err) { }
+    }
 });

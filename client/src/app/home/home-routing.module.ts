@@ -8,7 +8,8 @@ import {
     NewsDetailsComponent,
     ContactPageComponent,
     ResearchPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    CalendarPageComponent
 } from './components';
 
 const accountModule = () => import('@home/modules/account/account.module').then(x => x.AccountModule);
@@ -23,7 +24,8 @@ const routes: Routes = [
             { path: 'news', component: NewsComponent },
             { path: 'news/:slug', component: NewsDetailsComponent },
             { path: 'contact', component: ContactPageComponent },
-            { path: 'research', component: ResearchPageComponent }
+            { path: 'research', component: ResearchPageComponent },
+            { path: 'calendar', component: CalendarPageComponent }
         ]
     }
 ];

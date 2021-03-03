@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 export class PageService {
 
     profilePage = new Subject<string>();
+    loggedOut = new Subject<boolean>();
 
     constructor(private http: HttpClient) { }
 

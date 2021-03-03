@@ -24,6 +24,7 @@
     <hr style="width: 50%; margin-left: 0;">
     <div *ngIf="members" class="ml-3">
         <button class="btn btn-outline-dark mt-2 mb-3" data-toggle="collapse" data-target="#collapseAddMarkForm">Add Mark</button>
+        <button class="btn btn-outline-warning mt-2 mb-3 ml-2" data-toggle="modal" data-target="#addMarkModal">Add Mark</button>
         <button class="btn btn-outline-dark mt-2 mb-3 ml-2" (click)="getReport()">
             <span *ngIf="reportLoading" class="spinner-border spinner-border-sm mr-1"></span>
             Get Report
@@ -32,7 +33,7 @@
             <!-- ADD MARK FORM -->
             <div class="col-6 collapse mb-3" id="collapseAddMarkForm" data-parent="#collapseMarksForms">
                 <h6 class="mt-2">Add Mark</h6>
-                <form [formGroup]="addMarkForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="addMarkForm" (ngSubmit)="onSubmit()" >
                     <div class="form-group">
                         <label for="">Students</label>
                         <select multiple class="form-control" formControlName="ids"
@@ -58,7 +59,12 @@
                             <div *ngIf="f.value.errors.required">Value id required.</div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-check">               
+                        <input type="checkbox" formControlName="final" class="form-check-input" (change)="onAddMarkFinalChange()">
+                        <label class="form-check-label">Final</label>
+                    </div>
+                    <br>
+                    <div class="form-group" [ngClass]="{'d-none': !addMarkDescriptionVisible }">
                         <label for="">Description</label>
                         <select class="form-control" formControlName="markDescriptionId"
                         [ngClass]="{'is-invalid': addMarkFormSubmitted && f.markDescriptionId.errors }">
@@ -96,7 +102,12 @@
                             <div *ngIf="ef.value.errors.required">Value id required.</div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-check">               
+                        <input type="checkbox" formControlName="final" class="form-check-input" (change)="onEditMarkFinalChange()">
+                        <label class="form-check-label">Final</label>
+                    </div>
+                    <br>
+                    <div *ngIf="editMarkDescriptionVisible" class="form-group">
                         <label for="">Description</label>
                         <select class="form-control" formControlName="markDescriptionId"
                         [ngClass]="{'is-invalid': editMarkFormSubmitted && ef.markDescriptionId.errors }">
@@ -111,7 +122,7 @@
                 </form>
             </div>
         </div>
-        <table class="marks-table">
+        <table class="marks-table mb-5">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -121,16 +132,26 @@
             <tbody>
                 <tr *ngFor="let m of members; let i = index;">
                     <td>{{ i+1 }}</td>
-                    <td class="d-flex justify-content-between">
-                        <span>{{ m.firstName }} {{ m.lastName }}</span>
-                        <span *ngIf="!m.note" class="btn badge badge-success badge-pill ml-2" (click)="selectNoteUser(m)" data-toggle="modal" data-target="#addNoteModal">
-                             + <i class="fas fa-sticky-note"></i>
-                        </span>
-                        <span *ngIf="m.note" class="btn badge badge-info badge-pill ml-2" (click)="editNote(m)" data-toggle="modal" data-target="#editNoteModal"><i class="fas fa-sticky-note"></i></span>
+                    <td>
+                        <div class="d-inline">
+                            <span>{{ m.firstName }} {{ m.lastName }}</span>
+                        </div>
+                        <div class="d-inline" style="float: right;">
+                            <span *ngIf="!m.note" class="btn badge badge-success badge-pill ml-2" (click)="selectNoteUser(m)" data-toggle="modal" data-target="#addNoteModal">
+                                + <i class="fas fa-sticky-note"></i>
+                           </span>
+                           <span *ngIf="m.note" class="btn badge badge-info badge-pill ml-2" (click)="editNote(m)" data-toggle="modal" data-target="#editNoteModal"><i class="fas fa-sticky-note"></i></span>
+                        </div>
+                        <span style="clear: both;"></span> 
                     </td>
                     <td>{{ m.albumNumber }}</td>
-                    <td *ngFor="let mark of m.marks" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
-                    <td *ngIf="m.marks.length !== 0" class="bg-info text-white">{{ calculateAverage(m.marks) }}</td>
+                    <span *ngFor="let mark of getNotFinalMarks(m.marks); let i = index;">
+                        <td *ngIf="!mark.final" class="mark text-center" style="cursor: pointer;" (click)="showMarkDetails(mark.id)">{{ printMark(mark.value) }}</td>
+                        <br *ngIf="i > 0 && i % 14 === 0">
+                    </span>
+                    <td *ngIf="marksLengthWithoutFinal(m.marks) !== 0" class="bg-info text-white">{{ calculateAverage(m.marks) }}</td>
+                    <td class="bg-danger" *ngIf="hasFinalMark(m.marks)" style="cursor: pointer;" (click)="showMarkDetails(getFinalMark(m.marks).id)">{{ getFinalMark(m.marks).value }}</td>
+                    <td style="border:none" *ngIf="!hasFinalMark(m.marks)"></td>
                 </tr>
             </tbody>
         </table>
@@ -217,6 +238,58 @@
             <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
+      </div>
+    </div>
+  </div>
+  <!-- ADD MARK MODAL -->
+  <div class="modal fade" id="addMarkModal" tabindex="-1" role="dialog" aria-labelledby="addMarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addMarkModalLabel">Add Mark</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="max-height: 600px; overflow: auto;">
+            <form [formGroup]="addMarkForm2">
+                <div class="form-check">               
+                    <input type="checkbox" formControlName="final" class="form-check-input" (change)="onAddMark2FinalChange()">
+                    <label class="form-check-label">Final</label>
+                </div>
+                <br>
+                <div class="form-group" [ngClass]="{'d-none': !addMark2DescriptionVisible }">
+                    <label for="">Description</label>
+                    <select class="form-control" formControlName="markDescriptionId"
+                    [ngClass]="{'is-invalid': addMarkForm2Submitted && f2.markDescriptionId.errors }">
+                        <option value=""></option>
+                        <option *ngFor="let mD of markDescs" value="{{ mD.id }}">{{ mD.text }}</option>
+                    </select>
+                    <div *ngIf="addMarkForm2Submitted && f2.markDescriptionId.errors" class="invalid-feedback">
+                        <div *ngIf="f2.markDescriptionId.errors.required">Description id required.</div>
+                    </div>
+                </div>
+            </form>
+
+            <table class="add-mark-table">
+                <thead>
+                    <th>#</th>
+                    <th colspan="2" class="text-center">Student</th>
+                    <th [attr.colspan]="markValues.length" class="text-center">Marks</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let m of members; let i = index;">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ m.firstName }} {{ m.lastName }}</td>
+                        <td>{{ m.albumNumber }}</td>
+                        <td *ngFor="let v of markValues" (click)="addMark(m.id, v)" class="mark-td">{{ v }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>

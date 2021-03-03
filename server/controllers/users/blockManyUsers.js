@@ -17,6 +17,8 @@ exports.blockManyUsers = asyncHandler(async (req, res, next) => {
         )
     }
 
+    // For send email
+    const emails = [];
     let countBlocked = 0;
     for (const id of ids) {
         const user = await User.findByPk(id);
@@ -24,6 +26,8 @@ exports.blockManyUsers = asyncHandler(async (req, res, next) => {
             user.isBlocked = true;
             await user.save();
             countBlocked++;
+            // For send email
+            emails.push(user.email);
         }
     }
 
@@ -33,4 +37,16 @@ exports.blockManyUsers = asyncHandler(async (req, res, next) => {
             msg: `${countBlocked} of ${ids.length} users have been successfully blocked.`
         }
     });
+
+    const html = `<p>Your account has been blocked by the Administrator.</p>`;
+
+    for (const email of emails) {
+        try {
+            await sendEmail({
+                email: email,
+                subject: 'Account blocked.',
+                html: html
+            });
+        } catch (err) { }
+    }
 });

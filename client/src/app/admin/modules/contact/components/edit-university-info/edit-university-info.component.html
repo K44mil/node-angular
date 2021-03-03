@@ -8,6 +8,9 @@
             <li class="nav-item">
                 <a class="nav-link active" routerLink="/admin/contact/university" >University</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/contact/terms" >Registration Terms</a>
+            </li>
         </ul>
     </div>      
     <div class="row mt-3">
@@ -46,6 +49,18 @@
                         <input type="text" class="form-control" formControlName="department">
                     </div>
                 </div>
+                <div class="form-row mt-1">
+                    <div class="col-4">
+                        <label for="">Address Line 1</label>
+                        <input type="text" class="form-control" formControlName="addressLine1">
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <div class="col-4">
+                        <label for="">Address Line 2</label>
+                        <input type="text" class="form-control" formControlName="addressLine2">
+                    </div>
+                </div>
                 <button class="btn btn-outline-dark my-1">Save</button>
             </form>
         </div>
@@ -66,11 +81,19 @@
                  <form [formGroup]="addUniversityLinkForm" (ngSubmit)="onAddUniversityLinkSubmit()">
                      <div class="form-group">
                          <label for="">Caption</label>
-                         <input type="text" class="form-control" formControlName="caption">
+                         <input type="text" class="form-control" formControlName="caption"
+                         [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.caption.errors }"/>
+                        <div *ngIf="addLinkSubmitted && this.aL.caption.errors" class="invalid-feedback">
+                            <div *ngIf="this.aL.caption.errors.maxlength">Caption cannot be longer than 100 characters.</div>
+                        </div>
                      </div>
                      <div class="form-group">
                          <label for="">Href</label>
-                         <input type="text" class="form-control" formControlName="href">
+                         <input type="text" class="form-control" formControlName="href"
+                         [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.href.errors }"/>
+                        <div *ngIf="addLinkSubmitted && this.aL.href.errors" class="invalid-feedback">
+                            <div *ngIf="this.aL.href.errors.pattern">Href must starts with http:// or https://.</div>
+                        </div>
                      </div>
                      <button class="btn btn-outline-dark">Save</button>
                  </form>

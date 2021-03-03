@@ -116,10 +116,9 @@ export class NewsDetailsComponent implements OnInit {
                     // this.comments.push(res.data.comment);
                     // this.comments.reverse();
                     this.loadComments(this.news.id);
+                    this.commentForm.reset();
                 },
             );
-
-        this.commentForm.reset();
     }
 
     downloadFile(id, fileName, fileType) {

@@ -28,6 +28,10 @@ export class ContactService {
         return this.http.put<any>(`${environment.apiUrl}/contact/university`, body);
     }
 
+    updateTerms(body: any) {
+        return this.http.put<any>(`${environment.apiUrl}/contact/terms`, body);
+    }
+
     addUniversityLink(body: any) {
         return this.http.post<any>(`${environment.apiUrl}/contact/university/links`, body);
     }

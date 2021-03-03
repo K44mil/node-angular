@@ -10,7 +10,7 @@ const { Op } = require('sequelize');
  * @access  Private/Admin
  */
 exports.updateUser = asyncHandler(async (req, res, next) => {
-    const {
+    let {
         email,
         password,
         confirmPassword,
@@ -26,6 +26,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
             new ErrorResponse('User does not exist.', 400)
         )
     }
+
+    if (user.role === Role.Admin) role = Role.Admin;
 
     if (!email || !role || !firstName || !lastName) {
         return next(
@@ -55,20 +57,20 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     }
 
      // First Name & Last Name validation
-     if (firstName.length > 30 || !firstName.match(/([a-zA-Z])$/)) {
+     if (firstName.length > 30 || !firstName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)) {
         return next(
             new ErrorResponse('First Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
         )
     }
 
-    if (lastName.length > 30 || !lastName.match(/([a-zA-Z])$/)) {
+    if (lastName.length > 30 || !lastName.match(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)) {
         return next(
             new ErrorResponse('Last Name cannot be longer than 30 charactes and it cannot contains any special characters or digits.')
         )
     }
 
     // Role validation
-    if (role !== Role.User && role !== Role.Student) {
+    if (user.role !== Role.Admin && role !== Role.User && role !== Role.Student) {
         return next(
             new ErrorResponse('Provided role is incorrect.', 400)
         )
@@ -90,18 +92,19 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     }
 
     switch (role) {
+        case Role.Admin:
         case Role.User:
             if (password && password !== '') {
                 user.email = email;
                 user.password = password;
-                user.role = Role.User;
+                user.role = role;
                 user.firstName = firstName;
                 user.lastName = lastName;
                 user.albumNumber = null;
                 await user.hashPassword();
             } else {
                 user.email = email;
-                user.role = Role.User;
+                user.role = role;
                 user.firstName = firstName;
                 user.lastName = lastName;
                 user.albumNumber = null;

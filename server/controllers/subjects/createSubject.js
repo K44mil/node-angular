@@ -19,11 +19,11 @@ exports.createSubject = asyncHandler(async (req, res, next) => {
     }
 
     const specialization = await Specialization.findByPk(specializationId);
-    if (!specialization) {
-        return next(
-            new ErrorResponse('Provided specialization does not exist.', 400)
-        )
-    }
+    if (!specialization)
+        return next(new ErrorResponse('Provided specialization does not exist.', 400));
+
+    if (specialization.isArchive)
+        return next(new ErrorResponse('Provided specialization is archival.', 400));
 
     let subject = await Subject.findOne({
         where: {

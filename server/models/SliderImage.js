@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const SliderImageSchema = new mongoose.Schema({
-    title: {
+    caption: {
+        type: String,
+        required: true
+    },
+    secondCaption: {
         type: String,
         required: true
     },
@@ -11,7 +15,7 @@ const SliderImageSchema = new mongoose.Schema({
     },
     isVisible: {
         type: Boolean,
-        default: false
+        default: true
     }
 });
 

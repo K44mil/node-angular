@@ -9,22 +9,70 @@
       </div>
     </div>
     <div *ngIf="!loading" class="row">
-        <!-- SLIDER -->
-        <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
-            <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" >
-                <!-- <ol class="carousel-indicators">
-                  <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol> -->
-                <!-- <ol class="carousel-indicators">
-                  <li *ngFor="let slide of slider; let i = index;" data-target="#carouselExampleIndicators" data-slide-to="0"></li>
-                </ol> -->
+        <!-- TEACHERs INFO -->
+        <div class="col-sm-12 col-md-6">
+          <div class="card info" style="height: 100%;">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-xl-4 col-lg-5">
+                  <p><span><i class="far fa-eye"></i></span> {{ contact.consultations }}</p>
+                  <p><span><i class="far fa-building"></i></span> {{ contact.room }}</p>
+                  <p><span><i class="fas fa-phone"></i></span> {{ contact.phone }}</p>
+                  <p><span><i class="far fa-envelope"></i></span> {{ contact.email }}</p>
+                  <p class="card-text" *ngIf="contact && contact.shortInformation">
+                    {{ contact.shortInformation }}
+                  </p> 
+                </div>
+                <div class="col-md-12 col-xl-8 col-lg-7">
+                  <div>
+                    <span id="badgeCont733"></span>
+                  </div>
+                  <div>
+                    <small><i class="far fa-user"></i> Online: <span class="font-weight-bold">{{ contact.online }}</span></small>
+                    <br>
+                    <small><i class="far fa-clock"></i> Total visits: <span class="font-weight-bold">{{ contact.totalViews }}</span></small>
+                  </div>
+                   <!-- Some Links -->
+                  <table *ngIf="contact && contact.contactLinks" class="table table-sm">
+                    <tr *ngFor="let l of contact.contactLinks" class="table-light">
+                      <td><a href="{{ l.href }}" target="_blank">{{ l.caption }}</a></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END OF TEACHERs INFO -->
+         <!-- SLIDER -->
+         <div class="col-sm-12 col-md-6">
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-sm-12 col-lg-2 col-xl-1">
+                  <div *ngIf="contact && contact.university && contact.university.image" class="uni-img">
+                    <img src="{{ getUniversityPhotoUrl() }}" style="height: 100px;">
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-10 col-xl-11">
+                  <div *ngFor="let l of contact.university.universityLinks" style="font-size: 12px;" class="uni-links" ><a  href="{{ l.href }}">{{ l.caption }}</a><br></div>
+                  <div class="text-md-center text-lg-left">
+                    <div style="font-size: 12px;" class="font-weight-bold uni-links">{{ contact.university.addressLine1 }}</div>
+                    <div style="font-size: 12px;" class="font-weight-bold uni-links">{{ contact.university.addressLine2 }}</div>
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div>
+          <div class="row d-none d-md-block">
+            <div class="col-12">
+              <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" >
                 <div class="carousel-inner">
                   <div *ngFor="let slide of slider; let i = index;" class="carousel-item active" [ngClass]="{'active': i === 0 }">
-                    <img style="height: 430px;" class="w-100" src="{{ getSlideUrl(slide.image) }}" alt="{{ slide.title }}">
+                    <img style="height: 280px;" class="w-100" src="{{ getSlideUrl(slide.image) }}" alt="{{ slide.title }}">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ slide.title }}</h5>
+                        <h5>{{ slide.caption }}</h5>
+                        <p>{{ slide.secondCaption }}</p>
                     </div>
                   </div>
                 </div>
@@ -37,89 +85,36 @@
                   <span class="sr-only">Next</span>
                 </a>
             </div>
-        </div>
-        <!-- END OF SLIDER -->
-        <!-- TEACHERs INFO -->
-        <div class="col-sm-12 col-md-6">
-          <div class="row">
-            <div *ngIf="contact" class="col-md-6">
-              <div class="card info" style="height: 430px; overflow: auto;">
-                <div class="card-body">
-                  <h5 class="card-title text-center">
-                    Contact 
-                  </h5>
-                  <div class="table-responsive">
-                    <table class="table table-sm">
-                      <tr class="table-light">
-                        <th scope="row">Consultations</th><td>{{ contact.consultations }}</td>
-                      </tr>
-                      <tr class="table-light">
-                        <th scope="row">Room</th><td>{{ contact.room }}</td>
-                      </tr>
-                      <tr class="table-light">
-                        <th scope="row">Phone</th><td>{{ contact.phone }}</td>
-                      </tr>
-                      <tr class="table-light">
-                        <th scope="row">Email</th><td>{{ contact.email }}</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <p class="card-text">
-                    {{ contact.shortInformation }}
-                    <!-- Please reserve a visit by e-mail. I get more e-mails than I can handle, so don't be offended if I don't reply. -->
-                  </p>
-                  <!-- Some Links -->
-                  <table *ngIf="contact.contactLinks" class="table table-sm text-center">
-                    <tr *ngFor="let l of contact.contactLinks" class="table-light">
-                      <td><a href="{{ l.href }}" target="_blank">{{ l.caption }}</a></td>
-                    </tr>
-                    <!-- <tr class="table-light">
-                      <td><a href="">nauka-polska.pl</a></td>
-                    </tr>
-                    <tr class="table-light">
-                      <td><a href="">PGP</a></td>
-                    </tr> -->
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card info" style="height: 430px; overflow: auto;">
-                <div class="card-body">
-                  <h5 class="card-title text-center">University</h5>
-                  <div *ngIf="contact.university.image" class="img">
-                    <img class="d-block m-auto" src="{{ getUniversityPhotoUrl() }}" style="height: 150px; width: 150px;">
-                  </div>
-                  <ul *ngIf="contact && contact.university && contact.university.universityLinks" style="list-style: none;" class="font-weight-bold mt-3">
-                    <li *ngFor="let l of contact.university.universityLinks" class="my-2"><a href="{{ l.href }}">{{ l.caption }}</a></li>
-                  </ul>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-        <!-- END OF TEACHERs INFO -->
+      </div>
+      <!-- END OF SLIDER -->
     </div>
     <!-- LATEST NEWS -->
-    <div *ngIf="!loading" class="row mt-5">
+    <div *ngIf="!loading" class="row mt-2">
+      <div class="col-12 d-md-flex d-block justify-content-center align-items-center">
+        <!-- <h4 class="text-center">Latest News</h4> -->
+        <!-- <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a> -->
+        <div class="text-center">
+          <h4>Latest News <small><a routerLink="/news">more <i class="far fa-arrow-alt-circle-right"></i></a></small></h4>
+        </div>   
+      </div>
+    </div>
+    <div *ngIf="!loading" class="row">
       <div class="col-12">
-        <h4 class="text-center">Latest News <a routerLink="/news" class="btn btn-outline-info">More News <i class="far fa-arrow-alt-circle-right"></i></a></h4>
         <hr style="width: 75%;">
       </div>
     </div>
     <div *ngIf="!loading" class="row">
-      <div *ngFor="let singleNews of news; let i = index;" class="col-md-2 news">
-        <div class="card" style="height: 100%;">
+      <div *ngFor="let singleNews of news; let i = index;" class="col-sm-12 col-md-6 col-lg-4 col-xl-2 news" style="height: 350px; overflow: auto;">
+        <div class="card" style="min-height: 350px;">
           <img *ngIf="singleNews.imageSection" class="card-img-top" src="{{ getNewsPhotoUrl(singleNews) }}" alt="Card image cap" style="height: 150px;">
           <div class="card-body">
-            <h5 class="card-title">{{ singleNews.title }}</h5>
+            <h6 class="card-title">{{ singleNews.title }}</h6>
             <div class="categories">
-              <span *ngFor="let category of singleNews.categories" class="badge badge-primary mr-1 p-1">{{ category.name }}</span>
+              <span *ngFor="let category of singleNews.categories" class="badge badge-primary mr-1 p-1"><small>{{ category.name }}</small></span>
             </div>
-            <small class="text-muted cat">
-              <i class="fas fa-user"></i> {{ singleNews.User.firstName }} {{ singleNews.User.lastName }}
-            </small>
-            <p class="card-text">{{ singleNews.description }}</p>
+            <p class="card-text" title="{{ singleNews.description }}">{{ singleNews.description }}</p>
               <a *ngIf="canActivate(singleNews)" routerLink="{{ getNewsLink(singleNews) }}" class="btn btn-outline-info ">
                 Read More
               </a>
@@ -127,7 +122,7 @@
           </div>
           <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
             <div class="data">
-                {{ printDate(singleNews.updated_at)}}
+                {{ printDate(singleNews.created_at)}}
             </div>
           </div>
         </div>

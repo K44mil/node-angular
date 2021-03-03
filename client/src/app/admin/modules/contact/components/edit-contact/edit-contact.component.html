@@ -8,6 +8,9 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="/admin/contact/university" >University</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/contact/terms" >Registration Terms</a>
+            </li>
         </ul>
     </div>           
     <div class="row mt-3">
@@ -19,25 +22,45 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="">Country</label>
-                        <input type="text" formControlName="country" class="form-control"/>
+                        <input type="text" formControlName="country" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.country.errors }"/>
+                        <div *ngIf="submitted && this.f.country.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.country.errors.maxlength">Country cannot be longer than 50 characters.</div>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="">City</label>
-                        <input type="text" formControlName="city" class="form-control"/>
+                        <input type="text" formControlName="city" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.city.errors }"/>
+                        <div *ngIf="submitted && this.f.city.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.city.errors.maxlength">City cannot be longer than 50 characters.</div>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="">Street</label>
-                        <input type="text" formControlName="street" class="form-control"/>
+                        <input type="text" formControlName="street" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.street.errors }"/>
+                        <div *ngIf="submitted && this.f.street.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.street.errors.maxlength">Street cannot be longer than 50 characters.</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <label for="">ZIP Code</label>
-                        <input type="text" formControlName="postalCode" class="form-control"/>
+                        <input type="text" formControlName="postalCode" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.postalCode.errors }"/>
+                        <div *ngIf="submitted && this.f.postalCode.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.postalCode.errors.pattern">Allowed format: NN-NNN. N - number 0 to 9.</div>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="">Room</label>
-                        <input type="text" formControlName="room" class="form-control"/>
+                        <input type="text" formControlName="room" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.room.errors }"/>
+                        <div *ngIf="submitted && this.f.room.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.room.errors.maxlength">Country cannot be longer than 10 characters.</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -46,25 +69,53 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="">Email</label>
-                        <input type="text" formControlName="email" class="form-control"/>
+                        <input type="text" formControlName="email" class="form-control" >
                     </div>
                     <div class="col">
                         <label for="">Phone</label>
-                        <input type="text" formControlName="phone" class="form-control"/>
+                        <input type="text" formControlName="phone" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.phone.errors }"/>
+                        <div *ngIf="submitted && this.f.phone.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.phone.errors.maxlength">Phone cannot be longer than 20 characters.</div>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="">Web Page</label>
-                        <input type="text" formControlName="webPage" class="form-control"/>
+                        <input type="text" formControlName="webPage" class="form-control"
+                        [ngClass]="{'is-invalid': submitted && this.f.webPage.errors }"/>
+                        <div *ngIf="submitted && this.f.webPage.errors" class="invalid-feedback">
+                            <div *ngIf="this.f.webPage.errors.pattern">Web Page must starts with http:// or https://.</div>
+                        </div>
                     </div>
                 </div>
                 
                 <h6 class="mt-2">Other Info</h6>
                 <div class="form-row">
                     <div class="col-4">
-                        <label for="">Consultations</label>
-                        <input type="text" formControlName="consultations" class="form-control"/>
-                        <label for="">Short Information</label>
-                        <textarea type="text" formControlName="shortInformation" class="form-control" rows="5"></textarea>
+                        <div class="col-12">
+                            <label for="">Consultations</label>
+                            <input type="text" formControlName="consultations" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.consultations.errors }"/>
+                            <div *ngIf="submitted && this.f.consultations.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.consultations.errors.maxlength">Consultations cannot be longer than 50 characters.</div>
+                            </div>
+                            <label for="">Short Information</label>
+                            <textarea type="text" formControlName="shortInformation" class="form-control" rows="5"
+                            [ngClass]="{'is-invalid': submitted && this.f.shortInformation.errors }"></textarea>
+                            <div *ngIf="submitted && this.f.shortInformation.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.shortInformation.errors.maxlength">Short Information cannot be longer than 500 characters.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="">Calendar URL</label>
+                            <input type="text" formControlName="calendarUrl" class="form-control"
+                            [ngClass]="{'is-invalid': submitted && this.f.calendar.errors }">
+                            <div *ngIf="submitted && this.f.calendar.errors" class="invalid-feedback">
+                                <div *ngIf="this.f.calendar.errors.pattern">Calendar URL must starts with http:// or https://</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -85,11 +136,19 @@
                         <form [formGroup]="addContactLinkForm" (ngSubmit)="onAddContactLinkSubmit()">
                             <div class="form-group">
                                 <label for="">Caption</label>
-                                <input type="text" class="form-control" formControlName="caption">
+                                <input type="text" class="form-control" formControlName="caption"
+                                [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.caption.errors }"/>
+                                <div *ngIf="addLinkSubmitted && this.aL.caption.errors" class="invalid-feedback">
+                                    <div *ngIf="this.aL.caption.errors.maxlength">Caption cannot be longer than 100 characters.</div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Href</label>
-                                <input type="text" class="form-control" formControlName="href">
+                                <input type="text" class="form-control" formControlName="href"
+                                [ngClass]="{'is-invalid': addLinkSubmitted && this.aL.href.errors }"/>
+                                <div *ngIf="addLinkSubmitted && this.aL.href.errors" class="invalid-feedback">
+                                    <div *ngIf="this.aL.href.errors.pattern">Href must starts with http:// or https://.</div>
+                                </div>
                             </div>
                             <button class="btn btn-outline-dark">Save</button>
                         </form>

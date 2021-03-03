@@ -8,19 +8,23 @@ const sendEmail = async options => {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASSWORD
         }
+        // service: 'gmail',
+        // auth: {
+        //     user: 'kdinztest@gmail.com',
+        //     pass: '4Bf9b7.ed1kdinz'
+        // }
     });
 
     const message = {
-        from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+        // from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+        from: `kdinz.xyz <${process.env.FROM_EMAIL}>`,
         to: options.email,
         subject: options.subject,
         text: options.message,
         html: options.html
     };
 
-    const info = await transporter.sendMail(message);
-
-    console.log('Message sent: %s', info.messageId);
+    await transporter.sendMail(message);
 };
 
 module.exports = sendEmail;

@@ -1,0 +1,37 @@
+<div class="">
+    <!-- CONTACT MENU -->
+    <div class="row ml-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/contact">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/contact/university" >University</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" routerLink="/admin/contact/terms" >Registration Terms</a>
+            </li>
+        </ul>
+    </div>           
+    <div class="row mt-3">
+        <div class="col-6">
+            <h5>Edit Registration Terms</h5>
+            <hr>
+            <form [formGroup]="termsForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <!-- <textarea formControlName="text" cols="30" rows="10" class="form-control"
+                    [ngClass]="{'is-invalid': submitted && this.f.text.errors }"></textarea>
+                    <div *ngIf="submitted && this.f.text.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.text.errors.maxlength">Text cannot be longer than 5000 characters.</div>
+                    </div> -->
+                    <ckeditor formControlName="text" [config]="config"
+                    [ngClass]="{'is-invalid': submitted && this.f.text.errors }"></ckeditor>
+                    <div *ngIf="submitted && this.f.text.errors" class="invalid-feedback">
+                        <div *ngIf="this.f.text.errors.maxlength">Text cannot be longer than 5000 characters.</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-dark mt-2">Save</button>
+            </form>
+        </div>
+    </div>
+</div>   

@@ -8,3 +8,4 @@ export * from './announcements/announcements.component';
 export * from './contact-page/contact-page.component';
 export * from './research-page/research-page.component';
 export * from './home-page/home-page.component';
+export * from './calendar-page/calendar-page.component';

@@ -1,26 +1,40 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '@app/shared/services';
 import { first } from 'rxjs/operators';
 import { Subject } from '../../../models';
 import { SubjectsService } from '../../../services/subjects.service';
 
-@Component({ templateUrl: 'subjects-list.component.html' })
+@Component({ templateUrl: 'subjects-list.component.html', styles: [`.sort-header {cursor:pointer;}`] })
 export class SubjectsListComponent implements OnInit {
     subjects: Subject[];
+    filterForm: FormGroup;
 
+    // SORTING
+    sort = { property: null, order: null };
+
+    query = '';
+    
     constructor(
         private subjectsService: SubjectsService,
         private alertService: AlertService,
-        private router: Router
+        private router: Router,
+        private formBuilder: FormBuilder
     ) { }
 
     ngOnInit() {
-       this.loadSubjects();
+        this.filterForm = this.formBuilder.group({
+            name: [''],
+            short: ['']
+        });
+
+        this.prepareQuery();
+        this.loadSubjects(this.query);
     }
 
-    loadSubjects() {
-        this.subjectsService.getSubjects('?isArchive=0')
+    loadSubjects(query: string) {
+        this.subjectsService.getSubjects(query)
         .pipe(first())
         .subscribe(
             res => {
@@ -51,7 +65,8 @@ export class SubjectsListComponent implements OnInit {
                         this.alertService.success('Subject has been deleted.', {
                             autoClose: true
                         });
-                        this.loadSubjects();
+                        this.prepareQuery();
+                        this.loadSubjects(this.query);
                     },
                     err => {
                         this.alertService.clear();
@@ -72,7 +87,8 @@ export class SubjectsListComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 res => {
-                    this.loadSubjects();
+                    this.prepareQuery();
+                    this.loadSubjects(this.query);
                 },
                 err => {
                     this.alertService.clear();
@@ -80,5 +96,47 @@ export class SubjectsListComponent implements OnInit {
                     window.scrollTo(0, 0);
                 }
             )
+    }
+
+    clearQuery() {
+        this.query = `?isArchive=0`;
+    }
+
+    get f() { return this.filterForm.controls; }
+
+    prepareQuery() {
+        this.clearQuery();
+        this.query += this.getFilterQuery();
+        if (this.sort.property !== null && this.sort.order !== null)
+            this.query += `&sort=${this.sort.property},${this.sort.order}`;
+    }
+
+    getFilterQuery() {
+        let query = '';
+
+        if (this.f.name.value) query += `&name=${this.f.name.value}`;
+        if (this.f.short.value) query += `&short=${this.f.short.value}`;
+
+        return query;
+    }
+
+    sortBy(property: string) {
+        if (this.sort.property === property) {
+            if (this.sort.order === 'ASC') this.sort.order = 'DESC';
+            else {
+                this.sort.property = null;
+                this.sort.order = null;
+            }
+        } else {
+            this.sort.property = property;
+            this.sort.order = 'ASC';
+        }
+        this.prepareQuery();
+        this.loadSubjects(this.query);
+    }
+
+    onFilterFormSubmit() {
+        this.prepareQuery();
+        this.loadSubjects(this.query);
     }
 }

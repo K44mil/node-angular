@@ -2,6 +2,7 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const path = require('path');
 const User = require('../../models/User');
 const ErrorResponse = require('../../utils/ErrorResponse');
+const fs = require('fs');
 
 /**
  * @desc    Change user avatar
@@ -32,6 +33,9 @@ exports.changeAvatar = asyncHandler(async (req, res, next) => {
               )
             );
         }
+
+        if (user.avatar)
+            fs.unlink(`./public/uploads/avatars/${user.avatar}`, () => {});
 
         file.name = `avatar_${user.id}${path.parse(file.name).ext}`;
 

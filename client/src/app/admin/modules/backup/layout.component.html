@@ -1,0 +1,42 @@
+<div class="row mt-3">
+    <div class="col-md-8">
+        <h3>Backup</h3>
+        <hr>
+    </div>
+</div>
+<span>Backup w fazie testów. Dotyczy relacyjnej części danych.</span><br>
+<small style="color: green">Obejmuje takie tabele jak: <strong>Users, Groups, Courses, Specializations, Subjects, Marks Descriptions, Marks, Events, Presence, Student Note, News, NewsAccess, Comments, Categories, Files</strong>.</small><br>
+<small style="color: red">Nie obejmuje: <strong>Announcements, Slider, About, Contact & University Info</strong>.</small>
+<div *ngIf="!backup" class="row mt-2">
+    <div *ngIf="!backupLoaded" class="col-3">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border m-auto" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="backupLoaded" class="col-3">
+        Backup is not created.
+    </div>
+</div>
+<div *ngIf="backup" class="mt-2">
+    Backup created at {{ formatDate(backup.createdAt) }}.
+</div>
+<div class="row mt-5">
+    <div class="col-lg-10">
+        <button class="btn btn-success" (click)="createBackup()">
+            <div *ngIf="createLoading" class="spinner-border spinner-border-sm mr-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div> Create Backup
+        </button>
+        <button *ngIf="backup" class="btn btn-info ml-1" (click)="restoreBackup()">
+            <div *ngIf="restoreLoading" class="spinner-border spinner-border-sm mr-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div> Restore Data
+        </button>
+    </div>
+    <!-- <div class="col-lg-2">
+        <button class="btn btn-danger">Delete Backup</button>
+    </div> -->
+
+</div>

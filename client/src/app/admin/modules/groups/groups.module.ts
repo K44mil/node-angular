@@ -4,6 +4,15 @@ import { NgModule } from '@angular/core';
 import { GroupsRoutingModule } from './groups-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Material
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+
 import {
     LayoutComponent,
     AddGroupComponent, 
@@ -46,7 +55,17 @@ import { SharedModule } from '@app/shared/shared.module';
         SharedModule,
         GroupsRoutingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        // Material
+        MatInputModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatRadioModule,
+        MatSelectModule,
+        NgxMatTimepickerModule,
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule
     ],
     declarations: [
         LayoutComponent,

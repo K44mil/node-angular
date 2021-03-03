@@ -38,13 +38,6 @@ export class GeneralComponent implements OnInit {
 
         this.pageService.profilePage.next('general');
 
-        this.authService.getMe()
-            .pipe(first())
-            .subscribe(res => {
-                if (res.data.user)
-                    this.user = res.data.user;
-            });
-        
         // CHANGE AVATAR FORM
         this.changeAvatarForm = this.formBuilder.group({
             avatar: ['', Validators.required],
@@ -53,9 +46,33 @@ export class GeneralComponent implements OnInit {
 
         // EDIT USER DATA FORM
         this.editUserDataForm = this.formBuilder.group({
-            firstName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]],
-            lastName: ['', [Validators.maxLength(30), Validators.pattern(/([a-zA-Z])$/)]]
+            firstName: ['', [Validators.maxLength(30), Validators.pattern(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)]],
+            lastName: ['', [Validators.maxLength(30), Validators.pattern(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/)]],
+            email: ['', Validators.email]
         });
+
+        this.getMe();
+    }
+
+    getMe() {
+        this.authService.getMe()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    if (res.data.user) {
+                        this.user = res.data.user;
+                        this.editUserDataForm.patchValue({
+                            firstName: this.user.firstName,
+                            lastName: this.user.lastName,
+                            email: this.user.email
+                        });
+                    }      
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
+                }
+            );
     }
 
     get f() { return this.editUserDataForm.controls; }
@@ -94,12 +111,9 @@ export class GeneralComponent implements OnInit {
             .subscribe(
                 res => {
                     this.user = res.data.user;
-                    const prevAvatar = this.authService.userValue.avatar;
-                    this.authService.userValue.avatar = res.data.user.avatar;
-                    this.authService.saveUserValue();
                     this.changeAvatarFormLoading = false;
                     this.changeAvatarForm.reset();
-                    if (!prevAvatar) window.location.reload();
+                    window.location.reload();
                 },
                 err => {
                     this.alertService.clear();
@@ -121,12 +135,8 @@ export class GeneralComponent implements OnInit {
             .subscribe(
                 res => {
                     this.user = res.data.user;
-                    const prevAvatar = this.authService.userValue.avatar;
-                    this.authService.userValue.firstName = this.user.firstName;
-                    this.authService.userValue.lastName = this.user.lastName;
-                    this.authService.saveUserValue();
                     this.editDataFormSubmitted = false;
-                    if (!prevAvatar) window.location.reload();
+                    window.location.reload();
                 },
                 err => {
                     this.alertService.clear();
@@ -134,6 +144,22 @@ export class GeneralComponent implements OnInit {
                         autoClose: true
                     });
                     window.scrollTo(0,0);
+                }
+            )
+    }
+
+    deleteAvatar() {
+        this.authService.deleteAvatar()
+            .pipe(first())
+            .subscribe(
+                res => {
+                    this.authService.userValue.avatar = null;
+                    this.user.avatar = null;
+                    // window.location.reload();
+                },
+                err => {
+                    this.alertService.clear();
+                    this.alertService.error(err, { autoClose: true });
                 }
             )
     }

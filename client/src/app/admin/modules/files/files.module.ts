@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
 import { FilesRoutingModule } from './files-routing.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import {
-    BackupComponent,
     FilesListComponent,
     LayoutComponent
 } from './components';
@@ -17,12 +17,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         SharedModule,
         FilesRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ClipboardModule
     ],
     declarations: [
         LayoutComponent,
-        FilesListComponent,
-        BackupComponent
+        FilesListComponent
     ]
 })
 export class FilesModule { }

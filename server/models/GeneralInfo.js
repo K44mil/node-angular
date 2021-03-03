@@ -9,16 +9,7 @@ const Link = new mongoose.Schema({
     }
 });
 
-// const SocialMediaLink = new mongoose.Schema({
-//     image: {
-//         type: String
-//     },
-//     href: {
-//         type: String
-//     }
-// });
-
-const Contact = new mongoose.Schema({
+const GeneralInfo = new mongoose.Schema({
     country: {
         type: String
     },
@@ -49,6 +40,9 @@ const Contact = new mongoose.Schema({
     shortInformation: {
         type: String
     },
+    calendarUrl: {
+        type: String
+    },
     contactLinks: [Link],
     university: { // University on HomePage
         image: {
@@ -57,15 +51,19 @@ const Contact = new mongoose.Schema({
         name: { type: String },
         faculty: { type: String },
         department: { type: String },
+        addressLine1: { type: String },
+        addressLine2: { type: String },
         universityLinks: [Link]
     },
-    // universityCP: { // University on ContactPage
-    //     image: {
-    //         type: String
-    //     },
-    //     universityLinks: [Link]
-    // },
-    // socialMedia: [SocialMediaLink]
+    termsText: {
+        type: String
+    },
+    online: {
+        type: Number
+    },
+    totalViews: {
+        type: Number
+    }
 });
 
-module.exports = mongoose.model('Contact', Contact);
+module.exports = mongoose.model('GeneralInfo', GeneralInfo);

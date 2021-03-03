@@ -22,6 +22,13 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
     if (!firstName) firstName = user.firstName;
     if (!lastName) lastName = user.lastName;
 
+    const userWithProvidedEmail = await User.findOne({
+        where: { email: { [Op.eq]: email }}
+    });
+
+    if (userWithProvidedEmail && userWithProvidedEmail.id !== user.id)
+        return next(new ErrorResponse('This address e-mail is already taken.', 400));
+
     user = await user.update({
         email,
         firstName,

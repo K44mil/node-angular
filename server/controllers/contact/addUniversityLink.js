@@ -1,6 +1,6 @@
 const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/asyncHandler');
-const Contact = require('../../models/Contact');
+const GeneralInfo = require('../../models/GeneralInfo');
 
 /**
  * @desc    Add University Link
@@ -16,10 +16,10 @@ exports.addUniversityLink = asyncHandler(async (req, res, next) => {
         )
     }
 
-    let contact = await Contact.findOne();
+    let contact = await GeneralInfo.findOne();
 
     if (!contact) 
-        contact = await Contact.create({});
+        contact = await GeneralInfo.create({});
 
     const link = {
         caption: caption,

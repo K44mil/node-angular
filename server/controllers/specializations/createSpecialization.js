@@ -19,11 +19,11 @@ exports.createSpecialization = asyncHandler(async (req, res, next) => {
     }
 
     const course = await Course.findByPk(courseId);
-    if (!course) {
-        return next(
-            new ErrorResponse('Provided course does not exist.', 400)
-        )
-    }
+    if (!course)
+        return next(new ErrorResponse('Provided course does not exist.', 400));
+
+    if (course.isArchive)
+        return next(new ErrorResponse('Provided course is archival.', 400));
 
     let specialization = await Specialization.findOne({
         where: {

@@ -29,7 +29,7 @@ export class PresenceDetailsComponent implements OnInit, OnChanges {
             .pipe(first())
             .subscribe(
                 res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.presence = res.data.presence;
                 },
                 err => {
